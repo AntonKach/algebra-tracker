@@ -10,6 +10,7 @@
     <div class="container">
         <h1>Εκμάθηση Άλγεβρας 🧮</h1>
         
+        <!-- ΕΝΟΤΗΤΑ ΑΣΚΗΣΕΩΝ -->
         <div class="stats">
             <p>Συνολικό Σκορ: <span id="score">0</span></p>
             <p style="font-weight: bold; color: #e67e22;" id="level-display">Επίπεδο 1</p>
@@ -28,6 +29,25 @@
         </div>
         
         <button onclick="resetProgress()" class="reset-btn">Μηδενισμός Προόδου</button>
+
+        <!-- ΝΕΑ ΕΝΟΤΗΤΑ: ΜΑΘΗΜΑΤΑ & ΠΗΓΕΣ -->
+        <div class="lessons-section">
+            <h2>Βιντεομαθήματα (Khan Academy) 📺</h2>
+            <p>Παρακολούθησε τη θεωρία πριν λύσεις τις ασκήσεις:</p>
+            
+            <!-- Το "παράθυρο" του YouTube -->
+            <div class="video-container">
+                <iframe src="https://www.youtube.com/embed/vA-egQMgZPA?si=V-bN28_f5q2066K8" title="Εισαγωγή στην Άλγεβρα" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+            </div>
+            
+            <h2>Χρήσιμες Πηγές 📚</h2>
+            <ul class="resources-list">
+                <li><a href="https://el.khanacademy.org/math/algebra" target="_blank">Khan Academy (Όλη η ύλη στα Ελληνικά)</a></li>
+                <li><a href="https://photomath.com/" target="_blank">Photomath (Εφαρμογή για σκανάρισμα & λύση εξισώσεων)</a></li>
+                <li><a href="https://www.wolframalpha.com/" target="_blank">Wolfram Alpha (Η απόλυτη μαθηματική μηχανή αναζήτησης)</a></li>
+            </ul>
+        </div>
+
     </div>
 
     <script src="script.js"></script>
