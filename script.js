@@ -37,11 +37,24 @@ let currentLevel = 1;
 let score = 0;
 let currentProblem = {};
 
+// Μεταβλητή για να αποθηκεύσουμε τον "εγκέφαλο" του Desmos
+let calculator;
+
 window.onload = function() {
     const savedScore = localStorage.getItem("algebraScore");
     if (savedScore !== null) {
         score = parseInt(savedScore);
     }
+    
+    // Αρχικοποίηση του Desmos με Σκούρο Θέμα!
+    const elt = document.getElementById('calculator');
+    calculator = Desmos.GraphingCalculator(elt, {
+        keypad: false,         // Κρύβει το πληκτρολόγιο
+        expressions: false,    // Κρύβει την αριστερή στήλη με τις συναρτήσεις
+        settingsMenu: false,   // Κρύβει τις ρυθμίσεις
+        invertedColors: true   // ΤΕΛΕΙΟ ΓΙΑ ΤΟ DARK MODE ΜΑΣ!
+    });
+
     updateLevel(); 
     updateUI();    
     loadNextProblem();
@@ -73,6 +86,31 @@ function loadNextProblem() {
     document.getElementById("answer").value = "";
     document.getElementById("feedback").innerText = "";
     document.getElementById("help-text").innerText = ""; 
+
+    // Σχεδιασμός της γραφικής παράστασης!
+    updateGraph();
+}
+
+function updateGraph() {
+    calculator.setBlank(); // Καθαρίζει την προηγούμενη άσκηση
+
+    // Χωρίζουμε την εξίσωση στα δύο (αριστερό και δεξί μέλος)
+    let parts = currentProblem.equation.split('=');
+    let leftSide = parts[0].trim();
+    let rightSide = parts[1].trim();
+
+    // Λέμε στον Desmos να ζωγραφίσει το αριστερό μέλος (y = ...) με μοβ χρώμα
+    calculator.setExpression({ id: 'left', latex: 'y = ' + leftSide, color: '#bb86fc' });
+    // Και το δεξί μέλος (y = ...) με γαλάζιο χρώμα
+    calculator.setExpression({ id: 'right', latex: 'y = ' + rightSide, color: '#03dac6' });
+
+    // Κεντράρουμε την κάμερα ώστε να φαίνεται σίγουρα η λύση
+    calculator.setMathBounds({
+        left: -5,
+        right: currentProblem.answer + 10,
+        bottom: -5,
+        top: 110 // Αρκετά ψηλά για να πιάνει και εξισώσεις όπως 10x = 100
+    });
 }
 
 function checkAnswer() {
@@ -81,7 +119,7 @@ function checkAnswer() {
 
     if (userAnswer === currentProblem.answer) {
         feedbackEl.innerText = "✅ Σωστά! +10 πόντοι";
-        feedbackEl.style.color = "#03dac6"; // Απαλό πράσινο/γαλάζιο για dark mode
+        feedbackEl.style.color = "#03dac6"; 
         
         score += 10;
         updateLevel(); 
@@ -91,22 +129,23 @@ function checkAnswer() {
         setTimeout(loadNextProblem, 1500); 
     } else {
         feedbackEl.innerText = "❌ Λάθος. Δοκίμασε ξανά!";
-        feedbackEl.style.color = "#cf6679"; // Απαλό κόκκινο
+        feedbackEl.style.color = "#cf6679"; 
     }
 }
 
 function showHelp() {
     const helpEl = document.getElementById("help-text");
     helpEl.innerText = "💡 Λύση: Η απάντηση είναι " + currentProblem.answer;
+    
+    // Όταν πατάς βοήθεια, βάζουμε μια κόκκινη κάθετη γραμμή ακριβώς πάνω στη λύση (x = απάντηση)!
+    calculator.setExpression({ id: 'solutionLine', latex: 'x = ' + currentProblem.answer, color: '#cf6679', lineStyle: Desmos.Styles.DASHED });
 }
 
-// Η ΝΕΑ ΣΥΝΑΡΤΗΣΗ ΓΙΑ ΤΗΝ ΠΑΡΑΛΕΙΨΗ
 function skipProblem() {
     const feedbackEl = document.getElementById("feedback");
     feedbackEl.innerText = "⏭️ Πάμε στην επόμενη...";
-    feedbackEl.style.color = "#bb86fc"; // Μοβ χρώμα
+    feedbackEl.style.color = "#bb86fc"; 
     
-    // Περιμένει 1 δευτερόλεπτο και φορτώνει την επόμενη άσκηση
     setTimeout(loadNextProblem, 1000);
 }
 
