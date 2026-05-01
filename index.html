@@ -4,6 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Η Άλγεβρά Μου</title>
+    <!-- Εισαγωγή της γραμματοσειράς GFS Didot από το Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=GFS+Didot&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
@@ -12,7 +14,7 @@
         
         <div class="stats">
             <p>Συνολικό Σκορ: <span id="score">0</span></p>
-            <p style="font-weight: bold; color: #e67e22;" id="level-display">Επίπεδο 1</p>
+            <p style="font-weight: bold; color: #bb86fc;" id="level-display">Επίπεδο 1</p>
         </div>
 
         <div class="quiz-box">
@@ -20,8 +22,12 @@
             <p id="equation" class="equation-text">Φόρτωση...</p>
             
             <input type="number" id="answer" placeholder="Απάντηση...">
-            <button onclick="checkAnswer()">Έλεγχος</button>
-            <button onclick="showHelp()" class="help-btn">Βοήθεια</button>
+            
+            <div class="buttons-group">
+                <button onclick="checkAnswer()" class="check-btn">Έλεγχος</button>
+                <button onclick="showHelp()" class="help-btn">Βοήθεια</button>
+                <button onclick="skipProblem()" class="skip-btn">Παράλειψη</button>
+            </div>
             
             <p id="feedback"></p>
             <p id="help-text" class="help-text"></p>
@@ -29,12 +35,21 @@
         
         <button onclick="resetProgress()" class="reset-btn">Μηδενισμός Προόδου</button>
 
-        <!-- ΝΕΑ, ΚΑΘΑΡΗ ΕΝΟΤΗΤΑ: ΜΟΝΟ ΧΡΗΣΙΜΕΣ ΠΗΓΕΣ -->
         <div class="lessons-section">
             <h2>Χρήσιμες Πηγές 📚</h2>
             <p>Δες τη θεωρία ή βρες βοήθεια στα παρακάτω links:</p>
             <ul class="resources-list">
                 <li><a href="https://el.khanacademy.org/math/algebra" target="_blank">Khan Academy (Όλη η ύλη και τα βίντεο στα Ελληνικά)</a></li>
+                <li><a href="https://photomath.com/" target="_blank">Photomath (Εφαρμογή για σκανάρισμα & λύση εξισώσεων)</a></li>
+                <li><a href="https://www.wolframalpha.com/" target="_blank">Wolfram Alpha (Η απόλυτη μαθηματική μηχανή αναζήτησης)</a></li>
+            </ul>
+        </div>
+
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>                <li><a href="https://el.khanacademy.org/math/algebra" target="_blank">Khan Academy (Όλη η ύλη και τα βίντεο στα Ελληνικά)</a></li>
                 <li><a href="https://photomath.com/" target="_blank">Photomath (Εφαρμογή για σκανάρισμα & λύση εξισώσεων)</a></li>
                 <li><a href="https://www.wolframalpha.com/" target="_blank">Wolfram Alpha (Η απόλυτη μαθηματική μηχανή αναζήτησης)</a></li>
             </ul>
