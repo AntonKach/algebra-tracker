@@ -1,49 +1,81 @@
-// Οι ασκήσεις μας. Μπορείς να προσθέσεις όσες θέλεις!
-const problems = [
-    { equation: "2x = 10", answer: 5 },
-    { equation: "x + 7 = 12", answer: 5 },
-    { equation: "3x - 4 = 11", answer: 5 },
-    { equation: "x / 2 = 6", answer: 12 },
-    { equation: "5x + 2 = 17", answer: 3 }
-];
+// Χωρίσαμε τις ασκήσεις σε 3 επίπεδα δυσκολίας
+const problems = {
+    1: [ // Εύκολο: Πρόσθεση και αφαίρεση
+        { equation: "x + 5 = 12", answer: 7 },
+        { equation: "x - 4 = 6", answer: 10 },
+        { equation: "8 + x = 15", answer: 7 },
+        { equation: "x - 2 = 0", answer: 2 }
+    ],
+    2: [ // Μεσαίο: Πολλαπλασιασμός και διαίρεση
+        { equation: "3x = 15", answer: 5 },
+        { equation: "x / 2 = 8", answer: 16 },
+        { equation: "4x = 20", answer: 5 },
+        { equation: "10x = 100", answer: 10 }
+    ],
+    3: [ // Δύσκολο: Συνδυασμός πράξεων
+        { equation: "2x + 1 = 9", answer: 4 },
+        { equation: "3x - 2 = 10", answer: 4 },
+        { equation: "5x + 5 = 30", answer: 5 },
+        { equation: "2x - 8 = 0", answer: 4 }
+    ]
+};
 
-let currentProblemIndex = 0;
+let currentLevel = 1;
 let score = 0;
+let currentProblem = {};
 
-// Όταν φορτώνει η σελίδα, φέρε το αποθηκευμένο σκορ
+// Φόρτωση προόδου
 window.onload = function() {
     const savedScore = localStorage.getItem("algebraScore");
     if (savedScore !== null) {
         score = parseInt(savedScore);
     }
-    document.getElementById("score").innerText = score;
+    updateLevel(); // Υπολογίζει το επίπεδο με βάση το σκορ
+    updateUI();    // Ενημερώνει την οθόνη
     loadNextProblem();
 };
 
+function updateLevel() {
+    if (score >= 100) {
+        currentLevel = 3;
+    } else if (score >= 50) {
+        currentLevel = 2;
+    } else {
+        currentLevel = 1;
+    }
+}
+
+function updateUI() {
+    document.getElementById("score").innerText = score;
+    document.getElementById("level-display").innerText = "Επίπεδο " + currentLevel;
+}
+
 function loadNextProblem() {
-    // Επιλογή μιας τυχαίας άσκησης
-    currentProblemIndex = Math.floor(Math.random() * problems.length);
-    document.getElementById("equation").innerText = problems[currentProblemIndex].equation;
-    document.getElementById("answer").value = ""; // Καθαρισμός του πεδίου
+    // Παίρνει τις ασκήσεις του τρέχοντος επιπέδου
+    const levelProblems = problems[currentLevel];
+    // Διαλέγει μία στην τύχη
+    const randomIndex = Math.floor(Math.random() * levelProblems.length);
+    currentProblem = levelProblems[randomIndex];
+    
+    document.getElementById("equation").innerText = currentProblem.equation;
+    document.getElementById("answer").value = "";
     document.getElementById("feedback").innerText = "";
 }
 
 function checkAnswer() {
     const userAnswer = parseInt(document.getElementById("answer").value);
-    const correctAnswer = problems[currentProblemIndex].answer;
     const feedbackEl = document.getElementById("feedback");
 
-    if (userAnswer === correctAnswer) {
+    if (userAnswer === currentProblem.answer) {
         feedbackEl.innerText = "✅ Μπράβο! Σωστή απάντηση.";
         feedbackEl.style.color = "green";
         
-        // Αύξηση σκορ και αποθήκευση
         score += 10;
-        document.getElementById("score").innerText = score;
-        localStorage.setItem("algebraScore", score); // ΕΔΩ ΑΠΟΘΗΚΕΥΕΤΑΙ Η ΠΡΟΟΔΟΣ!
+        updateLevel(); // Ελέγχει αν ανέβηκες επίπεδο
+        updateUI();
+        localStorage.setItem("algebraScore", score);
 
-        // Φόρτωση νέας άσκησης μετά από 1,5 δευτερόλεπτο
-        setTimeout(loadNextProblem, 1500);
+        setTimeout(loadNextProblem, 1500); // 1,5 δευτερόλεπτο καθυστέρηση
     } else {
         feedbackEl.innerText = "❌ Λάθος. Ξαναπροσπάθησε!";
         feedbackEl.style.color = "red";
@@ -53,7 +85,9 @@ function checkAnswer() {
 function resetProgress() {
     if (confirm("Είσαι σίγουρος ότι θέλεις να μηδενίσεις την πρόοδό σου;")) {
         score = 0;
-        document.getElementById("score").innerText = score;
+        currentLevel = 1;
+        updateUI();
         localStorage.removeItem("algebraScore");
+        loadNextProblem();
     }
 }
