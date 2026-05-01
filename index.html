@@ -12,13 +12,14 @@
         
         <div class="stats">
             <p>Συνολικό Σκορ: <span id="score">0</span></p>
+            <p style="font-weight: bold; color: #e67e22;" id="level-display">Επίπεδο 1</p>
         </div>
 
         <div class="quiz-box">
             <h2>Λύσε την παρακάτω εξίσωση:</h2>
             <p id="equation" class="equation-text">Φόρτωση...</p>
             
-            <input type="number" id="answer" placeholder="Η απάντησή σου (π.χ. 5)">
+            <input type="number" id="answer" placeholder="Απάντηση...">
             <button onclick="checkAnswer()">Έλεγχος</button>
             
             <p id="feedback"></p>
