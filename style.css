@@ -1,40 +1,17 @@
-body {
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    background-color: #f4f7f6;
-    display: flex;
-    justify-content: center;
-    padding: 50px;
+.help-btn {
+    background-color: #f39c12;
+    margin-left: 5px;
 }
 
-.container {
-    background-color: white;
-    padding: 30px;
-    border-radius: 10px;
-    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
-    text-align: center;
-    max-width: 500px;
-    width: 100%;
+.help-btn:hover {
+    background-color: #d68910;
 }
 
-.equation-text {
-    font-size: 24px;
+.help-text {
+    color: #8e44ad;
     font-weight: bold;
-    margin: 20px 0;
-    color: #2c3e50;
-}
-
-input {
-    padding: 10px;
-    font-size: 16px;
-    width: 150px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-}
-
-button {
-    padding: 10px 20px;
-    font-size: 16px;
-    background-color: #3498db;
+    margin-top: 10px;
+}    background-color: #3498db;
     color: white;
     border: none;
     border-radius: 5px;
