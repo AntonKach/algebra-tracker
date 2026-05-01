@@ -4,8 +4,11 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Η Άλγεβρά Μου</title>
-    <!-- Εισαγωγή της γραμματοσειράς GFS Didot από το Google Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=GFS+Didot&display=swap" rel="stylesheet">
+    
+    <!-- Η "Μηχανή" του Desmos για τις γραφικές παραστάσεις -->
+    <script src="https://www.desmos.com/api/v1.8/calculator.js?apiKey=dcb31709b452b1cf9dc26972add0fda6"></script>
+    
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
@@ -31,6 +34,9 @@
             
             <p id="feedback"></p>
             <p id="help-text" class="help-text"></p>
+
+            <!-- ΕΔΩ ΘΑ ΕΜΦΑΝΙΖΕΤΑΙ Η ΓΡΑΦΙΚΗ ΠΑΡΑΣΤΑΣΗ -->
+            <div id="calculator" class="graph-box"></div>
         </div>
         
         <button onclick="resetProgress()" class="reset-btn">Μηδενισμός Προόδου</button>
@@ -40,16 +46,6 @@
             <p>Δες τη θεωρία ή βρες βοήθεια στα παρακάτω links:</p>
             <ul class="resources-list">
                 <li><a href="https://el.khanacademy.org/math/algebra" target="_blank">Khan Academy (Όλη η ύλη και τα βίντεο στα Ελληνικά)</a></li>
-                <li><a href="https://photomath.com/" target="_blank">Photomath (Εφαρμογή για σκανάρισμα & λύση εξισώσεων)</a></li>
-                <li><a href="https://www.wolframalpha.com/" target="_blank">Wolfram Alpha (Η απόλυτη μαθηματική μηχανή αναζήτησης)</a></li>
-            </ul>
-        </div>
-
-    </div>
-
-    <script src="script.js"></script>
-</body>
-</html>                <li><a href="https://el.khanacademy.org/math/algebra" target="_blank">Khan Academy (Όλη η ύλη και τα βίντεο στα Ελληνικά)</a></li>
                 <li><a href="https://photomath.com/" target="_blank">Photomath (Εφαρμογή για σκανάρισμα & λύση εξισώσεων)</a></li>
                 <li><a href="https://www.wolframalpha.com/" target="_blank">Wolfram Alpha (Η απόλυτη μαθηματική μηχανή αναζήτησης)</a></li>
             </ul>
