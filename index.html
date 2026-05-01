@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="el">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Η Άλγεβρά Μου</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <h1>Εκμάθηση Άλγεβρας 🧮</h1>
+        
+        <div class="stats">
+            <p>Συνολικό Σκορ: <span id="score">0</span></p>
+        </div>
+
+        <div class="quiz-box">
+            <h2>Λύσε την παρακάτω εξίσωση:</h2>
+            <p id="equation" class="equation-text">Φόρτωση...</p>
+            
+            <input type="number" id="answer" placeholder="Η απάντησή σου (π.χ. 5)">
+            <button onclick="checkAnswer()">Έλεγχος</button>
+            
+            <p id="feedback"></p>
+        </div>
+        
+        <button onclick="resetProgress()" class="reset-btn">Μηδενισμός Προόδου</button>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
