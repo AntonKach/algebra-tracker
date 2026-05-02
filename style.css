@@ -16,73 +16,46 @@ body {
     width: 100%;
     text-align: center;
 }
-/* --- Στυλ για τη Γατούλα (Μασκότ) --- */
+
 .mascot {
     width: 150px;
     height: 150px;
-    object-fit: cover; /* Φροντίζει να μην παραμορφώνεται η εικόνα */
-    border-radius: 50%; /* Την κάνει τέλειο κύκλο */
-    border: 4px solid #bb86fc; /* Μοβ περίγραμμα για να ταιριάζει με το θέμα */
+    object-fit: cover;
+    border-radius: 50%;
+    border: 4px solid #bb86fc;
     margin: 0 auto 15px auto;
     display: block;
     box-shadow: 0 4px 15px rgba(0,0,0,0.5);
 }
 
-/* Ανανεώνουμε και τον τίτλο για να ταιριάζει! */
-h1 {
-    color: #ffffff;
-    font-weight: normal;
-    margin-top: 0;
-}
-.grade-selector {
-    margin-bottom: 20px;
-}
+h1 { color: #ffffff; font-weight: normal; margin-top: 0; }
+
+.grade-selector { margin-bottom: 20px; }
 
 select {
-    padding: 8px;
-    background: #2c2c2c;
-    color: white;
-    border: 1px solid #444;
-    font-family: 'GFS Didot';
-    border-radius: 5px;
-    max-width: 100%;
+    padding: 8px; background: #2c2c2c; color: white;
+    border: 1px solid #444; font-family: 'GFS Didot';
+    border-radius: 5px; max-width: 100%;
 }
 
-.highlight-text {
-    font-weight: bold;
-    color: #ff9800;
-}
+.highlight-text { font-weight: bold; color: #ff9800; }
 
-.equation-text {
-    font-size: 28px;
-    color: #bb86fc;
-    margin: 20px 0;
-}
+.equation-text { font-size: 28px; color: #bb86fc; margin: 20px 0; }
 
 .input-container input {
-    padding: 10px;
-    font-size: 18px;
-    background: #2c2c2c;
-    border: 1px solid #444;
-    color: white;
-    border-radius: 5px;
-    max-width: 150px;
+    padding: 10px; font-size: 18px; background: #2c2c2c;
+    border: 1px solid #444; color: white;
+    border-radius: 5px; max-width: 150px;
 }
 
 .buttons-group {
-    display: flex;
-    gap: 10px;
-    justify-content: center;
-    margin-top: 15px;
-    flex-wrap: wrap; /* Επιτρέπει στα κουμπιά να αλλάξουν γραμμή αν δεν χωράνε στο κινητό */
+    display: flex; gap: 10px; justify-content: center;
+    margin-top: 15px; flex-wrap: wrap;
 }
 
 button {
-    font-family: 'GFS Didot', serif;
-    padding: 10px 15px;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
+    font-family: 'GFS Didot', serif; padding: 10px 15px;
+    border: none; border-radius: 5px; cursor: pointer;
     font-weight: bold;
 }
 
@@ -92,9 +65,10 @@ button {
 .skip-btn { background-color: #555; color: white; }
 .reset-btn { background: transparent; color: #cf6679; border: 1px solid #cf6679; margin-top: 20px; }
 
+/* ΝΕΟ ΣΤΥΛ ΠΛΗΚΤΡΟΛΟΓΙΟΥ 5 ΣΤΗΛΩΝ */
 .math-keyboard {
     display: grid;
-    grid-template-columns: repeat(3, 1fr);
+    grid-template-columns: repeat(5, 1fr);
     gap: 5px;
     margin: 15px 0;
     background: #252525;
@@ -102,34 +76,29 @@ button {
     border-radius: 8px;
 }
 
-.math-keyboard button { background: #3d3d3d; color: white; font-size: 18px; }
+.math-keyboard button { 
+    background: #3d3d3d; 
+    color: white; 
+    font-size: 16px; /* Λίγο μικρότερα γράμματα για να χωράνε */
+    padding: 8px 5px;
+}
 
-/* --- Η ΚΡΙΣΙΜΗ ΔΙΟΡΘΩΣΗ ΓΙΑ ΤΟ GLITCH --- */
 .hidden { display: none !important; }
 
 .help-steps {
-    text-align: left;
-    background: #252525;
-    padding: 15px;
-    border-left: 4px solid #bb86fc;
-    margin-top: 15px;
-    font-size: 16px;
-    line-height: 1.6;
+    text-align: left; background: #252525; padding: 15px;
+    border-left: 4px solid #bb86fc; margin-top: 15px;
+    font-size: 16px; line-height: 1.6;
 }
 
 .graph-box {
-    width: 100%;
-    height: 350px;
-    margin-top: 20px;
-    border-radius: 8px;
-    border: 1px solid #333;
+    width: 100%; height: 350px; margin-top: 20px;
+    border-radius: 8px; border: 1px solid #333;
 }
 
 .lessons-section {
-    margin-top: 30px;
-    border-top: 1px solid #333;
-    padding-top: 15px;
-    text-align: left;
+    margin-top: 30px; border-top: 1px solid #333;
+    padding-top: 15px; text-align: left;
 }
 
 .resources-list { list-style: none; padding: 0; }
@@ -138,33 +107,22 @@ button {
 .resources-list a:hover { text-decoration: underline; }
 
 .stats-btn {
-    background-color: transparent;
-    color: #bb86fc;
-    border: 1px solid #bb86fc;
-    font-size: 14px;
-    margin-top: 10px;
-    padding: 5px 15px;
+    background-color: transparent; color: #bb86fc;
+    border: 1px solid #bb86fc; font-size: 14px;
+    margin-top: 10px; padding: 5px 15px;
 }
 
 .stats-btn:hover { background-color: rgba(187, 134, 252, 0.1); }
 
 .modal {
-    position: fixed;
-    top: 0; left: 0; width: 100%; height: 100%;
-    background-color: rgba(0,0,0,0.8);
-    display: flex; /* Αυτό δημιουργούσε τη σύγκρουση με το .hidden */
-    justify-content: center;
-    align-items: center;
-    z-index: 1000;
+    position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+    background-color: rgba(0,0,0,0.8); display: flex;
+    justify-content: center; align-items: center; z-index: 1000;
 }
 
 .modal-content {
-    background-color: #1a1a1a;
-    padding: 30px;
-    border-radius: 10px;
-    border: 2px solid #bb86fc;
-    text-align: center;
-    min-width: 300px;
+    background-color: #1a1a1a; padding: 30px; border-radius: 10px;
+    border: 2px solid #bb86fc; text-align: center; min-width: 300px;
 }
 
 .stat-num { font-size: 24px; color: #03dac6; font-weight: bold; }
