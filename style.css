@@ -1,11 +1,44 @@
 body {
     font-family: 'GFS Didot', serif;
     background-color: #0f0f0f;
+    /* --- ΝΕΟ: Εφέ Τετραδίου Μαθηματικών στο Φόντο --- */
+    background-image: 
+        linear-gradient(rgba(255, 255, 255, 0.03) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
+    background-size: 30px 30px; /* Το μέγεθος από τα "κουτάκια" */
+    
     color: #e0e0e0;
     display: flex;
     justify-content: center;
     padding: 20px;
 }
+
+/* ... (κράτα τον κώδικα του .container και των άλλων όπως είναι) ... */
+
+/* --- ΝΕΟ: Εφέ Λάμψης στα Κουμπιά --- */
+button {
+    font-family: 'GFS Didot', serif;
+    padding: 10px 15px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-weight: bold;
+    transition: all 0.3s ease; /* Κάνει την αλλαγή ομαλή */
+}
+
+.check-btn:hover { 
+    transform: translateY(-2px); 
+    box-shadow: 0 5px 15px rgba(3, 218, 198, 0.4); 
+}
+.help-btn:hover { 
+    transform: translateY(-2px); 
+    box-shadow: 0 5px 15px rgba(207, 102, 121, 0.4); 
+}
+.skip-btn:hover { 
+    transform: translateY(-2px); 
+    box-shadow: 0 5px 15px rgba(255, 255, 255, 0.2); 
+}
+
 
 .container {
     background-color: #1a1a1a;
