@@ -6,6 +6,8 @@
     <title>MathMaster: Από το Γυμνάσιο στο Λύκειο</title>
     <link href="https://fonts.googleapis.com/css2?family=GFS+Didot&display=swap" rel="stylesheet">
     <script src="https://www.desmos.com/api/v1.8/calculator.js?apiKey=dcb31709b452b1cf9dc26972add0fda6"></script>
+    <!-- Βιβλιοθήκη για εφέ Κομφετί -->
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
@@ -15,17 +17,18 @@
         <div class="grade-selector">
             <label for="grade-select">Επίπεδο Σπουδών:</label>
             <select id="grade-select" onchange="changeGrade()">
-                <option value="gym_a">Α' Γυμνασίου</option>
-                <option value="gym_b">Β' Γυμνασίου</option>
+                <option value="gym_a">Α' Γυμνασίου (Άπειρες Ασκήσεις)</option>
+                <option value="gym_b">Β' Γυμνασίου (Άπειρες Ασκήσεις)</option>
                 <option value="gym_g">Γ' Γυμνασίου</option>
                 <option value="lyc_a">Α' Λυκείου</option>
                 <option value="lyc_b">Β' Λυκείου</option>
-                <option value="lyc_g">Γ' Λυκείου (Προετοιμασία)</option>
+                <option value="lyc_g">Γ' Λυκείου</option>
             </select>
         </div>
         
         <div class="stats">
             <p>Σκορ: <span id="score">0</span> | <span id="timer">Χρόνος: 00:00</span></p>
+            <button onclick="toggleStats()" class="stats-btn">📊 Στατιστικά</button>
         </div>
 
         <div class="quiz-box">
@@ -62,12 +65,26 @@
         <div class="lessons-section">
             <h2>Πηγές Μελέτης 📚</h2>
             <ul class="resources-list" id="resources">
-                <li><a href="https://el.khanacademy.org/math" target="_blank">Khan Academy (Όλη η ύλη στα Ελληνικά)</a></li>
-                <li><a href="https://photomath.com/" target="_blank">Photomath (Σκανάρισμα & λύση εξισώσεων)</a></li>
-                <li><a href="https://www.wolframalpha.com/" target="_blank">Wolfram Alpha (Μαθηματική μηχανή αναζήτησης)</a></li>
+                <li><a href="https://el.khanacademy.org/math" target="_blank">Khan Academy (Ελληνικά)</a></li>
+                <li><a href="https://photomath.com/" target="_blank">Photomath</a></li>
+                <li><a href="https://www.wolframalpha.com/" target="_blank">Wolfram Alpha</a></li>
             </ul>
         </div>
     </div>
+
+    <!-- Το Αναδυόμενο Παράθυρο Στατιστικών -->
+    <div id="stats-modal" class="modal hidden">
+        <div class="modal-content">
+            <h2>Τα Στατιστικά μου 📊</h2>
+            <p>Λυμένες Ασκήσεις: <span id="stat-played" class="stat-num">0</span></p>
+            <p>Σωστές Απαντήσεις: <span id="stat-correct" class="stat-num">0</span></p>
+            <p>Ποσοστό Επιτυχίας: <span id="stat-rate" class="stat-num">0%</span></p>
+            <button onclick="toggleStats()" class="check-btn" style="margin-top: 20px;">Κλείσιμο</button>
+        </div>
+    </div>
+
+    <!-- Φορτώνουμε ΠΡΩΤΑ τα δεδομένα και ΜΕΤΑ τη λογική -->
+    <script src="data.js"></script>
     <script src="script.js"></script>
 </body>
 </html>
