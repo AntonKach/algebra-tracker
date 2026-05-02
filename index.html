@@ -3,17 +3,19 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>MathMaster: Από το Γυμνάσιο στο Λύκειο</title>
+    <title>Catgebra: Μαθαίνω Άλγεβρα με Παρέα!</title>
     <link href="https://fonts.googleapis.com/css2?family=GFS+Didot&display=swap" rel="stylesheet">
     <script src="https://www.desmos.com/api/v1.8/calculator.js?apiKey=dcb31709b452b1cf9dc26972add0fda6"></script>
-    <!-- Βιβλιοθήκη για εφέ Κομφετί -->
     <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
     <div class="container">
-        <h1>MathMaster 🧮</h1>
+        <img src="cat.jpg" alt="Η Μασκότ της Catgebra" class="mascot">
+        
+        <h1>Catgebra 🐈🧮</h1>
 
+        <div class="grade-selector">
         <div class="grade-selector">
             <label for="grade-select">Επίπεδο Σπουδών:</label>
             <select id="grade-select" onchange="changeGrade()">
