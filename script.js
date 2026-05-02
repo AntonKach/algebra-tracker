@@ -1,30 +1,15 @@
-const educationData = {
-    gym_a: {
-        problems: [{ equation: "x + 12 = 20", answer: "8", steps: ["Αφαιρούμε το 12: x = 20 - 12", "x = 8"] }]
-    },
-    gym_b: {
-        problems: [{ equation: "2x + 5 = 15", answer: "5", steps: ["2x = 15 - 5", "2x = 10", "x = 5"] }]
-    },
-    gym_g: {
-        problems: [{ equation: "x² = 16", answer: "4", steps: ["Παίρνουμε ρίζα: x = √16", "x = 4"] }]
-    },
-    lyc_a: {
-        problems: [{ equation: "x² - 5x + 6 = 0", answer: "2,3", steps: ["Δ = 25 - 24 = 1", "x = (5±1)/2", "x=2, x=3"] }]
-    },
-    lyc_b: {
-        problems: [{ equation: "ημ(x) = 1", answer: "90", steps: ["Το ημίτονο είναι 1 στις 90 μοίρες."] }]
-    },
-    lyc_g: {
-        problems: [{ equation: "∫ 2x dx", answer: "x²", steps: ["Κανόνας δύναμης: (2x²)/2", "x²"] }]
-    }
-};
-
 let score = 0, currentProblem = {}, timerInterval, seconds = 0, calculator;
+let userStats = JSON.parse(localStorage.getItem("mathUserStats")) || { played: 0, correct: 0 };
 
 window.onload = function() {
+    const savedScore = localStorage.getItem("mathScore");
+    if (savedScore) score = parseInt(savedScore);
+    
     calculator = Desmos.GraphingCalculator(document.getElementById('calculator'), {
         keypad: false, expressions: false, invertedColors: true
     });
+
+    document.getElementById("score").innerText = score;
     changeGrade();
 };
 
@@ -43,33 +28,131 @@ function changeGrade() {
     startTimer();
 }
 
+// --- Η ΓΕΝΝΗΤΡΙΑ ΑΠΕΙΡΩΝ ΑΣΚΗΣΕΩΝ ---
+function generateDynamicProblem(type) {
+    if (type === "dynamic_linear") {
+        let a = Math.floor(Math.random() * 9) + 1; // 1 εως 9
+        let x = Math.floor(Math.random() * 20) - 10; // -10 εως 10
+        let b = Math.floor(Math.random() * 20) - 10;
+        let c = a * x + b;
+        let bStr = b >= 0 ? `+ ${b}` : `- ${Math.abs(b)}`;
+        
+        return {
+            equation: `${a}x ${bStr} = ${c}`,
+            answer: x.toString(),
+            steps: [
+                `Μεταφέρουμε το γνωστό: ${a}x = ${c} ${b >= 0 ? '-' : '+'} ${Math.abs(b)}`,
+                `${a}x = ${c - b}`,
+                `Διαιρούμε με το ${a}: x = ${(c - b) / a}`
+            ]
+        };
+    } else if (type === "dynamic_fraction") {
+        let x = Math.floor(Math.random() * 10) + 1;
+        let denom = Math.floor(Math.random() * 4) + 2; 
+        let c = Math.floor(Math.random() * 10) + 1;
+        let result = x + c; 
+        let xVal = x * denom; // Για να βγαίνει ακέραιος
+        
+        return {
+            equation: `x/${denom} + ${c} = ${result}`,
+            answer: xVal.toString(),
+            steps: [
+                `Αφαιρούμε το ${c}: x/${denom} = ${result - c}`,
+                `Πολλαπλασιάζουμε με το ${denom}: x = ${(result - c) * denom}`
+            ]
+        };
+    }
+}
+
 function loadNextProblem() {
     const grade = document.getElementById("grade-select").value;
-    const problems = educationData[grade].problems;
-    currentProblem = problems[Math.floor(Math.random() * problems.length)];
+    const gradeData = educationData[grade];
+    
+    if (gradeData.type.includes("dynamic")) {
+        currentProblem = generateDynamicProblem(gradeData.type);
+    } else {
+        const problems = gradeData.problems;
+        currentProblem = problems[Math.floor(Math.random() * problems.length)];
+    }
+    
     document.getElementById("equation").innerText = currentProblem.equation;
     document.getElementById("answer").value = "";
+    document.getElementById("feedback").innerText = "";
     document.getElementById("help-steps").classList.add("hidden");
+    
     updateGraph(currentProblem.equation);
 }
 
 function updateGraph(eq) {
     calculator.setBlank();
-    let latex = eq.replace('=', '-(') + ')'; // Μετατροπή για τον Desmos
-    if (eq.includes('∫')) latex = "y = x^2"; // Placeholder για ολοκληρώματα
+    let latex = eq.replace('=', '-(') + ')'; 
+    if (eq.includes('∫')) latex = "y = x^2"; 
     calculator.setExpression({ id: 'graph', latex: latex, color: '#bb86fc' });
+}
+
+// --- ΟΠΤΙΚΟΑΚΟΥΣΤΙΚΑ ΕΦΕ ---
+function playSound(type) {
+    const ctx = new (window.AudioContext || window.webkitAudioContext)();
+    const osc = ctx.createOscillator();
+    const gain = ctx.createGain();
+    osc.connect(gain);
+    gain.connect(ctx.destination);
+
+    if (type === 'success') {
+        osc.type = 'sine';
+        osc.frequency.setValueAtTime(523.25, ctx.currentTime); // Νότα Ντο
+        gain.gain.setValueAtTime(0.1, ctx.currentTime);
+        gain.gain.exponentialRampToValueAtTime(0.00001, ctx.currentTime + 0.5);
+        osc.start();
+        osc.stop(ctx.currentTime + 0.5);
+    } else {
+        osc.type = 'sawtooth';
+        osc.frequency.setValueAtTime(150, ctx.currentTime); // Βαρύς ήχος λάθους
+        gain.gain.setValueAtTime(0.1, ctx.currentTime);
+        gain.gain.exponentialRampToValueAtTime(0.00001, ctx.currentTime + 0.3);
+        osc.start();
+        osc.stop(ctx.currentTime + 0.3);
+    }
 }
 
 function checkAnswer() {
     const userAns = document.getElementById("answer").value.trim();
     const feedback = document.getElementById("feedback");
+    
+    userStats.played++; // Αυξάνουμε τις λυμένες ασκήσεις
+
     if (userAns === currentProblem.answer) {
+        userStats.correct++;
         score += 20;
         document.getElementById("score").innerText = score;
         feedback.innerText = "✅ Σωστά! (+20 πόντοι)";
+        
+        // Ήχος και Κομφετί!
+        playSound('success');
+        confetti({ particleCount: 150, spread: 80, origin: { y: 0.6 } });
+
         setTimeout(loadNextProblem, 2000);
     } else {
         feedback.innerText = "❌ Λάθος. Δες τα βήματα λύσης.";
+        playSound('error');
+    }
+    
+    // Αποθήκευση Στατιστικών και Σκορ
+    localStorage.setItem("mathUserStats", JSON.stringify(userStats));
+    localStorage.setItem("mathScore", score);
+}
+
+// --- ΛΕΙΤΟΥΡΓΙΕΣ ΣΤΑΤΙΣΤΙΚΩΝ ---
+function toggleStats() {
+    const modal = document.getElementById("stats-modal");
+    if (modal.classList.contains("hidden")) {
+        document.getElementById("stat-played").innerText = userStats.played;
+        document.getElementById("stat-correct").innerText = userStats.correct;
+        let rate = userStats.played > 0 ? Math.round((userStats.correct / userStats.played) * 100) : 0;
+        document.getElementById("stat-rate").innerText = rate + "%";
+        modal.classList.remove("hidden");
+    } else {
+        modal.classList.add("hidden");
     }
 }
 
@@ -82,4 +165,8 @@ function showHelp() {
 function insertSymbol(sym) { document.getElementById("answer").value += sym; }
 function toggleKeyboard() { document.getElementById("math-keyboard").classList.toggle("hidden"); }
 function skipProblem() { loadNextProblem(); }
-function resetProgress() { location.reload(); }
+function resetProgress() { 
+    localStorage.removeItem("mathScore");
+    localStorage.removeItem("mathUserStats");
+    location.reload(); 
+}
