@@ -19,7 +19,7 @@ function startTimer() {
     timerInterval = setInterval(() => {
         seconds++;
         let m = Math.floor(seconds/60), s = seconds%60;
-        document.getElementById("timer").innerText = `Χρόνος: ${m}:${s<10?'0'+s:s}`;
+        document.getElementById("timer").innerText = `${m}:${s<10?'0'+s:s}`;
     }, 1000);
 }
 
@@ -28,12 +28,11 @@ function changeGrade() {
     startTimer();
 }
 
-// --- Η ΓΕΝΝΗΤΡΙΑ ΑΠΕΙΡΩΝ ΑΣΚΗΣΕΩΝ ---
 function generateDynamicProblem(type) {
     if (type === "dynamic_linear") {
-        let a = Math.floor(Math.random() * 9) + 1; // 1 εως 9
-        let x = Math.floor(Math.random() * 20) - 10; // -10 εως 10
-        let b = Math.floor(Math.random() * 20) - 10;
+        let a = Math.floor(Math.random() * 9) + 1; 
+        let x = Math.floor(Math.random() * 21) - 10; 
+        let b = Math.floor(Math.random() * 21) - 10; 
         let c = a * x + b;
         let bStr = b >= 0 ? `+ ${b}` : `- ${Math.abs(b)}`;
         
@@ -47,15 +46,15 @@ function generateDynamicProblem(type) {
             ]
         };
     } else if (type === "dynamic_fraction") {
-        let x = Math.floor(Math.random() * 10) + 1;
+        let x = Math.floor(Math.random() * 10) + 1; 
         let denom = Math.floor(Math.random() * 4) + 2; 
         let c = Math.floor(Math.random() * 10) + 1;
+        
         let result = x + c; 
-        let xVal = x * denom; // Για να βγαίνει ακέραιος
         
         return {
             equation: `x/${denom} + ${c} = ${result}`,
-            answer: xVal.toString(),
+            answer: (x * denom).toString(), 
             steps: [
                 `Αφαιρούμε το ${c}: x/${denom} = ${result - c}`,
                 `Πολλαπλασιάζουμε με το ${denom}: x = ${(result - c) * denom}`
@@ -90,7 +89,6 @@ function updateGraph(eq) {
     calculator.setExpression({ id: 'graph', latex: latex, color: '#bb86fc' });
 }
 
-// --- ΟΠΤΙΚΟΑΚΟΥΣΤΙΚΑ ΕΦΕ ---
 function playSound(type) {
     const ctx = new (window.AudioContext || window.webkitAudioContext)();
     const osc = ctx.createOscillator();
@@ -100,14 +98,14 @@ function playSound(type) {
 
     if (type === 'success') {
         osc.type = 'sine';
-        osc.frequency.setValueAtTime(523.25, ctx.currentTime); // Νότα Ντο
+        osc.frequency.setValueAtTime(523.25, ctx.currentTime); 
         gain.gain.setValueAtTime(0.1, ctx.currentTime);
         gain.gain.exponentialRampToValueAtTime(0.00001, ctx.currentTime + 0.5);
         osc.start();
         osc.stop(ctx.currentTime + 0.5);
     } else {
         osc.type = 'sawtooth';
-        osc.frequency.setValueAtTime(150, ctx.currentTime); // Βαρύς ήχος λάθους
+        osc.frequency.setValueAtTime(150, ctx.currentTime); 
         gain.gain.setValueAtTime(0.1, ctx.currentTime);
         gain.gain.exponentialRampToValueAtTime(0.00001, ctx.currentTime + 0.3);
         osc.start();
@@ -119,7 +117,7 @@ function checkAnswer() {
     const userAns = document.getElementById("answer").value.trim();
     const feedback = document.getElementById("feedback");
     
-    userStats.played++; // Αυξάνουμε τις λυμένες ασκήσεις
+    userStats.played++; 
 
     if (userAns === currentProblem.answer) {
         userStats.correct++;
@@ -127,7 +125,6 @@ function checkAnswer() {
         document.getElementById("score").innerText = score;
         feedback.innerText = "✅ Σωστά! (+20 πόντοι)";
         
-        // Ήχος και Κομφετί!
         playSound('success');
         confetti({ particleCount: 150, spread: 80, origin: { y: 0.6 } });
 
@@ -137,12 +134,10 @@ function checkAnswer() {
         playSound('error');
     }
     
-    // Αποθήκευση Στατιστικών και Σκορ
     localStorage.setItem("mathUserStats", JSON.stringify(userStats));
     localStorage.setItem("mathScore", score);
 }
 
-// --- ΛΕΙΤΟΥΡΓΙΕΣ ΣΤΑΤΙΣΤΙΚΩΝ ---
 function toggleStats() {
     const modal = document.getElementById("stats-modal");
     if (modal.classList.contains("hidden")) {
@@ -162,9 +157,22 @@ function showHelp() {
     helpBox.classList.remove("hidden");
 }
 
-function insertSymbol(sym) { document.getElementById("answer").value += sym; }
-function toggleKeyboard() { document.getElementById("math-keyboard").classList.toggle("hidden"); }
+function insertSymbol(sym) { 
+    document.getElementById("answer").value += sym; 
+}
+
+/* ΝΕΑ ΛΕΙΤΟΥΡΓΙΑ ΔΙΑΓΡΑΦΗΣ (Backspace) */
+function backspace() {
+    let inputField = document.getElementById("answer");
+    inputField.value = inputField.value.slice(0, -1);
+}
+
+function toggleKeyboard() { 
+    document.getElementById("math-keyboard").classList.toggle("hidden"); 
+}
+
 function skipProblem() { loadNextProblem(); }
+
 function resetProgress() { 
     localStorage.removeItem("mathScore");
     localStorage.removeItem("mathUserStats");
