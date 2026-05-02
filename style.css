@@ -16,7 +16,24 @@ body {
     width: 100%;
     text-align: center;
 }
+/* --- Στυλ για τη Γατούλα (Μασκότ) --- */
+.mascot {
+    width: 150px;
+    height: 150px;
+    object-fit: cover; /* Φροντίζει να μην παραμορφώνεται η εικόνα */
+    border-radius: 50%; /* Την κάνει τέλειο κύκλο */
+    border: 4px solid #bb86fc; /* Μοβ περίγραμμα για να ταιριάζει με το θέμα */
+    margin: 0 auto 15px auto;
+    display: block;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.5);
+}
 
+/* Ανανεώνουμε και τον τίτλο για να ταιριάζει! */
+h1 {
+    color: #ffffff;
+    font-weight: normal;
+    margin-top: 0;
+}
 .grade-selector {
     margin-bottom: 20px;
 }
