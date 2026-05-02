@@ -3,56 +3,68 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Η Άλγεβρά Μου</title>
+    <title>MathMaster: Από το Γυμνάσιο στο Λύκειο</title>
     <link href="https://fonts.googleapis.com/css2?family=GFS+Didot&display=swap" rel="stylesheet">
-    
-    <!-- Η "Μηχανή" του Desmos για τις γραφικές παραστάσεις -->
     <script src="https://www.desmos.com/api/v1.8/calculator.js?apiKey=dcb31709b452b1cf9dc26972add0fda6"></script>
-    
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
     <div class="container">
-        <h1>Εκμάθηση Άλγεβρας 🧮</h1>
+        <h1>MathMaster 🧮</h1>
+
+        <div class="grade-selector">
+            <label for="grade-select">Επίπεδο Σπουδών:</label>
+            <select id="grade-select" onchange="changeGrade()">
+                <option value="gym_a">Α' Γυμνασίου</option>
+                <option value="gym_b">Β' Γυμνασίου</option>
+                <option value="gym_g">Γ' Γυμνασίου</option>
+                <option value="lyc_a">Α' Λυκείου</option>
+                <option value="lyc_b">Β' Λυκείου</option>
+                <option value="lyc_g">Γ' Λυκείου (Προετοιμασία)</option>
+            </select>
+        </div>
         
         <div class="stats">
-            <p>Συνολικό Σκορ: <span id="score">0</span></p>
-            <p style="font-weight: bold; color: #bb86fc;" id="level-display">Επίπεδο 1</p>
+            <p>Σκορ: <span id="score">0</span> | <span id="timer">Χρόνος: 00:00</span></p>
         </div>
 
         <div class="quiz-box">
-            <h2>Λύσε την παρακάτω εξίσωση:</h2>
             <p id="equation" class="equation-text">Φόρτωση...</p>
             
-            <input type="number" id="answer" placeholder="Απάντηση...">
+            <div class="input-container">
+                <input type="text" id="answer" placeholder="Απάντηση...">
+                <button onclick="toggleKeyboard()" class="kbd-toggle">⌨️</button>
+            </div>
+
+            <div id="math-keyboard" class="math-keyboard hidden">
+                <button onclick="insertSymbol('²')">x²</button>
+                <button onclick="insertSymbol('³')">x³</button>
+                <button onclick="insertSymbol('√')">√</button>
+                <button onclick="insertSymbol('∫')">∫</button>
+                <button onclick="insertSymbol('π')">π</button>
+                <button onclick="insertSymbol('∞')">∞</button>
+            </div>
             
             <div class="buttons-group">
                 <button onclick="checkAnswer()" class="check-btn">Έλεγχος</button>
-                <button onclick="showHelp()" class="help-btn">Βοήθεια</button>
+                <button onclick="showHelp()" class="help-btn">Βήμα-Βήμα Λύση</button>
                 <button onclick="skipProblem()" class="skip-btn">Παράλειψη</button>
             </div>
             
             <p id="feedback"></p>
-            <p id="help-text" class="help-text"></p>
+            <div id="help-steps" class="help-steps hidden"></div>
 
-            <!-- ΕΔΩ ΘΑ ΕΜΦΑΝΙΖΕΤΑΙ Η ΓΡΑΦΙΚΗ ΠΑΡΑΣΤΑΣΗ -->
             <div id="calculator" class="graph-box"></div>
         </div>
         
-        <button onclick="resetProgress()" class="reset-btn">Μηδενισμός Προόδου</button>
+        <button onclick="resetProgress()" class="reset-btn">Μηδενισμός</button>
 
         <div class="lessons-section">
-            <h2>Χρήσιμες Πηγές 📚</h2>
-            <p>Δες τη θεωρία ή βρες βοήθεια στα παρακάτω links:</p>
-            <ul class="resources-list">
-                <li><a href="https://el.khanacademy.org/math/algebra" target="_blank">Khan Academy (Όλη η ύλη και τα βίντεο στα Ελληνικά)</a></li>
-                <li><a href="https://photomath.com/" target="_blank">Photomath (Εφαρμογή για σκανάρισμα & λύση εξισώσεων)</a></li>
-                <li><a href="https://www.wolframalpha.com/" target="_blank">Wolfram Alpha (Η απόλυτη μαθηματική μηχανή αναζήτησης)</a></li>
-            </ul>
+            <h2>Πηγές Μελέτης 📚</h2>
+            <ul class="resources-list" id="resources">
+                </ul>
         </div>
-
     </div>
-
     <script src="script.js"></script>
 </body>
 </html>
