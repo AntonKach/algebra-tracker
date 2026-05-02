@@ -1,178 +1,117 @@
-const problems = {
-    1: [ 
-        { equation: "x + 5 = 12", answer: 7 },
-        { equation: "x - 4 = 6", answer: 10 },
-        { equation: "8 + x = 15", answer: 7 },
-        { equation: "x - 2 = 0", answer: 2 },
-        { equation: "10 - x = 4", answer: 6 },
-        { equation: "x + 15 = 25", answer: 10 }
-    ],
-    2: [ 
-        { equation: "3x = 15", answer: 5 },
-        { equation: "x / 2 = 8", answer: 16 },
-        { equation: "4x = 20", answer: 5 },
-        { equation: "10x = 100", answer: 10 },
-        { equation: "x / 3 = 7", answer: 21 },
-        { equation: "5x = 45", answer: 9 }
-    ],
-    3: [ 
-        { equation: "2x + 1 = 9", answer: 4 },
-        { equation: "3x - 2 = 10", answer: 4 },
-        { equation: "5x + 5 = 30", answer: 5 },
-        { equation: "2x - 8 = 0", answer: 4 },
-        { equation: "x / 2 + 3 = 8", answer: 10 },
-        { equation: "4x - 5 = 11", answer: 4 }
-    ],
-    4: [ 
-        { equation: "2(x - 3) = 8", answer: 7 },
-        { equation: "3(x + 1) = 15", answer: 4 },
-        { equation: "5x = 2x + 12", answer: 4 },
-        { equation: "4(x - 2) = 16", answer: 6 },
-        { equation: "3x + 2 = x + 10", answer: 4 },
-        { equation: "2(2x + 1) = 18", answer: 4 }
-    ]
+const educationData = {
+    gym_a: {
+        title: "Α' Γυμνασίου",
+        problems: [
+            { equation: "x + 12 = 20", answer: "8", steps: ["Αφαιρούμε το 12 και από τα δύο μέλη.", "x = 20 - 12", "x = 8"] },
+            { equation: "3x = 18", answer: "6", steps: ["Διαιρούμε και τα δύο μέλη με το 3.", "x = 18 / 3", "x = 6"] }
+        ]
+    },
+    gym_b: {
+        title: "Β' Γυμνασίου",
+        problems: [
+            { equation: "2x + 5 = 15", answer: "5", steps: ["Αφαιρούμε το 5: 2x = 10", "Διαιρούμε με το 2: x = 5"] },
+            { equation: "x/2 - 1 = 3", answer: "8", steps: ["Προσθέτουμε το 1: x/2 = 4", "Πολλαπλασιάζουμε με το 2: x = 8"] }
+        ]
+    },
+    lyc_a: {
+        title: "Α' Λυκείου",
+        problems: [
+            { equation: "x² - 5x + 6 = 0", answer: "2,3", steps: ["Υπολογίζουμε τη Διακρίνουσα Δ = b² - 4ac", "Δ = 25 - 24 = 1", "Ρίζες: x = (5 ± √1) / 2", "x1 = 3, x2 = 2"] }
+        ]
+    },
+    lyc_g: {
+        title: "Γ' Λυκείου",
+        problems: [
+            { equation: "∫ 2x dx", answer: "x²", steps: ["Χρησιμοποιούμε τον κανόνα ολοκλήρωσης δύναμης.", "∫ x^n dx = (x^(n+1))/(n+1)", "Εδώ n=1, άρα (2 * x^2) / 2 = x²"] }
+        ]
+    }
 };
 
-let currentLevel = 1;
 let score = 0;
 let currentProblem = {};
+let timerInterval;
+let seconds = 0;
 let calculator;
 
 window.onload = function() {
-    const savedScore = localStorage.getItem("algebraScore");
-    if (savedScore !== null) {
-        score = parseInt(savedScore);
-    }
+    const savedScore = localStorage.getItem("mathScore");
+    if (savedScore) score = parseInt(savedScore);
     
-    // Αρχικοποίηση του Desmos με Σκούρο Θέμα
-    const elt = document.getElementById('calculator');
-    calculator = Desmos.GraphingCalculator(elt, {
-        keypad: false,         
-        expressions: false,    
-        settingsMenu: false,   
-        invertedColors: true   
+    calculator = Desmos.GraphingCalculator(document.getElementById('calculator'), {
+        keypad: false, expressions: false, invertedColors: true
     });
 
-    updateLevel(); 
-    updateUI();    
-    loadNextProblem();
+    document.getElementById("score").innerText = score;
+    startTimer();
+    changeGrade(); // Φορτώνει την πρώτη άσκηση
 };
 
-function updateLevel() {
-    if (score >= 150) {
-        currentLevel = 4;
-    } else if (score >= 100) {
-        currentLevel = 3;
-    } else if (score >= 50) {
-        currentLevel = 2;
-    } else {
-        currentLevel = 1;
-    }
+function startTimer() {
+    clearInterval(timerInterval);
+    seconds = 0;
+    timerInterval = setInterval(() => {
+        seconds++;
+        let mins = Math.floor(seconds / 60);
+        let secs = seconds % 60;
+        document.getElementById("timer").innerText = `Χρόνος: ${mins < 10 ? '0'+mins : mins}:${secs < 10 ? '0'+secs : secs}`;
+    }, 1000);
 }
 
-function updateUI() {
-    document.getElementById("score").innerText = score;
-    document.getElementById("level-display").innerText = "Επίπεδο " + currentLevel;
+function changeGrade() {
+    loadNextProblem();
+    startTimer();
 }
 
 function loadNextProblem() {
-    const levelProblems = problems[currentLevel];
-    const randomIndex = Math.floor(Math.random() * levelProblems.length);
-    currentProblem = levelProblems[randomIndex];
+    const grade = document.getElementById("grade-select").value;
+    const problems = educationData[grade].problems;
+    currentProblem = problems[Math.floor(Math.random() * problems.length)];
     
     document.getElementById("equation").innerText = currentProblem.equation;
     document.getElementById("answer").value = "";
     document.getElementById("feedback").innerText = "";
-    document.getElementById("help-text").innerText = ""; 
-
-    updateGraph();
-}
-
-function updateGraph() {
-    calculator.setBlank(); 
-
-    let parts = currentProblem.equation.split('=');
-    let leftSide = parts[0].trim();
-    let rightSide = parts[1].trim();
-
-    calculator.setExpression({ id: 'left', latex: 'y = ' + leftSide, color: '#bb86fc' });
-    calculator.setExpression({ id: 'right', latex: 'y = ' + rightSide, color: '#03dac6' });
-
-    calculator.setMathBounds({
-        left: -5,
-        right: currentProblem.answer + 10,
-        bottom: -5,
-        top: 110 
-    });
-}
-
-// --- Ο ΝΕΟΣ ΜΑΣ AI ΔΑΣΚΑΛΟΣ ---
-function generateAIFeedback(userAnswer, correctAnswer, equation) {
-    if (userAnswer === -correctAnswer && correctAnswer !== 0) {
-        return "🤖 AI Ανάλυση: Ήσουν πολύ κοντά! Φαίνεται να έχεις κάνει λάθος στο πρόσημο. Θυμήσου: όταν αλλάζουμε πλευρά στο ίσον, το + γίνεται - και αντίστροφα.";
-    }
+    document.getElementById("help-steps").classList.add("hidden");
     
-    const rightSide = parseInt(equation.split('=')[1]); 
-    if (Math.abs(userAnswer - rightSide) === Math.abs(correctAnswer - rightSide) && userAnswer !== correctAnswer) {
-         return "🤖 AI Ανάλυση: Προσοχή στις πράξεις! Μήπως αντί να προσθέσεις/αφαιρέσεις τον αριθμό για να απομονώσεις το x, έκανες την αντίθετη πράξη;";
-    }
-
-    if (userAnswer > correctAnswer * 2 && equation.includes("x") && !equation.includes("/")) {
-         return "🤖 AI Ανάλυση: Ο αριθμός που βρήκες είναι αρκετά μεγάλος. Μήπως πολλαπλασίασες αντί να διαιρέσεις για να βρεις το x;";
-    }
-
-    return "🤖 AI Ανάλυση: Λάθος. Ξαναδές τη γραφική παράσταση (το σημείο που τέμνονται οι γραμμές) για να βοηθηθείς!";
+    updateGraph(currentProblem.equation);
 }
 
-function checkAnswer() {
-    const userAnswer = parseInt(document.getElementById("answer").value);
-    const feedbackEl = document.getElementById("feedback");
+function insertSymbol(sym) {
+    document.getElementById("answer").value += sym;
+}
 
-    if (isNaN(userAnswer)) {
-        feedbackEl.innerText = "Παρακαλώ γράψε έναν αριθμό!";
-        feedbackEl.style.color = "#cf6679";
-        return;
-    }
-
-    if (userAnswer === currentProblem.answer) {
-        feedbackEl.innerText = "✅ Σωστά! +10 πόντοι";
-        feedbackEl.style.color = "#03dac6"; 
-        
-        score += 10;
-        updateLevel(); 
-        updateUI();
-        localStorage.setItem("algebraScore", score);
-
-        setTimeout(loadNextProblem, 1500); 
-    } else {
-        const aiMessage = generateAIFeedback(userAnswer, currentProblem.answer, currentProblem.equation);
-        
-        feedbackEl.innerText = "❌ " + aiMessage;
-        feedbackEl.style.color = "#cf6679"; 
-    }
+function toggleKeyboard() {
+    document.getElementById("math-keyboard").classList.toggle("hidden");
 }
 
 function showHelp() {
-    const helpEl = document.getElementById("help-text");
-    helpEl.innerText = "💡 Λύση: Η απάντηση είναι " + currentProblem.answer;
-    
-    calculator.setExpression({ id: 'solutionLine', latex: 'x = ' + currentProblem.answer, color: '#cf6679', lineStyle: Desmos.Styles.DASHED });
+    const helpBox = document.getElementById("help-steps");
+    helpBox.innerHTML = "<strong>Βήματα Λύσης:</strong><br>" + currentProblem.steps.map(s => "• " + s).join("<br>");
+    helpBox.classList.remove("hidden");
 }
 
-function skipProblem() {
-    const feedbackEl = document.getElementById("feedback");
-    feedbackEl.innerText = "⏭️ Πάμε στην επόμενη...";
-    feedbackEl.style.color = "#bb86fc"; 
-    
-    setTimeout(loadNextProblem, 1000);
+function checkAnswer() {
+    const userAns = document.getElementById("answer").value.trim();
+    if (userAns === currentProblem.answer) {
+        score += 20;
+        document.getElementById("score").innerText = score;
+        document.getElementById("feedback").innerText = "✅ Εξαιρετικά! (+20 πόντοι)";
+        setTimeout(loadNextProblem, 2000);
+    } else {
+        document.getElementById("feedback").innerText = "❌ Δοκίμασε ξανά ή δες τη βοήθεια.";
+    }
 }
+
+function updateGraph(eq) {
+    calculator.setBlank();
+    // Απλουστευμένη λογική σχεδίασης για το παράδειγμα
+    if(eq.includes("x²")) calculator.setExpression({ id: 'graph', latex: 'y = x^2 - 5x + 6', color: '#bb86fc' });
+    else calculator.setExpression({ id: 'graph', latex: eq.replace('=', '-y='), color: '#bb86fc' });
+}
+
+function skipProblem() { loadNextProblem(); }
 
 function resetProgress() {
-    if (confirm("Είσαι σίγουρος ότι θέλεις να μηδενίσεις την πρόοδό σου;")) {
-        score = 0;
-        currentLevel = 1;
-        updateUI();
-        localStorage.removeItem("algebraScore");
-        loadNextProblem();
-    }
+    score = 0;
+    localStorage.removeItem("mathScore");
+    location.reload();
 }
