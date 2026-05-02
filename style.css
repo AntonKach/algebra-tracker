@@ -17,6 +17,25 @@ body {
     text-align: center;
 }
 
+.grade-selector {
+    margin-bottom: 20px;
+}
+
+select {
+    padding: 8px;
+    background: #2c2c2c;
+    color: white;
+    border: 1px solid #444;
+    font-family: 'GFS Didot';
+    border-radius: 5px;
+    max-width: 100%;
+}
+
+.highlight-text {
+    font-weight: bold;
+    color: #ff9800;
+}
+
 .equation-text {
     font-size: 28px;
     color: #bb86fc;
@@ -30,6 +49,7 @@ body {
     border: 1px solid #444;
     color: white;
     border-radius: 5px;
+    max-width: 150px;
 }
 
 .buttons-group {
@@ -37,11 +57,23 @@ body {
     gap: 10px;
     justify-content: center;
     margin-top: 15px;
+    flex-wrap: wrap; /* Επιτρέπει στα κουμπιά να αλλάξουν γραμμή αν δεν χωράνε στο κινητό */
 }
 
+button {
+    font-family: 'GFS Didot', serif;
+    padding: 10px 15px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-weight: bold;
+}
+
+.kbd-toggle { background: #444; color: white; }
 .check-btn { background-color: #03dac6; color: black; }
 .help-btn { background-color: #cf6679; color: black; }
 .skip-btn { background-color: #555; color: white; }
+.reset-btn { background: transparent; color: #cf6679; border: 1px solid #cf6679; margin-top: 20px; }
 
 .math-keyboard {
     display: grid;
@@ -53,7 +85,20 @@ body {
     border-radius: 8px;
 }
 
-.hidden { display: none; }
+.math-keyboard button { background: #3d3d3d; color: white; font-size: 18px; }
+
+/* --- Η ΚΡΙΣΙΜΗ ΔΙΟΡΘΩΣΗ ΓΙΑ ΤΟ GLITCH --- */
+.hidden { display: none !important; }
+
+.help-steps {
+    text-align: left;
+    background: #252525;
+    padding: 15px;
+    border-left: 4px solid #bb86fc;
+    margin-top: 15px;
+    font-size: 16px;
+    line-height: 1.6;
+}
 
 .graph-box {
     width: 100%;
@@ -62,7 +107,19 @@ body {
     border-radius: 8px;
     border: 1px solid #333;
 }
-/* --- Κουμπί Στατιστικών & Modal --- */
+
+.lessons-section {
+    margin-top: 30px;
+    border-top: 1px solid #333;
+    padding-top: 15px;
+    text-align: left;
+}
+
+.resources-list { list-style: none; padding: 0; }
+.resources-list li { margin-bottom: 10px; }
+.resources-list a { color: #03dac6; text-decoration: none; font-size: 16px; }
+.resources-list a:hover { text-decoration: underline; }
+
 .stats-btn {
     background-color: transparent;
     color: #bb86fc;
@@ -78,7 +135,7 @@ body {
     position: fixed;
     top: 0; left: 0; width: 100%; height: 100%;
     background-color: rgba(0,0,0,0.8);
-    display: flex;
+    display: flex; /* Αυτό δημιουργούσε τη σύγκρουση με το .hidden */
     justify-content: center;
     align-items: center;
     z-index: 1000;
@@ -93,8 +150,4 @@ body {
     min-width: 300px;
 }
 
-.stat-num {
-    font-size: 24px;
-    color: #03dac6;
-    font-weight: bold;
-}
+.stat-num { font-size: 24px; color: #03dac6; font-weight: bold; }
