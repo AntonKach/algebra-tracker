@@ -45,13 +45,41 @@
                 <button onclick="toggleKeyboard()" class="kbd-toggle">⌨️</button>
             </div>
 
-            <div id="math-keyboard" class="math-keyboard hidden">
+           <div id="math-keyboard" class="math-keyboard hidden">
+                <!-- 1η Γραμμή: Δυνάμεις & Ρίζες -->
                 <button onclick="insertSymbol('²')">x²</button>
                 <button onclick="insertSymbol('³')">x³</button>
-                <button onclick="insertSymbol('√')">√</button>
+                <button onclick="insertSymbol('^')">x^y</button>
+                <button onclick="insertSymbol('√()')">√</button>
+                <button onclick="insertSymbol('∛()')">∛</button>
+
+                <!-- 2η Γραμμή: Παρενθέσεις & Κλάσματα -->
+                <button onclick="insertSymbol('/')">x/y</button>
+                <button onclick="insertSymbol('(')">(</button>
+                <button onclick="insertSymbol(')')">)</button>
+                <button onclick="insertSymbol('|')">|x|</button>
+                <button onclick="insertSymbol('±')">±</button>
+
+                <!-- 3η Γραμμή: Απειροστικός Λογισμός -->
                 <button onclick="insertSymbol('∫')">∫</button>
-                <button onclick="insertSymbol('π')">π</button>
+                <button onclick="insertSymbol('d/dx')">d/dx</button>
+                <button onclick="insertSymbol('lim()')">lim</button>
+                <button onclick="insertSymbol('Σ')">Σ</button>
                 <button onclick="insertSymbol('∞')">∞</button>
+
+                <!-- 4η Γραμμή: Τριγωνομετρία & Λογάριθμοι -->
+                <button onclick="insertSymbol('sin()')">sin</button>
+                <button onclick="insertSymbol('cos()')">cos</button>
+                <button onclick="insertSymbol('tan()')">tan</button>
+                <button onclick="insertSymbol('log()')">log</button>
+                <button onclick="insertSymbol('ln()')">ln</button>
+
+                <!-- 5η Γραμμή: Σταθερές & Σύμβολα -->
+                <button onclick="insertSymbol('π')">π</button>
+                <button onclick="insertSymbol('e')">e</button>
+                <button onclick="insertSymbol('≤')">≤</button>
+                <button onclick="insertSymbol('≥')">≥</button>
+                <button onclick="insertSymbol('≠')">≠</button>
             </div>
             
             <div class="buttons-group">
