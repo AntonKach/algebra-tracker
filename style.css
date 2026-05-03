@@ -1,7 +1,6 @@
 body {
     font-family: 'GFS Didot', serif;
     background-color: #0f0f0f;
-    /* Εφέ Τετραδίου Μαθηματικών */
     background-image: 
         linear-gradient(rgba(255, 255, 255, 0.03) 1px, transparent 1px),
         linear-gradient(90deg, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
@@ -34,7 +33,6 @@ body {
 }
 
 h1 { color: #ffffff; font-weight: normal; margin-top: 0; }
-
 .grade-selector { margin-bottom: 20px; }
 
 select {
@@ -44,7 +42,6 @@ select {
 }
 
 .highlight-text { font-weight: bold; color: #ff9800; }
-
 .equation-text { font-size: 28px; color: #bb86fc; margin: 20px 0; }
 
 .input-container input {
@@ -58,28 +55,20 @@ select {
     margin-top: 15px; flex-wrap: wrap;
 }
 
-/* Εφέ Λάμψης Κουμπιών */
 button {
     font-family: 'GFS Didot', serif; 
-    padding: 10px 15px;
-    border: none; 
-    border-radius: 5px; 
-    cursor: pointer;
-    font-weight: bold;
-    transition: all 0.3s ease;
+    padding: 10px 15px; border: none; 
+    border-radius: 5px; cursor: pointer;
+    font-weight: bold; transition: all 0.3s ease;
 }
 
 .kbd-toggle { background: #444; color: white; }
-
 .check-btn { background-color: #03dac6; color: black; }
 .check-btn:hover { transform: translateY(-2px); box-shadow: 0 5px 15px rgba(3, 218, 198, 0.4); }
-
 .help-btn { background-color: #cf6679; color: black; }
 .help-btn:hover { transform: translateY(-2px); box-shadow: 0 5px 15px rgba(207, 102, 121, 0.4); }
-
 .skip-btn { background-color: #555; color: white; }
 .skip-btn:hover { transform: translateY(-2px); box-shadow: 0 5px 15px rgba(255, 255, 255, 0.2); }
-
 .reset-btn { background: transparent; color: #cf6679; border: 1px solid #cf6679; margin-top: 20px; }
 
 .math-keyboard {
@@ -98,7 +87,6 @@ button {
 
 .graph-box { border-radius: 8px; border: 1px solid #333; margin-top: 20px; }
 
-/* Πρόχειρο Σημειώσεων */
 .notes-container { margin-top: 20px; text-align: left; }
 .notes-container label { font-size: 14px; color: #bb86fc; }
 #user-notes {
@@ -109,10 +97,7 @@ button {
 }
 #user-notes:focus { outline: none; border-color: #03dac6; }
 
-/* Σχετικά με την Εφαρμογή (Footer) */
-.about-section {
-    margin-top: 40px; border-top: 1px solid #333; padding-top: 20px; text-align: left;
-}
+.about-section { margin-top: 40px; border-top: 1px solid #333; padding-top: 20px; text-align: left; }
 .about-section h3 { margin-top: 0; color: #03dac6; }
 .about-section p { font-size: 14px; color: #aaa; line-height: 1.5; }
 .resources-list { list-style: none; padding: 0; margin: 0; }
