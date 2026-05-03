@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Catgebra: Μαθαίνω Άλγεβρα με Παρέα!</title>
+    <title>Catgebra 🐈🧮</title>
     <link href="https://fonts.googleapis.com/css2?family=GFS+Didot&display=swap" rel="stylesheet">
     <script src="https://www.desmos.com/api/v1.8/calculator.js?apiKey=dcb31709b452b1cf9dc26972add0fda6"></script>
     <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
@@ -11,26 +11,30 @@
 </head>
 <body>
     <div class="container">
-        <!-- Η Μασκότ μας! -->
-        <img src="cat.jpg" alt="Η Μασκότ της Catgebra" class="mascot">
+        <!-- ΕΠΙΛΟΓΗ ΓΛΩΣΣΑΣ -->
+        <div style="text-align: right; margin-bottom: 10px;">
+            <select id="lang-select" onchange="changeLanguage()" style="background: #252525; border: 1px solid #bb86fc; padding: 5px; border-radius: 5px; color: white;">
+                <option value="el">🇬🇷 Ελληνικά</option>
+                <option value="en">🇬🇧 English</option>
+                <option value="fr">🇫🇷 Français</option>
+                <option value="tr">🇹🇷 Türkçe</option>
+            </select>
+        </div>
+
+        <img src="cat.jpg" alt="Catgebra Mascot" class="mascot">
         
         <h1>Catgebra 🐈🧮</h1>
 
         <div class="grade-selector">
-            <label for="grade-select">Επίπεδο Σπουδών:</label>
+            <label for="grade-select" id="lbl-level">Επίπεδο Σπουδών:</label>
             <select id="grade-select" onchange="changeGrade()">
-                <option value="gym_a">Α' Γυμνασίου (Άπειρες Ασκήσεις)</option>
-                <option value="gym_b">Β' Γυμνασίου (Άπειρες Ασκήσεις)</option>
-                <option value="gym_g">Γ' Γυμνασίου</option>
-                <option value="lyc_a">Α' Λυκείου</option>
-                <option value="lyc_b">Β' Λυκείου</option>
-                <option value="lyc_g">Γ' Λυκείου</option>
+                <!-- Τα options γεμίζουν αυτόματα από το JavaScript πλέον -->
             </select>
         </div>
         
         <div class="stats">
-            <p>Σκορ: <span id="score" class="highlight-text">0</span> | Χρόνος: <span id="timer" class="highlight-text">00:00</span></p>
-            <button onclick="toggleStats()" class="stats-btn">📊 Στατιστικά</button>
+            <p><span id="lbl-score">Σκορ:</span> <span id="score" class="highlight-text">0</span> | <span id="lbl-time">Χρόνος:</span> <span id="timer" class="highlight-text">00:00</span></p>
+            <button onclick="toggleStats()" class="stats-btn" id="btn-stats">📊 Στατιστικά</button>
         </div>
 
         <div class="quiz-box">
@@ -41,72 +45,42 @@
                 <button onclick="toggleKeyboard()" class="kbd-toggle">⌨️</button>
             </div>
 
-            <!-- ΝΕΟ ΣΥΝΘΕΤΟ ΜΑΘΗΜΑΤΙΚΟ ΠΛΗΚΤΡΟΛΟΓΙΟ -->
             <div id="math-keyboard" class="math-keyboard hidden">
-                <button onclick="insertSymbol('+')">+</button>
-                <button onclick="insertSymbol('-')">-</button>
-                <button onclick="insertSymbol('*')">·</button>
-                <button onclick="insertSymbol('/')">/</button>
-                <button onclick="backspace()" style="background: #cf6679; color: black;">⌫</button>
-
                 <button onclick="insertSymbol('²')">x²</button>
                 <button onclick="insertSymbol('³')">x³</button>
-                <button onclick="insertSymbol('^')">^</button>
-                <button onclick="insertSymbol('(')">(</button>
-                <button onclick="insertSymbol(')')">)</button>
-
                 <button onclick="insertSymbol('√')">√</button>
-                <button onclick="insertSymbol('sin(')">sin</button>
-                <button onclick="insertSymbol('cos(')">cos</button>
-                <button onclick="insertSymbol('tan(')">tan</button>
-                <button onclick="insertSymbol('log(')">log</button>
-
-                <button onclick="insertSymbol('π')">π</button>
-                <button onclick="insertSymbol('e')">e</button>
-                <button onclick="insertSymbol('∞')">∞</button>
                 <button onclick="insertSymbol('∫')">∫</button>
-                <button onclick="insertSymbol('dx')">dx</button>
+                <button onclick="insertSymbol('π')">π</button>
+                <button onclick="insertSymbol('∞')">∞</button>
             </div>
             
             <div class="buttons-group">
-                <button onclick="checkAnswer()" class="check-btn">Έλεγχος</button>
-                <button onclick="showHelp()" class="help-btn">Βήμα-Βήμα Λύση</button>
-                <button onclick="skipProblem()" class="skip-btn">Παράλειψη</button>
+                <button onclick="checkAnswer()" class="check-btn" id="btn-check">Έλεγχος</button>
+                <button onclick="showHelp()" class="help-btn" id="btn-help">Βήμα-Βήμα</button>
+                <button onclick="skipProblem()" class="skip-btn" id="btn-skip">Παράλειψη</button>
             </div>
-            
-            <div class="notes-container">
-    <label for="user-notes">Πρόχειρο Σημειώσεων 📝</label>
-    <textarea id="user-notes" placeholder="Γράψε εδώ τις σκέψεις σου ή τα βήματα της λύσης..."></textarea>
-</div>
-
-<div id="calculator" class="graph-box"></div>
-
             
             <p id="feedback"></p>
             <div id="help-steps" class="help-steps hidden"></div>
 
+            <div class="notes-container">
+                <label for="user-notes" id="lbl-notes">Πρόχειρο Σημειώσεων 📝</label>
+                <textarea id="user-notes" placeholder="Γράψε εδώ τις σκέψεις σου..."></textarea>
+            </div>
+
             <div id="calculator" class="graph-box"></div>
         </div>
         
-        <button onclick="resetProgress()" class="reset-btn" style="margin-top:20px;">Μηδενισμός Προόδου</button>
-
-        <div class="lessons-section">
-            <h2>Πηγές Μελέτης 📚</h2>
-            <ul class="resources-list" id="resources">
-                <li><a href="https://el.khanacademy.org/math" target="_blank">Khan Academy</a></li>
-                <li><a href="https://photomath.com/" target="_blank">Photomath</a></li>
-                <li><a href="https://www.wolframalpha.com/" target="_blank">Wolfram Alpha</a></li>
-            </ul>
-        </div>
+        <button onclick="resetProgress()" class="reset-btn" id="btn-reset" style="margin-top:20px;">Μηδενισμός</button>
     </div>
 
     <div id="stats-modal" class="modal hidden">
         <div class="modal-content">
-            <h2>Τα Στατιστικά μου 📊</h2>
-            <p>Λυμένες Ασκήσεις: <span id="stat-played" class="stat-num">0</span></p>
-            <p>Σωστές Απαντήσεις: <span id="stat-correct" class="stat-num">0</span></p>
-            <p>Ποσοστό Επιτυχίας: <span id="stat-rate" class="stat-num">0%</span></p>
-            <button onclick="toggleStats()" class="skip-btn" style="margin-top: 20px;">Κλείσιμο</button>
+            <h2 id="modal-title">Τα Στατιστικά μου 📊</h2>
+            <p><span id="lbl-played">Λυμένες Ασκήσεις:</span> <span id="stat-played" class="stat-num">0</span></p>
+            <p><span id="lbl-correct">Σωστές Απαντήσεις:</span> <span id="stat-correct" class="stat-num">0</span></p>
+            <p><span id="lbl-rate">Ποσοστό Επιτυχίας:</span> <span id="stat-rate" class="stat-num">0%</span></p>
+            <button onclick="toggleStats()" class="skip-btn" id="btn-close" style="margin-top: 20px;">Κλείσιμο</button>
         </div>
     </div>
 
