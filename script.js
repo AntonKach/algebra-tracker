@@ -1,91 +1,77 @@
 let score = 0, currentProblem = {}, timerInterval, seconds = 0, calculator;
 let currentLang = "el"; 
 let userStats = JSON.parse(localStorage.getItem("mathUserStats")) || { played: 0, correct: 0 };
-let lastFocusedInput; 
 
 const translations = {
     el: {
         lblLevel: "Επίπεδο Σπουδών:", lblScore: "Σκορ:", lblTime: "Χρόνος:",
         placeholderAns: "Απάντηση...", btnCheck: "Έλεγχος", btnHelp: "Βήμα-Βήμα", btnSkip: "Παράλειψη",
-        lblNotes: "Πρόχειρο Σημειώσεων 📝", placeholderNotes: "Γράψε εδώ τις σκέψεις σου...",
-        btnReset: "Μηδενισμός", btnStats: "📊 Στατιστικά", modalTitle: "Τα Στατιστικά μου 📊",
+        lblNotes: "Πρόχειρο Σημειώσεων 📝", placeholderNotes: "Γράψε εδώ τις σκέψεις σου...", btnClear: "🗑️ Καθαρισμός",
+        btnReset: "Μηδενισμός Προόδου", btnStats: "📊 Στατιστικά", modalTitle: "Τα Στατιστικά μου 📊",
         lblPlayed: "Λυμένες Ασκήσεις:", lblCorrect: "Σωστές Απαντήσεις:", lblRate: "Ποσοστό Επιτυχίας:", btnClose: "Κλείσιμο",
         stepWords: { move: "Μεταφέρουμε:", div: "Διαιρούμε:", sub: "Αφαιρούμε:", mult: "Πολλαπλασιάζουμε:" },
-        catSuccess: ["Purr-fect! Βρήκες το x! 😻", "Meow-gnificent! Προχωράμε! 🐾", "Γατίσια αντανακλαστικά! 😼"],
-        catError: ["Ουπς! Μήπως πάτησα εγώ το πληκτρολόγιο; 😿", "Μιάου... Κάτι δεν πήγε καλά. 🙀", "Χσσς! Λάθος υπολογισμός. 😾"]
+        catSuccess: ["Purr-fect! Βρήκες το x! 😻", "Meow-gnificent! 🐾", "Γατίσια αντανακλαστικά! 😼"],
+        catError: ["Ουπς! Μήπως πάτησα εγώ το πληκτρολόγιο; 😿", "Μιάου... Κάτι δεν πήγε καλά. 🙀"]
     },
     en: {
         lblLevel: "Study Level:", lblScore: "Score:", lblTime: "Time:",
         placeholderAns: "Answer...", btnCheck: "Check", btnHelp: "Step-by-Step", btnSkip: "Skip",
-        lblNotes: "Scratchpad 📝", placeholderNotes: "Write your thoughts here...",
-        btnReset: "Reset", btnStats: "📊 Stats", modalTitle: "My Statistics 📊",
-        lblPlayed: "Problems Solved:", lblCorrect: "Correct Answers:", lblRate: "Success Rate:", btnClose: "Close",
-        stepWords: { move: "Move constant:", div: "Divide by:", sub: "Subtract:", mult: "Multiply by:" },
-        catSuccess: ["Purr-fect! You found x! 😻", "Meow-gnificent! Let's go! 🐾", "Cat-like reflexes! 😼"],
-        catError: ["Oops! Did I step on the keyboard? 😿", "Meow... Something went wrong. 🙀", "Hiss! Wrong calculation. 😾"]
+        lblNotes: "Scratchpad 📝", placeholderNotes: "Write your thoughts here...", btnClear: "🗑️ Clear",
+        btnReset: "Reset Progress", btnStats: "📊 Stats", modalTitle: "My Statistics 📊",
+        lblPlayed: "Solved:", lblCorrect: "Correct:", lblRate: "Success Rate:", btnClose: "Close",
+        stepWords: { move: "Move:", div: "Divide:", sub: "Subtract:", mult: "Multiply:" },
+        catSuccess: ["Purr-fect! You found x! 😻", "Meow-gnificent! 🐾", "Cat-like reflexes! 😼"],
+        catError: ["Oops! Did I step on the keyboard? 😿", "Meow... Something's wrong. 🙀"]
     },
     fr: {
         lblLevel: "Niveau:", lblScore: "Score:", lblTime: "Temps:",
         placeholderAns: "Réponse...", btnCheck: "Vérifier", btnHelp: "Pas-à-pas", btnSkip: "Passer",
-        lblNotes: "Brouillon 📝", placeholderNotes: "Écrivez vos pensées ici...",
-        btnReset: "Réinitialiser", btnStats: "📊 Statistiques", modalTitle: "Mes Statistiques 📊",
-        lblPlayed: "Problèmes Résolus:", lblCorrect: "Bonnes Réponses:", lblRate: "Taux de Réussite:", btnClose: "Fermer",
-        stepWords: { move: "Déplacer:", div: "Diviser par:", sub: "Soustraire:", mult: "Multiplier par:" },
-        catSuccess: ["Purr-fait ! Tu as trouvé x ! 😻", "Meow-gnifique ! On continue ! 🐾", "Réflexes de chat ! 😼"],
-        catError: ["Oups ! J'ai marché sur le clavier ? 😿", "Miaou... Quelque chose cloche. 🙀", "Hiss ! Mauvais calcul. 😾"]
+        lblNotes: "Brouillon 📝", placeholderNotes: "Écrivez ici...", btnClear: "🗑️ Effacer",
+        btnReset: "Réinitialiser", btnStats: "📊 Stats", modalTitle: "Statistiques 📊",
+        lblPlayed: "Résolus:", lblCorrect: "Corrects:", lblRate: "Taux:", btnClose: "Fermer",
+        stepWords: { move: "Déplacer:", div: "Diviser:", sub: "Soustraire:", mult: "Multiplier:" },
+        catSuccess: ["Purr-fait ! 😻", "Meow-gnifique ! 🐾"],
+        catError: ["Oups ! Le chat sur le clavier ? 😿", "Miaou... Erreur. 🙀"]
     },
     tr: {
-        lblLevel: "Eğitim Seviyesi:", lblScore: "Puan:", lblTime: "Süre:",
+        lblLevel: "Seviye:", lblScore: "Puan:", lblTime: "Süre:",
         placeholderAns: "Cevap...", btnCheck: "Kontrol Et", btnHelp: "Adım Adım", btnSkip: "Geç",
-        lblNotes: "Karalama Defteri 📝", placeholderNotes: "Düşüncelerinizi buraya yazın...",
-        btnReset: "Sıfırla", btnStats: "📊 İstatistikler", modalTitle: "İstatistiklerim 📊",
-        lblPlayed: "Çözülen Sorular:", lblCorrect: "Doğru Cevaplar:", lblRate: "Başarı Oranı:", btnClose: "Kapat",
-        stepWords: { move: "Sabiti taşı:", div: "Böl:", sub: "Çıkar:", mult: "Çarp:" },
-        catSuccess: ["Purr-fect! x'i buldun! 😻", "Miyav-harika! Devam! 🐾", "Kedi refleksleri! 😼"],
-        catError: ["Oops! Klavyeye ben mi bastım? 😿", "Miyav... Bir şeyler ters gitti. 🙀", "Tısss! Yanlış hesap. 😾"]
+        lblNotes: "Notlar 📝", placeholderNotes: "Buraya yazın...", btnClear: "🗑️ Temizle",
+        btnReset: "Sıfırla", btnStats: "📊 İstatistik", modalTitle: "İstatistiklerim 📊",
+        lblPlayed: "Çözülen:", lblCorrect: "Doğru:", lblRate: "Başarı:", btnClose: "Kapat",
+        stepWords: { move: "Taşı:", div: "Böl:", sub: "Çıkar:", mult: "Çarp:" },
+        catSuccess: ["Purr-fect! x'i buldun! 😻", "Miyav-harika! 🐾"],
+        catError: ["Oops! Ben mi bastım tuşa? 😿", "Miyav... Bir hata var. 🙀"]
     }
 };
 
 window.onload = function() {
-    // Διόρθωση 1: Εξασφάλιση ότι το σκορ διαβάζεται σωστά
     const savedScore = localStorage.getItem("mathScore");
-    if (savedScore && !isNaN(savedScore)) score = parseInt(savedScore);
+    if (savedScore) score = parseInt(savedScore);
     
+    // ΕΝΕΡΓΟΠΟΙΗΣΗ KEYPAD: TRUE για να υπάρχει το calculator button στο Desmos
     calculator = Desmos.GraphingCalculator(document.getElementById('calculator'), {
-        keypad: false, expressions: false, invertedColors: true
+        keypad: true, 
+        expressions: false, 
+        invertedColors: true,
+        settingsMenu: false
     });
 
     document.getElementById("score").innerText = score;
     
-    lastFocusedInput = document.getElementById("answer"); 
-    
-    // Διόρθωση 2: Το κομπιουτεράκι ανοίγει αυτόματα μόλις κάνεις κλικ σε οποιοδήποτε πεδίο!
-    document.getElementById("answer").addEventListener("focus", function() { 
-        lastFocusedInput = this; 
-        document.getElementById("math-keyboard").classList.remove("hidden");
-    });
-    
-    document.getElementById("user-notes").addEventListener("focus", function() { 
-        lastFocusedInput = this; 
-        document.getElementById("math-keyboard").classList.remove("hidden");
-    });
-
     populateGradeSelect();
-    changeLanguage();
-    
-    // Διόρθωση 3: Ξεκινάει το χρονόμετρο με το που ανοίγει η σελίδα!
-    startTimer();
+    changeLanguage(); // Αυτό φορτώνει το UI
+    startTimer();     // ΑΥΤΟ ΔΙΟΡΘΩΝΕΙ ΤΟ ΧΡΟΝΟΜΕΤΡΟ
 };
 
-function populateGradeSelect() {
-    const select = document.getElementById("grade-select");
-    select.innerHTML = "";
-    for (const key in educationData) {
-        let option = document.createElement("option");
-        option.value = key;
-        option.text = educationData[key].title[currentLang];
-        select.appendChild(option);
-    }
+function startTimer() {
+    clearInterval(timerInterval);
+    seconds = 0;
+    timerInterval = setInterval(() => {
+        seconds++;
+        let m = Math.floor(seconds/60), s = seconds%60;
+        document.getElementById("timer").innerText = `${m}:${s<10?'0'+s:s}`;
+    }, 1000);
 }
 
 function changeLanguage() {
@@ -100,10 +86,10 @@ function changeLanguage() {
     document.getElementById("btn-help").innerText = t.btnHelp;
     document.getElementById("btn-skip").innerText = t.btnSkip;
     document.getElementById("lbl-notes").innerText = t.lblNotes;
+    document.getElementById("btn-clear").innerText = t.btnClear;
     document.getElementById("user-notes").placeholder = t.placeholderNotes;
     document.getElementById("btn-reset").innerText = t.btnReset;
     document.getElementById("btn-stats").innerText = t.btnStats;
-    
     document.getElementById("modal-title").innerText = t.modalTitle;
     document.getElementById("lbl-played").innerText = t.lblPlayed;
     document.getElementById("lbl-correct").innerText = t.lblCorrect;
@@ -114,59 +100,48 @@ function changeLanguage() {
     loadNextProblem();
 }
 
-function startTimer() {
-    clearInterval(timerInterval);
-    seconds = 0;
-    timerInterval = setInterval(() => {
-        seconds++;
-        let m = Math.floor(seconds/60), s = seconds%60;
-        document.getElementById("timer").innerText = `${m}:${s<10?'0'+s:s}`;
-    }, 1000);
-}
-
-function changeGrade() {
-    loadNextProblem();
-    startTimer();
+function populateGradeSelect() {
+    const select = document.getElementById("grade-select");
+    const currentVal = select.value;
+    select.innerHTML = "";
+    for (const key in educationData) {
+        let option = document.createElement("option");
+        option.value = key;
+        option.text = educationData[key].title[currentLang];
+        select.appendChild(option);
+    }
+    if (currentVal) select.value = currentVal;
 }
 
 function generateDynamicProblem(type) {
     const words = translations[currentLang].stepWords;
-    
     if (type === "dynamic_linear") {
         let a = Math.floor(Math.random() * 9) + 1;
         let x = Math.floor(Math.random() * 21) - 10;
         let b = Math.floor(Math.random() * 21) - 10;
         let c = a * x + b;
         let bStr = b >= 0 ? `+ ${b}` : `- ${Math.abs(b)}`;
-        
         return {
             equation: `${a}x ${bStr} = ${c}`,
             answer: x.toString(),
-            steps: [
-                `${words.move} ${a}x = ${c} ${b >= 0 ? '-' : '+'} ${Math.abs(b)}`,
-                `${a}x = ${c - b}`,
-                `${words.div} ${a}: x = ${(c - b) / a}`
-            ]
+            steps: [`${words.move} ${a}x = ${c - b}`, `${words.div} ${a}: x = ${x}`]
         };
     } else if (type === "dynamic_fraction") {
         let x = Math.floor(Math.random() * 10) + 1;
         let denom = Math.floor(Math.random() * 4) + 2;
         let c = Math.floor(Math.random() * 10) + 1;
         let result = x + c;
-        
         return {
             equation: `x/${denom} + ${c} = ${result}`,
             answer: (x * denom).toString(),
-            steps: [
-                `${words.sub} ${c}: x/${denom} = ${result - c}`,
-                `${words.mult} ${denom}: x = ${(result - c) * denom}`
-            ]
+            steps: [`${words.sub} ${c}: x/${denom} = ${x}`, `${words.mult} ${denom}: x = ${x * denom}`]
         };
     }
 }
 
 function loadNextProblem() {
     const grade = document.getElementById("grade-select").value;
+    if (!grade) return;
     const gradeData = educationData[grade];
     
     if (gradeData.type.includes("dynamic")) {
@@ -181,10 +156,6 @@ function loadNextProblem() {
     document.getElementById("answer").value = "";
     document.getElementById("feedback").innerText = "";
     document.getElementById("help-steps").classList.add("hidden");
-    
-    const notes = document.getElementById("user-notes");
-    if (notes) notes.value = "";
-    
     updateGraph(currentProblem.equation);
 }
 
@@ -195,113 +166,35 @@ function updateGraph(eq) {
     calculator.setExpression({ id: 'graph', latex: latex, color: '#bb86fc' });
 }
 
-function playSound(type) {
-    const ctx = new (window.AudioContext || window.webkitAudioContext)();
-    const osc = ctx.createOscillator();
-    const gain = ctx.createGain();
-    osc.connect(gain);
-    gain.connect(ctx.destination);
-
-    if (type === 'success') {
-        osc.type = 'sine';
-        osc.frequency.setValueAtTime(523.25, ctx.currentTime); 
-        gain.gain.setValueAtTime(0.1, ctx.currentTime);
-        gain.gain.exponentialRampToValueAtTime(0.00001, ctx.currentTime + 0.5);
-        osc.start();
-        osc.stop(ctx.currentTime + 0.5);
-    } else {
-        osc.type = 'sawtooth';
-        osc.frequency.setValueAtTime(150, ctx.currentTime); 
-        gain.gain.setValueAtTime(0.1, ctx.currentTime);
-        gain.gain.exponentialRampToValueAtTime(0.00001, ctx.currentTime + 0.3);
-        osc.start();
-        osc.stop(ctx.currentTime + 0.3);
-    }
-}
-
 function checkAnswer() {
-    // Διόρθωση 4: Κάνει τον έλεγχο απαντήσεων πολύ πιο έξυπνο (αγνοεί κενά)
-    let userAns = document.getElementById("answer").value.replace(/\s+/g, '');
-    let correctAns = currentProblem.answer.replace(/\s+/g, '');
+    const userAns = document.getElementById("answer").value.trim();
     const feedback = document.getElementById("feedback");
-    
-    // Επιτρέπει απαντήσεις τύπου "3,2" αντί για "2,3" στις δευτεροβάθμιες
-    if (correctAns.includes(',')) {
-        userAns = userAns.split(',').sort().join(',');
-        correctAns = correctAns.split(',').sort().join(',');
-    }
-
     userStats.played++; 
-
-    if (userAns === correctAns && userAns !== "") {
+    if (userAns === currentProblem.answer) {
         userStats.correct++;
         score += 20;
         document.getElementById("score").innerText = score;
-        
         const msgs = translations[currentLang].catSuccess;
-        feedback.innerText = msgs[Math.floor(Math.random() * msgs.length)] + " (+20)";
-        
-        playSound('success');
+        feedback.innerText = msgs[Math.floor(Math.random() * msgs.length)];
         confetti({ particleCount: 150, spread: 80, origin: { y: 0.6 } });
-
-        setTimeout(() => {
-            loadNextProblem();
-            startTimer(); // Ξεκινάει πάλι το χρονόμετρο στην επόμενη άσκηση
-        }, 2500);
+        setTimeout(loadNextProblem, 2500);
     } else {
         const errs = translations[currentLang].catError;
         feedback.innerText = errs[Math.floor(Math.random() * errs.length)];
-        playSound('error');
     }
-    
     localStorage.setItem("mathUserStats", JSON.stringify(userStats));
     localStorage.setItem("mathScore", score);
 }
 
-function toggleStats() {
-    const modal = document.getElementById("stats-modal");
-    if (modal.classList.contains("hidden")) {
-        document.getElementById("stat-played").innerText = userStats.played;
-        document.getElementById("stat-correct").innerText = userStats.correct;
-        let rate = userStats.played > 0 ? Math.round((userStats.correct / userStats.played) * 100) : 0;
-        document.getElementById("stat-rate").innerText = rate + "%";
-        modal.classList.remove("hidden");
-    } else {
-        modal.classList.add("hidden");
-    }
-}
-
+function clearNotes() { document.getElementById("user-notes").value = ""; }
+function changeGrade() { startTimer(); loadNextProblem(); }
+function toggleKeyboard() { document.getElementById("math-keyboard").classList.toggle("hidden"); }
+function insertSymbol(sym) { document.getElementById("answer").value += sym; }
 function showHelp() {
     const helpBox = document.getElementById("help-steps");
-    let stepTitle = currentLang === "el" ? "Βήματα:" : currentLang === "en" ? "Steps:" : currentLang === "fr" ? "Étapes:" : "Adımlar:";
-    helpBox.innerHTML = `<strong>${stepTitle}</strong><br>` + currentProblem.steps.map(s => "• " + s).join("<br>");
+    helpBox.innerHTML = currentProblem.steps.map(s => "• " + s).join("<br>");
     helpBox.classList.remove("hidden");
 }
-
-function insertSymbol(sym) {
-    const input = lastFocusedInput || document.getElementById("answer");
-    
-    const cursorPos = input.selectionStart;
-    const textBefore = input.value.substring(0, cursorPos);
-    const textAfter = input.value.substring(cursorPos);
-    
-    input.value = textBefore + sym + textAfter;
-    
-    if (sym.endsWith("()")) {
-        const newPos = cursorPos + sym.length - 1;
-        input.setSelectionRange(newPos, newPos);
-    } else {
-        const newPos = cursorPos + sym.length;
-        input.setSelectionRange(newPos, newPos);
-    }
-    
-    input.focus();
-}
-
-function toggleKeyboard() { document.getElementById("math-keyboard").classList.toggle("hidden"); }
-function skipProblem() { loadNextProblem(); startTimer(); }
-function resetProgress() { 
-    localStorage.removeItem("mathScore");
-    localStorage.removeItem("mathUserStats");
-    location.reload(); 
-}
+function skipProblem() { loadNextProblem(); }
+function toggleStats() { document.getElementById("stats-modal").classList.toggle("hidden"); }
+function resetProgress() { localStorage.clear(); location.reload(); }
