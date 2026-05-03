@@ -1,14 +1,14 @@
 body {
     font-family: 'GFS Didot', serif;
     background-color: #0f0f0f;
-    /* Εφέ Τετραδίου Μαθηματικών στο Φόντο */
     background-image: 
         linear-gradient(rgba(255, 255, 255, 0.03) 1px, transparent 1px),
         linear-gradient(90deg, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
     background-size: 30px 30px;
     color: #e0e0e0;
     display: flex;
-    justify-content: center;
+    flex-direction: column; /* ΤΟΥ ΛΕΕΙ ΝΑ ΒΑΖΕΙ ΤΑ ΣΤΟΙΧΕΙΑ ΑΠΟ ΚΑΤΩ */
+    align-items: center;    /* ΤΑ ΚΡΑΤΑΕΙ ΣΤΟ ΚΕΝΤΡΟ */
     padding: 20px;
 }
 
