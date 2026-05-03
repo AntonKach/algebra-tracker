@@ -171,8 +171,6 @@ function generateDynamicProblem(type) {
             steps: [`${words.sub} ${c}: x/${denom} = ${x}`, `${words.mult} ${denom}: x = ${x * denom}`]
         };
     }
-}
-
 function loadNextProblem() {
     const grade = document.getElementById("grade-select").value;
     if (!grade) return;
@@ -186,7 +184,12 @@ function loadNextProblem() {
         currentProblem = { equation: prob.equation, answer: prob.answer, steps: prob.steps[currentLang] };
     }
     
-    document.getElementById("equation").innerText = currentProblem.equation;
+    // --- Η ΜΑΓΙΚΗ ΑΛΛΑΓΗ ΓΙΑ ΤΟΝ ΕΚΘΕΤΗ ΕΙΝΑΙ ΕΔΩ ---
+    // Αντικαθιστά οπτικά το "^x" με τη HTML ετικέτα "<sup>x</sup>" (που σημαίνει εκθέτης)
+    let displayEq = currentProblem.equation.replace(/\^x/g, "<sup>x</sup>");
+    document.getElementById("equation").innerHTML = displayEq;
+    // ------------------------------------------------
+    
     document.getElementById("answer").value = "";
     document.getElementById("feedback").innerText = "";
     document.getElementById("help-steps").classList.add("hidden");
