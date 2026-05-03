@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     
-    <!-- GOOGLE SEO META TAGS (Αόρατα στον χρήστη, ορατά στην Google) -->
+    <!-- GOOGLE SEO META TAGS -->
     <meta name="description" content="Catgebra: Η πιο διασκεδαστική εφαρμογή για να μάθεις μαθηματικά και άλγεβρα. Διαδραστικές ασκήσεις, επιστημονικό κομπιουτεράκι και βοηθός για μαθητές Γυμνασίου και Λυκείου.">
     <meta name="keywords" content="μαθηματικά, άλγεβρα, εξισώσεις, γυμνάσιο, λύκειο, catgebra, math, algebra, calculator, education">
     <meta name="author" content="Catgebra">
@@ -34,9 +34,7 @@
 
         <div class="grade-selector">
             <label for="grade-select" id="lbl-level">Επίπεδο Σπουδών:</label>
-            <select id="grade-select" onchange="changeGrade()">
-                <!-- Γεμίζει αυτόματα από το script -->
-            </select>
+            <select id="grade-select" onchange="changeGrade()"></select>
         </div>
         
         <div class="stats">
@@ -70,17 +68,21 @@
             <p id="feedback"></p>
             <div id="help-steps" class="help-steps hidden"></div>
 
-            <!-- ΠΡΟΧΕΙΡΟ ΣΗΜΕΙΩΣΕΩΝ -->
+            <!-- ΠΡΟΧΕΙΡΟ ΣΗΜΕΙΩΣΕΩΝ & ΕΠΙΣΤΗΜΟΝΙΚΟΣ ΥΠΟΛΟΓΙΣΤΗΣ -->
             <div class="notes-container">
                 <div style="display: flex; justify-content: space-between; align-items: center;">
-                    <label for="user-notes" id="lbl-notes">Πρόχειρο Σημειώσεων 📝</label>
+                    <label for="user-notes" id="lbl-notes">Πρόχειρο & Υπολογιστής 📝🧮</label>
                     <button onclick="clearNotes()" style="background: none; border: none; color: #cf6679; cursor: pointer; font-size: 12px;" id="btn-clear">🗑️ Καθαρισμός</button>
                 </div>
                 <textarea id="user-notes" placeholder="Γράψε εδώ τις σκέψεις σου..."></textarea>
+                
+                <!-- ΝΕΟ: Επιστημονικό Κομπιουτεράκι μέσα στο Πρόχειρο -->
+                <div id="scientific-calculator" style="width: 100%; height: 250px; margin-top: 10px; border-radius: 8px; border: 1px solid #444;"></div>
             </div>
 
-            <!-- SUPER SCIENTIFIC CALCULATOR DESMOS -->
-            <div id="calculator" class="graph-box" style="height: 500px; width: 100%;"></div>
+            <!-- ΓΡΑΦΙΚΗ ΠΑΡΑΣΤΑΣΗ (Κάτω) -->
+            <h3 id="lbl-graph" style="color: #bb86fc; text-align: left; margin-top: 30px; font-size: 16px;">Γραφική Παράσταση 📈</h3>
+            <div id="calculator" class="graph-box" style="height: 350px; width: 100%; margin-top: 5px;"></div>
         </div>
         
         <button onclick="resetProgress()" class="reset-btn" id="btn-reset">Μηδενισμός Προόδου</button>
