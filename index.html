@@ -3,6 +3,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <!-- GOOGLE SEO TAGS -->
+    <meta name="description" content="Catgebra: Η πιο διασκεδαστική εφαρμογή για να μάθεις μαθηματικά και άλγεβρα από το Γυμνάσιο έως το Λύκειο, με τη βοήθεια της πιο έξυπνης γάτας!">
+    <meta name="keywords" content="μαθηματικά, άλγεβρα, εξισώσεις, γυμνάσιο, λύκειο, ασκήσεις, catgebra, math, algebra">
+    <meta name="author" content="Catgebra">
+    <meta name="robots" content="index, follow">
+    
     <title>Catgebra 🐈🧮</title>
     <link href="https://fonts.googleapis.com/css2?family=GFS+Didot&display=swap" rel="stylesheet">
     <script src="https://www.desmos.com/api/v1.8/calculator.js?apiKey=dcb31709b452b1cf9dc26972add0fda6"></script>
@@ -11,6 +18,7 @@
 </head>
 <body>
     <div class="container">
+        <!-- ΕΠΙΛΟΓΗ ΓΛΩΣΣΑΣ -->
         <div style="text-align: right; margin-bottom: 10px;">
             <select id="lang-select" onchange="changeLanguage()" style="background: #252525; border: 1px solid #bb86fc; padding: 5px; border-radius: 5px; color: white; cursor: pointer;">
                 <option value="el">🇬🇷 Ελληνικά</option>
@@ -27,7 +35,8 @@
         <div class="grade-selector">
             <label for="grade-select" id="lbl-level">Επίπεδο Σπουδών:</label>
             <select id="grade-select" onchange="changeGrade()">
-                </select>
+                <!-- Γεμίζει αυτόματα -->
+            </select>
         </div>
         
         <div class="stats">
@@ -40,7 +49,7 @@
             
             <div class="input-container">
                 <input type="text" id="answer" placeholder="Απάντηση...">
-                <button onclick="toggleKeyboard()" class="kbd-toggle" title="Μαθηματικό Πληκτρολόγιο">⌨️</button>
+                <button onclick="toggleKeyboard()" class="kbd-toggle" title="Βασικό Πληκτρολόγιο">⌨️</button>
             </div>
 
             <div id="math-keyboard" class="math-keyboard hidden">
@@ -69,10 +78,21 @@
                 <textarea id="user-notes" placeholder="Γράψε εδώ τις σκέψεις σου..."></textarea>
             </div>
 
-            <div id="calculator" class="graph-box"></div>
+            <!-- SUPER SCIENTIFIC CALCULATOR -->
+            <div id="calculator" class="graph-box" style="height: 400px;"></div>
         </div>
         
         <button onclick="resetProgress()" class="reset-btn" id="btn-reset">Μηδενισμός Προόδου</button>
+
+        <!-- ΕΠΑΝΑΦΟΡΑ: ΠΗΓΕΣ ΜΕΛΕΤΗΣ -->
+        <div class="lessons-section">
+            <h2 id="lbl-resources">Πηγές Μελέτης 📚</h2>
+            <ul class="resources-list" id="resources">
+                <li><a href="https://el.khanacademy.org/math" target="_blank">Khan Academy</a></li>
+                <li><a href="https://photomath.com/" target="_blank">Photomath</a></li>
+                <li><a href="https://www.wolframalpha.com/" target="_blank">Wolfram Alpha</a></li>
+            </ul>
+        </div>
     </div>
 
     <div id="stats-modal" class="modal hidden">
