@@ -1,11 +1,8 @@
 let score = 0, currentProblem = {}, timerInterval, seconds = 0, calculator;
 let currentLang = "el"; 
 let userStats = JSON.parse(localStorage.getItem("mathUserStats")) || { played: 0, correct: 0 };
-
-// --- ΝΕΟ: Μεταβλητή που θυμάται πού έκανε κλικ ο χρήστης ---
 let lastFocusedInput; 
 
-// --- ΤΟ ΛΕΞΙΚΟ ΤΗΣ ΕΦΑΡΜΟΓΗΣ (i18n) ---
 const translations = {
     el: {
         lblLevel: "Επίπεδο Σπουδών:", lblScore: "Σκορ:", lblTime: "Χρόνος:",
@@ -50,8 +47,9 @@ const translations = {
 };
 
 window.onload = function() {
+    // Διόρθωση 1: Εξασφάλιση ότι το σκορ διαβάζεται σωστά
     const savedScore = localStorage.getItem("mathScore");
-    if (savedScore) score = parseInt(savedScore);
+    if (savedScore && !isNaN(savedScore)) score = parseInt(savedScore);
     
     calculator = Desmos.GraphingCalculator(document.getElementById('calculator'), {
         keypad: false, expressions: false, invertedColors: true
@@ -59,20 +57,24 @@ window.onload = function() {
 
     document.getElementById("score").innerText = score;
     
-    // --- ΝΕΟ: Παρακολούθηση κλικ στα πεδία κειμένου ---
-    lastFocusedInput = document.getElementById("answer"); // Προεπιλογή
+    lastFocusedInput = document.getElementById("answer"); 
     
+    // Διόρθωση 2: Το κομπιουτεράκι ανοίγει αυτόματα μόλις κάνεις κλικ σε οποιοδήποτε πεδίο!
     document.getElementById("answer").addEventListener("focus", function() { 
         lastFocusedInput = this; 
+        document.getElementById("math-keyboard").classList.remove("hidden");
     });
     
     document.getElementById("user-notes").addEventListener("focus", function() { 
         lastFocusedInput = this; 
+        document.getElementById("math-keyboard").classList.remove("hidden");
     });
 
-    // Αρχικοποίηση Γλώσσας
     populateGradeSelect();
     changeLanguage();
+    
+    // Διόρθωση 3: Ξεκινάει το χρονόμετρο με το που ανοίγει η σελίδα!
+    startTimer();
 };
 
 function populateGradeSelect() {
@@ -218,12 +220,20 @@ function playSound(type) {
 }
 
 function checkAnswer() {
-    const userAns = document.getElementById("answer").value.trim();
+    // Διόρθωση 4: Κάνει τον έλεγχο απαντήσεων πολύ πιο έξυπνο (αγνοεί κενά)
+    let userAns = document.getElementById("answer").value.replace(/\s+/g, '');
+    let correctAns = currentProblem.answer.replace(/\s+/g, '');
     const feedback = document.getElementById("feedback");
     
+    // Επιτρέπει απαντήσεις τύπου "3,2" αντί για "2,3" στις δευτεροβάθμιες
+    if (correctAns.includes(',')) {
+        userAns = userAns.split(',').sort().join(',');
+        correctAns = correctAns.split(',').sort().join(',');
+    }
+
     userStats.played++; 
 
-    if (userAns === currentProblem.answer) {
+    if (userAns === correctAns && userAns !== "") {
         userStats.correct++;
         score += 20;
         document.getElementById("score").innerText = score;
@@ -234,7 +244,10 @@ function checkAnswer() {
         playSound('success');
         confetti({ particleCount: 150, spread: 80, origin: { y: 0.6 } });
 
-        setTimeout(loadNextProblem, 2500);
+        setTimeout(() => {
+            loadNextProblem();
+            startTimer(); // Ξεκινάει πάλι το χρονόμετρο στην επόμενη άσκηση
+        }, 2500);
     } else {
         const errs = translations[currentLang].catError;
         feedback.innerText = errs[Math.floor(Math.random() * errs.length)];
@@ -265,9 +278,7 @@ function showHelp() {
     helpBox.classList.remove("hidden");
 }
 
-// --- ΝΕΟ: "Έξυπνη" Συνάρτηση Εισαγωγής Συμβόλων ---
 function insertSymbol(sym) {
-    // Αν για κάποιο λόγο δεν έχει γίνει κλικ πουθενά, βάζει την απάντηση
     const input = lastFocusedInput || document.getElementById("answer");
     
     const cursorPos = input.selectionStart;
@@ -288,7 +299,7 @@ function insertSymbol(sym) {
 }
 
 function toggleKeyboard() { document.getElementById("math-keyboard").classList.toggle("hidden"); }
-function skipProblem() { loadNextProblem(); }
+function skipProblem() { loadNextProblem(); startTimer(); }
 function resetProgress() { 
     localStorage.removeItem("mathScore");
     localStorage.removeItem("mathUserStats");
