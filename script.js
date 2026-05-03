@@ -9,6 +9,7 @@ const translations = {
         lblNotes: "Πρόχειρο Σημειώσεων 📝", placeholderNotes: "Γράψε εδώ τις σκέψεις σου...", btnClear: "🗑️ Καθαρισμός",
         btnReset: "Μηδενισμός Προόδου", btnStats: "📊 Στατιστικά", modalTitle: "Τα Στατιστικά μου 📊",
         lblPlayed: "Λυμένες Ασκήσεις:", lblCorrect: "Σωστές Απαντήσεις:", lblRate: "Ποσοστό Επιτυχίας:", btnClose: "Κλείσιμο",
+        lblResources: "Πηγές Μελέτης 📚",
         stepWords: { move: "Μεταφέρουμε:", div: "Διαιρούμε:", sub: "Αφαιρούμε:", mult: "Πολλαπλασιάζουμε:" },
         catSuccess: ["Purr-fect! Βρήκες το x! 😻", "Meow-gnificent! 🐾", "Γατίσια αντανακλαστικά! 😼"],
         catError: ["Ουπς! Μήπως πάτησα εγώ το πληκτρολόγιο; 😿", "Μιάου... Κάτι δεν πήγε καλά. 🙀"]
@@ -19,6 +20,7 @@ const translations = {
         lblNotes: "Scratchpad 📝", placeholderNotes: "Write your thoughts here...", btnClear: "🗑️ Clear",
         btnReset: "Reset Progress", btnStats: "📊 Stats", modalTitle: "My Statistics 📊",
         lblPlayed: "Solved:", lblCorrect: "Correct:", lblRate: "Success Rate:", btnClose: "Close",
+        lblResources: "Study Resources 📚",
         stepWords: { move: "Move:", div: "Divide:", sub: "Subtract:", mult: "Multiply:" },
         catSuccess: ["Purr-fect! You found x! 😻", "Meow-gnificent! 🐾", "Cat-like reflexes! 😼"],
         catError: ["Oops! Did I step on the keyboard? 😿", "Meow... Something's wrong. 🙀"]
@@ -29,6 +31,7 @@ const translations = {
         lblNotes: "Brouillon 📝", placeholderNotes: "Écrivez ici...", btnClear: "🗑️ Effacer",
         btnReset: "Réinitialiser", btnStats: "📊 Stats", modalTitle: "Statistiques 📊",
         lblPlayed: "Résolus:", lblCorrect: "Corrects:", lblRate: "Taux:", btnClose: "Fermer",
+        lblResources: "Ressources 📚",
         stepWords: { move: "Déplacer:", div: "Diviser:", sub: "Soustraire:", mult: "Multiplier:" },
         catSuccess: ["Purr-fait ! 😻", "Meow-gnifique ! 🐾"],
         catError: ["Oups ! Le chat sur le clavier ? 😿", "Miaou... Erreur. 🙀"]
@@ -39,6 +42,7 @@ const translations = {
         lblNotes: "Notlar 📝", placeholderNotes: "Buraya yazın...", btnClear: "🗑️ Temizle",
         btnReset: "Sıfırla", btnStats: "📊 İstatistik", modalTitle: "İstatistiklerim 📊",
         lblPlayed: "Çözülen:", lblCorrect: "Doğru:", lblRate: "Başarı:", btnClose: "Kapat",
+        lblResources: "Kaynaklar 📚",
         stepWords: { move: "Taşı:", div: "Böl:", sub: "Çıkar:", mult: "Çarp:" },
         catSuccess: ["Purr-fect! x'i buldun! 😻", "Miyav-harika! 🐾"],
         catError: ["Oops! Ben mi bastım tuşa? 😿", "Miyav... Bir hata var. 🙀"]
@@ -49,12 +53,12 @@ window.onload = function() {
     const savedScore = localStorage.getItem("mathScore");
     if (savedScore) score = parseInt(savedScore);
     
-    // ΕΝΕΡΓΟΠΟΙΗΣΗ KEYPAD: TRUE για να υπάρχει το calculator button στο Desmos
+    // ΕΝΕΡΓΟΠΟΙΗΣΗ KEYPAD: TRUE και EXPRESSIONS: TRUE για το Super Calculator!
     calculator = Desmos.GraphingCalculator(document.getElementById('calculator'), {
         keypad: true, 
-        expressions: false, 
+        expressions: true, 
         invertedColors: true,
-        settingsMenu: false
+        settingsMenu: true
     });
 
     document.getElementById("score").innerText = score;
@@ -95,6 +99,10 @@ function changeLanguage() {
     document.getElementById("lbl-correct").innerText = t.lblCorrect;
     document.getElementById("lbl-rate").innerText = t.lblRate;
     document.getElementById("btn-close").innerText = t.btnClose;
+    
+    // Ενημέρωση των Πηγών Μελέτης με έλεγχο για να μην βγάλει σφάλμα
+    const lblRes = document.getElementById("lbl-resources");
+    if (lblRes) lblRes.innerText = t.lblResources;
 
     populateGradeSelect();
     loadNextProblem();
