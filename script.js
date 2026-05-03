@@ -2,6 +2,9 @@ let score = 0, currentProblem = {}, timerInterval, seconds = 0, calculator;
 let currentLang = "el"; 
 let userStats = JSON.parse(localStorage.getItem("mathUserStats")) || { played: 0, correct: 0 };
 
+// --- ΝΕΟ: Μεταβλητή που θυμάται πού έκανε κλικ ο χρήστης ---
+let lastFocusedInput; 
+
 // --- ΤΟ ΛΕΞΙΚΟ ΤΗΣ ΕΦΑΡΜΟΓΗΣ (i18n) ---
 const translations = {
     el: {
@@ -56,6 +59,17 @@ window.onload = function() {
 
     document.getElementById("score").innerText = score;
     
+    // --- ΝΕΟ: Παρακολούθηση κλικ στα πεδία κειμένου ---
+    lastFocusedInput = document.getElementById("answer"); // Προεπιλογή
+    
+    document.getElementById("answer").addEventListener("focus", function() { 
+        lastFocusedInput = this; 
+    });
+    
+    document.getElementById("user-notes").addEventListener("focus", function() { 
+        lastFocusedInput = this; 
+    });
+
     // Αρχικοποίηση Γλώσσας
     populateGradeSelect();
     changeLanguage();
@@ -76,7 +90,6 @@ function changeLanguage() {
     currentLang = document.getElementById("lang-select").value;
     const t = translations[currentLang];
 
-    // Ενημέρωση UI Text
     document.getElementById("lbl-level").innerText = t.lblLevel;
     document.getElementById("lbl-score").innerText = t.lblScore;
     document.getElementById("lbl-time").innerText = t.lblTime;
@@ -89,7 +102,6 @@ function changeLanguage() {
     document.getElementById("btn-reset").innerText = t.btnReset;
     document.getElementById("btn-stats").innerText = t.btnStats;
     
-    // Ενημέρωση Modal Στατιστικών
     document.getElementById("modal-title").innerText = t.modalTitle;
     document.getElementById("lbl-played").innerText = t.lblPlayed;
     document.getElementById("lbl-correct").innerText = t.lblCorrect;
@@ -97,7 +109,7 @@ function changeLanguage() {
     document.getElementById("btn-close").innerText = t.btnClose;
 
     populateGradeSelect();
-    loadNextProblem(); // Φορτώνει ξανά την άσκηση στη σωστή γλώσσα
+    loadNextProblem();
 }
 
 function startTimer() {
@@ -160,7 +172,6 @@ function loadNextProblem() {
     } else {
         const problems = gradeData.problems;
         let prob = problems[Math.floor(Math.random() * problems.length)];
-        // Προσαρμογή βημάτων για τις στατικές ασκήσεις
         currentProblem = { equation: prob.equation, answer: prob.answer, steps: prob.steps[currentLang] };
     }
     
@@ -249,22 +260,22 @@ function toggleStats() {
 
 function showHelp() {
     const helpBox = document.getElementById("help-steps");
-    // Επειδή αλλάξαμε γλώσσα, η λέξη "Βήματα" πρέπει να ταιριάζει!
     let stepTitle = currentLang === "el" ? "Βήματα:" : currentLang === "en" ? "Steps:" : currentLang === "fr" ? "Étapes:" : "Adımlar:";
     helpBox.innerHTML = `<strong>${stepTitle}</strong><br>` + currentProblem.steps.map(s => "• " + s).join("<br>");
     helpBox.classList.remove("hidden");
 }
 
+// --- ΝΕΟ: "Έξυπνη" Συνάρτηση Εισαγωγής Συμβόλων ---
 function insertSymbol(sym) {
-    const input = document.getElementById("answer");
+    // Αν για κάποιο λόγο δεν έχει γίνει κλικ πουθενά, βάζει την απάντηση
+    const input = lastFocusedInput || document.getElementById("answer");
+    
     const cursorPos = input.selectionStart;
     const textBefore = input.value.substring(0, cursorPos);
     const textAfter = input.value.substring(cursorPos);
     
-    // Εισαγωγή του συμβόλου στο σημείο του κέρσορα
     input.value = textBefore + sym + textAfter;
     
-    // Αν το σύμβολο τελειώνει σε "()" (π.χ. sin(), log(), √()), βάζουμε τον κέρσορα στη μέση!
     if (sym.endsWith("()")) {
         const newPos = cursorPos + sym.length - 1;
         input.setSelectionRange(newPos, newPos);
@@ -273,9 +284,9 @@ function insertSymbol(sym) {
         input.setSelectionRange(newPos, newPos);
     }
     
-    // Επαναφέρουμε την εστίαση (focus) στο πεδίο κειμένου
     input.focus();
 }
+
 function toggleKeyboard() { document.getElementById("math-keyboard").classList.toggle("hidden"); }
 function skipProblem() { loadNextProblem(); }
 function resetProgress() { 
