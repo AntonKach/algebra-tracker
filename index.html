@@ -4,9 +4,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     
-    <!-- GOOGLE SEO TAGS -->
-    <meta name="description" content="Catgebra: Η πιο διασκεδαστική εφαρμογή για να μάθεις μαθηματικά και άλγεβρα από το Γυμνάσιο έως το Λύκειο, με τη βοήθεια της πιο έξυπνης γάτας!">
-    <meta name="keywords" content="μαθηματικά, άλγεβρα, εξισώσεις, γυμνάσιο, λύκειο, ασκήσεις, catgebra, math, algebra">
+    <!-- GOOGLE SEO META TAGS (Αόρατα στον χρήστη, ορατά στην Google) -->
+    <meta name="description" content="Catgebra: Η πιο διασκεδαστική εφαρμογή για να μάθεις μαθηματικά και άλγεβρα. Διαδραστικές ασκήσεις, επιστημονικό κομπιουτεράκι και βοηθός για μαθητές Γυμνασίου και Λυκείου.">
+    <meta name="keywords" content="μαθηματικά, άλγεβρα, εξισώσεις, γυμνάσιο, λύκειο, catgebra, math, algebra, calculator, education">
     <meta name="author" content="Catgebra">
     <meta name="robots" content="index, follow">
     
@@ -35,7 +35,7 @@
         <div class="grade-selector">
             <label for="grade-select" id="lbl-level">Επίπεδο Σπουδών:</label>
             <select id="grade-select" onchange="changeGrade()">
-                <!-- Γεμίζει αυτόματα -->
+                <!-- Γεμίζει αυτόματα από το script -->
             </select>
         </div>
         
@@ -49,7 +49,7 @@
             
             <div class="input-container">
                 <input type="text" id="answer" placeholder="Απάντηση...">
-                <button onclick="toggleKeyboard()" class="kbd-toggle" title="Βασικό Πληκτρολόγιο">⌨️</button>
+                <button onclick="toggleKeyboard()" class="kbd-toggle" title="Εμφάνιση Μαθηματικού Πληκτρολογίου">⌨️</button>
             </div>
 
             <div id="math-keyboard" class="math-keyboard hidden">
@@ -70,6 +70,7 @@
             <p id="feedback"></p>
             <div id="help-steps" class="help-steps hidden"></div>
 
+            <!-- ΠΡΟΧΕΙΡΟ ΣΗΜΕΙΩΣΕΩΝ -->
             <div class="notes-container">
                 <div style="display: flex; justify-content: space-between; align-items: center;">
                     <label for="user-notes" id="lbl-notes">Πρόχειρο Σημειώσεων 📝</label>
@@ -78,16 +79,19 @@
                 <textarea id="user-notes" placeholder="Γράψε εδώ τις σκέψεις σου..."></textarea>
             </div>
 
-            <!-- SUPER SCIENTIFIC CALCULATOR -->
-            <div id="calculator" class="graph-box" style="height: 400px;"></div>
+            <!-- SUPER SCIENTIFIC CALCULATOR DESMOS -->
+            <div id="calculator" class="graph-box" style="height: 500px; width: 100%;"></div>
         </div>
         
         <button onclick="resetProgress()" class="reset-btn" id="btn-reset">Μηδενισμός Προόδου</button>
 
-        <!-- ΕΠΑΝΑΦΟΡΑ: ΠΗΓΕΣ ΜΕΛΕΤΗΣ -->
-        <div class="lessons-section">
-            <h2 id="lbl-resources">Πηγές Μελέτης 📚</h2>
-            <ul class="resources-list" id="resources">
+        <!-- ΠΕΡΙΓΡΑΦΗ & ΠΗΓΕΣ (FOOTER) -->
+        <div class="about-section">
+            <h3 id="lbl-about-title">Σχετικά με την Catgebra 🐾</h3>
+            <p id="lbl-about-text">Η Catgebra δημιουργήθηκε για να κάνει την εκμάθηση της Άλγεβρας διασκεδαστική! Χρησιμοποίησε το ενσωματωμένο επιστημονικό κομπιουτεράκι για τις πράξεις σου, κράτα σημειώσεις στο πρόχειρο και λύσε τις εξισώσεις βήμα-βήμα.</p>
+            
+            <h4 id="lbl-resources" style="color: #bb86fc; margin-top: 15px;">Πηγές Μελέτης 📚</h4>
+            <ul class="resources-list">
                 <li><a href="https://el.khanacademy.org/math" target="_blank">Khan Academy</a></li>
                 <li><a href="https://photomath.com/" target="_blank">Photomath</a></li>
                 <li><a href="https://www.wolframalpha.com/" target="_blank">Wolfram Alpha</a></li>
@@ -95,6 +99,7 @@
         </div>
     </div>
 
+    <!-- MODAL ΣΤΑΤΙΣΤΙΚΩΝ -->
     <div id="stats-modal" class="modal hidden">
         <div class="modal-content">
             <h2 id="modal-title">Τα Στατιστικά μου 📊</h2>
