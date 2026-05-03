@@ -2,6 +2,9 @@ let score = 0, currentProblem = {}, timerInterval, seconds = 0, calculator;
 let currentLang = "el"; 
 let userStats = JSON.parse(localStorage.getItem("mathUserStats")) || { played: 0, correct: 0 };
 
+// Μεταβλητή για να ξέρουμε πού να βάλουμε τα σύμβολα (Απάντηση ή Πρόχειρο)
+let lastFocusedInput = "answer";
+
 const translations = {
     el: {
         lblLevel: "Επίπεδο Σπουδών:", lblScore: "Σκορ:", lblTime: "Χρόνος:",
@@ -9,6 +12,8 @@ const translations = {
         lblNotes: "Πρόχειρο Σημειώσεων 📝", placeholderNotes: "Γράψε εδώ τις σκέψεις σου...", btnClear: "🗑️ Καθαρισμός",
         btnReset: "Μηδενισμός Προόδου", btnStats: "📊 Στατιστικά", modalTitle: "Τα Στατιστικά μου 📊",
         lblPlayed: "Λυμένες Ασκήσεις:", lblCorrect: "Σωστές Απαντήσεις:", lblRate: "Ποσοστό Επιτυχίας:", btnClose: "Κλείσιμο",
+        lblAboutTitle: "Σχετικά με την Catgebra 🐾", 
+        lblAboutText: "Η Catgebra δημιουργήθηκε για να κάνει την εκμάθηση της Άλγεβρας διασκεδαστική! Χρησιμοποίησε το ενσωματωμένο επιστημονικό κομπιουτεράκι για τις πράξεις σου, κράτα σημειώσεις στο πρόχειρο και λύσε τις εξισώσεις βήμα-βήμα.",
         lblResources: "Πηγές Μελέτης 📚",
         stepWords: { move: "Μεταφέρουμε:", div: "Διαιρούμε:", sub: "Αφαιρούμε:", mult: "Πολλαπλασιάζουμε:" },
         catSuccess: ["Purr-fect! Βρήκες το x! 😻", "Meow-gnificent! 🐾", "Γατίσια αντανακλαστικά! 😼"],
@@ -20,6 +25,8 @@ const translations = {
         lblNotes: "Scratchpad 📝", placeholderNotes: "Write your thoughts here...", btnClear: "🗑️ Clear",
         btnReset: "Reset Progress", btnStats: "📊 Stats", modalTitle: "My Statistics 📊",
         lblPlayed: "Solved:", lblCorrect: "Correct:", lblRate: "Success Rate:", btnClose: "Close",
+        lblAboutTitle: "About Catgebra 🐾",
+        lblAboutText: "Catgebra was created to make learning Algebra fun! Use the built-in scientific calculator, take notes in the scratchpad, and solve equations step-by-step.",
         lblResources: "Study Resources 📚",
         stepWords: { move: "Move:", div: "Divide:", sub: "Subtract:", mult: "Multiply:" },
         catSuccess: ["Purr-fect! You found x! 😻", "Meow-gnificent! 🐾", "Cat-like reflexes! 😼"],
@@ -31,6 +38,8 @@ const translations = {
         lblNotes: "Brouillon 📝", placeholderNotes: "Écrivez ici...", btnClear: "🗑️ Effacer",
         btnReset: "Réinitialiser", btnStats: "📊 Stats", modalTitle: "Statistiques 📊",
         lblPlayed: "Résolus:", lblCorrect: "Corrects:", lblRate: "Taux:", btnClose: "Fermer",
+        lblAboutTitle: "À propos de Catgebra 🐾",
+        lblAboutText: "Catgebra a été créé pour rendre l'apprentissage de l'algèbre amusant ! Utilisez la calculatrice scientifique, prenez des notes et résolvez les équations étape par étape.",
         lblResources: "Ressources 📚",
         stepWords: { move: "Déplacer:", div: "Diviser:", sub: "Soustraire:", mult: "Multiplier:" },
         catSuccess: ["Purr-fait ! 😻", "Meow-gnifique ! 🐾"],
@@ -42,6 +51,8 @@ const translations = {
         lblNotes: "Notlar 📝", placeholderNotes: "Buraya yazın...", btnClear: "🗑️ Temizle",
         btnReset: "Sıfırla", btnStats: "📊 İstatistik", modalTitle: "İstatistiklerim 📊",
         lblPlayed: "Çözülen:", lblCorrect: "Doğru:", lblRate: "Başarı:", btnClose: "Kapat",
+        lblAboutTitle: "Catgebra Hakkında 🐾",
+        lblAboutText: "Catgebra, cebir öğrenmeyi eğlenceli hale getirmek için tasarlandı! Hesap makinesini kullanın, notlar alın ve denklemleri adım adım çözün.",
         lblResources: "Kaynaklar 📚",
         stepWords: { move: "Taşı:", div: "Böl:", sub: "Çıkar:", mult: "Çarp:" },
         catSuccess: ["Purr-fect! x'i buldun! 😻", "Miyav-harika! 🐾"],
@@ -53,19 +64,24 @@ window.onload = function() {
     const savedScore = localStorage.getItem("mathScore");
     if (savedScore) score = parseInt(savedScore);
     
-    // ΕΝΕΡΓΟΠΟΙΗΣΗ KEYPAD: TRUE και EXPRESSIONS: TRUE για το Super Calculator!
+    // --- SUPER SCIENTIFIC CALCULATOR ---
+    // Ενεργοποιεί το πληκτρολόγιο (keypad) ΚΑΙ την αριστερή μπάρα πράξεων (expressions)
     calculator = Desmos.GraphingCalculator(document.getElementById('calculator'), {
         keypad: true, 
         expressions: true, 
-        invertedColors: true,
-        settingsMenu: true
+        settingsMenu: true,
+        invertedColors: true
     });
 
     document.getElementById("score").innerText = score;
     
+    // Εντοπίζει πού έκανε κλικ ο χρήστης για να ξέρει πού να βάλει τα σύμβολα του πληκτρολογίου
+    document.getElementById("answer").addEventListener("focus", () => lastFocusedInput = "answer");
+    document.getElementById("user-notes").addEventListener("focus", () => lastFocusedInput = "user-notes");
+
     populateGradeSelect();
-    changeLanguage(); // Αυτό φορτώνει το UI
-    startTimer();     // ΑΥΤΟ ΔΙΟΡΘΩΝΕΙ ΤΟ ΧΡΟΝΟΜΕΤΡΟ
+    changeLanguage(); 
+    startTimer();     
 };
 
 function startTimer() {
@@ -100,9 +116,13 @@ function changeLanguage() {
     document.getElementById("lbl-rate").innerText = t.lblRate;
     document.getElementById("btn-close").innerText = t.btnClose;
     
-    // Ενημέρωση των Πηγών Μελέτης με έλεγχο για να μην βγάλει σφάλμα
+    // Ενημέρωση Περιγραφής & Πηγών
     const lblRes = document.getElementById("lbl-resources");
     if (lblRes) lblRes.innerText = t.lblResources;
+    const lblTitle = document.getElementById("lbl-about-title");
+    if (lblTitle) lblTitle.innerText = t.lblAboutTitle;
+    const lblText = document.getElementById("lbl-about-text");
+    if (lblText) lblText.innerText = t.lblAboutText;
 
     populateGradeSelect();
     loadNextProblem();
@@ -164,13 +184,11 @@ function loadNextProblem() {
     document.getElementById("answer").value = "";
     document.getElementById("feedback").innerText = "";
     document.getElementById("help-steps").classList.add("hidden");
-    updateGraph(currentProblem.equation);
-}
-
-function updateGraph(eq) {
+    
+    // Ανανεώνει το γράφημα στο Desmos
     calculator.setBlank();
-    let latex = eq.replace('=', '-(') + ')'; 
-    if (eq.includes('∫')) latex = "y = x^2"; 
+    let latex = currentProblem.equation.replace('=', '-(') + ')'; 
+    if (currentProblem.equation.includes('∫')) latex = "y = x^2"; 
     calculator.setExpression({ id: 'graph', latex: latex, color: '#bb86fc' });
 }
 
@@ -197,7 +215,15 @@ function checkAnswer() {
 function clearNotes() { document.getElementById("user-notes").value = ""; }
 function changeGrade() { startTimer(); loadNextProblem(); }
 function toggleKeyboard() { document.getElementById("math-keyboard").classList.toggle("hidden"); }
-function insertSymbol(sym) { document.getElementById("answer").value += sym; }
+
+// --- ΕΞΥΠΝΗ ΕΙΣΑΓΩΓΗ ΣΥΜΒΟΛΩΝ ---
+// Βάζει το σύμβολο είτε στην Απάντηση είτε στο Πρόχειρο, ανάλογα με το πού πάτησες τελευταία!
+function insertSymbol(sym) { 
+    const targetInput = document.getElementById(lastFocusedInput);
+    targetInput.value += sym;
+    targetInput.focus();
+}
+
 function showHelp() {
     const helpBox = document.getElementById("help-steps");
     helpBox.innerHTML = currentProblem.steps.map(s => "• " + s).join("<br>");
