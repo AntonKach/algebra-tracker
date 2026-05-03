@@ -186,7 +186,10 @@ function loadNextProblem() {
         currentProblem = { equation: prob.equation, answer: prob.answer, steps: prob.steps[currentLang] };
     }
     
-    document.getElementById("equation").innerText = currentProblem.equation;
+    // --- Η ΜΑΓΙΚΗ ΑΛΛΑΓΗ ΓΙΑ ΤΟΝ ΕΚΘΕΤΗ ΕΙΝΑΙ ΕΔΩ ---
+    let displayEq = currentProblem.equation.replace(/\^x/g, "<sup>x</sup>");
+    document.getElementById("equation").innerHTML = displayEq;
+    
     document.getElementById("answer").value = "";
     document.getElementById("feedback").innerText = "";
     document.getElementById("help-steps").classList.add("hidden");
