@@ -137,12 +137,6 @@ function checkAnswer() {
     const userAns = document.getElementById("answer").value.trim();
     const feedback = document.getElementById("feedback");
     
-    // Έλεγχος αν υπάρχει το στοιχείο feedback στο HTML
-    if (!feedback) {
-        console.error("Προσοχή: Δεν βρέθηκε το στοιχείο με id='feedback' στο HTML!");
-        return;
-    }
-    
     userStats.played++; 
 
     if (userAns === currentProblem.answer) {
@@ -150,31 +144,19 @@ function checkAnswer() {
         score += 20;
         document.getElementById("score").innerText = score;
         
-        // 1. Εμφανίζουμε ΤΗΝ ΑΤΑΚΑ ΠΡΩΤΑ!
+        // Επιλέγει ένα τυχαίο θετικό μήνυμα!
         const randomSuccess = catSuccessMessages[Math.floor(Math.random() * catSuccessMessages.length)];
         feedback.innerText = randomSuccess;
         
-        // 2. Προσπαθούμε να παίξουμε ήχο με ασφάλεια
-        try { playSound('success'); } 
-        catch(e) { console.warn("Δεν μπόρεσε να παίξει ο ήχος:", e); }
-        
-        // 3. Προσπαθούμε να ρίξουμε κομφετί με ασφάλεια
-        try { 
-            if (typeof confetti === 'function') {
-                confetti({ particleCount: 150, spread: 80, origin: { y: 0.6 } }); 
-            }
-        } 
-        catch(e) { console.warn("Δεν μπόρεσε να ρίξει κομφετί:", e); }
+        playSound('success');
+        confetti({ particleCount: 150, spread: 80, origin: { y: 0.6 } });
 
-        setTimeout(loadNextProblem, 2500); 
+        setTimeout(loadNextProblem, 2500); // Το έκανα 2.5 δευτερόλεπτα για να προλαβαίνει να το διαβάσει!
     } else {
-        // Εμφανίζουμε την ατάκα λάθους
+        // Επιλέγει ένα τυχαίο μήνυμα λάθους!
         const randomError = catErrorMessages[Math.floor(Math.random() * catErrorMessages.length)];
         feedback.innerText = randomError;
-        
-        // Προσπαθούμε να παίξουμε ήχο με ασφάλεια
-        try { playSound('error'); } 
-        catch(e) { console.warn("Δεν μπόρεσε να παίξει ο ήχος:", e); }
+        playSound('error');
     }
     
     localStorage.setItem("mathUserStats", JSON.stringify(userStats));
