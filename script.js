@@ -255,7 +255,27 @@ function showHelp() {
     helpBox.classList.remove("hidden");
 }
 
-function insertSymbol(sym) { document.getElementById("answer").value += sym; }
+function insertSymbol(sym) {
+    const input = document.getElementById("answer");
+    const cursorPos = input.selectionStart;
+    const textBefore = input.value.substring(0, cursorPos);
+    const textAfter = input.value.substring(cursorPos);
+    
+    // Εισαγωγή του συμβόλου στο σημείο του κέρσορα
+    input.value = textBefore + sym + textAfter;
+    
+    // Αν το σύμβολο τελειώνει σε "()" (π.χ. sin(), log(), √()), βάζουμε τον κέρσορα στη μέση!
+    if (sym.endsWith("()")) {
+        const newPos = cursorPos + sym.length - 1;
+        input.setSelectionRange(newPos, newPos);
+    } else {
+        const newPos = cursorPos + sym.length;
+        input.setSelectionRange(newPos, newPos);
+    }
+    
+    // Επαναφέρουμε την εστίαση (focus) στο πεδίο κειμένου
+    input.focus();
+}
 function toggleKeyboard() { document.getElementById("math-keyboard").classList.toggle("hidden"); }
 function skipProblem() { loadNextProblem(); }
 function resetProgress() { 
