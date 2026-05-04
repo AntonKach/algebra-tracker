@@ -1,27 +1,22 @@
 module.exports = async function(req, res) {
-    // Δεχόμαστε μόνο μηνύματα τύπου POST
     if (req.method !== 'POST') {
         return res.status(405).json({ error: 'Method Not Allowed' });
     }
 
     const userText = req.body.text;
-
-    // Αν το πρόχειρο είναι άδειο
     if (!userText) {
         return res.status(400).json({ reply: 'Γράψε κάτι στο πρόχειρο πρώτα! 🐾' });
     }
 
-    // Η κρυφή οδηγία που δίνουμε στο Gemini
     const prompt = `Είσαι ο έξυπνος βοηθός της εφαρμογής Catgebra. Ένας μαθητής έγραψε το εξής στο πρόχειρό του προσπαθώντας να λύσει μια άσκηση: "${userText}". 
-    Αν δεις λάθος, διόρθωσέ τον ευγενικά. Αν δεις σωστή σκέψη, ενθάρρυνέ τον. Αν γράφει κάτι άσχετο, πες του να συγκεντρωθεί στα μαθηματικά!
-    Απάντησε στα Ελληνικά, κράτα το ΠΟΛΥ σύντομο (1-3 προτάσεις το πολύ) και βάλε ένα emoji γατούλας στο τέλος.`;
+    Αν δεις λάθος, διόρθωσέ τον ευγενικά. Αν δεις σωστή σκέψη, ενθάρρυνέ τον.
+    Απάντησε στα Ελληνικά, κράτα το ΠΟΛΥ σύντομο (1-3 προτάσεις) και βάλε ένα emoji γατούλας στο τέλος.`;
 
-    // Παίρνουμε το κλειδί από το Χρηματοκιβώτιο του Vercel
     const apiKey = process.env.GEMINI_API_KEY;
-    const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${apiKey}`;
+    // Εδώ είναι η διόρθωση στο URL:
+    const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash-latest:generateContent?key=${apiKey}`;
 
     try {
-        // Επικοινωνία με την Google
         const response = await fetch(apiUrl, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
@@ -32,18 +27,17 @@ module.exports = async function(req, res) {
 
         const data = await response.json();
         
-        // Έλεγχος μήπως η Google μας έριξε "πόρτα" λόγω API Key
         if (data.error) {
-            console.error("Σφάλμα από Google:", data.error);
-            return res.status(500).json({ reply: 'Υπήρξε πρόβλημα με το κλειδί σύνδεσης (API). Δες τα logs! 😿' });
+            console.error("Σφάλμα από Google:", data.error.message);
+            // Αν δούμε ξανά limit 0, φταίει ο κανόνας της Ευρώπης!
+            return res.status(500).json({ reply: 'Η Google με μπλόκαρε! Μάλλον φταίει ο κανόνας δωρεάν χρήσης στην Ευρώπη. 😿' });
         }
 
         const aiMessage = data.candidates[0].content.parts[0].text;
-
-        // Στέλνουμε την απάντηση πίσω
         res.status(200).json({ reply: aiMessage });
+
     } catch (error) {
         console.error("Σφάλμα Server:", error);
-        res.status(500).json({ reply: 'Ουπς! Το μυαλό μου μπερδεύτηκε. Ξαναδοκίμασε σε λίγο! 🙀' });
+        res.status(500).json({ reply: 'Ουπς! Το μυαλό μου μπερδεύτηκε. 🙀' });
     }
 };
