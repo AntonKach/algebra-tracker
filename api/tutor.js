@@ -1,4 +1,4 @@
-export default async function handler(req, res) {
+module.exports = async function(req, res) {
     // Δεχόμαστε μόνο μηνύματα τύπου POST
     if (req.method !== 'POST') {
         return res.status(405).json({ error: 'Method Not Allowed' });
@@ -11,7 +11,7 @@ export default async function handler(req, res) {
         return res.status(400).json({ reply: 'Γράψε κάτι στο πρόχειρο πρώτα! 🐾' });
     }
 
-    // Η κρυφή οδηγία που δίνουμε στο Gemini (Το System Prompt)
+    // Η κρυφή οδηγία που δίνουμε στο Gemini
     const prompt = `Είσαι ο έξυπνος βοηθός της εφαρμογής Catgebra. Ένας μαθητής έγραψε το εξής στο πρόχειρό του προσπαθώντας να λύσει μια άσκηση: "${userText}". 
     Αν δεις λάθος, διόρθωσέ τον ευγενικά. Αν δεις σωστή σκέψη, ενθάρρυνέ τον. Αν γράφει κάτι άσχετο, πες του να συγκεντρωθεί στα μαθηματικά!
     Απάντησε στα Ελληνικά, κράτα το ΠΟΛΥ σύντομο (1-3 προτάσεις το πολύ) και βάλε ένα emoji γατούλας στο τέλος.`;
@@ -21,7 +21,7 @@ export default async function handler(req, res) {
     const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${apiKey}`;
 
     try {
-        // Η επικοινωνία με την Google
+        // Επικοινωνία με την Google
         const response = await fetch(apiUrl, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
@@ -31,12 +31,19 @@ export default async function handler(req, res) {
         });
 
         const data = await response.json();
+        
+        // Έλεγχος μήπως η Google μας έριξε "πόρτα" λόγω API Key
+        if (data.error) {
+            console.error("Σφάλμα από Google:", data.error);
+            return res.status(500).json({ reply: 'Υπήρξε πρόβλημα με το κλειδί σύνδεσης (API). Δες τα logs! 😿' });
+        }
+
         const aiMessage = data.candidates[0].content.parts[0].text;
 
-        // Στέλνουμε την απάντηση πίσω στην οθόνη του μαθητή
+        // Στέλνουμε την απάντηση πίσω
         res.status(200).json({ reply: aiMessage });
     } catch (error) {
-        console.error("Σφάλμα Gemini:", error);
+        console.error("Σφάλμα Server:", error);
         res.status(500).json({ reply: 'Ουπς! Το μυαλό μου μπερδεύτηκε. Ξαναδοκίμασε σε λίγο! 🙀' });
     }
-}
+};
