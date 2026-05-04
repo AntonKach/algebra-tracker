@@ -3,13 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    
-    <!-- GOOGLE SEO META TAGS -->
     <meta name="description" content="Catgebra: Η πιο διασκεδαστική εφαρμογή για να μάθεις μαθηματικά και άλγεβρα. Διαδραστικές ασκήσεις, επιστημονικό κομπιουτεράκι και βοηθός για μαθητές Γυμνασίου και Λυκείου.">
     <meta name="keywords" content="μαθηματικά, άλγεβρα, εξισώσεις, γυμνάσιο, λύκειο, catgebra, math, algebra, calculator, education">
     <meta name="author" content="Catgebra">
     <meta name="robots" content="index, follow">
-    
     <title>Catgebra 🐈🧮</title>
     <link href="https://fonts.googleapis.com/css2?family=GFS+Didot&display=swap" rel="stylesheet">
     <script src="https://www.desmos.com/api/v1.8/calculator.js?apiKey=dcb31709b452b1cf9dc26972add0fda6"></script>
@@ -29,7 +26,6 @@
         </div>
 
         <img src="cat.jpg" alt="Catgebra Mascot" class="mascot">
-        
         <h1>Catgebra 🐈🧮</h1>
 
         <div class="grade-selector">
@@ -68,30 +64,35 @@
             <p id="feedback"></p>
             <div id="help-steps" class="help-steps hidden"></div>
 
-            <!-- ΠΡΟΧΕΙΡΟ ΣΗΜΕΙΩΣΕΩΝ & ΕΠΙΣΤΗΜΟΝΙΚΟΣ ΥΠΟΛΟΓΙΣΤΗΣ -->
+            <!-- ΠΡΟΧΕΙΡΟ ΣΗΜΕΙΩΣΕΩΝ & ΕΠΙΣΤΗΜΟΝΙΚΟΣ ΥΠΟΛΟΓΙΣΤΗΣ ΜΕ AI -->
             <div class="notes-container">
                 <div style="display: flex; justify-content: space-between; align-items: center;">
                     <label for="user-notes" id="lbl-notes">Πρόχειρο & Υπολογιστής 📝🧮</label>
-                    <button onclick="clearNotes()" style="background: none; border: none; color: #cf6679; cursor: pointer; font-size: 12px;" id="btn-clear">🗑️ Καθαρισμός</button>
+                    <div>
+                        <!-- ΤΟ ΝΕΟ ΜΑΓΙΚΟ ΚΟΥΜΠΙ -->
+                        <button onclick="askAI()" style="background: none; border: none; color: #03dac6; cursor: pointer; font-size: 14px; font-weight: bold; margin-right: 15px;" id="btn-ai">✨ Έλεγχος AI</button>
+                        <button onclick="clearNotes()" style="background: none; border: none; color: #cf6679; cursor: pointer; font-size: 12px;" id="btn-clear">🗑️ Καθαρισμός</button>
+                    </div>
                 </div>
+                
+                <!-- Πρόσθεσα το spellcheck="true" -->
                 <textarea id="user-notes" spellcheck="true" placeholder="Γράψε εδώ τις σκέψεις σου..."></textarea>
                 
-                <!-- ΕΔΩ ΕΙΝΑΙ ΤΟ ΝΕΟ ΚΟΜΜΑΤΙ ΠΟΥ ΕΛΕΙΠΕ: Επιστημονικό Κομπιουτεράκι μέσα στο Πρόχειρο -->
+                <!-- Εδώ θα εμφανίζεται η απάντηση της Τεχνητής Νοημοσύνης -->
+                <p id="ai-response" style="color: #03dac6; font-size: 14px; font-style: italic; margin-top: 5px; min-height: 20px; text-align: left;"></p>
+                
                 <div id="scientific-calculator" style="width: 100%; height: 250px; margin-top: 10px; border-radius: 8px; border: 1px solid #444;"></div>
             </div>
 
-            <!-- ΓΡΑΦΙΚΗ ΠΑΡΑΣΤΑΣΗ (Κάτω) -->
             <h3 id="lbl-graph" style="color: #bb86fc; text-align: left; margin-top: 30px; font-size: 16px;">Γραφική Παράσταση 📈</h3>
             <div id="calculator" class="graph-box" style="height: 350px; width: 100%; margin-top: 5px;"></div>
         </div>
         
         <button onclick="resetProgress()" class="reset-btn" id="btn-reset">Μηδενισμός Προόδου</button>
 
-        <!-- ΠΕΡΙΓΡΑΦΗ & ΠΗΓΕΣ (FOOTER) -->
         <div class="about-section">
             <h3 id="lbl-about-title">Σχετικά με την Catgebra 🐾</h3>
             <p id="lbl-about-text">Η Catgebra δημιουργήθηκε για να κάνει την εκμάθηση της Άλγεβρας διασκεδαστική! Χρησιμοποίησε το ενσωματωμένο επιστημονικό κομπιουτεράκι για τις πράξεις σου, κράτα σημειώσεις στο πρόχειρο και λύσε τις εξισώσεις βήμα-βήμα.</p>
-            
             <h4 id="lbl-resources" style="color: #bb86fc; margin-top: 15px;">Πηγές Μελέτης 📚</h4>
             <ul class="resources-list">
                 <li><a href="https://el.khanacademy.org/math" target="_blank">Khan Academy</a></li>
