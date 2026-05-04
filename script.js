@@ -7,7 +7,7 @@ const translations = {
     el: {
         lblLevel: "Επίπεδο Σπουδών:", lblScore: "Σκορ:", lblTime: "Χρόνος:",
         placeholderAns: "Απάντηση...", btnCheck: "Έλεγχος", btnHelp: "Βήμα-Βήμα", btnSkip: "Παράλειψη",
-        lblNotes: "Πρόχειρο & Υπολογιστής 📝🧮", placeholderNotes: "Γράψε εδώ τις σκέψεις σου...", btnClear: "🗑️ Καθαρισμός",
+        lblNotes: "Πρόχειρο & Υπολογιστής 📝🧮", btnAI: "✨ Έλεγχος AI", placeholderNotes: "Γράψε εδώ τις σκέψεις σου...", btnClear: "🗑️ Καθαρισμός",
         lblGraph: "Γραφική Παράσταση 📈",
         btnReset: "Μηδενισμός Προόδου", btnStats: "📊 Στατιστικά", modalTitle: "Τα Στατιστικά μου 📊",
         lblPlayed: "Λυμένες Ασκήσεις:", lblCorrect: "Σωστές Απαντήσεις:", lblRate: "Ποσοστό Επιτυχίας:", btnClose: "Κλείσιμο",
@@ -21,7 +21,7 @@ const translations = {
     en: {
         lblLevel: "Study Level:", lblScore: "Score:", lblTime: "Time:",
         placeholderAns: "Answer...", btnCheck: "Check", btnHelp: "Step-by-Step", btnSkip: "Skip",
-        lblNotes: "Scratchpad & Calculator 📝🧮", placeholderNotes: "Write your thoughts here...", btnClear: "🗑️ Clear",
+        lblNotes: "Scratchpad & Calculator 📝🧮", btnAI: "✨ AI Check", placeholderNotes: "Write your thoughts here...", btnClear: "🗑️ Clear",
         lblGraph: "Graph 📈",
         btnReset: "Reset Progress", btnStats: "📊 Stats", modalTitle: "My Statistics 📊",
         lblPlayed: "Solved:", lblCorrect: "Correct:", lblRate: "Success Rate:", btnClose: "Close",
@@ -35,7 +35,7 @@ const translations = {
     fr: {
         lblLevel: "Niveau:", lblScore: "Score:", lblTime: "Temps:",
         placeholderAns: "Réponse...", btnCheck: "Vérifier", btnHelp: "Pas-à-pas", btnSkip: "Passer",
-        lblNotes: "Brouillon & Calculatrice 📝🧮", placeholderNotes: "Écrivez ici...", btnClear: "🗑️ Effacer",
+        lblNotes: "Brouillon & Calculatrice 📝🧮", btnAI: "✨ Vérifier AI", placeholderNotes: "Écrivez ici...", btnClear: "🗑️ Effacer",
         lblGraph: "Graphique 📈",
         btnReset: "Réinitialiser", btnStats: "📊 Stats", modalTitle: "Statistiques 📊",
         lblPlayed: "Résolus:", lblCorrect: "Corrects:", lblRate: "Taux:", btnClose: "Fermer",
@@ -49,7 +49,7 @@ const translations = {
     tr: {
         lblLevel: "Seviye:", lblScore: "Puan:", lblTime: "Süre:",
         placeholderAns: "Cevap...", btnCheck: "Kontrol Et", btnHelp: "Adım Adım", btnSkip: "Geç",
-        lblNotes: "Notlar & Hesap Makinesi 📝🧮", placeholderNotes: "Buraya yazın...", btnClear: "🗑️ Temizle",
+        lblNotes: "Notlar & Hesap Makinesi 📝🧮", btnAI: "✨ AI Kontrolü", placeholderNotes: "Buraya yazın...", btnClear: "🗑️ Temizle",
         lblGraph: "Grafik 📈",
         btnReset: "Sıfırla", btnStats: "📊 İstatistik", modalTitle: "İstatistiklerim 📊",
         lblPlayed: "Çözülen:", lblCorrect: "Doğru:", lblRate: "Başarı:", btnClose: "Kapat",
@@ -66,15 +66,13 @@ window.onload = function() {
     const savedScore = localStorage.getItem("mathScore");
     if (savedScore) score = parseInt(savedScore);
     
-    // --- 1. ΥΠΕΡ-ΑΝΑΛΥΤΙΚΟ SCIENTIFIC CALCULATOR ΣΤΟ ΠΡΟΧΕΙΡΟ ---
     sciCalculator = Desmos.ScientificCalculator(document.getElementById('scientific-calculator'), {
         invertedColors: true
     });
 
-    // --- 2. ΓΡΑΦΙΚΟ CALCULATOR ΣΤΟ ΚΑΤΩ ΜΕΡΟΣ ---
     calculator = Desmos.GraphingCalculator(document.getElementById('calculator'), {
         keypad: true, 
-        expressions: false, // Κλειστό γιατί έχουμε το Scientific από πάνω
+        expressions: false,
         settingsMenu: false,
         invertedColors: true
     });
@@ -121,6 +119,8 @@ function changeLanguage() {
     document.getElementById("lbl-rate").innerText = t.lblRate;
     document.getElementById("btn-close").innerText = t.btnClose;
     
+    const btnAI = document.getElementById("btn-ai");
+    if (btnAI) btnAI.innerText = t.btnAI;
     const lblGraph = document.getElementById("lbl-graph");
     if (lblGraph) lblGraph.innerText = t.lblGraph;
     const lblRes = document.getElementById("lbl-resources");
@@ -186,13 +186,13 @@ function loadNextProblem() {
         currentProblem = { equation: prob.equation, answer: prob.answer, steps: prob.steps[currentLang] };
     }
     
-    // --- Η ΜΑΓΙΚΗ ΑΛΛΑΓΗ ΓΙΑ ΤΟΝ ΕΚΘΕΤΗ ΕΙΝΑΙ ΕΔΩ ---
     let displayEq = currentProblem.equation.replace(/\^x/g, "<sup>x</sup>");
     document.getElementById("equation").innerHTML = displayEq;
     
     document.getElementById("answer").value = "";
     document.getElementById("feedback").innerText = "";
     document.getElementById("help-steps").classList.add("hidden");
+    document.getElementById("ai-response").innerText = ""; // Καθαρίζει την απάντηση του AI σε νέα άσκηση
     
     calculator.setBlank();
     let latex = currentProblem.equation.replace('=', '-(') + ')'; 
@@ -220,7 +220,10 @@ function checkAnswer() {
     localStorage.setItem("mathScore", score);
 }
 
-function clearNotes() { document.getElementById("user-notes").value = ""; }
+function clearNotes() { 
+    document.getElementById("user-notes").value = ""; 
+    document.getElementById("ai-response").innerText = ""; // Καθαρίζει και το AI
+}
 function changeGrade() { startTimer(); loadNextProblem(); }
 function toggleKeyboard() { document.getElementById("math-keyboard").classList.toggle("hidden"); }
 
@@ -238,3 +241,30 @@ function showHelp() {
 function skipProblem() { loadNextProblem(); }
 function toggleStats() { document.getElementById("stats-modal").classList.toggle("hidden"); }
 function resetProgress() { localStorage.clear(); location.reload(); }
+
+// --- ΝΕΑ ΜΑΓΙΚΗ ΛΕΙΤΟΥΡΓΙΑ: Επικοινωνία με το Vercel Backend ---
+async function askAI() {
+    const notes = document.getElementById("user-notes").value.trim();
+    const aiText = document.getElementById("ai-response");
+    
+    if (!notes) {
+        aiText.innerText = "Γράψε πρώτα κάτι στο πρόχειρο για να το ελέγξω! 🐾";
+        return;
+    }
+
+    aiText.innerText = "Η Catgebra σκέφτεται... 🧠🐾";
+    
+    try {
+        const response = await fetch('/api/tutor', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ text: notes })
+        });
+        
+        const data = await response.json();
+        aiText.innerText = data.reply;
+    } catch (error) {
+        console.error("Σφάλμα:", error);
+        aiText.innerText = "Ουπς! Υπήρξε ένα μικρό πρόβλημα σύνδεσης. Δοκίμασε ξανά! 😿";
+    }
+}
