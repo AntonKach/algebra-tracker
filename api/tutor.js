@@ -18,7 +18,7 @@ module.exports = async function(req, res) {
 
     // Παίρνουμε το κλειδί από το Χρηματοκιβώτιο του Vercel
     const apiKey = process.env.GEMINI_API_KEY;
-    const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${apiKey}`;
+    const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${apiKey}`;
 
     try {
         // Επικοινωνία με την Google
