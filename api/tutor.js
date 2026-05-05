@@ -8,32 +8,39 @@ module.exports = async function(req, res) {
         return res.status(400).json({ reply: 'Γράψε κάτι στο πρόχειρο πρώτα! 🐾' });
     }
 
-    const prompt = `Είσαι ο έξυπνος βοηθός της εφαρμογής Catgebra. Ένας μαθητής έγραψε το εξής στο πρόχειρό του προσπαθώντας να λύσει μια άσκηση: "${userText}". 
-    Αν δεις λάθος, διόρθωσέ τον ευγενικά. Αν δεις σωστή σκέψη, ενθάρρυνέ τον.
-    Απάντησε στα Ελληνικά, κράτα το ΠΟΛΥ σύντομο (1-3 προτάσεις) και βάλε ένα emoji γατούλας στο τέλος.`;
-
-    const apiKey = process.env.GEMINI_API_KEY;
-    // Εδώ είναι η διόρθωση στο URL:
-    const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash-latest:generateContent?key=${apiKey}`;
+    // Παίρνουμε το νέο κλειδί της Groq από το χρηματοκιβώτιο
+    const apiKey = process.env.GROQ_API_KEY;
+    
+    // Το URL επικοινωνίας της Groq
+    const apiUrl = 'https://api.groq.com/openai/v1/chat/completions';
 
     try {
         const response = await fetch(apiUrl, {
             method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
+            headers: { 
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${apiKey}` // Έτσι δέχεται το κλειδί η Groq
+            },
             body: JSON.stringify({
-                contents: [{ parts: [{ text: prompt }] }]
+                model: "llama3-8b-8192", // Το αστραπιαίο μοντέλο της Meta
+                messages: [
+                    {
+                        role: "system",
+                        content: "Είσαι ο έξυπνος βοηθός της εφαρμογής Catgebra. Ένας μαθητής έγραψε το εξής στο πρόχειρό του: '" + userText + "'. Αν δεις λάθος στα μαθηματικά του, διόρθωσέ τον ευγενικά. Αν δεις σωστή σκέψη, ενθάρρυνέ τον. Απάντησε στα Ελληνικά, κράτα το ΠΟΛΥ σύντομο (1-3 προτάσεις) και βάλε ένα emoji γατούλας στο τέλος."
+                    }
+                ]
             })
         });
 
         const data = await response.json();
         
         if (data.error) {
-            console.error("Σφάλμα από Google:", data.error.message);
-            // Αν δούμε ξανά limit 0, φταίει ο κανόνας της Ευρώπης!
-            return res.status(500).json({ reply: 'Η Google με μπλόκαρε! Μάλλον φταίει ο κανόνας δωρεάν χρήσης στην Ευρώπη. 😿' });
+            console.error("Σφάλμα από Groq:", data.error);
+            return res.status(500).json({ reply: 'Ο Σεφ μας αντιμετωπίζει ένα μικρό πρόβλημα... 😿' });
         }
 
-        const aiMessage = data.candidates[0].content.parts[0].text;
+        // Στην Groq (και στο ChatGPT) η απάντηση κρύβεται σε αυτό το σημείο:
+        const aiMessage = data.choices[0].message.content;
         res.status(200).json({ reply: aiMessage });
 
     } catch (error) {
