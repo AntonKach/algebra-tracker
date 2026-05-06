@@ -28,9 +28,19 @@
         <img src="cat.jpg" alt="Catgebra Mascot" class="mascot">
         <h1>Catgebra 🐈🧮</h1>
 
-        <div class="grade-selector">
+       <div class="grade-selector">
             <label for="grade-select" id="lbl-level">Επίπεδο Σπουδών:</label>
             <select id="grade-select" onchange="changeGrade()"></select>
+        </div>
+        
+        <!-- ΕΔΩ ΜΠΑΙΝΕΙ Η ΝΕΑ ΕΠΙΛΟΓΗ ΔΥΣΚΟΛΙΑΣ -->
+        <div class="difficulty-selector" style="margin-top: 10px; margin-bottom: 15px;">
+            <label for="level-select" id="lbl-select-level" style="font-weight: bold; color: #bb86fc;">Δυσκολία:</label>
+            <select id="level-select" onchange="generateNewProblem()" style="padding: 5px; border-radius: 5px; background: #252525; color: white; border: 1px solid #03dac6;">
+                <option value="1">Επίπεδο 1: Γατάκι (ax + b = c)</option>
+                <option value="2">Επίπεδο 2: Γάτος (ax + b = cx + d)</option>
+                <option value="3">Επίπεδο 3: Τίγρης (Δευτεροβάθμιες)</option>
+            </select>
         </div>
         
         <div class="stats">
