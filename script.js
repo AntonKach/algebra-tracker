@@ -258,7 +258,7 @@ function checkAnswer() {
         feedback.innerText = msgs[Math.floor(Math.random() * msgs.length)];
         
         // --- ΝΕΟ: ΗΧΟΣ ΚΑΙ ΕΦΕ ΕΠΙΒΡΑΒΕΥΣΗΣ! ---
-        new Audio('success.mp3').play();
+        new Audio('correct.mp3').play();
         confetti({ particleCount: 150, spread: 80, origin: { y: 0.6 } });
         
         setTimeout(loadNextProblem, 2500);
@@ -267,7 +267,7 @@ function checkAnswer() {
         feedback.innerText = errs[Math.floor(Math.random() * errs.length)];
         
         // --- ΝΕΟ: ΗΧΟΣ ΛΑΘΟΥΣ! ---
-        new Audio('error.mp3').play();
+        new Audio('fail.mp3').play();
     }
     
     // Αποθήκευση τοπικά
