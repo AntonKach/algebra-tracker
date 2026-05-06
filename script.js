@@ -237,13 +237,10 @@ function loadNextProblem() {
 }
 
 function checkAnswer() {
-    // 1. Παίρνουμε την απάντηση και αφαιρούμε ΟΛΑ τα κενά (ώστε το "2, 3" να γίνει "2,3")
     let userAns = document.getElementById("answer").value.replace(/\s+/g, '').trim();
     let expected = currentProblem.answer;
 
-    // 2. Έξυπνος έλεγχος για Δευτεροβάθμιες (αν υπάρχουν δύο ρίζες με κόμμα)
     if (expected.includes(',') && userAns.includes(',')) {
-        // Αν ο χρήστης έγραψε ανάποδα τις ρίζες, τις ταξινομούμε για να πιαστούν σωστές!
         let userRoots = userAns.split(',').sort((a,b) => parseFloat(a) - parseFloat(b));
         let expectedRoots = expected.split(',').sort((a,b) => parseFloat(a) - parseFloat(b));
         userAns = userRoots.join(',');
@@ -265,19 +262,26 @@ function checkAnswer() {
         const errs = translations[currentLang].catError;
         feedback.innerText = errs[Math.floor(Math.random() * errs.length)];
     }
-    localStorage.setItem("mathUserStats", JSON.stringify(userStats));
-    localStorage.setItem("mathScore", score);
-}
-// (Αυτές οι δύο γραμμές υπάρχουν ήδη, βρες τες!)
+    
+    // Αποθήκευση τοπικά
     localStorage.setItem("mathUserStats", JSON.stringify(userStats));
     localStorage.setItem("mathScore", score);
     
-    // ΠΡΟΣΘΕΣΕ ΑΥΤΕΣ ΤΙΣ 3 ΓΡΑΜΜΕΣ ΑΚΡΙΒΩΣ ΑΠΟ ΚΑΤΩ:
+    // Αποθήκευση στο Cloud του Firebase!
     if (window.saveToCloud) {
         window.saveToCloud(score, userStats);
     }
-} // Εδώ κλείνει η checkAnswer()
-function clearNotes() { 
+}
+
+// --- ΣΥΝΔΕΣΗ ΜΕ ΤΟ FIREBASE CLOUD ---
+window.updateGameData = function(cloudScore, cloudStats) {
+    if (cloudScore !== undefined) score = cloudScore;
+    if (cloudStats !== undefined) userStats = cloudStats;
+    
+    document.getElementById("score").innerText = score;
+    localStorage.setItem("mathUserStats", JSON.stringify(userStats));
+    localStorage.setItem("mathScore", score);
+};function clearNotes() { 
     document.getElementById("user-notes").value = ""; 
     document.getElementById("ai-response").innerText = ""; // Καθαρίζει και το AI
 }
