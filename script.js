@@ -268,6 +268,15 @@ function checkAnswer() {
     localStorage.setItem("mathUserStats", JSON.stringify(userStats));
     localStorage.setItem("mathScore", score);
 }
+// (Αυτές οι δύο γραμμές υπάρχουν ήδη, βρες τες!)
+    localStorage.setItem("mathUserStats", JSON.stringify(userStats));
+    localStorage.setItem("mathScore", score);
+    
+    // ΠΡΟΣΘΕΣΕ ΑΥΤΕΣ ΤΙΣ 3 ΓΡΑΜΜΕΣ ΑΚΡΙΒΩΣ ΑΠΟ ΚΑΤΩ:
+    if (window.saveToCloud) {
+        window.saveToCloud(score, userStats);
+    }
+} // Εδώ κλείνει η checkAnswer()
 function clearNotes() { 
     document.getElementById("user-notes").value = ""; 
     document.getElementById("ai-response").innerText = ""; // Καθαρίζει και το AI
