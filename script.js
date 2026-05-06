@@ -147,64 +147,113 @@ function populateGradeSelect() {
     if (currentVal) select.value = currentVal;
 }
 
-function generateDynamicProblem(type) {
-    const words = translations[currentLang].stepWords;
-    if (type === "dynamic_linear") {
-        let a = Math.floor(Math.random() * 9) + 1;
-        let x = Math.floor(Math.random() * 21) - 10;
-        let b = Math.floor(Math.random() * 21) - 10;
-        let c = a * x + b;
-        let bStr = b >= 0 ? `+ ${b}` : `- ${Math.abs(b)}`;
-        return {
-            equation: `${a}x ${bStr} = ${c}`,
-            answer: x.toString(),
-            steps: [`${words.move} ${a}x = ${c - b}`, `${words.div} ${a}: x = ${x}`]
-        };
-    } else if (type === "dynamic_fraction") {
-        let x = Math.floor(Math.random() * 10) + 1;
-        let denom = Math.floor(Math.random() * 4) + 2;
-        let c = Math.floor(Math.random() * 10) + 1;
-        let result = x + c;
-        return {
-            equation: `x/${denom} + ${c} = ${result}`,
-            answer: (x * denom).toString(),
-            steps: [`${words.sub} ${c}: x/${denom} = ${x}`, `${words.mult} ${denom}: x = ${x * denom}`]
-        };
-    }
+// Βοηθητική συνάρτηση για τυχαίους αριθμούς
+function getRandomInt(min, max) {
+    return Math.floor(Math.random() * (max - min + 1)) + min;
+}
+
+// Για να δουλεύει το onchange του HTML που προσθέσαμε
+function generateNewProblem() {
+    loadNextProblem();
 }
 
 function loadNextProblem() {
-    const grade = document.getElementById("grade-select").value;
-    if (!grade) return;
-    const gradeData = educationData[grade];
-    
-    if (gradeData.type.includes("dynamic")) {
-        currentProblem = generateDynamicProblem(gradeData.type);
-    } else {
-        const problems = gradeData.problems;
-        let prob = problems[Math.floor(Math.random() * problems.length)];
-        currentProblem = { equation: prob.equation, answer: prob.answer, steps: prob.steps[currentLang] };
+    const levelSelect = document.getElementById("level-select");
+    const words = translations[currentLang].stepWords;
+    let equationStr = "";
+    let correctAns = "";
+    let stepList = [];
+
+    // Αν υπάρχει το νέο μενού Δυσκολίας, βγάζουμε ασκήσεις από εκεί!
+    if (levelSelect) {
+        const level = parseInt(levelSelect.value);
+
+        if (level === 1) {
+            let x = getRandomInt(-10, 10);
+            let a = getRandomInt(1, 10);
+            let b = getRandomInt(-20, 20);
+            let c = (a * x) + b;
+            let signB = b >= 0 ? "+" : "-";
+            equationStr = `${a}x ${signB} ${Math.abs(b)} = ${c}`;
+            correctAns = x.toString();
+            stepList = [`${words.move} ${a}x = ${c} ${b >= 0 ? '-' : '+'} ${Math.abs(b)}`, `${words.div} x = ${x}`];
+        } else if (level === 2) {
+            let x = getRandomInt(-10, 10);
+            let a = getRandomInt(1, 10);
+            let c_coeff = getRandomInt(1, 10);
+            while(a === c_coeff) { c_coeff = getRandomInt(1, 10); }
+            let b = getRandomInt(-20, 20);
+            let d = (a * x) + b - (c_coeff * x);
+            let signB = b >= 0 ? "+" : "-";
+            let signD = d >= 0 ? "+" : "-";
+            equationStr = `${a}x ${signB} ${Math.abs(b)} = ${c_coeff}x ${signD} ${Math.abs(d)}`;
+            correctAns = x.toString();
+            stepList = [`Φέρνουμε τα x στο πρώτο μέλος: ${a}x ${c_coeff >= 0 ? '-' : '+'} ${Math.abs(c_coeff)}x = ${d} ${b >= 0 ? '-' : '+'} ${Math.abs(b)}`, `Κάνουμε τις πράξεις... x = ${x}`];
+        } else if (level === 3) {
+            let r1 = getRandomInt(-5, 5);
+            let r2 = getRandomInt(-5, 5);
+            let b = -(r1 + r2);
+            let c = r1 * r2;
+            let signB = b >= 0 ? "+" : "-";
+            let signC = c >= 0 ? "+" : "-";
+            
+            let bTerm = "";
+            if (b === 1) bTerm = "+ x";
+            else if (b === -1) bTerm = "- x";
+            else if (b !== 0) bTerm = `${signB} ${Math.abs(b)}x`;
+
+            let cTerm = c !== 0 ? `${signC} ${Math.abs(c)}` : "";
+            equationStr = `x² ${bTerm} ${cTerm} = 0`;
+            
+            if (r1 === r2) {
+                correctAns = r1.toString();
+                stepList = [`Η εξίσωση έχει μία διπλή ρίζα.`, `Λύση: x = ${r1}`];
+            } else {
+                let roots = [r1, r2].sort((a,b) => a - b);
+                correctAns = `${roots[0]},${roots[1]}`;
+                stepList = [`Λύνουμε με διακρίνουσα (Δ) ή με παραγοντοποίηση.`, `Λύσεις (με κόμμα): ${roots[0]},${roots[1]}`];
+            }
+        }
+        currentProblem = { equation: equationStr, answer: correctAns, steps: stepList };
     }
-    
+
+    // Εμφάνιση της εξίσωσης στην οθόνη
     let displayEq = currentProblem.equation.replace(/\^x/g, "<sup>x</sup>");
     document.getElementById("equation").innerHTML = displayEq;
     
+    // Καθαρισμός πεδίων
     document.getElementById("answer").value = "";
     document.getElementById("feedback").innerText = "";
     document.getElementById("help-steps").classList.add("hidden");
-    document.getElementById("ai-response").innerText = ""; // Καθαρίζει την απάντηση του AI σε νέα άσκηση
+    document.getElementById("ai-response").innerText = ""; 
     
+    // Ενημέρωση του Desmos Graph
     calculator.setBlank();
     let latex = currentProblem.equation.replace('=', '-(') + ')'; 
+    // Μετατροπή του x² για να το καταλαβαίνει το γράφημα!
+    latex = latex.replace(/x²/g, 'x^2');
     if (currentProblem.equation.includes('∫')) latex = "y = x^2"; 
     calculator.setExpression({ id: 'graph', latex: latex, color: '#bb86fc' });
 }
 
 function checkAnswer() {
-    const userAns = document.getElementById("answer").value.trim();
+    // 1. Παίρνουμε την απάντηση και αφαιρούμε ΟΛΑ τα κενά (ώστε το "2, 3" να γίνει "2,3")
+    let userAns = document.getElementById("answer").value.replace(/\s+/g, '').trim();
+    let expected = currentProblem.answer;
+
+    // 2. Έξυπνος έλεγχος για Δευτεροβάθμιες (αν υπάρχουν δύο ρίζες με κόμμα)
+    if (expected.includes(',') && userAns.includes(',')) {
+        // Αν ο χρήστης έγραψε ανάποδα τις ρίζες, τις ταξινομούμε για να πιαστούν σωστές!
+        let userRoots = userAns.split(',').sort((a,b) => parseFloat(a) - parseFloat(b));
+        let expectedRoots = expected.split(',').sort((a,b) => parseFloat(a) - parseFloat(b));
+        userAns = userRoots.join(',');
+        expected = expectedRoots.join(',');
+    }
+
     const feedback = document.getElementById("feedback");
     userStats.played++; 
-    if (userAns === currentProblem.answer) {
+    
+    if (userAns === expected) {
         userStats.correct++;
         score += 20;
         document.getElementById("score").innerText = score;
@@ -219,7 +268,6 @@ function checkAnswer() {
     localStorage.setItem("mathUserStats", JSON.stringify(userStats));
     localStorage.setItem("mathScore", score);
 }
-
 function clearNotes() { 
     document.getElementById("user-notes").value = ""; 
     document.getElementById("ai-response").innerText = ""; // Καθαρίζει και το AI
