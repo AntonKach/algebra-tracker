@@ -256,11 +256,18 @@ function checkAnswer() {
         document.getElementById("score").innerText = score;
         const msgs = translations[currentLang].catSuccess;
         feedback.innerText = msgs[Math.floor(Math.random() * msgs.length)];
+        
+        // --- ΝΕΟ: ΗΧΟΣ ΚΑΙ ΕΦΕ ΕΠΙΒΡΑΒΕΥΣΗΣ! ---
+        new Audio('success.mp3').play();
         confetti({ particleCount: 150, spread: 80, origin: { y: 0.6 } });
+        
         setTimeout(loadNextProblem, 2500);
     } else {
         const errs = translations[currentLang].catError;
         feedback.innerText = errs[Math.floor(Math.random() * errs.length)];
+        
+        // --- ΝΕΟ: ΗΧΟΣ ΛΑΘΟΥΣ! ---
+        new Audio('error.mp3').play();
     }
     
     // Αποθήκευση τοπικά
@@ -271,16 +278,6 @@ function checkAnswer() {
     if (window.saveToCloud) {
         window.saveToCloud(score, userStats);
     }
-}
-
-// --- ΣΥΝΔΕΣΗ ΜΕ ΤΟ FIREBASE CLOUD ---
-window.updateGameData = function(cloudScore, cloudStats) {
-    if (cloudScore !== undefined) score = cloudScore;
-    if (cloudStats !== undefined) userStats = cloudStats;
-    
-    document.getElementById("score").innerText = score;
-    localStorage.setItem("mathUserStats", JSON.stringify(userStats));
-    localStorage.setItem("mathScore", score);
 };function clearNotes() { 
     document.getElementById("user-notes").value = ""; 
     document.getElementById("ai-response").innerText = ""; // Καθαρίζει και το AI
