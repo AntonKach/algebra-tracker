@@ -316,3 +316,13 @@ async function askAI() {
         aiText.innerText = "Ουπς! Υπήρξε ένα μικρό πρόβλημα σύνδεσης. Δοκίμασε ξανά! 😿";
     }
 }
+// --- ΣΥΝΔΕΣΗ ΜΕ ΤΟ FIREBASE CLOUD ---
+window.updateGameData = function(cloudScore, cloudStats) {
+    if (cloudScore !== undefined) score = cloudScore;
+    if (cloudStats !== undefined) userStats = cloudStats;
+    
+    // Ανανεώνουμε την οθόνη και τα τοπικά δεδομένα
+    document.getElementById("score").innerText = score;
+    localStorage.setItem("mathUserStats", JSON.stringify(userStats));
+    localStorage.setItem("mathScore", score);
+};
