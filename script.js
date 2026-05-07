@@ -2,7 +2,17 @@ let score = 0, currentProblem = {}, timerInterval, seconds = 0, calculator, sciC
 let currentLang = "el"; 
 let userStats = JSON.parse(localStorage.getItem("mathUserStats")) || { played: 0, correct: 0 };
 let lastFocusedInput = "answer";
-
+// --- ΝΕΟ: Λήψη δεδομένων από το Firebase ---
+window.updateGameData = function(cloudScore, cloudStats) {
+    if (cloudScore !== undefined) score = cloudScore;
+    if (cloudStats !== undefined) userStats = cloudStats; // Αλλάξαμε το όνομα σε userStats για να ταιριάζει με τον κώδικά σου!
+    
+    // Ενημέρωση της οθόνης
+    document.getElementById("score").innerText = score;
+    if (typeof updateStatsUI === "function") {
+        updateStatsUI(); 
+    }
+};
 const translations = {
     el: {
         lblLevel: "Επίπεδο Σπουδών:", lblScore: "Σκορ:", lblTime: "Χρόνος:",
