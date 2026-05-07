@@ -153,3 +153,29 @@ button:active {
     max-width: 400px;
     padding: 20px;
 }
+/* --- Διόρθωση για τις Πηγές Μελέτης (Links) --- */
+.resources-list {
+    list-style-type: none !important; /* Αφαιρεί τις τελείες της λίστας */
+    padding: 0 !important;
+    margin: 10px 0;
+}
+
+.resources-list li {
+    margin: 10px 0;
+    font-size: 1.2em;
+}
+
+.resources-list a {
+    color: #03dac6 !important; /* Φωτεινό Κυανό (όπως το κουμπί του Chat) */
+    text-decoration: none !important; /* Βγάζει την υπογράμμιση */
+    font-weight: bold;
+    padding: 5px 10px;
+    border: 2px dashed transparent;
+    transition: all 0.2s ease-in-out;
+}
+
+/* Τι γίνεται όταν περνάς το ποντίκι από πάνω (Hover) */
+.resources-list a:hover {
+    color: #FFC107 !important; /* Γίνεται έντονο κίτρινο */
+    border-bottom: 2px dashed #FFC107; /* Εμφανίζεται μια διακεκομμένη γραμμή */
+}
