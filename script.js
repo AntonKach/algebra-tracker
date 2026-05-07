@@ -335,4 +335,19 @@ window.updateGameData = function(cloudScore, cloudStats) {
     document.getElementById("score").innerText = score;
     localStorage.setItem("mathUserStats", JSON.stringify(userStats));
     localStorage.setItem("mathScore", score);
-};
+
+    // --- ΣΥΣΤΗΜΑ ΒΑΘΜΙΔΩΝ (GAMIFICATION) ---
+function updateRank() {
+    const rankElement = document.getElementById("user-rank");
+    if (!rankElement) return;
+
+    if (score >= 600) {
+        rankElement.innerText = "🐅 Μαθηματικός Τίγρης";
+    } else if (score >= 300) {
+        rankElement.innerText = "🐆 Γρήγορος Λύγκας";
+    } else if (score >= 100) {
+        rankElement.innerText = "🐈 Έξυπνος Γάτος";
+    } else {
+        rankElement.innerText = "🐱 Αρχάριο Γατάκι";
+    }
+}};
