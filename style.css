@@ -6,80 +6,81 @@
 }
 
 body {
-    /* --- ΝΕΟ ΦΟΝΤΟ ΜΕ ΕΙΚΟΝΑ --- */
-    /* Βάζουμε μια σκοτεινή στρώση ΠΑΝΩ από την εικόνα για να μειώσουμε τη φωτεινότητά της κατά 60% (rgba 0,0,0,0.6) */
-    background-image: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)), url('bg.jpg');
+    /* --- ΝΕΟ ΦΟΝΤΟ ΜΕ ΕΙΚΟΝΑ ΚΑΙ ΜΕΙΩΜΕΝΗ ΦΩΤΕΙΝΟΤΗΤΑ --- */
+    /* Βάζουμε μια ΠΟΛΥ σκοτεινή στρώση (rgba 0,0,0,0.7) για να μειώσουμε τη φωτεινότητα κατά 70% */
+    background-image: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)), url('bg.jpg');
     
     background-size: cover; /* Καλύπτει όλη την οθόνη */
     background-position: center; /* Κεντράρει την εικόνα */
     background-attachment: fixed; /* Η εικόνα μένει σταθερή όταν σκρολάρεις */
-    background-color: #2c1b18; /* Χρώμα ασφαλείας αν δεν φορτώσει η εικόνα */
+    background-color: #2c1b18; /* Χρώμα ασφαλείας */
 
-    color: #2c1b18 !important; /* Σκούρο καφέ/μελάνι για το κείμενο */
+    color: #fcebc7 !important; /* Ανοιχτό μπεζ/περγαμηνή για το κείμενο */
     font-family: 'Patrick Hand', cursive, sans-serif !important;
     text-align: center;
     margin: 0;
     padding: 20px;
     display: flex;
     justify-content: center;
-    align-items: flex-start; /* Ξεκινάει από την κορυφή */
+    align-items: flex-start;
     min-height: 100vh;
 }
 
-/* --- Η Μισέλ --- */
+/* --- Η Μισέλ (Ακόμα πιο μικρή για το compact site) --- */
 .mascot {
-    width: 120px; /* Λίγο πιο μικρή για να ταιριάζει στο 'μαζεμένο' site */
-    height: 120px;
+    width: 100px;
+    height: 100px;
     border-radius: 50%;
-    border: 4px solid #2c1b18;
-    box-shadow: 6px 6px 0px #2c1b18;
+    border: 4px solid #000000 !important;
+    box-shadow: 6px 6px 0px #000000 !important;
     object-fit: cover;
     margin-bottom: 15px;
 }
 
-/* --- Κεντρικό Κουτί (Η Περγαμηνή) --- */
+/* --- Κεντρικό Κουτί (Συμπαγές και Σκοτεινό Neubrutalist) --- */
 .container {
     /* --- ΝΕΟ: ΜΑΖΕΜΕΝΟ ΠΛΑΤΟΣ --- */
-    max-width: 650px; /* Μικραίνουμε το πλάτος (από 800px) για να φαίνεται πιο 'συμπαγές' */
+    max-width: 600px; /* Πιο συμπαγές πλάτος (από 800px) */
     
     width: 100%;
     margin: 0 auto;
-    background-color: #fcebc7 !important; /* Ανοιχτό μπεζ χαρτιού */
-    padding: 25px; /* Λίγο λιγότερο padding */
-    border: 4px solid #2c1b18 !important;
+    background-color: #333333 !important; /* Σκοτεινό γκρι, όχι άσπρο! */
+    padding: 20px;
+    border: 4px solid #000000 !important; /* Παχύ, μαύρο, Neubrutalist περίγραμμα */
     border-radius: 12px;
-    box-shadow: 10px 10px 0px #2c1b18 !important; /* Πιο έντονη σκιά για να 'πετάγεται' έξω */
+    box-shadow: 10px 10px 0px #000000 !important; /* Πιο έντονη flat σκιά */
 }
 
 h1 {
-    font-size: 3em; /* Λίγο πιο μικρός τίτλος */
+    font-size: 2.8em !important; /* Λίγο πιο μικρός τίτλος */
     margin: 10px 0;
-    color: #2c1b18;
+    color: #fcebc7 !important;
+    text-shadow: 2px 2px 0px #000000;
 }
 
 /* Υπόλοιπα στοιχεία Σκορ, Χρόνου */
 .stats p {
-    font-size: 1.2em;
-    margin: 10px 0;
+    font-size: 1.1em !important;
+    color: #fcebc7 !important;
 }
 
 /* Κουτιά Ασκήσεων και Πρόχειρου */
 .quiz-box, .notes-container, .about-section {
-    background-color: #fff6e5 !important;
-    border: 3px solid #2c1b18 !important;
+    background-color: #444444 !important; /* Ελαφρώς πιο ανοιχτό γκρι */
+    border: 3px solid #000000 !important;
     border-radius: 8px;
     padding: 15px;
     margin-top: 15px;
-    box-shadow: 4px 4px 0px rgba(44, 27, 24, 0.1) !important;
+    box-shadow: 4px 4px 0px rgba(0, 0, 0, 0.2) !important;
 }
 
 /* Η Εξίσωση */
 .equation-text {
-    font-size: 2.5em !important; /* Λίγο πιο μικρή για το νέο πλάτος */
+    font-size: 2.2em !important; /* Πιο συμπαγής */
     font-weight: bold;
-    color: #2c1b18 !important;
+    color: #fcebc7 !important;
     margin: 15px 0;
-    border-bottom: 3px dashed #2c1b18;
+    border-bottom: 3px dashed #fcebc7;
     display: inline-block;
     padding-bottom: 5px;
 }
@@ -87,28 +88,30 @@ h1 {
 /* Πεδία Απάντησης & Μενού */
 input[type="text"], textarea, select {
     background-color: #ffffff !important;
-    border: 3px solid #2c1b18 !important;
+    border: 3px solid #000000 !important;
     border-radius: 8px;
     padding: 10px 15px;
     font-size: 1.2em !important;
     font-family: 'Patrick Hand', cursive !important;
-    color: #2c1b18 !important;
-    width: 100%; /* Πιάνει όλο το διαθέσιμο πλάτος */
-    max-width: 350px;
+    color: #000000 !important; /* Μαύρο κείμενο για τα πεδία εισαγωγής */
+    width: 100%;
+    max-width: 300px;
     margin: 8px auto;
     display: block;
 }
 
-/* --- ΚΟΥΜΠΙΑ --- */
+/* --- ΚΟΥΜΠΙΑ (Η ΑΠΟΛΥΤΗ ΑΝΤΙΘΕΣΗ!) --- */
+/* Τώρα τα κουμπιά θα έχουν ΠΑΝΤΑ παχύ μαύρο περίγραμμα και έντονα, 'pop' χρώματα */
 button {
     font-family: 'Patrick Hand', cursive !important;
     font-size: 1.2em !important;
-    padding: 8px 18px; /* Λίγο πιο μαζεμένα */
-    border: 3px solid #2c1b18 !important;
+    padding: 8px 18px;
+    border: 4px solid #000000 !important; /* ΠΟΛΥ παχύ μαύρο περίγραμμα */
     border-radius: 8px;
     cursor: pointer;
-    box-shadow: 4px 4px 0px #2c1b18 !important; 
+    box-shadow: 4px 4px 0px #000000 !important; /* Η flat σκιά */
     font-weight: bold;
+    color: #000000 !important; /* Μαύρο, παχύ κείμενο πάνω στα φωτεινά χρώματα */
     margin: 6px;
     transition: transform 0.1s, box-shadow 0.1s;
 }
@@ -116,32 +119,33 @@ button {
 /* Εφέ όταν πατάς το κουμπί */
 button:active {
     transform: translate(4px, 4px) !important;
-    box-shadow: 0px 0px 0px #2c1b18 !important;
+    box-shadow: 0px 0px 0px #000000 !important;
 }
 
-/* Χρώματα Κουμπιών */
-.check-btn, #btn-check { background-color: #4CAF50 !important; color: white !important; }
-.help-btn, #btn-help { background-color: #FF5722 !important; color: white !important; }
-.skip-btn, #btn-skip { background-color: #607D8B !important; color: white !important; }
+/* Χρώματα Κουμπιών - ΤΩΡΑ ΕΙΝΑΙ ΠΟΛΥ ΦΩΤΕΙΝΑ ΓΙΑ ΝΑ 'ΠΕΤΑΓΟΝΤΑΙ'! */
+.check-btn, #btn-check { background-color: #4CAF50 !important; } /* Έντονο Πράσινο */
+.help-btn, #btn-help { background-color: #FF5722 !important; }  /* Έντονο Πορτοκαλο-κόκκινο */
+.skip-btn, #btn-skip { background-color: #FFC107 !important; }  /* Έντονο Κίτρινο */
 
 #btn-login { background-color: #ffffff !important; color: #4285F4 !important; font-size: 1.1em !important; }
-.stats-btn, #btn-stats { background-color: #FFC107 !important; color: #2c1b18 !important; }
-#btn-chat-toggle { background-color: #03dac6 !important; color: #2c1b18 !important; }
+.stats-btn, #btn-stats { background-color: #FFC107 !important; color: #000000 !important; }
+#btn-chat-toggle { background-color: #03dac6 !important; color: #000000 !important; } /* Κυανό 'Chat' */
 
 /* Μικρά κουμπιά AI, πληκτρολογίου και Καθαρισμού */
 .math-keyboard button, #btn-ai, #btn-clear {
-    background-color: #fcebc7 !important;
-    color: #2c1b18 !important;
+    background-color: #444444 !important;
+    color: #fcebc7 !important;
+    border-color: #000000 !important;
     padding: 4px 12px;
     font-size: 1em !important;
 }
 
 /* Αναδυόμενα Παράθυρα (Modal) */
 .modal-content {
-    background-color: #fcebc7 !important;
-    border: 4px solid #2c1b18 !important;
+    background-color: #333333 !important;
+    border: 4px solid #000000 !important;
     border-radius: 12px;
-    box-shadow: 10px 10px 0px #2c1b18 !important;
-    color: #2c1b18 !important;
-    max-width: 500px;
+    box-shadow: 10px 10px 0px #000000 !important;
+    color: #fcebc7 !important;
+    max-width: 450px;
 }
