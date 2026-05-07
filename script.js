@@ -280,7 +280,8 @@ function checkAnswer() {
     if (window.saveToCloud) {
         window.saveToCloud(score, userStats);
     }
-};function clearNotes() { 
+}
+function clearNotes() { 
     document.getElementById("user-notes").value = ""; 
     document.getElementById("ai-response").innerText = ""; // Καθαρίζει και το AI
 }
