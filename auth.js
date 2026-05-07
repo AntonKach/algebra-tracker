@@ -1,7 +1,7 @@
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-app.js";
 import { getAuth, signInWithPopup, GoogleAuthProvider } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-auth.js";
-// Φέρνουμε τα εργαλεία της Βάσης Δεδομένων (Firestore)
-import { getFirestore, doc, setDoc, getDoc } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-firestore.js";
+// Φέρνουμε ΟΛΑ τα νέα εργαλεία για το Chat
+import { getFirestore, doc, setDoc, getDoc, collection, addDoc, query, orderBy, limit, onSnapshot, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-firestore.js";
 
 const firebaseConfig = {
   apiKey: "AIzaSyCovxsWgdbcq2xcvtEMcg281DshyVRQl7A",
@@ -24,37 +24,73 @@ window.loginWithGoogle = async () => {
         
         document.getElementById("btn-login").innerText = "👤 " + user.displayName;
         
-        // Ψάχνουμε να βρούμε τον χρήστη στη Βάση Δεδομένων
         const userRef = doc(db, "users", user.uid);
         const docSnap = await getDoc(userRef);
         
         if (docSnap.exists()) {
             const data = docSnap.data();
-            // Αν υπάρχει, στέλνουμε το σκορ του στο παιχνίδι!
             if(window.updateGameData) {
                 window.updateGameData(data.score, data.stats);
             }
-            alert("Καλώς ήρθες, " + user.displayName + "! Το σκορ σου φορτώθηκε από το Cloud! ☁️🐾");
+            alert("Καλώς ήρθες, " + user.displayName + "! Το σκορ σου φορτώθηκε! ☁️🐾");
         } else {
-            alert("Καλώς ήρθες, " + user.displayName + "! Έγινε δημιουργία του νέου σου προφίλ. 🐾");
+            alert("Καλώς ήρθες, " + user.displayName + "! Έγινε δημιουργία προφίλ. 🐾");
         }
         
-        // Κρατάμε το ID του χρήστη ανοιχτό για να σώζουμε το σκορ του
         window.currentUserId = user.uid;
+        window.currentUserName = user.displayName; // Κρατάμε το όνομα για το Chat!
+
+        // Μόλις συνδεθεί, ξεκινάμε να "ακούμε" για νέα μηνύματα
+        window.listenToChat();
 
     } catch (error) {
         console.error("Σφάλμα σύνδεσης:", error);
     }
 };
 
-// Λειτουργία για αποθήκευση στο Cloud (τη φωνάζει η Γατούλα όποτε βρίσκει το x!)
 window.saveToCloud = async (newScore, newStats) => {
     if (window.currentUserId) {
         const userRef = doc(db, "users", window.currentUserId);
-        // Το merge: true σημαίνει "ενημέρωσε μόνο το σκορ, μην σβήσεις κάτι άλλο"
         await setDoc(userRef, {
             score: newScore,
             stats: newStats
         }, { merge: true });
     }
+};
+
+// --- ΝΕΟ: ЛΕΙΤΟΥΡΓΙΕΣ CHAT ΣΕ ΠΡΑΓΜΑΤΙΚΟ ΧΡΟΝΟ ---
+window.listenToChat = function() {
+    // Ζητάμε από το Firebase τα 15 πιο πρόσφατα μηνύματα
+    const q = query(collection(db, "messages"), orderBy("createdAt", "desc"), limit(15));
+    
+    // Το onSnapshot ανανεώνει την οθόνη ΑΥΤΟΜΑΤΑ μόλις μπει νέο μήνυμα!
+    onSnapshot(q, (snapshot) => {
+        const chatBox = document.getElementById("chat-messages");
+        if (!chatBox) return;
+        
+        const msgs = [];
+        snapshot.forEach((doc) => msgs.push(doc.data()));
+        
+        chatBox.innerHTML = "";
+        msgs.reverse().forEach(data => {
+            const isMe = data.user === window.currentUserName ? " (Εγώ)" : "";
+            chatBox.innerHTML += `<div style="margin-bottom: 8px; padding: 6px; background: #2c2c2c; border-radius: 5px;">
+                <strong style="color: #bb86fc;">${data.user}${isMe}:</strong> ${data.text}
+            </div>`;
+        });
+        chatBox.scrollTop = chatBox.scrollHeight; // Αυτόματο σκρολάρισμα κάτω
+    });
+};
+
+window.sendChatMessage = async function(text) {
+    if (!window.currentUserId) {
+        alert("Πρέπει να κάνεις Σύνδεση με Google για να στείλεις μήνυμα! 🐾");
+        return;
+    }
+    // Αποστολή στο Cloud
+    await addDoc(collection(db, "messages"), {
+        text: text,
+        user: window.currentUserName,
+        createdAt: serverTimestamp()
+    });
 };
