@@ -288,7 +288,7 @@ async function askAI() {
     }
 }
 // --- ΤΟ ΝΕΟ ΕΝΔΙΑΦΕΡΟΝ ΧΑΡΑΚΤΗΡΙΣΤΙΚΟ: ΤΑ ΜΥΣΤΙΚΑ ΤΗΣ ΜΙΣΕΛ ---
-function showSecret() {
+window.showSecret = function() {
     const secrets = [
         "💡 Το ήξερες; Το σύμβολο του ίσον (=) εφευρέθηκε το 1557 επειδή ένας μαθηματικός βαρέθηκε να γράφει συνέχεια 'είναι ίσο με'!",
         "🐾 Οι γάτες έχουν 32 μύες σε κάθε αυτί. Μπορώ να ακούσω κάθε λάθος πράξη σου! 😼",
@@ -298,12 +298,15 @@ function showSecret() {
         "🐾 Η μύτη κάθε γάτας είναι μοναδική, σαν το ανθρώπινο δακτυλικό αποτύπωμα. Το ίδιο μοναδική είναι και η λύση μιας πρωτοβάθμιας εξίσωσης!"
     ];
     
+    // Επιλέγουμε ένα τυχαίο μυστικό
     const randomSecret = secrets[Math.floor(Math.random() * secrets.length)];
     
+    // Το εμφανίζουμε στο πλαίσιο του AI
     const aiResponse = document.getElementById("ai-response");
     if (aiResponse) {
         aiResponse.innerText = randomSecret;
     } else {
         alert(randomSecret);
     }
+};
 }
