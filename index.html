@@ -15,11 +15,10 @@
 </head>
 <body>
     <div class="container">
-        <button id="btn-login" onclick="loginWithGoogle()" style="background: #4285F4; color: white; border: none; padding: 8px 15px; border-radius: 5px; cursor: pointer; font-weight: bold; margin-left: 10px;">
-       ☁️ Σύνδεση με Google
-   </button>
-        <!-- ΕΠΙΛΟΓΗ ΓΛΩΣΣΑΣ -->
-        <div style="text-align: right; margin-bottom: 10px;">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
+            <button id="btn-login" onclick="loginWithGoogle()" style="background: #4285F4; color: white; border: none; padding: 8px 15px; border-radius: 5px; cursor: pointer; font-weight: bold;">
+               ☁️ Σύνδεση με Google
+            </button>
             <select id="lang-select" onchange="changeLanguage()" style="background: #252525; border: 1px solid #bb86fc; padding: 5px; border-radius: 5px; color: white; cursor: pointer;">
                 <option value="el">🇬🇷 Ελληνικά</option>
                 <option value="en">🇬🇧 English</option>
@@ -31,12 +30,11 @@
         <img src="cat.jpg" alt="Catgebra Mascot" class="mascot">
         <h1>Catgebra 🐈🧮</h1>
 
-       <div class="grade-selector">
+        <div class="grade-selector">
             <label for="grade-select" id="lbl-level">Επίπεδο Σπουδών:</label>
             <select id="grade-select" onchange="changeGrade()"></select>
         </div>
         
-        <!-- ΕΔΩ ΜΠΑΙΝΕΙ Η ΝΕΑ ΕΠΙΛΟΓΗ ΔΥΣΚΟΛΙΑΣ -->
         <div class="difficulty-selector" style="margin-top: 10px; margin-bottom: 15px;">
             <label for="level-select" id="lbl-select-level" style="font-weight: bold; color: #bb86fc;">Δυσκολία:</label>
             <select id="level-select" onchange="generateNewProblem()" style="padding: 5px; border-radius: 5px; background: #252525; color: white; border: 1px solid #03dac6;">
@@ -47,8 +45,13 @@
         </div>
         
         <div class="stats">
-            <p><span id="lbl-score">Σκορ:</span> <span id="score" class="highlight-text">0</span> | <span id="lbl-time">Χρόνος:</span> <span id="timer" class="highlight-text">00:00</span></p>
+            <p>
+                <span id="lbl-score">Σκορ:</span> <span id="score" class="highlight-text">0</span> | 
+                <span id="user-rank" style="color: #FFD700; font-weight: bold; margin: 0 10px;">🐱 Αρχάριο Γατάκι</span> | 
+                <span id="lbl-time">Χρόνος:</span> <span id="timer" class="highlight-text">00:00</span>
+            </p>
             <button onclick="toggleStats()" class="stats-btn" id="btn-stats">📊 Στατιστικά</button>
+            <button id="btn-chat-toggle" onclick="toggleChat()" style="background: #03dac6; color: black; font-weight: bold;">💬 Chat</button>
         </div>
 
         <div class="quiz-box">
@@ -77,24 +80,17 @@
             <p id="feedback"></p>
             <div id="help-steps" class="help-steps hidden"></div>
 
-            <!-- ΠΡΟΧΕΙΡΟ ΣΗΜΕΙΩΣΕΩΝ & ΕΠΙΣΤΗΜΟΝΙΚΟΣ ΥΠΟΛΟΓΙΣΤΗΣ ΜΕ AI -->
             <div class="notes-container">
                 <div style="display: flex; justify-content: space-between; align-items: center;">
                     <label for="user-notes" id="lbl-notes">Πρόχειρο & Υπολογιστής 📝🧮</label>
                     <div>
-                        <!-- ΤΟ ΝΕΟ ΜΑΓΙΚΟ ΚΟΥΜΠΙ -->
                         <button onclick="askAI()" style="background: none; border: none; color: #03dac6; cursor: pointer; font-size: 14px; font-weight: bold; margin-right: 15px;" id="btn-ai">✨ Έλεγχος AI</button>
-
                         <button onclick="clearNotes()" style="background: none; border: none; color: #cf6679; cursor: pointer; font-size: 12px;" id="btn-clear">🗑️ Καθαρισμός</button>
                     </div>
                 </div>
                 
-                <!-- Πρόσθεσα το spellcheck="true" -->
                 <textarea id="user-notes" spellcheck="true" placeholder="Γράψε εδώ τις σκέψεις σου..."></textarea>
-                
-                <!-- Εδώ θα εμφανίζεται η απάντηση της Τεχνητής Νοημοσύνης -->
                 <p id="ai-response" style="color: #03dac6; font-size: 14px; font-style: italic; margin-top: 5px; min-height: 20px; text-align: left;"></p>
-                
                 <div id="scientific-calculator" style="width: 100%; height: 250px; margin-top: 10px; border-radius: 8px; border: 1px solid #444;"></div>
             </div>
 
@@ -116,7 +112,6 @@
         </div>
     </div>
 
-    <!-- MODAL ΣΤΑΤΙΣΤΙΚΩΝ -->
     <div id="stats-modal" class="modal hidden">
         <div class="modal-content">
             <h2 id="modal-title">Τα Στατιστικά μου 📊</h2>
@@ -127,20 +122,30 @@
         </div>
     </div>
 
-    <script src="data.js"></script>
-    <script src="script.js"></script>
-</body>
-</html>
-<!-- ... (όλος ο υπόλοιπος κώδικας της σελίδας σου) ... -->
-
-    <!-- MODAL ΣΤΑΤΙΣΤΙΚΩΝ -->
-    <div id="stats-modal" class="modal hidden">
-        <!-- ... -->
+    <div id="chat-modal" class="modal hidden">
+        <div class="modal-content" style="max-width: 400px;">
+            <h2 style="color: #bb86fc;">Γατό-Chat 💬🐾</h2>
+            
+            <div id="chat-messages" style="height: 250px; overflow-y: auto; background: #1e1e1e; border: 1px solid #444; border-radius: 8px; padding: 10px; margin-bottom: 15px; text-align: left; font-size: 14px;">
+                <p style="color: #888; text-align: center;">Συνδέσου με Google για να δεις τα μηνύματα!</p>
+            </div>
+            
+            <select id="canned-messages" style="width: 100%; padding: 10px; margin-bottom: 10px; background: #333; color: white; border-radius: 5px; border: 1px solid #555;">
+                <option value="Γεια σε όλους! 🐾">Γεια σε όλους! 🐾</option>
+                <option value="Αυτή η άσκηση με δυσκόλεψε! 🙀">Αυτή η άσκηση με δυσκόλεψε! 🙀</option>
+                <option value="Μόλις ανέβηκα κατηγορία! 🏆">Μόλις ανέβηκα κατηγορία! 🏆</option>
+                <option value="Πάμε δυνατά για το επόμενο σκορ! 🚀">Πάμε δυνατά για το επόμενο σκορ! 🚀</option>
+                <option value="Τα μαθηματικά είναι τέλεια! ✨">Τα μαθηματικά είναι τέλεια! ✨</option>
+                <option value="Καλή επιτυχία σε όλους! 🍀">Καλή επιτυχία σε όλους! 🍀</option>
+            </select>
+            
+            <button onclick="sendCannedMessage()" style="background-color: #03dac6; color: black; font-weight: bold; width: 100%; margin-bottom: 10px;">Αποστολή Μηνύματος 📩</button>
+            <button onclick="toggleChat()" style="width: 100%;">Κλείσιμο</button>
+        </div>
     </div>
 
     <script src="data.js"></script>
     <script src="script.js"></script>
-    <!-- ΠΡΟΣΘΗΚΗ ΤΟΥ FIREBASE ΕΔΩ -->
     <script type="module" src="auth.js"></script>
 </body>
 </html>
