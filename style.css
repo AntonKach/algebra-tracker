@@ -179,3 +179,28 @@ button:active {
     color: #FFC107 !important; /* Γίνεται έντονο κίτρινο */
     border-bottom: 2px dashed #FFC107; /* Εμφανίζεται μια διακεκομμένη γραμμή */
 }
+/* --- ΚΑΝΟΥΜΕ ΤΑ ΚΟΥΤΑΚΙΑ ΔΙΑΦΑΝΑ --- */
+input[type="text"], textarea, select {
+    background-color: transparent !important; /* Αφαίρεση του λευκού φόντου */
+    border: 2px solid #fcebc7 !important; /* Ανοιχτόχρωμο περίγραμμα για να ξεχωρίζει */
+    color: #fcebc7 !important; /* Ανοιχτόχρωμα γράμματα */
+}
+
+/* Ανοιχτόχρωμο κείμενο για τη λέξη "Απάντηση..." (Placeholder) */
+::placeholder {
+    color: rgba(252, 235, 199, 0.6) !important;
+}
+
+/* Όταν πατάς τα μενού για να ανοίξουν, πρέπει να έχουν σκούρο φόντο, 
+   αλλιώς οι επιλογές θα μπερδεύονται με την εικόνα! */
+select option {
+    background-color: #2c1b18 !important;
+    color: #fcebc7 !important;
+}
+
+/* Κουμπί Google και Μικρό Κουμπί Πληκτρολογίου */
+#btn-login, .kbd-toggle {
+    background-color: transparent !important; 
+    color: #fcebc7 !important; 
+    border: 2px solid #fcebc7 !important; 
+}
