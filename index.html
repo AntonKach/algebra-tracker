@@ -170,11 +170,11 @@
                 alert(randomSecret);
             }
         };
-    <div id="secret-modal" class="modal hidden">
-        <div class="modal-content" style="background-color: #FFFDE7; border: 3px solid #FFC107; border-radius: 15px; text-align: center;">
-            <h2 style="color: #FF9800; margin-bottom: 15px;">💡 Το Μυστικό της Μισέλ!</h2>
-            <p id="secret-text" style="font-size: 18px; margin: 20px 0; color: #333; font-weight: bold;"></p>
-            <button onclick="closeSecret()" class="action-btn" style="background-color: #FFC107; color: black; font-weight: bold; padding: 10px 20px; border-radius: 8px;">Τέλεια! 🐾</button>
+    <div id="secret-modal" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(0,0,0,0.7); z-index: 9999; justify-content: center; align-items: center; backdrop-filter: blur(3px);">
+        <div style="background-color: #FFFDE7; border: 4px solid #FFC107; border-radius: 20px; text-align: center; padding: 30px; max-width: 85%; width: 400px; box-shadow: 0 10px 25px rgba(0,0,0,0.5);">
+            <h2 style="color: #FF9800; margin-top: 0; margin-bottom: 15px; font-family: sans-serif;">💡 Το Μυστικό της Μισέλ!</h2>
+            <p id="secret-text" style="font-size: 18px; margin: 20px 0; color: #333; font-weight: bold; font-family: sans-serif; line-height: 1.5;"></p>
+            <button onclick="closeSecret()" style="background-color: #FFC107; color: black; font-weight: bold; padding: 12px 25px; border-radius: 10px; border: none; cursor: pointer; font-size: 16px; box-shadow: 0 4px 6px rgba(0,0,0,0.1);">Τέλεια! 🐾</button>
         </div>
     </div>
 
@@ -192,16 +192,17 @@
             // Επιλέγουμε ένα τυχαίο μυστικό
             const randomSecret = secrets[Math.floor(Math.random() * secrets.length)];
             
-            // Το βάζουμε μέσα στο νέο παραθυράκι
+            // Το βάζουμε μέσα στο κείμενο
             document.getElementById("secret-text").innerText = randomSecret;
             
-            // Εμφανίζουμε το παραθυράκι στην οθόνη
-            document.getElementById("secret-modal").classList.remove("hidden");
+            // Το εμφανίζουμε βάζοντας display: flex (κεντράρει το κουτί)
+            document.getElementById("secret-modal").style.display = "flex";
         };
 
         // Συνάρτηση για να κλείνει το παραθυράκι
         window.closeSecret = function() {
-            document.getElementById("secret-modal").classList.add("hidden");
+            // Το κρύβουμε ξανά
+            document.getElementById("secret-modal").style.display = "none";
         };
     </script>
 </body>
