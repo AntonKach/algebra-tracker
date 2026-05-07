@@ -329,17 +329,8 @@ async function askAI() {
     }
 }
 // --- ΣΥΝΔΕΣΗ ΜΕ ΤΟ FIREBASE CLOUD ---
-window.updateGameData = function(cloudScore, cloudStats) {
-    if (cloudScore !== undefined) score = cloudScore;
-    if (cloudStats !== undefined) userStats = cloudStats;
-    
-    // Ανανεώνουμε την οθόνη και τα τοπικά δεδομένα
-    document.getElementById("score").innerText = score;
-    localStorage.setItem("mathUserStats", JSON.stringify(userStats));
-    localStorage.setItem("mathScore", score);
-
-    // --- ΣΥΣΤΗΜΑ ΒΑΘΜΙΔΩΝ (GAMIFICATION) ---
-function updateRank()localStorage.setItem("mathUserStats", JSON.stringify(userStats)); {
+// --- ΣΥΣΤΗΜΑ ΒΑΘΜΙΔΩΝ (GAMIFICATION) ---
+function updateRank() {
     const rankElement = document.getElementById("user-rank");
     if (!rankElement) return;
 
@@ -352,4 +343,18 @@ function updateRank()localStorage.setItem("mathUserStats", JSON.stringify(userSt
     } else {
         rankElement.innerText = "🐱 Αρχάριο Γατάκι";
     }
-}};
+}
+
+// --- ΣΥΝΔΕΣΗ ΜΕ ΤΟ FIREBASE CLOUD ---
+window.updateGameData = function(cloudScore, cloudStats) {
+    if (cloudScore !== undefined) score = cloudScore;
+    if (cloudStats !== undefined) userStats = cloudStats;
+    
+    // Ανανεώνουμε την οθόνη και τα τοπικά δεδομένα
+    document.getElementById("score").innerText = score;
+    
+    updateRank(); // Ενημερώνει τη βαθμίδα κάθε φορά που τραβάμε το σκορ!
+    
+    localStorage.setItem("mathUserStats", JSON.stringify(userStats));
+    localStorage.setItem("mathScore", score);
+};
