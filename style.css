@@ -209,3 +209,8 @@ select option {
     border: none !important;
     box-shadow: none !important;
 }
+/* --- ΜΕΓΑΛΩΝΟΥΜΕ ΤΗ ΜΙΣΕΛ 🐾 --- */
+.mascot {
+    width: 140px !important;  /* Από 80px που ήταν, τώρα γίνεται αρκετά μεγαλύτερη */
+    height: 140px !important;
+}
