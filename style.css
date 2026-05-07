@@ -204,3 +204,8 @@ select option {
     color: #fcebc7 !important; 
     border: 2px solid #fcebc7 !important; 
 }
+/* --- ΑΦΑΙΡΕΣΗ ΤΩΝ ΜΑΥΡΩΝ ΠΛΑΙΣΙΩΝ --- */
+.quiz-box, .notes-container, .about-section {
+    border: none !important;
+    box-shadow: none !important;
+}
