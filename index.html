@@ -170,6 +170,13 @@
                 alert(randomSecret);
             }
         };
+    <div id="secret-modal" class="modal hidden">
+        <div class="modal-content" style="background-color: #FFFDE7; border: 3px solid #FFC107; border-radius: 15px; text-align: center;">
+            <h2 style="color: #FF9800; margin-bottom: 15px;">💡 Το Μυστικό της Μισέλ!</h2>
+            <p id="secret-text" style="font-size: 18px; margin: 20px 0; color: #333; font-weight: bold;"></p>
+            <button onclick="closeSecret()" class="action-btn" style="background-color: #FFC107; color: black; font-weight: bold; padding: 10px 20px; border-radius: 8px;">Τέλεια! 🐾</button>
+        </div>
+    </div>
     </script>
 </body>
 </html>
