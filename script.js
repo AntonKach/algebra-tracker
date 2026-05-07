@@ -303,6 +303,19 @@ function skipProblem() { loadNextProblem(); }
 function toggleStats() { document.getElementById("stats-modal").classList.toggle("hidden"); }
 function resetProgress() { localStorage.clear(); location.reload(); }
 
+// --- ΝΕΕΣ ΛΕΙΤΟΥΡΓΙΕΣ ΓΙΑ ΤΟ ΓΑΤΟ-CHAT 💬 ---
+function toggleChat() { 
+    document.getElementById("chat-modal").classList.toggle("hidden"); 
+}
+
+function sendCannedMessage() {
+    const msg = document.getElementById("canned-messages").value;
+    if (window.sendChatMessage) {
+        window.sendChatMessage(msg);
+    } else {
+        alert("Περίμενε να φορτώσει η σύνδεση! 🐾");
+    }
+}
 // --- ΝΕΑ ΜΑΓΙΚΗ ΛΕΙΤΟΥΡΓΙΑ: Επικοινωνία με το Vercel Backend ---
 async function askAI() {
     const notes = document.getElementById("user-notes").value.trim();
