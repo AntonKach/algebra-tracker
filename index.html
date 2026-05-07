@@ -170,7 +170,7 @@
                 alert(randomSecret);
             }
         };
-    <div id="secret-modal" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(0,0,0,0.7); z-index: 9999; justify-content: center; align-items: center; backdrop-filter: blur(3px);">
+   <div id="secret-modal" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(0,0,0,0.7); z-index: 9999; justify-content: center; align-items: center; backdrop-filter: blur(3px);">
         <div style="background-color: #FFFDE7; border: 4px solid #FFC107; border-radius: 20px; text-align: center; padding: 30px; max-width: 85%; width: 400px; box-shadow: 0 10px 25px rgba(0,0,0,0.5);">
             <h2 style="color: #FF9800; margin-top: 0; margin-bottom: 15px; font-family: sans-serif;">💡 Το Μυστικό της Μισέλ!</h2>
             <p id="secret-text" style="font-size: 18px; margin: 20px 0; color: #333; font-weight: bold; font-family: sans-serif; line-height: 1.5;"></p>
@@ -179,24 +179,34 @@
     </div>
 
     <script>
-        window.showCatSecret = function() {
+        function showCatSecret() {
             const secrets = [
                 "💡 Το ήξερες; Το σύμβολο του ίσον (=) εφευρέθηκε το 1557 επειδή ένας μαθηματικός βαρέθηκε να γράφει συνέχεια 'είναι ίσο με'!",
                 "🐾 Οι γάτες έχουν 32 μύες σε κάθε αυτί. Μπορώ να ακούσω κάθε λάθος πράξη σου! 😼",
                 "💡 Ο αριθμός μηδέν (0) ανακαλύφθηκε στην Ινδία γύρω στον 5ο αιώνα. Πριν από αυτό, απλά άφηναν ένα κενό!",
                 "🐾 Meow! Αν πολλαπλασιάσεις το 111.111.111 με τον εαυτό του, βγάζει 12345678987654321! 🤯",
-                "💡 Όπως ακριβώς και στις εξισώσεις, έτσι και στη ζωή: ό,τι κάνεις στη μία πλευρά, πρέπει να το κάνεις και στην άλλη για να υπάρχει ισορροπία! ⚖️",
-                "🐾 Η μύτη κάθε γάτας είναι μοναδική, σαν το ανθρώπινο δακτυλικό αποτύπωμα. Το ίδιο μοναδική είναι και η λύση μιας πρωτοβάθμιας εξίσωσης!"
+                "💡 Όπως ακριβώς και στις εξισώσεις, έτσι και στη ζωή: ό,τι κάνεις στη μία πλευρά, πρέπει να το κάνεις και στην άλλη για να υπάρχει ισορροπία! ⚖️"
             ];
             
             const randomSecret = secrets[Math.floor(Math.random() * secrets.length)];
-            document.getElementById("secret-text").innerText = randomSecret;
-            document.getElementById("secret-modal").style.display = "flex";
-        };
+            const modal = document.getElementById("secret-modal");
+            const textEl = document.getElementById("secret-text");
+            
+            // Αν το κουτί υπάρχει κανονικά, δείξτο. Αλλιώς πέτα ένα κλασικό Alert!
+            if (modal && textEl) {
+                textEl.innerText = randomSecret;
+                modal.style.display = "flex";
+            } else {
+                alert(randomSecret); 
+            }
+        }
 
-        window.closeSecret = function() {
-            document.getElementById("secret-modal").style.display = "none";
-        };
+        function closeSecret() {
+            const modal = document.getElementById("secret-modal");
+            if (modal) {
+                modal.style.display = "none";
+            }
+        }
     </script>
 </body>
 </html>
