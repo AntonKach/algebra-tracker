@@ -14,12 +14,6 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
 const db = getFirestore(app);
-import { initializeFirestore, persistentLocalCache, persistentMultipleTabManager } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-firestore.js";
-
-// Αυτό βοηθάει τον Safari να μην μπλοκάρει τη σύνδεση
-const db = initializeFirestore(app, {
-  localCache: persistentLocalCache({tabManager: persistentMultipleTabManager()})
-});
 const provider = new GoogleAuthProvider();
 
 // Ο 'Θυρωρός' που ελέγχει αν είσαι ήδη συνδεδεμένος
