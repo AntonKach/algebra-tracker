@@ -1,5 +1,4 @@
-export default async function handler(req, res) {
-    // Δημιουργούμε έναν "έξυπνο" σερβιτόρο που απαντάει μόνο σε POST requests
+module.exports = async function handler(req, res) {
     if (req.method !== 'POST') {
         return res.status(405).json({ reply: 'Μόνο POST requests επιτρέπονται!' });
     }
@@ -11,7 +10,6 @@ export default async function handler(req, res) {
     }
 
     try {
-        // Εδώ μιλάμε απευθείας με τον "εγκέφαλο" του Groq
         const groqRes = await fetch('https://api.groq.com/openai/v1/chat/completions', {
             method: 'POST',
             headers: {
@@ -19,7 +17,7 @@ export default async function handler(req, res) {
                 'Content-Type': 'application/json'
             },
             body: JSON.stringify({
-                model: 'llama3-8b-8192', // Αστραπιαίο και έξυπνο μοντέλο
+                model: 'llama3-8b-8192', 
                 messages: [
                     { 
                         role: 'system', 
@@ -34,13 +32,18 @@ export default async function handler(req, res) {
         });
 
         const data = await groqRes.json();
-        const reply = data.choices[0].message.content;
 
-        // Στέλνουμε την απάντηση πίσω στη σελίδα σου
+        // ΕΛΕΓΧΟΣ: Αν το Groq μας ρίξει «άκυρο» (π.χ. λάθος κλειδί)
+        if (data.error) {
+            console.error("Σφάλμα Groq:", data.error);
+            return res.status(500).json({ reply: `Ουπς! Σφάλμα από το Groq: ${data.error.message}` });
+        }
+
+        const reply = data.choices[0].message.content;
         res.status(200).json({ reply: reply });
         
     } catch (error) {
-        console.error("Σφάλμα AI:", error);
-        res.status(500).json({ reply: 'Ουπς! Το μυαλό μου κόλλησε λιγάκι. Δοκίμασε ξανά! 😿' });
+        console.error("Σφάλμα Συστήματος:", error);
+        res.status(500).json({ reply: `Σφάλμα κώδικα: ${error.message}` });
     }
-}
+};
