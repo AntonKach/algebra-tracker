@@ -1,126 +1,26 @@
 /* Φέρνουμε την παιχνιδιάρικη γραμματοσειρά από την Google */
 @import url('https://fonts.googleapis.com/css2?family=Patrick+Hand&display=swap');
 
-/* Βασικό Φόντο (Το χρώμα της μουστάρδας από το εξώφυλλο) */
+/* Βασικό Φόντο (Το ήρεμο μουσταρδί/ώχρα) */
 body {
-    background-color: #dca750;
+    background-color: #E9C46A; /* Ήρεμο μουσταρδί/ώχρα - Πολύ πιο ζεστό! */
     color: #2c1b18; /* Σκούρο καφέ (σαν μελάνι) αντί για σκληρό μαύρο */
     font-family: 'Patrick Hand', cursive, sans-serif;
     text-align: center;
     margin: 0;
     padding: 20px;
-    /* Ελαφριά υφή χαρτιού στο βάθος */
-    background-image: url('data:image/svg+xml,%3Csvg width="40" height="40" viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg"%3E%3Cpath d="M0 0h40v40H0V0zm20 20h20v20H20V20zM0 20h20v20H0V20z" fill="%23b88b42" fill-opacity="0.1" fill-rule="evenodd"/%3E%3C/svg%3E');
+    /* Αφαιρούμε την υφή για πιο καθαρό 'ήρεμο' αποτέλεσμα */
+}
+
+/* --- Η Μισέλ (Η μασκότ) --- */
+.mascot {
+    max-width: 150px; /* Μικραίνουμε αρκετά την εικόνα (από ~300px που ήταν) */
+    height: auto;
+    border-radius: 50%; /* Κυκλικό σχήμα */
+    border: 5px solid #2c1b18; /* Παχύ σκούρο περίγραμμα */
+    box-shadow: 6px 6px 0px #2c1b18; /* Η 'Neubrutalist' flat σκιά */
+    margin: 10px 0;
 }
 
 /* Κεντρικό Κουτί (Σαν παλιά σελίδα βιβλίου) */
-.container {
-    max-width: 800px;
-    margin: 0 auto;
-    background-color: #fcebc7; /* Χρώμα περγαμηνής/χαρτιού */
-    padding: 30px;
-    border: 4px solid #2c1b18;
-    border-radius: 12px;
-    box-shadow: 8px 8px 0px #2c1b18; /* Αυτή η σκιά δίνει την αίσθηση του κόμικ! */
-}
-
-h1 {
-    font-size: 3.5em;
-    margin-bottom: 10px;
-    color: #2c1b18;
-    text-shadow: 2px 2px 0px #ffffff;
-}
-
-/* Κουτιά Ασκήσεων και Πρόχειρου */
-.quiz-box, .notes-container, .about-section {
-    background-color: #fff6e5;
-    border: 3px solid #2c1b18;
-    border-radius: 8px;
-    padding: 20px;
-    margin-top: 20px;
-    box-shadow: 4px 4px 0px rgba(44, 27, 24, 0.15);
-}
-
-/* Η Εξίσωση */
-.equation-text {
-    font-size: 2.8em;
-    color: #2c1b18;
-    margin: 20px 0;
-    background: transparent;
-    border-bottom: 3px dashed #2c1b18;
-    display: inline-block;
-    padding-bottom: 10px;
-}
-
-/* Πεδία Απάντησης & Μενού */
-input[type="text"], textarea, select {
-    background-color: #fdf5e6 !important;
-    border: 3px solid #2c1b18 !important;
-    border-radius: 6px;
-    padding: 10px 15px;
-    font-size: 1.2em;
-    font-family: 'Patrick Hand', cursive;
-    color: #2c1b18 !important;
-}
-
-/* --- ΚΟΥΜΠΙΑ (Το χρωματικό μοτίβο του Mockup) --- */
-button {
-    font-family: 'Patrick Hand', cursive;
-    font-size: 1.2em;
-    padding: 10px 20px;
-    border: 3px solid #2c1b18 !important;
-    border-radius: 8px;
-    cursor: pointer;
-    box-shadow: 4px 4px 0px #2c1b18; /* Η χαρακτηριστική flat σκιά */
-    transition: all 0.1s ease-in-out;
-    font-weight: bold;
-    margin: 5px;
-}
-
-/* Εφέ όταν πατάς το κουμπί (βουλιάζει προς τα κάτω) */
-button:active {
-    transform: translate(4px, 4px);
-    box-shadow: 0px 0px 0px #2c1b18;
-}
-
-/* Χρώματα Κουμπιών */
-.check-btn { background-color: #3b8253 !important; color: white !important; } /* Σκούρο πράσινο */
-.help-btn { background-color: #c94a4a !important; color: white !important; }  /* Κεραμιδί */
-.skip-btn { background-color: #6c7a89 !important; color: white !important; }  /* Γκριζομπλέ */
-.stats-btn, #btn-chat-toggle { background-color: #dca750 !important; color: #2c1b18 !important; }
-#btn-login { background-color: #ffffff !important; color: #4285F4 !important; }
-.reset-btn { background-color: #a84832 !important; color: white !important; margin-top: 20px; }
-
-/* Μικρά κουμπιά AI και Καθαρισμού */
-#btn-ai, #btn-clear {
-    background: #fcebc7 !important;
-    box-shadow: 2px 2px 0px #2c1b18 !important;
-    border: 2px dashed #2c1b18 !important;
-    padding: 5px 10px;
-}
-
-/* Αναδυόμενα Παράθυρα (Modal) */
-.modal-content {
-    background-color: #fcebc7 !important;
-    border: 4px solid #2c1b18 !important;
-    border-radius: 12px;
-    box-shadow: 10px 10px 0px #2c1b18 !important;
-    color: #2c1b18 !important;
-}
-
-/* Κουτί του Chat */
-#chat-messages {
-    background-color: #fff6e5 !important;
-    border: 2px solid #2c1b18 !important;
-    color: #2c1b18 !important;
-}
-
-/* Ειδικά χρώματα κειμένου */
-h2, h3, h4, #lbl-select-level, #lbl-graph {
-    color: #c94a4a !important;
-}
-
-#ai-response {
-    color: #3b8253 !important;
-    font-size: 1.2em !important;
-}
+.container
