@@ -12,7 +12,7 @@ if (typeof educationData === 'undefined') {
     };
 }
 
-// --- ΒΟΗΘΗΤΙΚΕΣ ΣΥΝΑΡΤΗΣΕΙΣ ΑΣΦΑΛΕΙΑΣ (Αποτρέπουν τα κρασαρίσματα!) ---
+// --- ΒΟΗΘΗΤΙΚΕΣ ΣΥΝΑΡΤΗΣΕΙΣ ΑΣΦΑΛΕΙΑΣ ---
 function safeSetText(id, text) { const el = document.getElementById(id); if (el) el.innerText = text; }
 function safeSetHTML(id, html) { const el = document.getElementById(id); if (el) el.innerHTML = html; }
 function safeSetPlaceholder(id, text) { const el = document.getElementById(id); if (el) el.placeholder = text; }
@@ -255,13 +255,13 @@ function clearNotes() {
     safeSetValue("user-notes", ""); 
     safeSetText("ai-response", ""); 
 }
-function toggleStats() { updateStatsUI(); const sm = document.getElementById("stats-modal"); if(sm) sm.classList.toggle("hidden"); }
+window.toggleStats = function() { updateStatsUI(); const sm = document.getElementById("stats-modal"); if(sm) sm.classList.toggle("hidden"); };
 function skipProblem() { loadNextProblem(); }
 function resetProgress() { localStorage.clear(); location.reload(); }
 function insertSymbol(sym) { const input = document.getElementById(lastFocusedInput); if(input) { input.value += sym; input.focus(); } }
 function toggleKeyboard() { const mk = document.getElementById("math-keyboard"); if(mk) mk.classList.toggle("hidden"); }
 
-function toggleChat() { const cm = document.getElementById("chat-modal"); if(cm) cm.classList.toggle("hidden"); }
+window.toggleChat = function() { const cm = document.getElementById("chat-modal"); if(cm) cm.classList.toggle("hidden"); };
 
 function sendCannedMessage() {
     const el = document.getElementById("canned-messages");
@@ -287,25 +287,3 @@ async function askAI() {
         safeSetText("ai-response", "Ουπς! Υπήρξε ένα μικρό πρόβλημα σύνδεσης. 😿");
     }
 }
-// --- ΤΟ ΝΕΟ ΕΝΔΙΑΦΕΡΟΝ ΧΑΡΑΚΤΗΡΙΣΤΙΚΟ: ΤΑ ΜΥΣΤΙΚΑ ΤΗΣ ΜΙΣΕΛ ---
-window.showSecret = function() {
-    const secrets = [
-        "💡 Το ήξερες; Το σύμβολο του ίσον (=) εφευρέθηκε το 1557 επειδή ένας μαθηματικός βαρέθηκε να γράφει συνέχεια 'είναι ίσο με'!",
-        "🐾 Οι γάτες έχουν 32 μύες σε κάθε αυτί. Μπορώ να ακούσω κάθε λάθος πράξη σου! 😼",
-        "💡 Ο αριθμός μηδέν (0) ανακαλύφθηκε στην Ινδία γύρω στον 5ο αιώνα. Πριν από αυτό, απλά άφηναν ένα κενό!",
-        "🐾 Meow! Αν πολλαπλασιάσεις το 111.111.111 με τον εαυτό του, βγάζει 12345678987654321! 🤯",
-        "💡 Όπως ακριβώς και στις εξισώσεις, έτσι και στη ζωή: ό,τι κάνεις στη μία πλευρά, πρέπει να το κάνεις και στην άλλη για να υπάρχει ισορροπία! ⚖️",
-        "🐾 Η μύτη κάθε γάτας είναι μοναδική, σαν το ανθρώπινο δακτυλικό αποτύπωμα. Το ίδιο μοναδική είναι και η λύση μιας πρωτοβάθμιας εξίσωσης!"
-    ];
-    
-    // Επιλέγουμε ένα τυχαίο μυστικό
-    const randomSecret = secrets[Math.floor(Math.random() * secrets.length)];
-    
-    // Το εμφανίζουμε στο πλαίσιο του AI
-    const aiResponse = document.getElementById("ai-response");
-    if (aiResponse) {
-        aiResponse.innerText = randomSecret;
-    } else {
-        alert(randomSecret);
-    }
-};
