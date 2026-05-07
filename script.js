@@ -78,6 +78,7 @@ window.onload = function() {
     });
 
     document.getElementById("score").innerText = score;
+    updateRank();
     
     document.getElementById("answer").addEventListener("focus", () => lastFocusedInput = "answer");
     document.getElementById("user-notes").addEventListener("focus", () => lastFocusedInput = "user-notes");
@@ -254,6 +255,7 @@ function checkAnswer() {
         userStats.correct++;
         score += 20;
         document.getElementById("score").innerText = score;
+        updateRank();
         const msgs = translations[currentLang].catSuccess;
         feedback.innerText = msgs[Math.floor(Math.random() * msgs.length)];
         
@@ -337,7 +339,7 @@ window.updateGameData = function(cloudScore, cloudStats) {
     localStorage.setItem("mathScore", score);
 
     // --- ΣΥΣΤΗΜΑ ΒΑΘΜΙΔΩΝ (GAMIFICATION) ---
-function updateRank() {
+function updateRank()localStorage.setItem("mathUserStats", JSON.stringify(userStats)); {
     const rankElement = document.getElementById("user-rank");
     if (!rankElement) return;
 
