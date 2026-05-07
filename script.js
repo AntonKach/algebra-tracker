@@ -2,17 +2,24 @@ let score = 0, currentProblem = {}, timerInterval, seconds = 0, calculator, sciC
 let currentLang = "el"; 
 let userStats = JSON.parse(localStorage.getItem("mathUserStats")) || { played: 0, correct: 0 };
 let lastFocusedInput = "answer";
-// --- ΝΕΟ: Λήψη δεδομένων από το Firebase ---
+
+// --- 1. ΣΥΓΧΡΟΝΙΣΜΟΣ ΜΕ CLOUD (FIREBASE) ---
 window.updateGameData = function(cloudScore, cloudStats) {
+    console.log("🔄 Λήψη δεδομένων από το Cloud...");
     if (cloudScore !== undefined) score = cloudScore;
-    if (cloudStats !== undefined) userStats = cloudStats; // Αλλάξαμε το όνομα σε userStats για να ταιριάζει με τον κώδικά σου!
+    if (cloudStats !== undefined) userStats = cloudStats;
     
-    // Ενημέρωση της οθόνης
+    // Ενημέρωση οθόνης
     document.getElementById("score").innerText = score;
-    if (typeof updateStatsUI === "function") {
-        updateStatsUI(); 
-    }
+    updateRank();
+    updateStatsUI(); // Ανανέωση των αριθμών στο modal
+    
+    // Αποθήκευση και τοπικά για ασφάλεια
+    localStorage.setItem("mathUserStats", JSON.stringify(userStats));
+    localStorage.setItem("mathScore", score);
 };
+
+// --- 2. ΜΕΤΑΦΡΑΣΕΙΣ ---
 const translations = {
     el: {
         lblLevel: "Επίπεδο Σπουδών:", lblScore: "Σκορ:", lblTime: "Χρόνος:",
@@ -41,50 +48,17 @@ const translations = {
         stepWords: { move: "Move:", div: "Divide:", sub: "Subtract:", mult: "Multiply:" },
         catSuccess: ["Purr-fect! You found x! 😻", "Meow-gnificent! 🐾", "Cat-like reflexes! 😼"],
         catError: ["Oops! Did I step on the keyboard? 😿", "Meow... Something's wrong. 🙀"]
-    },
-    fr: {
-        lblLevel: "Niveau:", lblScore: "Score:", lblTime: "Temps:",
-        placeholderAns: "Réponse...", btnCheck: "Vérifier", btnHelp: "Pas-à-pas", btnSkip: "Passer",
-        lblNotes: "Brouillon & Calculatrice 📝🧮", btnAI: "✨ Vérifier AI", placeholderNotes: "Écrivez ici...", btnClear: "🗑️ Effacer",
-        lblGraph: "Graphique 📈",
-        btnReset: "Réinitialiser", btnStats: "📊 Stats", modalTitle: "Statistiques 📊",
-        lblPlayed: "Résolus:", lblCorrect: "Corrects:", lblRate: "Taux:", btnClose: "Fermer",
-        lblAboutTitle: "À propos de Catgebra 🐾",
-        lblAboutText: "Catgebra a été créé pour rendre l'apprentissage de l'algèbre amusant ! Utilisez la calculatrice scientifique, prenez des notes et résolvez les équations étape par étape.",
-        lblResources: "Ressources 📚",
-        stepWords: { move: "Déplacer:", div: "Diviser:", sub: "Soustraire:", mult: "Multiplier:" },
-        catSuccess: ["Purr-fait ! 😻", "Meow-gnifique ! 🐾"],
-        catError: ["Oups ! Le chat sur le clavier ? 😿", "Miaou... Erreur. 🙀"]
-    },
-    tr: {
-        lblLevel: "Seviye:", lblScore: "Puan:", lblTime: "Süre:",
-        placeholderAns: "Cevap...", btnCheck: "Kontrol Et", btnHelp: "Adım Adım", btnSkip: "Geç",
-        lblNotes: "Notlar & Hesap Makinesi 📝🧮", btnAI: "✨ AI Kontrolü", placeholderNotes: "Buraya yazın...", btnClear: "🗑️ Temizle",
-        lblGraph: "Grafik 📈",
-        btnReset: "Sıfırla", btnStats: "📊 İstatistik", modalTitle: "İstatistiklerim 📊",
-        lblPlayed: "Çözülen:", lblCorrect: "Doğru:", lblRate: "Başarı:", btnClose: "Kapat",
-        lblAboutTitle: "Catgebra Hakkında 🐾",
-        lblAboutText: "Catgebra, cebir öğrenmeyi eğlenceli hale getirmek için tasarlandı! Hesap makinesini kullanın, notlar alın ve denklemleri adım adım çözün.",
-        lblResources: "Kaynaklar 📚",
-        stepWords: { move: "Taşı:", div: "Böl:", sub: "Çıkar:", mult: "Çarp:" },
-        catSuccess: ["Purr-fect! x'i buldun! 😻", "Miyav-harika! 🐾"],
-        catError: ["Oops! Ben mi bastım tuşa? 😿", "Miyav... Bir hata var. 🙀"]
     }
 };
 
+// --- 3. ΑΡΧΙΚΟΠΟΙΗΣΗ ---
 window.onload = function() {
     const savedScore = localStorage.getItem("mathScore");
     if (savedScore) score = parseInt(savedScore);
     
-    sciCalculator = Desmos.ScientificCalculator(document.getElementById('scientific-calculator'), {
-        invertedColors: true
-    });
-
+    sciCalculator = Desmos.ScientificCalculator(document.getElementById('scientific-calculator'), { invertedColors: true });
     calculator = Desmos.GraphingCalculator(document.getElementById('calculator'), {
-        keypad: true, 
-        expressions: false,
-        settingsMenu: false,
-        invertedColors: true
+        keypad: true, expressions: false, settingsMenu: false, invertedColors: true
     });
 
     document.getElementById("score").innerText = score;
@@ -93,7 +67,6 @@ window.onload = function() {
     document.getElementById("answer").addEventListener("focus", () => lastFocusedInput = "answer");
     document.getElementById("user-notes").addEventListener("focus", () => lastFocusedInput = "user-notes");
 
-    populateGradeSelect();
     changeLanguage(); 
     startTimer();     
 };
@@ -130,121 +103,56 @@ function changeLanguage() {
     document.getElementById("lbl-rate").innerText = t.lblRate;
     document.getElementById("btn-close").innerText = t.btnClose;
     
-    const btnAI = document.getElementById("btn-ai");
-    if (btnAI) btnAI.innerText = t.btnAI;
-    const lblGraph = document.getElementById("lbl-graph");
-    if (lblGraph) lblGraph.innerText = t.lblGraph;
-    const lblRes = document.getElementById("lbl-resources");
-    if (lblRes) lblRes.innerText = t.lblResources;
-    const lblTitle = document.getElementById("lbl-about-title");
-    if (lblTitle) lblTitle.innerText = t.lblAboutTitle;
-    const lblText = document.getElementById("lbl-about-text");
-    if (lblText) lblText.innerText = t.lblAboutText;
+    if (document.getElementById("btn-ai")) document.getElementById("btn-ai").innerText = t.btnAI;
+    if (document.getElementById("lbl-graph")) document.getElementById("lbl-graph").innerText = t.lblGraph;
+    if (document.getElementById("lbl-resources")) document.getElementById("lbl-resources").innerText = t.lblResources;
+    if (document.getElementById("lbl-about-title")) document.getElementById("lbl-about-title").innerText = t.lblAboutTitle;
+    if (document.getElementById("lbl-about-text")) document.getElementById("lbl-about-text").innerText = t.lblAboutText;
 
-    populateGradeSelect();
     loadNextProblem();
 }
 
-function populateGradeSelect() {
-    const select = document.getElementById("grade-select");
-    const currentVal = select.value;
-    select.innerHTML = "";
-    for (const key in educationData) {
-        let option = document.createElement("option");
-        option.value = key;
-        option.text = educationData[key].title[currentLang];
-        select.appendChild(option);
-    }
-    if (currentVal) select.value = currentVal;
-}
-
-// Βοηθητική συνάρτηση για τυχαίους αριθμούς
-function getRandomInt(min, max) {
-    return Math.floor(Math.random() * (max - min + 1)) + min;
-}
-
-// Για να δουλεύει το onchange του HTML που προσθέσαμε
-function generateNewProblem() {
-    loadNextProblem();
-}
+// --- 4. ΛΟΓΙΚΗ ΠΑΙΧΝΙΔΙΟΥ ---
+function getRandomInt(min, max) { return Math.floor(Math.random() * (max - min + 1)) + min; }
 
 function loadNextProblem() {
     const levelSelect = document.getElementById("level-select");
     const words = translations[currentLang].stepWords;
-    let equationStr = "";
-    let correctAns = "";
-    let stepList = [];
+    let equationStr = "", correctAns = "", stepList = [];
+    const level = levelSelect ? parseInt(levelSelect.value) : 1;
 
-    // Αν υπάρχει το νέο μενού Δυσκολίας, βγάζουμε ασκήσεις από εκεί!
-    if (levelSelect) {
-        const level = parseInt(levelSelect.value);
-
-        if (level === 1) {
-            let x = getRandomInt(-10, 10);
-            let a = getRandomInt(1, 10);
-            let b = getRandomInt(-20, 20);
-            let c = (a * x) + b;
-            let signB = b >= 0 ? "+" : "-";
-            equationStr = `${a}x ${signB} ${Math.abs(b)} = ${c}`;
-            correctAns = x.toString();
-            stepList = [`${words.move} ${a}x = ${c} ${b >= 0 ? '-' : '+'} ${Math.abs(b)}`, `${words.div} x = ${x}`];
-        } else if (level === 2) {
-            let x = getRandomInt(-10, 10);
-            let a = getRandomInt(1, 10);
-            let c_coeff = getRandomInt(1, 10);
-            while(a === c_coeff) { c_coeff = getRandomInt(1, 10); }
-            let b = getRandomInt(-20, 20);
-            let d = (a * x) + b - (c_coeff * x);
-            let signB = b >= 0 ? "+" : "-";
-            let signD = d >= 0 ? "+" : "-";
-            equationStr = `${a}x ${signB} ${Math.abs(b)} = ${c_coeff}x ${signD} ${Math.abs(d)}`;
-            correctAns = x.toString();
-            stepList = [`Φέρνουμε τα x στο πρώτο μέλος: ${a}x ${c_coeff >= 0 ? '-' : '+'} ${Math.abs(c_coeff)}x = ${d} ${b >= 0 ? '-' : '+'} ${Math.abs(b)}`, `Κάνουμε τις πράξεις... x = ${x}`];
-        } else if (level === 3) {
-            let r1 = getRandomInt(-5, 5);
-            let r2 = getRandomInt(-5, 5);
-            let b = -(r1 + r2);
-            let c = r1 * r2;
-            let signB = b >= 0 ? "+" : "-";
-            let signC = c >= 0 ? "+" : "-";
-            
-            let bTerm = "";
-            if (b === 1) bTerm = "+ x";
-            else if (b === -1) bTerm = "- x";
-            else if (b !== 0) bTerm = `${signB} ${Math.abs(b)}x`;
-
-            let cTerm = c !== 0 ? `${signC} ${Math.abs(c)}` : "";
-            equationStr = `x² ${bTerm} ${cTerm} = 0`;
-            
-            if (r1 === r2) {
-                correctAns = r1.toString();
-                stepList = [`Η εξίσωση έχει μία διπλή ρίζα.`, `Λύση: x = ${r1}`];
-            } else {
-                let roots = [r1, r2].sort((a,b) => a - b);
-                correctAns = `${roots[0]},${roots[1]}`;
-                stepList = [`Λύνουμε με διακρίνουσα (Δ) ή με παραγοντοποίηση.`, `Λύσεις (με κόμμα): ${roots[0]},${roots[1]}`];
-            }
-        }
-        currentProblem = { equation: equationStr, answer: correctAns, steps: stepList };
+    if (level === 1) {
+        let x = getRandomInt(-10, 10), a = getRandomInt(1, 10), b = getRandomInt(-20, 20);
+        let c = (a * x) + b;
+        equationStr = `${a}x ${b >= 0 ? "+" : "-"} ${Math.abs(b)} = ${c}`;
+        correctAns = x.toString();
+        stepList = [`${words.move} ${a}x = ${c} ${b >= 0 ? '-' : '+'} ${Math.abs(b)}`, `${words.div} x = ${x}`];
+    } else if (level === 2) {
+        let x = getRandomInt(-10, 10), a = getRandomInt(1, 10), c_c = getRandomInt(1, 10);
+        while(a === c_c) c_c = getRandomInt(1, 10);
+        let b = getRandomInt(-20, 20);
+        let d = (a * x) + b - (c_c * x);
+        equationStr = `${a}x ${b >= 0 ? "+" : "-"} ${Math.abs(b)} = ${c_c}x ${d >= 0 ? "+" : "-"} ${Math.abs(d)}`;
+        correctAns = x.toString();
+        stepList = [`Φέρνουμε τα x αριστερά...`, `Λύση: x = ${x}`];
+    } else {
+        let r1 = getRandomInt(-5, 5), r2 = getRandomInt(-5, 5);
+        let b = -(r1 + r2), c = r1 * r2;
+        equationStr = `x² ${b>=0?'+':'-'} ${Math.abs(b)}x ${c>=0?'+':'-'} ${Math.abs(c)} = 0`;
+        let roots = [r1, r2].sort((a,b) => a - b);
+        correctAns = r1 === r2 ? r1.toString() : `${roots[0]},${roots[1]}`;
+        stepList = [`Λύνουμε τη δευτεροβάθμια...`, `Ρίζες: ${correctAns}`];
     }
 
-    // Εμφάνιση της εξίσωσης στην οθόνη
-    let displayEq = currentProblem.equation.replace(/\^x/g, "<sup>x</sup>");
-    document.getElementById("equation").innerHTML = displayEq;
-    
-    // Καθαρισμός πεδίων
+    currentProblem = { equation: equationStr, answer: correctAns, steps: stepList };
+    document.getElementById("equation").innerHTML = equationStr.replace(/x²/g, "x²");
     document.getElementById("answer").value = "";
     document.getElementById("feedback").innerText = "";
     document.getElementById("help-steps").classList.add("hidden");
-    document.getElementById("ai-response").innerText = ""; 
-    
-    // Ενημέρωση του Desmos Graph
+
     calculator.setBlank();
-    let latex = currentProblem.equation.replace('=', '-(') + ')'; 
-    // Μετατροπή του x² για να το καταλαβαίνει το γράφημα!
-    latex = latex.replace(/x²/g, 'x^2');
-    if (currentProblem.equation.includes('∫')) latex = "y = x^2"; 
-    calculator.setExpression({ id: 'graph', latex: latex, color: '#bb86fc' });
+    let latex = equationStr.replace('=', '-(') + ')';
+    calculator.setExpression({ id: 'graph', latex: latex.replace(/x²/g, 'x^2'), color: '#bb86fc' });
 }
 
 function checkAnswer() {
@@ -252,133 +160,58 @@ function checkAnswer() {
     let expected = currentProblem.answer;
 
     if (expected.includes(',') && userAns.includes(',')) {
-        let userRoots = userAns.split(',').sort((a,b) => parseFloat(a) - parseFloat(b));
-        let expectedRoots = expected.split(',').sort((a,b) => parseFloat(a) - parseFloat(b));
-        userAns = userRoots.join(',');
-        expected = expectedRoots.join(',');
+        userAns = userAns.split(',').sort((a,b) => parseFloat(a) - parseFloat(b)).join(',');
+        expected = expected.split(',').sort((a,b) => parseFloat(a) - parseFloat(b)).join(',');
     }
 
-    const feedback = document.getElementById("feedback");
     userStats.played++; 
-    
     if (userAns === expected) {
         userStats.correct++;
         score += 20;
-        document.getElementById("score").innerText = score;
-        updateRank();
         const msgs = translations[currentLang].catSuccess;
-        feedback.innerText = msgs[Math.floor(Math.random() * msgs.length)];
-        
-        // --- ΝΕΟ: ΗΧΟΣ ΚΑΙ ΕΦΕ ΕΠΙΒΡΑΒΕΥΣΗΣ! ---
-        new Audio('correct.mp3').play();
+        document.getElementById("feedback").innerText = msgs[Math.floor(Math.random() * msgs.length)];
         confetti({ particleCount: 150, spread: 80, origin: { y: 0.6 } });
-        
-        setTimeout(loadNextProblem, 2500);
+        setTimeout(loadNextProblem, 2000);
     } else {
         const errs = translations[currentLang].catError;
-        feedback.innerText = errs[Math.floor(Math.random() * errs.length)];
-        
-        // --- ΝΕΟ: ΗΧΟΣ ΛΑΘΟΥΣ! ---
-        new Audio('fail.mp3').play();
+        document.getElementById("feedback").innerText = errs[Math.floor(Math.random() * errs.length)];
     }
-    
-    // Αποθήκευση τοπικά
+
+    document.getElementById("score").innerText = score;
+    updateRank();
+    updateStatsUI();
+
     localStorage.setItem("mathUserStats", JSON.stringify(userStats));
     localStorage.setItem("mathScore", score);
-    
-    // Αποθήκευση στο Cloud του Firebase!
-    if (window.saveToCloud) {
-        window.saveToCloud(score, userStats);
-    }
-}
-function clearNotes() { 
-    document.getElementById("user-notes").value = ""; 
-    document.getElementById("ai-response").innerText = ""; // Καθαρίζει και το AI
-}
-function changeGrade() { startTimer(); loadNextProblem(); }
-function toggleKeyboard() { document.getElementById("math-keyboard").classList.toggle("hidden"); }
 
-function insertSymbol(sym) { 
-    const targetInput = document.getElementById(lastFocusedInput);
-    targetInput.value += sym;
-    targetInput.focus();
+    if (window.saveToCloud) window.saveToCloud(score, userStats);
+}
+
+// --- 5. ΒΟΗΘΗΤΙΚΕΣ ΣΥΝΑΡΤΗΣΕΙΣ ---
+function updateStatsUI() {
+    document.getElementById("stats-played").innerText = userStats.played;
+    document.getElementById("stats-correct").innerText = userStats.correct;
+    let rate = userStats.played > 0 ? Math.round((userStats.correct / userStats.played) * 100) : 0;
+    document.getElementById("stats-rate").innerText = rate + "%";
+}
+
+function updateRank() {
+    const rankEl = document.getElementById("user-rank");
+    if (!rankEl) return;
+    if (score >= 600) rankEl.innerText = "🐅 Μαθηματικός Τίγρης";
+    else if (score >= 300) rankEl.innerText = "🐆 Γρήγορος Λύγκας";
+    else if (score >= 100) rankEl.innerText = "🐈 Έξυπνος Γάτος";
+    else rankEl.innerText = "🐱 Αρχάριο Γατάκι";
 }
 
 function showHelp() {
-    const helpBox = document.getElementById("help-steps");
-    helpBox.innerHTML = currentProblem.steps.map(s => "• " + s).join("<br>");
-    helpBox.classList.remove("hidden");
+    const hb = document.getElementById("help-steps");
+    hb.innerHTML = currentProblem.steps.map(s => "• " + s).join("<br>");
+    hb.classList.remove("hidden");
 }
+
+function clearNotes() { document.getElementById("user-notes").value = ""; document.getElementById("ai-response").innerText = ""; }
+function toggleStats() { updateStatsUI(); document.getElementById("stats-modal").classList.toggle("hidden"); }
 function skipProblem() { loadNextProblem(); }
-function toggleStats() { document.getElementById("stats-modal").classList.toggle("hidden"); }
 function resetProgress() { localStorage.clear(); location.reload(); }
-
-// --- ΝΕΕΣ ΛΕΙΤΟΥΡΓΙΕΣ ΓΙΑ ΤΟ ΓΑΤΟ-CHAT 💬 ---
-function toggleChat() { 
-    document.getElementById("chat-modal").classList.toggle("hidden"); 
-}
-
-function sendCannedMessage() {
-    const msg = document.getElementById("canned-messages").value;
-    if (window.sendChatMessage) {
-        window.sendChatMessage(msg);
-    } else {
-        alert("Περίμενε να φορτώσει η σύνδεση! 🐾");
-    }
-}
-// --- ΝΕΑ ΜΑΓΙΚΗ ΛΕΙΤΟΥΡΓΙΑ: Επικοινωνία με το Vercel Backend ---
-async function askAI() {
-    const notes = document.getElementById("user-notes").value.trim();
-    const aiText = document.getElementById("ai-response");
-    
-    if (!notes) {
-        aiText.innerText = "Γράψε πρώτα κάτι στο πρόχειρο για να το ελέγξω! 🐾";
-        return;
-    }
-
-    aiText.innerText = "Η Catgebra σκέφτεται... 🧠🐾";
-    
-    try {
-        const response = await fetch('/api/tutor', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ text: notes })
-        });
-        
-        const data = await response.json();
-        aiText.innerText = data.reply;
-    } catch (error) {
-        console.error("Σφάλμα:", error);
-        aiText.innerText = "Ουπς! Υπήρξε ένα μικρό πρόβλημα σύνδεσης. Δοκίμασε ξανά! 😿";
-    }
-}
-// --- ΣΥΝΔΕΣΗ ΜΕ ΤΟ FIREBASE CLOUD ---
-// --- ΣΥΣΤΗΜΑ ΒΑΘΜΙΔΩΝ (GAMIFICATION) ---
-function updateRank() {
-    const rankElement = document.getElementById("user-rank");
-    if (!rankElement) return;
-
-    if (score >= 600) {
-        rankElement.innerText = "🐅 Μαθηματικός Τίγρης";
-    } else if (score >= 300) {
-        rankElement.innerText = "🐆 Γρήγορος Λύγκας";
-    } else if (score >= 100) {
-        rankElement.innerText = "🐈 Έξυπνος Γάτος";
-    } else {
-        rankElement.innerText = "🐱 Αρχάριο Γατάκι";
-    }
-}
-
-// --- ΣΥΝΔΕΣΗ ΜΕ ΤΟ FIREBASE CLOUD ---
-window.updateGameData = function(cloudScore, cloudStats) {
-    if (cloudScore !== undefined) score = cloudScore;
-    if (cloudStats !== undefined) userStats = cloudStats;
-    
-    // Ανανεώνουμε την οθόνη και τα τοπικά δεδομένα
-    document.getElementById("score").innerText = score;
-    
-    updateRank(); // Ενημερώνει τη βαθμίδα κάθε φορά που τραβάμε το σκορ!
-    
-    localStorage.setItem("mathUserStats", JSON.stringify(userStats));
-    localStorage.setItem("mathScore", score);
-};
+function insertSymbol(sym) { const input = document.getElementById(lastFocusedInput); input.value += sym; input.focus(); }
