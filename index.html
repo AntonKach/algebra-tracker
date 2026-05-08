@@ -122,9 +122,18 @@
         <div id="physics-section" class="hidden">
             <h2 style="color: #03dac6;">Εργαστήριο Φυσικής της Μισέλ 🔭</h2>
             
+            <div class="difficulty-selector" style="margin-bottom: 15px;">
+                <label for="physics-level-select" style="font-weight: bold; color: #bb86fc;">Θέμα:</label>
+                <select id="physics-level-select" onchange="generatePhysicsProblem()" style="padding: 5px; border-radius: 5px; background: #252525; color: white; border: 1px solid #03dac6;">
+                    <option value="1">1. Ταχύτητα (v = s/t)</option>
+                    <option value="2">2. Απόσταση (s = v*t)</option>
+                    <option value="3">3. Χρόνος (t = s/v)</option>
+                </select>
+            </div>
+
             <div class="quiz-box">
                 <p id="physics-problem" class="equation-text" style="font-size: 1.2em !important; line-height: 1.5; border-bottom: none; font-weight: normal; margin-bottom: 20px;">
-                    Η Μισέλ τρέχει να πιάσει το κόκκινο λέιζερ! Διανύει 20 μέτρα σε 4 δευτερόλεπτα. Ποια είναι η ταχύτητά της;
+                    Επίλεξε θέμα για να ξεκινήσεις τα πειράματα!
                 </p>
                 
                 <div class="input-container">
@@ -133,6 +142,7 @@
                 
                 <div class="buttons-group" style="margin-top: 15px;">
                     <button onclick="checkPhysicsAnswer()" class="check-btn" id="btn-physics-check">Έλεγχος</button>
+                    <button onclick="generatePhysicsProblem()" class="skip-btn" id="btn-physics-next">Επόμενο</button>
                 </div>
                 
                 <p id="physics-feedback"></p>

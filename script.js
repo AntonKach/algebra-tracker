@@ -2,6 +2,7 @@ let score = 0, currentProblem = {}, timerInterval, seconds = 0, calculator, sciC
 let currentLang = "el"; 
 let userStats = JSON.parse(localStorage.getItem("mathUserStats")) || { played: 0, correct: 0 };
 let lastFocusedInput = "answer";
+let currentPhysicsAnswer = 0;
 
 if (typeof educationData === 'undefined') {
     window.educationData = {
@@ -375,13 +376,93 @@ function checkAnswer() {
     if (window.saveToCloud) window.saveToCloud(score, userStats);
 }
 
-function checkPhysicsAnswer() {
+window.checkPhysicsAnswer = function() {
     const ansEl = document.getElementById("physics-answer");
     if(!ansEl) return;
     
-    // Προσωρινό μήνυμα μέχρι να χτίσουμε τον αλγόριθμο
-    safeSetText("physics-feedback", "Ο αλγόριθμος ελέγχου για τη Φυσική ετοιμάζεται... Μείνε συντονισμένος! 🐾");
-}
+    const userAns = parseFloat(ansEl.value);
+    
+    if (isNaN(userAns)) {
+        safeSetText("physics-feedback", "Παρακαλώ βάλε έναν αριθμό! 🐾");
+        document.getElementById("physics-feedback").style.color = "#FFC107";
+        return;
+    }
+    
+    if (userAns === currentPhysicsAnswer) {
+        safeSetText("physics-feedback", "Μπράβο! Σωστή απάντηση! 🎉");
+        document.getElementById("physics-feedback").style.color = "#4CAF50";
+        triggerConfetti();
+        
+        score += 10;
+        userStats.correct++;
+        userStats.played++;
+        
+        updateRank();
+        updateStatsUI();
+        updateGameData();
+    } else {
+        safeSetText("physics-feedback", "Ουπς! Προσπάθησε ξανά. Δεν πειράζει! 🐱");
+        document.getElementById("physics-feedback").style.color = "#cf6679";
+        
+        userStats.wrong++;
+        userStats.played++;
+        updateStatsUI();
+        updateGameData();
+    }
+};
+
+window.generatePhysicsProblem = function() {
+    const level = document.getElementById("physics-level-select").value;
+    const problemEl = document.getElementById("physics-problem");
+    const inputEl = document.getElementById("physics-answer");
+    const feedbackEl = document.getElementById("physics-feedback");
+    
+    if (inputEl) inputEl.value = "";
+    if (feedbackEl) feedbackEl.innerText = "";
+
+    const rand = (min, max) => Math.floor(Math.random() * (max - min + 1)) + min;
+    
+    let scenarios = [];
+    let text = "";
+
+    if (level === "1") {
+        // v = s / t
+        let t = rand(2, 10);
+        let v = rand(2, 12);
+        let s = v * t; 
+        currentPhysicsAnswer = v;
+        scenarios = [
+            `Η Μισέλ τρέχει να πιάσει το κόκκινο λέιζερ! Διανύει ${s} μέτρα σε ${t} δευτερόλεπτα. Ποια είναι η ταχύτητά της; (v = s / t)`,
+            `Ένα ρομποτικό ποντίκι διασχίζει το σαλόνι (${s} μέτρα) σε ${t} δευτερόλεπτα. Με τι ταχύτητα κινείται;`,
+            `Η Μισέλ άκουσε τον ήχο της κονσέρβας! Έτρεξε ${s} μέτρα σε ${t} δευτερόλεπτα. Βρες την ταχύτητά της.`
+        ];
+    } else if (level === "2") {
+        // s = v * t
+        let v = rand(2, 8);
+        let t = rand(3, 10);
+        let s = v * t;
+        currentPhysicsAnswer = s;
+        scenarios = [
+            `Η Μισέλ τρέχει σταθερά με ταχύτητα ${v} m/s για ${t} δευτερόλεπτα κυνηγώντας μια πεταλούδα. Πόσα μέτρα διένυσε; (s = v * t)`,
+            `Ο Άντον περπατάει με ${v} m/s για ${t} δευτερόλεπτα για να πάρει τον καφέ του. Τι απόσταση κάλυψε;`,
+            `Ένα πουλί πετάει με ταχύτητα ${v} m/s για ${t} δευτερόλεπτα και η Μισέλ το κοιτάζει από το παράθυρο. Πόση απόσταση διένυσε το πουλί;`
+        ];
+    } else if (level === "3") {
+        // t = s / v
+        let t = rand(2, 10);
+        let v = rand(2, 10);
+        let s = v * t;
+        currentPhysicsAnswer = t;
+        scenarios = [
+            `Η απόσταση μέχρι το μπολ με το φαγητό είναι ${s} μέτρα. Αν η Μισέλ τρέχει με ταχύτητα ${v} m/s, σε πόσα δευτερόλεπτα θα φτάσει; (t = s / v)`,
+            `Ο Άντον έχει να διανύσει ${s} μέτρα μέχρι το γραφείο του. Περπατάει με ταχύτητα ${v} m/s. Πόσο χρόνο θα κάνει;`,
+            `Η Μισέλ περπατάει στον διάδρομο μήκους ${s} μέτρων με ταχύτητα ${v} m/s. Σε πόσα δευτερόλεπτα θα τον διασχίσει;`
+        ];
+    }
+    
+    text = scenarios[Math.floor(Math.random() * scenarios.length)];
+    if (problemEl) problemEl.innerText = text;
+};
 
 function updateStatsUI() {
     safeSetText("stats-played", userStats.played);
