@@ -33,7 +33,7 @@ const translations = {
     el: {
         mainTitle: "Catgebra 🐈🧮", btnLogin: "☁️ Σύνδεση με Google",
         lblLevel: "Επίπεδο Σπουδών:", lblSelectLevel: "Δυσκολία:", 
-        optLevel1: "Επίπεδο 1: Γατάκι (ax + b = c)", optLevel2: "Επίπεδο 2: Γάτος (ax + b = cx + d)", optLevel3: "Επίπεδο 3: Τίγρης (Δευτεροβάθμιες)",
+        optLevel1: "Επίπεδο 1: Γατάκι (ax + b = c)", optLevel2: "Επίπεδο 2: Γάτος (ax + b = cx + d)", optLevel3: "Επίπεδο 3: Τίγρης (Δευτεροβάθμιες)", optLevel4: "Επίπεδο 4: Λιοντάρι (Κλάσματα & Παρενθέσεις)",
         lblScore: "Σκορ:", lblTime: "Χρόνος:", btnSecret: "💡 Μυστικό!", btnChatToggle: "💬 Chat",
         placeholderAns: "Απάντηση...", kbdToggleTitle: "Εμφάνιση Μαθηματικού Πληκτρολογίου",
         btnCheck: "Έλεγχος", btnHelp: "Βήμα-Βήμα", btnSkip: "Παράλειψη",
@@ -58,13 +58,18 @@ const translations = {
             "💡 Ο αριθμός μηδέν (0) ανακαλύφθηκε στην Ινδία γύρω στον 5ο αιώνα. Πριν από αυτό, απλά άφηναν ένα κενό!",
             "🐾 Meow! Αν πολλαπλασιάσεις το 111.111.111 με τον εαυτό του, βγάζει 12345678987654321! 🤯",
             "💡 Όπως ακριβώς και στις εξισώσεις, έτσι και στη ζωή: ό,τι κάνεις στη μία πλευρά, πρέπει να το κάνεις και στην άλλη για να υπάρχει ισορροπία! ⚖️",
-            "🐾 Η μύτη κάθε γάτας είναι μοναδική, σαν το ανθρώπινο δακτυλικό αποτύπωμα. Το ίδιο μοναδική είναι και η λύση μιας εξίσωσης!"
+            "🐾 Η μύτη κάθε γάτας είναι μοναδική, σαν το ανθρώπινο δακτυλικό αποτύπωμα. Το ίδιο μοναδική είναι και η λύση μιας εξίσωσης!",
+            "🐾 Αν προσπαθήσεις να διαιρέσεις με το μηδέν, το σύμπαν θα γεμίσει τριχόμπαλες! 🙀",
+            "💡 Η αγαπημένη μου εξίσωση είναι: E = mc^meow 🐈",
+            "🐾 Οι γάτες προσγειώνονται πάντα στα 4, ακριβώς όπως το x σε μια τέλεια εξίσωση! 🐾",
+            "💡 Ποτέ μην ξεχνάς το πλην (-). Είναι σαν να ξεχνάς να με ταΐσεις. Καταστροφή! 😿",
+            "🐾 Το ΕΚΠ δεν σημαίνει Εξαιρετικά Κομψός Πάνθηρας. Ελάχιστο Κοινό Πολλαπλάσιο είναι! 🐆"
         ]
     },
     en: {
         mainTitle: "Catgebra 🐈🧮", btnLogin: "☁️ Login with Google",
         lblLevel: "Study Level:", lblSelectLevel: "Difficulty:",
-        optLevel1: "Level 1: Kitten (ax + b = c)", optLevel2: "Level 2: Cat (ax + b = cx + d)", optLevel3: "Level 3: Tiger (Quadratics)",
+        optLevel1: "Level 1: Kitten (ax + b = c)", optLevel2: "Level 2: Cat (ax + b = cx + d)", optLevel3: "Level 3: Tiger (Quadratics)", optLevel4: "Level 4: Lion (Fractions & Parentheses)",
         lblScore: "Score:", lblTime: "Time:", btnSecret: "💡 Secret!", btnChatToggle: "💬 Chat",
         placeholderAns: "Answer...", kbdToggleTitle: "Show Math Keyboard",
         btnCheck: "Check", btnHelp: "Step-by-Step", btnSkip: "Skip",
@@ -87,13 +92,18 @@ const translations = {
             "💡 The number zero (0) was discovered in India around the 5th century. Before that, they just left a blank space!",
             "🐾 Meow! If you multiply 111,111,111 by itself, you get 12345678987654321! 🤯",
             "💡 Just like in equations, in life: whatever you do to one side, you must do to the other to keep balance! ⚖️",
-            "🐾 A cat's nose pad is unique, just like a human fingerprint. And just as unique as the solution to an equation!"
+            "🐾 A cat's nose pad is unique, just like a human fingerprint. And just as unique as the solution to an equation!",
+            "🐾 If you try to divide by zero, the universe will fill with hairballs! 🙀",
+            "💡 My favorite equation is: E = mc^meow 🐈",
+            "🐾 Cats always land on all 4s, just like x in a perfect equation! 🐾",
+            "💡 Never forget the minus sign (-). It's like forgetting to feed me. A disaster! 😿",
+            "🐾 LCM does not stand for Large Cat Meowing. It's Least Common Multiple! 🐆"
         ]
     },
     fr: {
         mainTitle: "Catgebra 🐈🧮", btnLogin: "☁️ Se connecter avec Google",
         lblLevel: "Niveau d'étude:", lblSelectLevel: "Difficulté:",
-        optLevel1: "Niveau 1: Chaton (ax + b = c)", optLevel2: "Niveau 2: Chat (ax + b = cx + d)", optLevel3: "Niveau 3: Tigre (Second degré)",
+        optLevel1: "Niveau 1: Chaton (ax + b = c)", optLevel2: "Niveau 2: Chat (ax + b = cx + d)", optLevel3: "Niveau 3: Tigre (Second degré)", optLevel4: "Niveau 4 : Lion (Fractions et Parenthèses)",
         lblScore: "Score:", lblTime: "Temps:", btnSecret: "💡 Secret!", btnChatToggle: "💬 Chat",
         placeholderAns: "Réponse...", kbdToggleTitle: "Afficher le clavier mathématique",
         btnCheck: "Vérifier", btnHelp: "Étape par étape", btnSkip: "Passer",
@@ -116,13 +126,18 @@ const translations = {
             "💡 Le chiffre zéro (0) a été découvert en Inde vers le Ve siècle. Avant cela, on laissait simplement un espace vide !",
             "🐾 Miaou ! Si tu multiplies 111 111 111 par lui-même, tu obtiens 12345678987654321 ! 🤯",
             "💡 Tout comme dans les équations, dans la vie : ce que tu fais d'un côté, tu dois le faire de l'autre pour garder l'équilibre ! ⚖️",
-            "🐾 La truffe d'un chat est unique, comme une empreinte digitale humaine. Tout aussi unique que la solution d'une équation !"
+            "🐾 La truffe d'un chat est unique, comme une empreinte digitale humaine. Tout aussi unique que la solution d'une équation !",
+            "🐾 Si tu essaies de diviser par zéro, l'univers se remplira de boules de poils ! 🙀",
+            "💡 Mon équation préférée est : E = mc^meow 🐈",
+            "🐾 Les chats retombent toujours sur leurs 4 pattes, tout comme x dans une équation parfaite ! 🐾",
+            "💡 N'oublie jamais le signe moins (-). C'est comme oublier de me nourrir. Une catastrophe ! 😿",
+            "🐾 Le PPCM ne signifie pas Petit Puma Très Mignon. C'est le Plus Petit Commun Multiple ! 🐆"
         ]
     },
     tr: {
         mainTitle: "Catgebra 🐈🧮", btnLogin: "☁️ Google ile Giriş",
         lblLevel: "Eğitim Seviyesi:", lblSelectLevel: "Zorluk:",
-        optLevel1: "Seviye 1: Yavru Kedi (ax + b = c)", optLevel2: "Seviye 2: Kedi (ax + b = cx + d)", optLevel3: "Seviye 3: Kaplan (İkinci Dereceden)",
+        optLevel1: "Seviye 1: Yavru Kedi (ax + b = c)", optLevel2: "Seviye 2: Kedi (ax + b = cx + d)", optLevel3: "Seviye 3: Kaplan (İkinci Dereceden)", optLevel4: "Seviye 4: Aslan (Kesirler ve Parantezler)",
         lblScore: "Puan:", lblTime: "Zaman:", btnSecret: "💡 Sır!", btnChatToggle: "💬 Sohbet",
         placeholderAns: "Cevap...", kbdToggleTitle: "Matematik Klavyesini Göster",
         btnCheck: "Kontrol", btnHelp: "Adım Adım", btnSkip: "Geç",
@@ -145,7 +160,12 @@ const translations = {
             "💡 Sıfır (0) sayısı 5. yüzyılda Hindistan'da keşfedildi!",
             "🐾 Miyav! 111.111.111'i kendisiyle çarparsan 12345678987654321 elde edersin! 🤯",
             "💡 Hayatta dengeyi korumak için bir tarafa ne yaparsan diğerine de aynısını yapmalısın! ⚖️",
-            "🐾 Bir kedinin burnu insan parmak izi gibi benzersizdir!"
+            "🐾 Bir kedinin burnu insan parmak izi gibi benzersizdir!",
+            "🐾 Sıfıra bölmeye çalışırsan, evren tüy yumaklarıyla dolar! 🙀",
+            "💡 En sevdiğim denklem: E = mc^miyav 🐈",
+            "🐾 Kediler her zaman 4 ayak üstüne düşer, tıpkı mükemmel bir denklemdeki x gibi! 🐾",
+            "💡 Eksi (-) işaretini asla unutma. Beni beslemeyi unutmak gibidir. Gerçek bir felaket! 😿",
+            "🐾 EKOK, Ekstra Komik Orman Kedisi demek değildir. En Küçük Ortak Kat demektir! 🐆"
         ]
     }
 };
@@ -211,6 +231,7 @@ function changeLanguage() {
     safeSetText("opt-level-1", t.optLevel1);
     safeSetText("opt-level-2", t.optLevel2);
     safeSetText("opt-level-3", t.optLevel3);
+    safeSetText("opt-level-4", t.optLevel4);
     safeSetText("lbl-score", t.lblScore);
     safeSetText("lbl-time", t.lblTime);
     safeSetText("btn-secret", t.btnSecret);
@@ -276,13 +297,27 @@ function loadNextProblem() {
             equationStr = `${a}x ${b >= 0 ? "+" : "-"} ${Math.abs(b)} = ${c_c}x ${d >= 0 ? "+" : "-"} ${Math.abs(d)}`;
             correctAns = x.toString();
             stepList = [`Φέρνουμε τα x αριστερά...`, `Λύση: x = ${x}`];
-        } else {
+        } else if (level === 3) {
             let r1 = getRandomInt(-5, 5), r2 = getRandomInt(-5, 5);
             let b = -(r1 + r2), c = r1 * r2;
             equationStr = `x² ${b>=0?'+':'-'} ${Math.abs(b)}x ${c>=0?'+':'-'} ${Math.abs(c)} = 0`;
             let roots = [r1, r2].sort((a,b) => a - b);
             correctAns = r1 === r2 ? r1.toString() : `${roots[0]},${roots[1]}`;
             stepList = [`Λύνουμε τη δευτεροβάθμια...`, `Ρίζες: ${correctAns}`];
+        } else if (level === 4) {
+            let x = 0;
+            while (x === 0) x = getRandomInt(-5, 5);
+            let a = 0;
+            while (a === 0) a = getRandomInt(-4, 5);
+            let c_val = getRandomInt(2, 6);
+            let d = getRandomInt(-8, 8);
+            
+            let b = c_val * d - a * x;
+            
+            let aStr = a === 1 ? "" : (a === -1 ? "-" : a);
+            equationStr = `(${aStr}x ${b >= 0 ? "+" : "-"} ${Math.abs(b)}) / ${c_val} = ${d}`;
+            correctAns = x.toString();
+            stepList = [`Πολλαπλασιάζουμε με το ${c_val} για να διώξουμε τον παρανομαστή...`, `Χωρίζουμε γνωστούς από αγνώστους...`, `Λύση: x = ${x}`];
         }
 
         currentProblem = { equation: equationStr, answer: correctAns, steps: stepList };

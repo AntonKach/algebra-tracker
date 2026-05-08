@@ -8,7 +8,7 @@
     <link href="https://fonts.googleapis.com/css2?family=GFS+Didot&display=swap" rel="stylesheet">
     <script src="https://www.desmos.com/api/v1.8/calculator.js?apiKey=dcb31709b452b1cf9dc26972add0fda6"></script>
     <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
-    <link rel="stylesheet" href="style.css?v=1.1">
+    <link rel="stylesheet" href="style.css?v=1.2">
 </head>
 <body>
     <div class="container">
@@ -34,10 +34,11 @@
         
         <div class="difficulty-selector" style="margin-top: 10px; margin-bottom: 15px;">
             <label for="level-select" id="lbl-select-level" style="font-weight: bold; color: #bb86fc;">Δυσκολία:</label>
-            <select id="level-select" onchange="generateNewProblem()" style="padding: 5px; border-radius: 5px; background: #252525; color: white; border: 1px solid #03dac6;">
+            <select id="level-select" onchange="loadNextProblem()" style="padding: 5px; border-radius: 5px; background: #252525; color: white; border: 1px solid #03dac6;">
                 <option value="1" id="opt-level-1">Επίπεδο 1: Γατάκι (ax + b = c)</option>
                 <option value="2" id="opt-level-2">Επίπεδο 2: Γάτος (ax + b = cx + d)</option>
                 <option value="3" id="opt-level-3">Επίπεδο 3: Τίγρης (Δευτεροβάθμιες)</option>
+                <option value="4" id="opt-level-4">Επίπεδο 4: Λιοντάρι (Κλάσματα & Παρενθέσεις)</option>
             </select>
         </div>
         
@@ -156,9 +157,9 @@
         </div>
     </div>
 
-    <script src="data.js?v=1.1"></script>
-    <script src="script.js?v=1.1"></script>
-    <script type="module" src="auth.js?v=1.1"></script>
+    <script src="data.js?v=1.2"></script>
+    <script src="script.js?v=1.2"></script>
+    <script type="module" src="auth.js?v=1.2"></script>
 
     <script>
         window.showCatSecret = function() {
