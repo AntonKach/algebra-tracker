@@ -394,6 +394,24 @@ function updateRank() {
     safeSetText("profile-rank", title);
     safeSetText("profile-xp", score);
     
+    // Ενημέρωση των Badges
+    const b1 = document.getElementById("badge-1");
+    if (b1) {
+        if (score >= 100) { b1.classList.remove("locked"); b1.title = "Ξεκλείδωτο: 100+ Πόντοι!"; } else { b1.classList.add("locked"); }
+    }
+    const b2 = document.getElementById("badge-2");
+    if (b2) {
+        if (score >= 300) { b2.classList.remove("locked"); b2.title = "Ξεκλείδωτο: 300+ Πόντοι!"; } else { b2.classList.add("locked"); }
+    }
+    const b3 = document.getElementById("badge-3");
+    if (b3) {
+        if (score >= 600) { b3.classList.remove("locked"); b3.title = "Ξεκλείδωτο: 600+ Πόντοι!"; } else { b3.classList.add("locked"); }
+    }
+    const b4 = document.getElementById("badge-4");
+    if (b4) {
+        if (score >= 1000) { b4.classList.remove("locked"); b4.title = "Ξεκλείδωτο: 1000+ Πόντοι!"; } else { b4.classList.add("locked"); }
+    }
+
     // Υπολογισμός Progress Bar (έστω max 1000 XP)
     let progressEl = document.getElementById("profile-progress");
     if (progressEl) {
