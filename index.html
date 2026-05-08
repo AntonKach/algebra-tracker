@@ -25,7 +25,7 @@
         </div>
 
         <img src="cat.jpg" alt="Catgebra Mascot" class="mascot">
-        <h1>Catgebra 🐈🧮</h1>
+        <h1 id="main-title">Catgebra 🐈🧮</h1>
 
         <div class="grade-selector">
             <label for="grade-select" id="lbl-level">Επίπεδο Σπουδών:</label>
@@ -35,9 +35,9 @@
         <div class="difficulty-selector" style="margin-top: 10px; margin-bottom: 15px;">
             <label for="level-select" id="lbl-select-level" style="font-weight: bold; color: #bb86fc;">Δυσκολία:</label>
             <select id="level-select" onchange="generateNewProblem()" style="padding: 5px; border-radius: 5px; background: #252525; color: white; border: 1px solid #03dac6;">
-                <option value="1">Επίπεδο 1: Γατάκι (ax + b = c)</option>
-                <option value="2">Επίπεδο 2: Γάτος (ax + b = cx + d)</option>
-                <option value="3">Επίπεδο 3: Τίγρης (Δευτεροβάθμιες)</option>
+                <option value="1" id="opt-level-1">Επίπεδο 1: Γατάκι (ax + b = c)</option>
+                <option value="2" id="opt-level-2">Επίπεδο 2: Γάτος (ax + b = cx + d)</option>
+                <option value="3" id="opt-level-3">Επίπεδο 3: Τίγρης (Δευτεροβάθμιες)</option>
             </select>
         </div>
         
@@ -56,7 +56,7 @@
             
             <div class="input-container">
                 <input type="text" id="answer" placeholder="Απάντηση...">
-                <button onclick="toggleKeyboard()" class="kbd-toggle" title="Εμφάνιση Μαθηματικού Πληκτρολογίου">⌨️</button>
+                <button onclick="toggleKeyboard()" class="kbd-toggle" id="kbd-toggle-btn" title="Εμφάνιση Μαθηματικού Πληκτρολογίου">⌨️</button>
             </div>
 
             <div id="math-keyboard" class="math-keyboard hidden">
@@ -110,6 +110,7 @@
             <h4 id="lbl-resources" style="color: #bb86fc; margin-top: 5px;">Πηγές Μελέτης 📚</h4>
             <ul class="resources-list">
                 <li><a href="https://el.khanacademy.org/math" target="_blank">Khan Academy</a></li>
+                <li><a href="http://photodentro.edu.gr/" target="_blank">Φωτόδεντρο</a></li>
                 <li><a href="https://photomath.com/" target="_blank">Photomath</a></li>
                 <li><a href="https://www.wolframalpha.com/" target="_blank">Wolfram Alpha</a></li>
                 <li><a href="https://www.geogebra.org/" target="_blank">GeoGebra</a></li>
@@ -133,25 +134,25 @@
 
     <div id="chat-modal" class="modal hidden">
         <div class="modal-content" style="max-width: 400px;">
-            <h2 style="color: #bb86fc;">Γατό-Chat 💬🐾</h2>
+            <h2 id="chat-title" style="color: #bb86fc;">Γατό-Chat 💬🐾</h2>
             <div id="chat-messages" style="height: 250px; overflow-y: auto; background: #1e1e1e; border: 1px solid #444; border-radius: 8px; padding: 10px; margin-bottom: 15px; text-align: left; font-size: 14px;">
-                <p style="color: #888; text-align: center;">Συνδέσου με Google για να δεις τα μηνύματα!</p>
+                <p id="chat-msg-placeholder" style="color: #888; text-align: center;">Συνδέσου με Google για να δεις τα μηνύματα!</p>
             </div>
             <select id="canned-messages" style="width: 100%; padding: 10px; margin-bottom: 10px; background: #333; color: white; border-radius: 5px; border: 1px solid #555;">
-                <option value="Γεια σε όλους! 🐾">Γεια σε όλους! 🐾</option>
-                <option value="Αυτή η άσκηση με δυσκόλεψε! 🙀">Αυτή η άσκηση με δυσκόλεψε! 🙀</option>
-                <option value="Μόλις ανέβηκα κατηγορία! 🏆">Μόλις ανέβηκα κατηγορία! 🏆</option>
+                <option value="1" id="can-1">Γεια σε όλους! 🐾</option>
+                <option value="2" id="can-2">Αυτή η άσκηση με δυσκόλεψε! 🙀</option>
+                <option value="3" id="can-3">Μόλις ανέβηκα κατηγορία! 🏆</option>
             </select>
-            <button onclick="sendCannedMessage()" style="background-color: #03dac6; color: black; font-weight: bold; width: 100%; margin-bottom: 10px;">Αποστολή 📩</button>
-            <button onclick="toggleChat()" style="width: 100%;">Κλείσιμο</button>
+            <button id="btn-chat-send" onclick="sendCannedMessage()" style="background-color: #03dac6; color: black; font-weight: bold; width: 100%; margin-bottom: 10px;">Αποστολή 📩</button>
+            <button id="btn-chat-close" onclick="toggleChat()" style="width: 100%;">Κλείσιμο</button>
         </div>
     </div>
 
     <div id="secret-modal" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(0,0,0,0.7); z-index: 9999; justify-content: center; align-items: center; backdrop-filter: blur(3px);">
         <div style="background-color: #FFFDE7; border: 4px solid #FFC107; border-radius: 20px; text-align: center; padding: 30px; max-width: 85%; width: 400px; box-shadow: 0 10px 25px rgba(0,0,0,0.5);">
-            <h2 style="color: #FF9800; margin-top: 0; margin-bottom: 15px; font-family: sans-serif;">💡 Το Μυστικό της Μισέλ!</h2>
+            <h2 id="secret-modal-title" style="color: #FF9800; margin-top: 0; margin-bottom: 15px; font-family: sans-serif;">💡 Το Μυστικό της Μισέλ!</h2>
             <p id="secret-text" style="font-size: 18px; margin: 20px 0; color: #333; font-weight: bold; font-family: sans-serif; line-height: 1.5;"></p>
-            <button onclick="closeSecret()" style="background-color: #FFC107; color: black; font-weight: bold; padding: 12px 25px; border-radius: 10px; border: none; cursor: pointer; font-size: 16px; box-shadow: 0 4px 6px rgba(0,0,0,0.1);">Τέλεια! 🐾</button>
+            <button id="btn-secret-close" onclick="closeSecret()" style="background-color: #FFC107; color: black; font-weight: bold; padding: 12px 25px; border-radius: 10px; border: none; cursor: pointer; font-size: 16px; box-shadow: 0 4px 6px rgba(0,0,0,0.1);">Τέλεια! 🐾</button>
         </div>
     </div>
 
@@ -161,24 +162,8 @@
 
     <script>
         window.showCatSecret = function() {
-            const secrets = [
-                "💡 Το ήξερες; Το σύμβολο του ίσον (=) εφευρέθηκε το 1557 επειδή ένας μαθηματικός βαρέθηκε να γράφει συνέχεια 'είναι ίσο με'!",
-                "🐾 Οι γάτες έχουν 32 μύες σε κάθε αυτί. Μπορώ να ακούσω κάθε λάθος πράξη σου! 😼",
-                "💡 Ο αριθμός μηδέν (0) ανακαλύφθηκε στην Ινδία γύρω στον 5ο αιώνα. Πριν από αυτό, απλά άφηναν ένα κενό!",
-                "🐾 Meow! Αν πολλαπλασιάσεις το 111.111.111 με τον εαυτό του, βγάζει 12345678987654321! 🤯",
-                "💡 Όπως ακριβώς και στις εξισώσεις, έτσι και στη ζωή: ό,τι κάνεις στη μία πλευρά, πρέπει να το κάνεις και στην άλλη για να υπάρχει ισορροπία! ⚖️",
-                "🐾 Η μύτη κάθε γάτας είναι μοναδική, σαν το ανθρώπινο δακτυλικό αποτύπωμα. Το ίδιο μοναδική είναι και η λύση μιας εξίσωσης!"
-            ];
-            
-            const randomSecret = secrets[Math.floor(Math.random() * secrets.length)];
-            const modal = document.getElementById("secret-modal");
-            const textEl = document.getElementById("secret-text");
-            
-            if (modal && textEl) {
-                textEl.innerText = randomSecret;
-                modal.style.display = "flex";
-            } else {
-                alert(randomSecret); 
+            if (typeof window.triggerCatSecret === 'function') {
+                window.triggerCatSecret();
             }
         };
 
