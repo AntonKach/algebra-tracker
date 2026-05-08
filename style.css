@@ -135,7 +135,27 @@ button:active {
 .stats-btn, #btn-stats { background-color: #FFC107 !important; color: #000000 !important; }
 #btn-chat-toggle { background-color: #03dac6 !important; color: #000000 !important; } 
 
-.math-keyboard button, #btn-ai, #btn-clear {
+.math-keyboard {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 5px;
+    margin-top: 10px;
+    max-width: 300px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.math-keyboard button {
+    background-color: rgba(68, 68, 68, 0.8) !important;
+    color: #fcebc7 !important;
+    border-color: #000000 !important;
+    padding: 6px 5px;
+    font-size: 1.1em !important;
+    width: 100%;
+    margin: 0 !important;
+}
+
+#btn-ai, #btn-clear {
     background-color: rgba(68, 68, 68, 0.8) !important;
     color: #fcebc7 !important;
     border-color: #000000 !important;
