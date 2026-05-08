@@ -74,11 +74,11 @@ h1 {
 /* Κουτιά Ασκήσεων και Πρόχειρου (Διαφανή με λεπτό περίγραμμα) */
 .quiz-box, .notes-container, .about-section {
     background-color: transparent !important; 
-    border: 2px solid #000000 !important; /* Πιο διακριτικό περίγραμμα */
+    border: none !important; 
     border-radius: 8px;
     padding: 15px;
     margin-top: 10px;
-    box-shadow: none !important; /* Χωρίς σκιές στα εσωτερικά κουτιά */
+    box-shadow: none !important; 
 }
 
 /* Η Εξίσωση */
@@ -226,11 +226,6 @@ select option {
 }
 #btn-profile {
     border-color: #bb86fc !important;
-}
-/* --- ΑΦΑΙΡΕΣΗ ΤΩΝ ΜΑΥΡΩΝ ΠΛΑΙΣΙΩΝ --- */
-.quiz-box, .notes-container, .about-section {
-    border: none !important;
-    box-shadow: none !important;
 }
 /* --- ΜΕΓΑΛΩΝΟΥΜΕ ΤΗ ΜΙΣΕΛ 🐾 --- */
 .mascot {

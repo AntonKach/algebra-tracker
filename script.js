@@ -1,6 +1,6 @@
 let score = 0, currentProblem = {}, timerInterval, seconds = 0, calculator, sciCalculator;
 let currentLang = "el"; 
-let userStats = JSON.parse(localStorage.getItem("mathUserStats")) || { played: 0, correct: 0 };
+let userStats = JSON.parse(localStorage.getItem("mathUserStats")) || { played: 0, correct: 0, wrong: 0 };
 let lastFocusedInput = "answer";
 let currentPhysicsAnswer = 0;
 
@@ -26,9 +26,11 @@ window.updateGameData = function(cloudScore, cloudStats) {
     updateRank();
     if (typeof updateStatsUI === "function") updateStatsUI(); 
     
-    localStorage.setItem("mathUserStats", JSON.stringify(userStats));
-    localStorage.setItem("mathScore", score);
-};
+        localStorage.setItem("mathUserStats", JSON.stringify(userStats));
+        localStorage.setItem("mathScore", score);
+        
+        if (window.saveToCloud) window.saveToCloud(score, userStats);
+    };
 
 const translations = {
     el: {
@@ -65,6 +67,26 @@ const translations = {
             "🐾 Οι γάτες προσγειώνονται πάντα στα 4, ακριβώς όπως το x σε μια τέλεια εξίσωση! 🐾",
             "💡 Ποτέ μην ξεχνάς το πλην (-). Είναι σαν να ξεχνάς να με ταΐσεις. Καταστροφή! 😿",
             "🐾 Το ΕΚΠ δεν σημαίνει Εξαιρετικά Κομψός Πάνθηρας. Ελάχιστο Κοινό Πολλαπλάσιο είναι! 🐆"
+        ],
+        tabMath: "🧮 Μαθηματικά", tabPhysics: "⚛️ Φυσική",
+        physicsTitle: "Εργαστήριο Φυσικής της Μισέλ 🔭", lblPhysicsLevel: "Θέμα:",
+        physOpt1: "1. Ταχύτητα (v = s/t)", physOpt2: "2. Απόσταση (s = v*t)", physOpt3: "3. Χρόνος (t = s/v)",
+        btnPhysicsNext: "Επόμενο", physicsPlaceholder: "Επίλεξε θέμα για να ξεκινήσεις τα πειράματα!",
+        physCheckNum: "Παρακαλώ βάλε έναν αριθμό! 🐾",
+        physScenarios1: [
+            "Η Μισέλ τρέχει να πιάσει το κόκκινο λέιζερ! Διανύει {s} μέτρα σε {t} δευτερόλεπτα. Ποια είναι η ταχύτητά της; (v = s / t)",
+            "Ένα ρομποτικό ποντίκι διασχίζει το σαλόνι ({s} μέτρα) σε {t} δευτερόλεπτα. Με τι ταχύτητα κινείται;",
+            "Η Μισέλ άκουσε τον ήχο της κονσέρβας! Έτρεξε {s} μέτρα σε {t} δευτερόλεπτα. Βρες την ταχύτητά της."
+        ],
+        physScenarios2: [
+            "Η Μισέλ τρέχει σταθερά με ταχύτητα {v} m/s για {t} δευτερόλεπτα κυνηγώντας μια πεταλούδα. Πόσα μέτρα διένυσε; (s = v * t)",
+            "Ο Άντον περπατάει με {v} m/s για {t} δευτερόλεπτα για να πάρει τον καφέ του. Τι απόσταση κάλυψε;",
+            "Ένα πουλί πετάει με ταχύτητα {v} m/s για {t} δευτερόλεπτα και η Μισέλ το κοιτάζει από το παράθυρο. Πόση απόσταση διένυσε το πουλί;"
+        ],
+        physScenarios3: [
+            "Η απόσταση μέχρι το μπολ με το φαγητό είναι {s} μέτρα. Αν η Μισέλ τρέχει με ταχύτητα {v} m/s, σε πόσα δευτερόλεπτα θα φτάσει; (t = s / v)",
+            "Ο Άντον έχει να διανύσει {s} μέτρα μέχρι το γραφείο του. Περπατάει με ταχύτητα {v} m/s. Πόσο χρόνο θα κάνει;",
+            "Η Μισέλ περπατάει στον διάδρομο μήκους {s} μέτρων με ταχύτητα {v} m/s. Σε πόσα δευτερόλεπτα θα τον διασχίσει;"
         ]
     },
     en: {
@@ -99,6 +121,26 @@ const translations = {
             "🐾 Cats always land on all 4s, just like x in a perfect equation! 🐾",
             "💡 Never forget the minus sign (-). It's like forgetting to feed me. A disaster! 😿",
             "🐾 LCM does not stand for Large Cat Meowing. It's Least Common Multiple! 🐆"
+        ],
+        tabMath: "🧮 Math", tabPhysics: "⚛️ Physics",
+        physicsTitle: "Michelle's Physics Lab 🔭", lblPhysicsLevel: "Topic:",
+        physOpt1: "1. Velocity (v = s/t)", physOpt2: "2. Distance (s = v*t)", physOpt3: "3. Time (t = s/v)",
+        btnPhysicsNext: "Next", physicsPlaceholder: "Select a topic to start the experiments!",
+        physCheckNum: "Please enter a number! 🐾",
+        physScenarios1: [
+            "Michelle runs to catch the red laser! She covers {s} meters in {t} seconds. What is her velocity? (v = s / t)",
+            "A robotic mouse crosses the living room ({s} meters) in {t} seconds. What is its speed?",
+            "Michelle heard the sound of the can! She ran {s} meters in {t} seconds. Find her speed."
+        ],
+        physScenarios2: [
+            "Michelle runs at a steady speed of {v} m/s for {t} seconds chasing a butterfly. How many meters did she cover? (s = v * t)",
+            "Anton walks at {v} m/s for {t} seconds to get his coffee. What distance did he cover?",
+            "A bird flies at a speed of {v} m/s for {t} seconds and Michelle watches it from the window. What distance did the bird cover?"
+        ],
+        physScenarios3: [
+            "The distance to the food bowl is {s} meters. If Michelle runs at a speed of {v} m/s, in how many seconds will she reach it? (t = s / v)",
+            "Anton has to cover {s} meters to his office. He walks at a speed of {v} m/s. How much time will it take?",
+            "Michelle walks in the {s}-meter corridor at a speed of {v} m/s. In how many seconds will she cross it?"
         ]
     },
     fr: {
@@ -133,6 +175,26 @@ const translations = {
             "🐾 Les chats retombent toujours sur leurs 4 pattes, tout comme x dans une équation parfaite ! 🐾",
             "💡 N'oublie jamais le signe moins (-). C'est comme oublier de me nourrir. Une catastrophe ! 😿",
             "🐾 Le PPCM ne signifie pas Petit Puma Très Mignon. C'est le Plus Petit Commun Multiple ! 🐆"
+        ],
+        tabMath: "🧮 Mathématiques", tabPhysics: "⚛️ Physique",
+        physicsTitle: "Laboratoire de Physique de Michelle 🔭", lblPhysicsLevel: "Sujet:",
+        physOpt1: "1. Vitesse (v = s/t)", physOpt2: "2. Distance (s = v*t)", physOpt3: "3. Temps (t = s/v)",
+        btnPhysicsNext: "Suivant", physicsPlaceholder: "Sélectionnez un sujet pour commencer les expériences!",
+        physCheckNum: "Veuillez entrer un nombre! 🐾",
+        physScenarios1: [
+            "Michelle court pour attraper le laser rouge! Elle parcourt {s} mètres en {t} secondes. Quelle est sa vitesse ? (v = s / t)",
+            "Une souris robotique traverse le salon ({s} mètres) en {t} secondes. À quelle vitesse se déplace-t-elle ?",
+            "Michelle a entendu le bruit de la boîte ! Elle a couru {s} mètres en {t} secondes. Trouve sa vitesse."
+        ],
+        physScenarios2: [
+            "Michelle court à une vitesse constante de {v} m/s pendant {t} secondes en chassant un papillon. Combien de mètres a-t-elle parcouru ? (s = v * t)",
+            "Anton marche à {v} m/s pendant {t} secondes pour prendre son café. Quelle distance a-t-il couverte ?",
+            "Un oiseau vole à une vitesse de {v} m/s pendant {t} secondes et Michelle le regarde par la fenêtre. Quelle distance l'oiseau a-t-il couverte ?"
+        ],
+        physScenarios3: [
+            "La distance jusqu'à la gamelle de nourriture est de {s} mètres. Si Michelle court à une vitesse de {v} m/s, en combien de secondes l'atteindra-t-elle ? (t = s / v)",
+            "Anton doit parcourir {s} mètres jusqu'à son bureau. Il marche à une vitesse de {v} m/s. Combien de temps cela prendra-t-il ?",
+            "Michelle marche dans le couloir de {s} mètres à une vitesse de {v} m/s. En combien de secondes le traversera-t-elle ?"
         ]
     },
     tr: {
@@ -167,6 +229,26 @@ const translations = {
             "🐾 Kediler her zaman 4 ayak üstüne düşer, tıpkı mükemmel bir denklemdeki x gibi! 🐾",
             "💡 Eksi (-) işaretini asla unutma. Beni beslemeyi unutmak gibidir. Gerçek bir felaket! 😿",
             "🐾 EKOK, Ekstra Komik Orman Kedisi demek değildir. En Küçük Ortak Kat demektir! 🐆"
+        ],
+        tabMath: "🧮 Matematik", tabPhysics: "⚛️ Fizik",
+        physicsTitle: "Michelle'in Fizik Laboratuvarı 🔭", lblPhysicsLevel: "Konu:",
+        physOpt1: "1. Hız (v = s/t)", physOpt2: "2. Mesafe (s = v*t)", physOpt3: "3. Zaman (t = s/v)",
+        btnPhysicsNext: "Sonraki", physicsPlaceholder: "Deneylere başlamak için bir konu seçin!",
+        physCheckNum: "Lütfen bir sayı girin! 🐾",
+        physScenarios1: [
+            "Michelle kırmızı lazeri yakalamak için koşuyor! {t} saniyede {s} metre yol alıyor. Hızı nedir? (v = s / t)",
+            "Robotik bir fare oturma odasını ({s} metre) {t} saniyede geçiyor. Hangi hızda hareket ediyor?",
+            "Michelle konserve kutusunun sesini duydu! {t} saniyede {s} metre koştu. Hızını bulun."
+        ],
+        physScenarios2: [
+            "Michelle bir kelebeği kovalarken {t} saniye boyunca sabit {v} m/s hızla koşuyor. Kaç metre yol aldı? (s = v * t)",
+            "Anton kahvesini almak için {t} saniye boyunca {v} m/s hızla yürüyor. Ne kadar mesafe kat etti?",
+            "Bir kuş {t} saniye boyunca {v} m/s hızla uçuyor ve Michelle onu pencereden izliyor. Kuş ne kadar mesafe kat etti?"
+        ],
+        physScenarios3: [
+            "Yemek kabına olan mesafe {s} metredir. Michelle {v} m/s hızla koşarsa kaç saniyede ulaşır? (t = s / v)",
+            "Anton'un ofisine gitmesi için {s} metre gitmesi gerekiyor. {v} m/s hızla yürüyor. Ne kadar zaman alacak?",
+            "Michelle {s} metrelik koridorda {v} m/s hızla yürüyor. Kaç saniyede geçecek?"
         ]
     }
 };
@@ -192,7 +274,8 @@ window.onload = function() {
         if (notesEl) notesEl.addEventListener("focus", () => lastFocusedInput = "user-notes");
 
         changeLanguage(); 
-        startTimer();     
+        startTimer();
+        window.generatePhysicsProblem();
     } catch (e) { console.error("OnLoad Error:", e); }
 };
 
@@ -269,6 +352,17 @@ function changeLanguage() {
     safeSetText("lbl-about-title", t.lblAboutTitle);
     safeSetText("lbl-about-text", t.lblAboutText);
 
+    // Μεταφράσεις Φυσικής
+    safeSetText("tab-math", t.tabMath);
+    safeSetText("tab-physics", t.tabPhysics);
+    safeSetText("physics-title", t.physicsTitle);
+    safeSetText("lbl-physics-level", t.lblPhysicsLevel);
+    safeSetText("phys-opt-1", t.physOpt1);
+    safeSetText("phys-opt-2", t.physOpt2);
+    safeSetText("phys-opt-3", t.physOpt3);
+    safeSetText("btn-physics-next", t.btnPhysicsNext);
+    safeSetPlaceholder("physics-answer", t.placeholderAns);
+
     updateRank();
     populateGradeSelect();
     loadNextProblem();
@@ -280,45 +374,67 @@ function getRandomInt(min, max) { return Math.floor(Math.random() * (max - min +
 function loadNextProblem() {
     try {
         const levelSelect = document.getElementById("level-select");
+        const gradeSelect = document.getElementById("grade-select");
+        const gradeKey = gradeSelect ? gradeSelect.value : "gym_a";
+        const gradeInfo = typeof educationData !== 'undefined' ? educationData[gradeKey] : null;
+        
         const words = translations[currentLang] ? translations[currentLang].stepWords : translations["el"].stepWords;
         let equationStr = "", correctAns = "", stepList = [];
         const level = levelSelect ? parseInt(levelSelect.value) : 1;
 
-        if (level === 1) {
-            let x = getRandomInt(-10, 10), a = getRandomInt(1, 10), b = getRandomInt(-20, 20);
-            let c = (a * x) + b;
-            equationStr = `${a}x ${b >= 0 ? "+" : "-"} ${Math.abs(b)} = ${c}`;
-            correctAns = x.toString();
-            stepList = [`${words.move} ${a}x = ${c} ${b >= 0 ? '-' : '+'} ${Math.abs(b)}`, `${words.div} x = ${x}`];
-        } else if (level === 2) {
-            let x = getRandomInt(-10, 10), a = getRandomInt(1, 10), c_c = getRandomInt(1, 10);
-            while(a === c_c) c_c = getRandomInt(1, 10);
-            let b = getRandomInt(-20, 20);
-            let d = (a * x) + b - (c_c * x);
-            equationStr = `${a}x ${b >= 0 ? "+" : "-"} ${Math.abs(b)} = ${c_c}x ${d >= 0 ? "+" : "-"} ${Math.abs(d)}`;
-            correctAns = x.toString();
-            stepList = [`Φέρνουμε τα x αριστερά...`, `Λύση: x = ${x}`];
-        } else if (level === 3) {
-            let r1 = getRandomInt(-5, 5), r2 = getRandomInt(-5, 5);
-            let b = -(r1 + r2), c = r1 * r2;
-            equationStr = `x² ${b>=0?'+':'-'} ${Math.abs(b)}x ${c>=0?'+':'-'} ${Math.abs(c)} = 0`;
-            let roots = [r1, r2].sort((a,b) => a - b);
-            correctAns = r1 === r2 ? r1.toString() : `${roots[0]},${roots[1]}`;
-            stepList = [`Λύνουμε τη δευτεροβάθμια...`, `Ρίζες: ${correctAns}`];
-        } else if (level === 4) {
-            let x = 0;
-            while (x === 0) x = getRandomInt(-5, 5);
-            let a = 0;
-            while (a === 0) a = getRandomInt(-4, 5);
-            let c_val = getRandomInt(2, 6);
-            let d = getRandomInt(-8, 8);
-            
-            let b = c_val * d - a * x;
-            
-            let aStr = a === 1 ? "" : (a === -1 ? "-" : a);
-            equationStr = `(${aStr}x ${b >= 0 ? "+" : "-"} ${Math.abs(b)}) / ${c_val} = ${d}`;
-            correctAns = x.toString();
-            stepList = [`Πολλαπλασιάζουμε με το ${c_val} για να διώξουμε τον παρανομαστή...`, `Χωρίζουμε γνωστούς από αγνώστους...`, `Λύση: x = ${x}`];
+        if (levelSelect) {
+            const diffContainer = levelSelect.parentElement;
+            if (gradeInfo && gradeInfo.type === "static") {
+                diffContainer.style.display = "none";
+            } else {
+                diffContainer.style.display = "block";
+            }
+        }
+
+        if (gradeInfo && gradeInfo.type === "static" && gradeInfo.problems && gradeInfo.problems.length > 0) {
+            const randIdx = Math.floor(Math.random() * gradeInfo.problems.length);
+            const p = gradeInfo.problems[randIdx];
+            equationStr = p.equation;
+            correctAns = p.answer;
+            const stepsObj = p.steps[currentLang] || p.steps["el"];
+            stepList = Array.isArray(stepsObj) ? stepsObj : [stepsObj];
+        } else {
+            if (level === 1) {
+                let x = getRandomInt(-10, 10), a = getRandomInt(1, 10), b = getRandomInt(-20, 20);
+                let c = (a * x) + b;
+                equationStr = `${a}x ${b >= 0 ? "+" : "-"} ${Math.abs(b)} = ${c}`;
+                correctAns = x.toString();
+                stepList = [`${words.move} ${a}x = ${c} ${b >= 0 ? '-' : '+'} ${Math.abs(b)}`, `${words.div} x = ${x}`];
+            } else if (level === 2) {
+                let x = getRandomInt(-10, 10), a = getRandomInt(1, 10), c_c = getRandomInt(1, 10);
+                while(a === c_c) c_c = getRandomInt(1, 10);
+                let b = getRandomInt(-20, 20);
+                let d = (a * x) + b - (c_c * x);
+                equationStr = `${a}x ${b >= 0 ? "+" : "-"} ${Math.abs(b)} = ${c_c}x ${d >= 0 ? "+" : "-"} ${Math.abs(d)}`;
+                correctAns = x.toString();
+                stepList = [`Φέρνουμε τα x αριστερά...`, `Λύση: x = ${x}`];
+            } else if (level === 3) {
+                let r1 = getRandomInt(-5, 5), r2 = getRandomInt(-5, 5);
+                let b = -(r1 + r2), c = r1 * r2;
+                equationStr = `x² ${b>=0?'+':'-'} ${Math.abs(b)}x ${c>=0?'+':'-'} ${Math.abs(c)} = 0`;
+                let roots = [r1, r2].sort((a,b) => a - b);
+                correctAns = r1 === r2 ? r1.toString() : `${roots[0]},${roots[1]}`;
+                stepList = [`Λύνουμε τη δευτεροβάθμια...`, `Ρίζες: ${correctAns}`];
+            } else if (level === 4) {
+                let x = 0;
+                while (x === 0) x = getRandomInt(-5, 5);
+                let a = 0;
+                while (a === 0) a = getRandomInt(-4, 5);
+                let c_val = getRandomInt(2, 6);
+                let d = getRandomInt(-8, 8);
+                
+                let b = c_val * d - a * x;
+                
+                let aStr = a === 1 ? "" : (a === -1 ? "-" : a);
+                equationStr = `(${aStr}x ${b >= 0 ? "+" : "-"} ${Math.abs(b)}) / ${c_val} = ${d}`;
+                correctAns = x.toString();
+                stepList = [`Πολλαπλασιάζουμε με το ${c_val} για να διώξουμε τον παρανομαστή...`, `Χωρίζουμε γνωστούς από αγνώστους...`, `Λύση: x = ${x}`];
+            }
         }
 
         currentProblem = { equation: equationStr, answer: correctAns, steps: stepList };
@@ -381,9 +497,10 @@ window.checkPhysicsAnswer = function() {
     if(!ansEl) return;
     
     const userAns = parseFloat(ansEl.value);
+    const t = translations[currentLang] || translations["el"];
     
     if (isNaN(userAns)) {
-        safeSetText("physics-feedback", "Παρακαλώ βάλε έναν αριθμό! 🐾");
+        safeSetText("physics-feedback", t.physCheckNum);
         document.getElementById("physics-feedback").style.color = "#FFC107";
         return;
     }
@@ -391,7 +508,7 @@ window.checkPhysicsAnswer = function() {
     if (userAns === currentPhysicsAnswer) {
         safeSetText("physics-feedback", "Μπράβο! Σωστή απάντηση! 🎉");
         document.getElementById("physics-feedback").style.color = "#4CAF50";
-        triggerConfetti();
+        if (typeof confetti === 'function') confetti({ particleCount: 150, spread: 80, origin: { y: 0.6 } });
         
         score += 10;
         userStats.correct++;
@@ -404,7 +521,7 @@ window.checkPhysicsAnswer = function() {
         safeSetText("physics-feedback", "Ουπς! Προσπάθησε ξανά. Δεν πειράζει! 🐱");
         document.getElementById("physics-feedback").style.color = "#cf6679";
         
-        userStats.wrong++;
+        userStats.wrong = (userStats.wrong || 0) + 1;
         userStats.played++;
         updateStatsUI();
         updateGameData();
@@ -421,43 +538,32 @@ window.generatePhysicsProblem = function() {
     if (feedbackEl) feedbackEl.innerText = "";
 
     const rand = (min, max) => Math.floor(Math.random() * (max - min + 1)) + min;
+    const t = translations[currentLang] || translations["el"];
     
     let scenarios = [];
     let text = "";
 
     if (level === "1") {
         // v = s / t
-        let t = rand(2, 10);
+        let time = rand(2, 10);
         let v = rand(2, 12);
-        let s = v * t; 
+        let s = v * time; 
         currentPhysicsAnswer = v;
-        scenarios = [
-            `Η Μισέλ τρέχει να πιάσει το κόκκινο λέιζερ! Διανύει ${s} μέτρα σε ${t} δευτερόλεπτα. Ποια είναι η ταχύτητά της; (v = s / t)`,
-            `Ένα ρομποτικό ποντίκι διασχίζει το σαλόνι (${s} μέτρα) σε ${t} δευτερόλεπτα. Με τι ταχύτητα κινείται;`,
-            `Η Μισέλ άκουσε τον ήχο της κονσέρβας! Έτρεξε ${s} μέτρα σε ${t} δευτερόλεπτα. Βρες την ταχύτητά της.`
-        ];
+        scenarios = t.physScenarios1.map(str => str.replace('{s}', s).replace('{t}', time).replace('{v}', v));
     } else if (level === "2") {
         // s = v * t
         let v = rand(2, 8);
-        let t = rand(3, 10);
-        let s = v * t;
+        let time = rand(3, 10);
+        let s = v * time;
         currentPhysicsAnswer = s;
-        scenarios = [
-            `Η Μισέλ τρέχει σταθερά με ταχύτητα ${v} m/s για ${t} δευτερόλεπτα κυνηγώντας μια πεταλούδα. Πόσα μέτρα διένυσε; (s = v * t)`,
-            `Ο Άντον περπατάει με ${v} m/s για ${t} δευτερόλεπτα για να πάρει τον καφέ του. Τι απόσταση κάλυψε;`,
-            `Ένα πουλί πετάει με ταχύτητα ${v} m/s για ${t} δευτερόλεπτα και η Μισέλ το κοιτάζει από το παράθυρο. Πόση απόσταση διένυσε το πουλί;`
-        ];
+        scenarios = t.physScenarios2.map(str => str.replace('{s}', s).replace('{t}', time).replace('{v}', v));
     } else if (level === "3") {
         // t = s / v
-        let t = rand(2, 10);
+        let time = rand(2, 10);
         let v = rand(2, 10);
-        let s = v * t;
-        currentPhysicsAnswer = t;
-        scenarios = [
-            `Η απόσταση μέχρι το μπολ με το φαγητό είναι ${s} μέτρα. Αν η Μισέλ τρέχει με ταχύτητα ${v} m/s, σε πόσα δευτερόλεπτα θα φτάσει; (t = s / v)`,
-            `Ο Άντον έχει να διανύσει ${s} μέτρα μέχρι το γραφείο του. Περπατάει με ταχύτητα ${v} m/s. Πόσο χρόνο θα κάνει;`,
-            `Η Μισέλ περπατάει στον διάδρομο μήκους ${s} μέτρων με ταχύτητα ${v} m/s. Σε πόσα δευτερόλεπτα θα τον διασχίσει;`
-        ];
+        let s = v * time;
+        currentPhysicsAnswer = time;
+        scenarios = t.physScenarios3.map(str => str.replace('{s}', s).replace('{t}', time).replace('{v}', v));
     }
     
     text = scenarios[Math.floor(Math.random() * scenarios.length)];

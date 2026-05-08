@@ -120,14 +120,14 @@
         </div> <!-- End of math-section -->
 
         <div id="physics-section" class="hidden">
-            <h2 style="color: #03dac6;">Εργαστήριο Φυσικής της Μισέλ 🔭</h2>
+            <h2 id="physics-title" style="color: #03dac6;">Εργαστήριο Φυσικής της Μισέλ 🔭</h2>
             
             <div class="difficulty-selector" style="margin-bottom: 15px;">
-                <label for="physics-level-select" style="font-weight: bold; color: #bb86fc;">Θέμα:</label>
+                <label for="physics-level-select" id="lbl-physics-level" style="font-weight: bold; color: #bb86fc;">Θέμα:</label>
                 <select id="physics-level-select" onchange="generatePhysicsProblem()" style="padding: 5px; border-radius: 5px; background: #252525; color: white; border: 1px solid #03dac6;">
-                    <option value="1">1. Ταχύτητα (v = s/t)</option>
-                    <option value="2">2. Απόσταση (s = v*t)</option>
-                    <option value="3">3. Χρόνος (t = s/v)</option>
+                    <option value="1" id="phys-opt-1">1. Ταχύτητα (v = s/t)</option>
+                    <option value="2" id="phys-opt-2">2. Απόσταση (s = v*t)</option>
+                    <option value="3" id="phys-opt-3">3. Χρόνος (t = s/v)</option>
                 </select>
             </div>
 
