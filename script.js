@@ -375,6 +375,14 @@ function checkAnswer() {
     if (window.saveToCloud) window.saveToCloud(score, userStats);
 }
 
+function checkPhysicsAnswer() {
+    const ansEl = document.getElementById("physics-answer");
+    if(!ansEl) return;
+    
+    // Προσωρινό μήνυμα μέχρι να χτίσουμε τον αλγόριθμο
+    safeSetText("physics-feedback", "Ο αλγόριθμος ελέγχου για τη Φυσική ετοιμάζεται... Μείνε συντονισμένος! 🐾");
+}
+
 function updateStatsUI() {
     safeSetText("stats-played", userStats.played);
     safeSetText("stats-correct", userStats.correct);
