@@ -32,7 +32,13 @@
         <img src="cat.jpg" alt="Catgebra Mascot" class="mascot">
         <h1 id="main-title">Catgebra 🐈🧮</h1>
 
-        <div class="grade-selector">
+        <div class="tabs-container">
+            <button class="tab-btn active" id="tab-math" onclick="switchTab('math')">🧮 Μαθηματικά</button>
+            <button class="tab-btn" id="tab-physics" onclick="switchTab('physics')">⚛️ Φυσική</button>
+        </div>
+
+        <div id="math-section">
+            <div class="grade-selector">
             <label for="grade-select" id="lbl-level">Επίπεδο Σπουδών:</label>
             <select id="grade-select" onchange="changeGrade()"></select>
         </div>
@@ -111,6 +117,12 @@
         </div>
         
         <button onclick="resetProgress()" class="reset-btn" id="btn-reset">Μηδενισμός Προόδου</button>
+        </div> <!-- End of math-section -->
+
+        <div id="physics-section" class="hidden">
+            <h2 style="color: #03dac6;">Εργαστήριο Φυσικής της Μισέλ 🔭</h2>
+            <p style="color: #fcebc7;">Σύντομα κοντά σας με πειράματα και εξισώσεις κίνησης!</p>
+        </div>
 
         <div class="about-section">
             <h4 id="lbl-resources" style="color: #bb86fc; margin-top: 5px;">Πηγές Μελέτης 📚</h4>

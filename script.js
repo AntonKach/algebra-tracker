@@ -441,6 +441,25 @@ function toggleKeyboard() { const mk = document.getElementById("math-keyboard");
 window.toggleChat = function() { const cm = document.getElementById("chat-modal"); if(cm) cm.classList.toggle("hidden"); };
 window.toggleProfile = function() { const pm = document.getElementById("profile-modal"); if(pm) pm.classList.toggle("hidden"); };
 
+window.switchTab = function(tabName) {
+    const mathSection = document.getElementById("math-section");
+    const physicsSection = document.getElementById("physics-section");
+    const tabMath = document.getElementById("tab-math");
+    const tabPhysics = document.getElementById("tab-physics");
+
+    if (tabName === 'math') {
+        if(mathSection) mathSection.classList.remove("hidden");
+        if(physicsSection) physicsSection.classList.add("hidden");
+        if(tabMath) tabMath.classList.add("active");
+        if(tabPhysics) tabPhysics.classList.remove("active");
+    } else {
+        if(mathSection) mathSection.classList.add("hidden");
+        if(physicsSection) physicsSection.classList.remove("hidden");
+        if(tabMath) tabMath.classList.remove("active");
+        if(tabPhysics) tabPhysics.classList.add("active");
+    }
+};
+
 function sendCannedMessage() {
     const el = document.getElementById("canned-messages");
     if (!el) return;
