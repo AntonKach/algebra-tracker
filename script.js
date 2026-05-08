@@ -55,19 +55,6 @@ const translations = {
         stepWords: { move: "Μεταφέρουμε:", div: "Διαιρούμε:", sub: "Αφαιρούμε:", mult: "Πολλαπλασιάζουμε:" },
         catSuccess: ["Purr-fect! Βρήκες το x! 😻", "Meow-gnificent! 🐾", "Γατίσια αντανακλαστικά! 😼"],
         catError: ["Ουπς! Μήπως πάτησα το πληκτρολόγιο; 😿", "Μιάου... Κάτι δεν πήγε καλά. 🙀"],
-        secrets: [
-            "💡 Το ήξερες; Το σύμβολο του ίσον (=) εφευρέθηκε το 1557 επειδή ένας μαθηματικός βαρέθηκε να γράφει συνέχεια 'είναι ίσο με'!",
-            "🐾 Οι γάτες έχουν 32 μύες σε κάθε αυτί. Μπορώ να ακούσω κάθε λάθος πράξη σου! 😼",
-            "💡 Ο αριθμός μηδέν (0) ανακαλύφθηκε στην Ινδία γύρω στον 5ο αιώνα. Πριν από αυτό, απλά άφηναν ένα κενό!",
-            "🐾 Meow! Αν πολλαπλασιάσεις το 111.111.111 με τον εαυτό του, βγάζει 12345678987654321! 🤯",
-            "💡 Όπως ακριβώς και στις εξισώσεις, έτσι και στη ζωή: ό,τι κάνεις στη μία πλευρά, πρέπει να το κάνεις και στην άλλη για να υπάρχει ισορροπία! ⚖️",
-            "🐾 Η μύτη κάθε γάτας είναι μοναδική, σαν το ανθρώπινο δακτυλικό αποτύπωμα. Το ίδιο μοναδική είναι και η λύση μιας εξίσωσης!",
-            "🐾 Αν προσπαθήσεις να διαιρέσεις με το μηδέν, το σύμπαν θα γεμίσει τριχόμπαλες! 🙀",
-            "💡 Η αγαπημένη μου εξίσωση είναι: E = mc^meow 🐈",
-            "🐾 Οι γάτες προσγειώνονται πάντα στα 4, ακριβώς όπως το x σε μια τέλεια εξίσωση! 🐾",
-            "💡 Ποτέ μην ξεχνάς το πλην (-). Είναι σαν να ξεχνάς να με ταΐσεις. Καταστροφή! 😿",
-            "🐾 Το ΕΚΠ δεν σημαίνει Εξαιρετικά Κομψός Πάνθηρας. Ελάχιστο Κοινό Πολλαπλάσιο είναι! 🐆"
-        ],
         tabMath: "🧮 Μαθηματικά", tabPhysics: "⚛️ Φυσική",
         physicsTitle: "Εργαστήριο Φυσικής της Μισέλ 🔭", lblPhysicsLevel: "Θέμα:",
         physOpt1: "1. Ταχύτητα (v = s/t)", physOpt2: "2. Απόσταση (s = v*t)", physOpt3: "3. Χρόνος (t = s/v)",
@@ -109,19 +96,6 @@ const translations = {
         rank1: "🐱 Beginner Kitten", rank2: "🐈 Smart Cat", rank3: "🐆 Fast Lynx", rank4: "🐅 Math Tiger",
         stepWords: { move: "Move:", div: "Divide:", sub: "Subtract:", mult: "Multiply:" },
         catSuccess: ["Purr-fect! You found x! 😻"], catError: ["Oops! Wrong answer. 😿"],
-        secrets: [
-            "💡 Did you know? The equals sign (=) was invented in 1557 because a mathematician got tired of writing 'is equal to'!",
-            "🐾 Cats have 32 muscles in each ear. I can hear every calculation mistake you make! 😼",
-            "💡 The number zero (0) was discovered in India around the 5th century. Before that, they just left a blank space!",
-            "🐾 Meow! If you multiply 111,111,111 by itself, you get 12345678987654321! 🤯",
-            "💡 Just like in equations, in life: whatever you do to one side, you must do to the other to keep balance! ⚖️",
-            "🐾 A cat's nose pad is unique, just like a human fingerprint. And just as unique as the solution to an equation!",
-            "🐾 If you try to divide by zero, the universe will fill with hairballs! 🙀",
-            "💡 My favorite equation is: E = mc^meow 🐈",
-            "🐾 Cats always land on all 4s, just like x in a perfect equation! 🐾",
-            "💡 Never forget the minus sign (-). It's like forgetting to feed me. A disaster! 😿",
-            "🐾 LCM does not stand for Large Cat Meowing. It's Least Common Multiple! 🐆"
-        ],
         tabMath: "🧮 Math", tabPhysics: "⚛️ Physics",
         physicsTitle: "Michelle's Physics Lab 🔭", lblPhysicsLevel: "Topic:",
         physOpt1: "1. Velocity (v = s/t)", physOpt2: "2. Distance (s = v*t)", physOpt3: "3. Time (t = s/v)",
@@ -163,19 +137,6 @@ const translations = {
         rank1: "🐱 Chaton Débutant", rank2: "🐈 Chat Intelligent", rank3: "🐆 Lynx Rapide", rank4: "🐅 Tigre Math.",
         stepWords: { move: "On déplace:", div: "On divise:", sub: "On soustrait:", mult: "On multiplie:" },
         catSuccess: ["Purr-fect! Tu as trouvé x! 😻"], catError: ["Oups! Mauvaise réponse. 😿"],
-        secrets: [
-            "💡 Le savais-tu ? Le signe égal (=) a été inventé en 1557 parce qu'un mathématicien en avait marre d'écrire 'est égal à' !",
-            "🐾 Les chats ont 32 muscles dans chaque oreille. Je peux entendre toutes tes erreurs de calcul ! 😼",
-            "💡 Le chiffre zéro (0) a été découvert en Inde vers le Ve siècle. Avant cela, on laissait simplement un espace vide !",
-            "🐾 Miaou ! Si tu multiplies 111 111 111 par lui-même, tu obtiens 12345678987654321 ! 🤯",
-            "💡 Tout comme dans les équations, dans la vie : ce que tu fais d'un côté, tu dois le faire de l'autre pour garder l'équilibre ! ⚖️",
-            "🐾 La truffe d'un chat est unique, comme une empreinte digitale humaine. Tout aussi unique que la solution d'une équation !",
-            "🐾 Si tu essaies de diviser par zéro, l'univers se remplira de boules de poils ! 🙀",
-            "💡 Mon équation préférée est : E = mc^meow 🐈",
-            "🐾 Les chats retombent toujours sur leurs 4 pattes, tout comme x dans une équation parfaite ! 🐾",
-            "💡 N'oublie jamais le signe moins (-). C'est comme oublier de me nourrir. Une catastrophe ! 😿",
-            "🐾 Le PPCM ne signifie pas Petit Puma Très Mignon. C'est le Plus Petit Commun Multiple ! 🐆"
-        ],
         tabMath: "🧮 Mathématiques", tabPhysics: "⚛️ Physique",
         physicsTitle: "Laboratoire de Physique de Michelle 🔭", lblPhysicsLevel: "Sujet:",
         physOpt1: "1. Vitesse (v = s/t)", physOpt2: "2. Distance (s = v*t)", physOpt3: "3. Temps (t = s/v)",
@@ -217,19 +178,6 @@ const translations = {
         rank1: "🐱 Acemi Yavru Kedi", rank2: "🐈 Akıllı Kedi", rank3: "🐆 Hızlı Vaşak", rank4: "🐅 Matematik Kaplanı",
         stepWords: { move: "Taşıyoruz:", div: "Bölüyoruz:", sub: "Çıkarıyoruz:", mult: "Çarpıyoruz:" },
         catSuccess: ["Purr-fect! x'i buldun! 😻"], catError: ["Oops! Yanlış cevap. 😿"],
-        secrets: [
-            "💡 Biliyor muydun? Eşittir işareti (=) 1557'de icat edildi!",
-            "🐾 Kedilerin her kulağında 32 kas vardır. Yaptığın her hatayı duyabilirim! 😼",
-            "💡 Sıfır (0) sayısı 5. yüzyılda Hindistan'da keşfedildi!",
-            "🐾 Miyav! 111.111.111'i kendisiyle çarparsan 12345678987654321 elde edersin! 🤯",
-            "💡 Hayatta dengeyi korumak için bir tarafa ne yaparsan diğerine de aynısını yapmalısın! ⚖️",
-            "🐾 Bir kedinin burnu insan parmak izi gibi benzersizdir!",
-            "🐾 Sıfıra bölmeye çalışırsan, evren tüy yumaklarıyla dolar! 🙀",
-            "💡 En sevdiğim denklem: E = mc^miyav 🐈",
-            "🐾 Kediler her zaman 4 ayak üstüne düşer, tıpkı mükemmel bir denklemdeki x gibi! 🐾",
-            "💡 Eksi (-) işaretini asla unutma. Beni beslemeyi unutmak gibidir. Gerçek bir felaket! 😿",
-            "🐾 EKOK, Ekstra Komik Orman Kedisi demek değildir. En Küçük Ortak Kat demektir! 🐆"
-        ],
         tabMath: "🧮 Matematik", tabPhysics: "⚛️ Fizik",
         physicsTitle: "Michelle'in Fizik Laboratuvarı 🔭", lblPhysicsLevel: "Konu:",
         physOpt1: "1. Hız (v = s/t)", physOpt2: "2. Mesafe (s = v*t)", physOpt3: "3. Zaman (t = s/v)",
@@ -689,9 +637,10 @@ async function askAI() {
 }
 
 window.triggerCatSecret = function() {
-    const t = translations[currentLang] || translations["el"];
-    const secrets = t.secrets;
-    const randomSecret = secrets[Math.floor(Math.random() * secrets.length)];
+    const secretsList = (window.michelleSecrets && window.michelleSecrets[currentLang]) ? window.michelleSecrets[currentLang] : window.michelleSecrets["el"];
+    if (!secretsList || secretsList.length === 0) return;
+    
+    const randomSecret = secretsList[Math.floor(Math.random() * secretsList.length)];
     const modal = document.getElementById("secret-modal");
     const textEl = document.getElementById("secret-text");
     
