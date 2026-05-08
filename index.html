@@ -13,9 +13,14 @@
 <body>
     <div class="container">
         <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
-            <button id="btn-login" onclick="loginWithGoogle()" style="background: #4285F4; color: white; border: none; padding: 8px 15px; border-radius: 5px; cursor: pointer; font-weight: bold;">
-                ☁️ Σύνδεση με Google
-            </button>
+            <div style="display: flex; gap: 5px;">
+                <button id="btn-login" onclick="loginWithGoogle()" style="background: #4285F4; color: white; border: none; padding: 8px 15px; border-radius: 5px; cursor: pointer; font-weight: bold;">
+                    ☁️ Σύνδεση
+                </button>
+                <button id="btn-profile" onclick="toggleProfile()" style="background: #bb86fc; color: black; border: none; padding: 8px 15px; border-radius: 5px; cursor: pointer; font-weight: bold;">
+                    👤 Προφίλ
+                </button>
+            </div>
             <select id="lang-select" onchange="changeLanguage()" style="background: #252525; border: 1px solid #bb86fc; padding: 5px; border-radius: 5px; color: white; cursor: pointer;">
                 <option value="el">🇬🇷 Ελληνικά</option>
                 <option value="en">🇬🇧 English</option>
@@ -154,6 +159,36 @@
             <h2 id="secret-modal-title" style="color: #FF9800; margin-top: 0; margin-bottom: 15px; font-family: sans-serif;">💡 Το Μυστικό της Μισέλ!</h2>
             <p id="secret-text" style="font-size: 18px; margin: 20px 0; color: #333; font-weight: bold; font-family: sans-serif; line-height: 1.5;"></p>
             <button id="btn-secret-close" onclick="closeSecret()" style="background-color: #FFC107; color: black; font-weight: bold; padding: 12px 25px; border-radius: 10px; border: none; cursor: pointer; font-size: 16px; box-shadow: 0 4px 6px rgba(0,0,0,0.1);">Τέλεια! 🐾</button>
+        </div>
+    </div>
+
+    <div id="profile-modal" class="modal hidden">
+        <div class="modal-content" style="max-width: 450px; text-align: center;">
+            <h2 id="profile-title" style="color: #03dac6; margin-top: 0;">Το Προφίλ μου 👤</h2>
+            
+            <img src="cat.jpg" alt="User Avatar" class="mascot" id="profile-avatar" style="width: 100px !important; height: 100px !important; margin: 10px auto;">
+            
+            <h3 id="profile-name" style="margin: 5px 0;">Catgebra Player</h3>
+            <p id="profile-rank" style="color: #FFD700; font-weight: bold; font-size: 1.2em; margin: 5px 0;">🐱 Αρχάριο Γατάκι</p>
+            
+            <div style="margin: 20px 0;">
+                <h4 style="color: #bb86fc; margin-bottom: 10px;">Τα Παράσημά μου</h4>
+                <div class="badges-grid">
+                    <div class="badge-item locked">🏆</div>
+                    <div class="badge-item locked">🏅</div>
+                    <div class="badge-item locked">🔥</div>
+                    <div class="badge-item locked">🎓</div>
+                </div>
+            </div>
+
+            <div style="margin: 20px 0; text-align: left;">
+                <span style="font-weight: bold;">XP: <span id="profile-xp">0</span> / 1000</span>
+                <div class="progress-bar-container">
+                    <div class="progress-bar-fill" id="profile-progress" style="width: 0%;"></div>
+                </div>
+            </div>
+
+            <button id="btn-profile-close" onclick="toggleProfile()" style="width: 100%; margin-top: 10px;">Κλείσιμο</button>
         </div>
     </div>
 

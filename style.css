@@ -218,11 +218,14 @@ select option {
     color: #fcebc7 !important;
 }
 
-/* Κουμπί Google και Μικρό Κουμπί Πληκτρολογίου */
-#btn-login, .kbd-toggle {
+/* Κουμπί Google, Προφίλ και Μικρό Κουμπί Πληκτρολογίου */
+#btn-login, #btn-profile, .kbd-toggle {
     background-color: transparent !important; 
     color: #fcebc7 !important; 
     border: 2px solid #fcebc7 !important; 
+}
+#btn-profile {
+    border-color: #bb86fc !important;
 }
 /* --- ΑΦΑΙΡΕΣΗ ΤΩΝ ΜΑΥΡΩΝ ΠΛΑΙΣΙΩΝ --- */
 .quiz-box, .notes-container, .about-section {
@@ -233,4 +236,50 @@ select option {
 .mascot {
     width: 140px !important;  /* Από 80px που ήταν, τώρα γίνεται αρκετά μεγαλύτερη */
     height: 140px !important;
+}
+
+/* --- Προφίλ Χρήστη (Profile Modal) --- */
+.badges-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 10px;
+    justify-content: center;
+    margin: 0 auto;
+}
+
+.badge-item {
+    font-size: 2em;
+    background: rgba(0, 0, 0, 0.4);
+    border: 2px solid #bb86fc;
+    border-radius: 12px;
+    padding: 10px;
+    box-shadow: 3px 3px 0px #000000;
+    transition: transform 0.2s;
+}
+
+.badge-item:hover {
+    transform: scale(1.1);
+}
+
+.badge-item.locked {
+    filter: grayscale(100%) opacity(40%);
+    border-color: #555;
+}
+
+.progress-bar-container {
+    width: 100%;
+    height: 20px;
+    background-color: #252525;
+    border: 2px solid #000;
+    border-radius: 10px;
+    margin-top: 5px;
+    overflow: hidden;
+    box-shadow: inset 2px 2px 5px rgba(0,0,0,0.5);
+}
+
+.progress-bar-fill {
+    height: 100%;
+    background: linear-gradient(90deg, #bb86fc, #03dac6);
+    width: 0%;
+    transition: width 0.5s ease-out;
 }

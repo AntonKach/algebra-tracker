@@ -389,6 +389,17 @@ function updateRank() {
     else if (score >= 300) title = t.rank3;
     else if (score >= 100) title = t.rank2;
     safeSetText("user-rank", title);
+    
+    // Ενημέρωση του Profile Modal
+    safeSetText("profile-rank", title);
+    safeSetText("profile-xp", score);
+    
+    // Υπολογισμός Progress Bar (έστω max 1000 XP)
+    let progressEl = document.getElementById("profile-progress");
+    if (progressEl) {
+        let percent = Math.min((score / 1000) * 100, 100);
+        progressEl.style.width = percent + "%";
+    }
 }
 
 function showHelp() {
@@ -410,6 +421,7 @@ function insertSymbol(sym) { const input = document.getElementById(lastFocusedIn
 function toggleKeyboard() { const mk = document.getElementById("math-keyboard"); if(mk) mk.classList.toggle("hidden"); }
 
 window.toggleChat = function() { const cm = document.getElementById("chat-modal"); if(cm) cm.classList.toggle("hidden"); };
+window.toggleProfile = function() { const pm = document.getElementById("profile-modal"); if(pm) pm.classList.toggle("hidden"); };
 
 function sendCannedMessage() {
     const el = document.getElementById("canned-messages");
