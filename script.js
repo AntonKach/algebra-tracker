@@ -203,8 +203,19 @@ const translations = {
 
 window.onload = function() {
     try {
+        const savedStats = localStorage.getItem("mathUserStats");
+        if (savedStats) userStats = JSON.parse(savedStats);
+        
         const savedScore = localStorage.getItem("mathScore");
         if (savedScore) score = parseInt(savedScore);
+
+        const savedAvatar = localStorage.getItem("userAvatar");
+        if (savedAvatar) {
+            const mainAvatar = document.getElementById("main-avatar");
+            const profileAvatar = document.getElementById("profile-avatar");
+            if (mainAvatar) mainAvatar.src = savedAvatar;
+            if (profileAvatar) profileAvatar.src = savedAvatar;
+        }
         
         const sciEl = document.getElementById('scientific-calculator');
         if (sciEl && typeof Desmos !== 'undefined') sciCalculator = Desmos.ScientificCalculator(sciEl, { invertedColors: true });
@@ -650,4 +661,28 @@ window.triggerCatSecret = function() {
     } else {
         alert(randomSecret); 
     }
+};
+
+window.uploadAvatar = function(event) {
+    const file = event.target.files[0];
+    if (!file) return;
+
+    const reader = new FileReader();
+    reader.onload = function(e) {
+        const base64Image = e.target.result;
+        
+        try {
+            localStorage.setItem("userAvatar", base64Image);
+        } catch (error) {
+            console.error("Storage limit exceeded", error);
+            alert("Η εικόνα είναι πολύ μεγάλη! Παρακαλώ διάλεξε μικρότερο αρχείο.");
+            return;
+        }
+
+        const mainAvatar = document.getElementById("main-avatar");
+        const profileAvatar = document.getElementById("profile-avatar");
+        if (mainAvatar) mainAvatar.src = base64Image;
+        if (profileAvatar) profileAvatar.src = base64Image;
+    };
+    reader.readAsDataURL(file);
 };

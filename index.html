@@ -29,7 +29,7 @@
             </select>
         </div>
 
-        <img src="cat.jpg" alt="Catgebra Mascot" class="mascot">
+        <img src="cat.jpg" alt="Catgebra Mascot" class="mascot" id="main-avatar">
         <h1 id="main-title">Catgebra 🐈🧮</h1>
 
         <div class="tabs-container">
@@ -203,7 +203,11 @@
         <div class="modal-content" style="max-width: 450px; text-align: center;">
             <h2 id="profile-title" style="color: #03dac6; margin-top: 0;">Το Προφίλ μου 👤</h2>
             
-            <img src="cat.jpg" alt="User Avatar" class="mascot" id="profile-avatar" style="width: 100px !important; height: 100px !important; margin: 10px auto;">
+            <div style="position: relative; display: inline-block;">
+                <img src="cat.jpg" alt="User Avatar" class="mascot" id="profile-avatar" style="width: 100px !important; height: 100px !important; margin: 10px auto; cursor: pointer;" onclick="document.getElementById('avatar-upload').click();" title="Αλλαγή Εικόνας">
+                <input type="file" id="avatar-upload" accept="image/*" style="display: none;" onchange="uploadAvatar(event)">
+                <div style="font-size: 0.8em; color: #bb86fc; cursor: pointer; margin-top: -5px; margin-bottom: 10px;" onclick="document.getElementById('avatar-upload').click();">✏️ Αλλαγή Εικόνας</div>
+            </div>
             
             <h3 id="profile-name" style="margin: 5px 0;">Catgebra Player</h3>
             <p id="profile-rank" style="color: #FFD700; font-weight: bold; font-size: 1.2em; margin: 5px 0;">🐱 Αρχάριο Γατάκι</p>
