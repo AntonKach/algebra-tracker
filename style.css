@@ -5,7 +5,7 @@
 }
 
 body {
-    background-color: #1c1c1e; /* Apple Dark Mode */
+    background-color: #252529; /* Soft Dark Theme */
     color: #ffffff !important; /* Λευκό κείμενο για αντίθεση */
     font-family: 'Nunito', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif !important;
     text-align: center;
@@ -63,15 +63,14 @@ h1 {
     text-shadow: none; /* Αφαίρεση του text-shadow για πιο minimal look */
 }
 
-/* Κάρτες (Frosted Glass) */
+/* Κάρτες (Frosted Glass -> Solid Soft Dark) */
 .quiz-box, .notes-container, .about-section, .stats, .math-keyboard, .modal-content {
-    background-color: rgba(44, 44, 46, 0.7) !important;
+    background-color: #323236 !important;
     border-radius: 20px;
     padding: 24px;
     margin-top: 15px;
-    backdrop-filter: blur(15px);
-    border: 1px solid rgba(255, 255, 255, 0.1) !important;
-    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2) !important;
+    border: 1px solid rgba(255, 255, 255, 0.05) !important;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15) !important;
 }
 
 .stats p {
@@ -108,7 +107,7 @@ input[type="text"], textarea, select {
 }
 
 input[type="text"]:focus, textarea:focus, select:focus {
-    border-color: #007AFF !important;
+    border-color: #0A84FF !important;
     background-color: rgba(118, 118, 128, 0.3) !important;
 }
 
@@ -147,13 +146,13 @@ button:active {
 
 /* iOS Blue Buttons */
 .check-btn, #btn-check, #btn-login, .tab-btn.active { 
-    background-color: #007AFF !important; 
+    background-color: #0A84FF !important; 
     color: #ffffff !important;
-    box-shadow: 0 4px 14px rgba(0, 122, 255, 0.3) !important;
+    box-shadow: 0 4px 14px rgba(10, 132, 255, 0.3) !important;
 } 
 
 .check-btn:hover, #btn-check:hover, #btn-login:hover {
-    background-color: #0056b3 !important;
+    background-color: #0070df !important;
 }
 
 /* Secondary Buttons */
@@ -209,18 +208,18 @@ button:active {
 }
 
 .resources-list a {
-    color: #007AFF !important;
+    color: #0A84FF !important;
     text-decoration: none !important;
     font-weight: 500;
     padding: 8px 12px;
     border-radius: 8px;
     transition: all 0.2s ease;
-    background-color: rgba(0, 122, 255, 0.1);
+    background-color: transparent !important;
 }
 
 .resources-list a:hover {
-    background-color: rgba(0, 122, 255, 0.2);
-    color: #0056b3 !important;
+    text-decoration: underline !important;
+    color: #0A84FF !important;
 }
 
 /* --- Προφίλ Χρήστη (Profile Modal) --- */
@@ -261,7 +260,7 @@ button:active {
 
 .progress-bar-fill {
     height: 100%;
-    background: #007AFF;
+    background: #0A84FF;
     width: 0%;
     transition: width 0.5s ease-out;
     border-radius: 10px;
@@ -292,7 +291,23 @@ button:active {
 }
 
 .tab-btn.active {
-    background-color: #007AFF !important;
+    background-color: #0A84FF !important;
     color: #ffffff !important;
-    box-shadow: 0 4px 14px rgba(0, 122, 255, 0.3) !important;
+    box-shadow: 0 4px 14px rgba(10, 132, 255, 0.3) !important;
 }
+
+/* --- RESPONSIVE DESIGN (Desktop Layout) --- */
+@media (min-width: 1024px) {
+    .container {
+        max-width: 1200px !important;
+    }
+    
+    .main-layout {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 30px;
+        align-items: start;
+        text-align: left;
+    }
+}
+
