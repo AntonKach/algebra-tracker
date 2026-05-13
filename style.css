@@ -5,12 +5,12 @@
 }
 
 body {
-    background-color: #121212; /* Modern dark background */
-    color: #fcebc7 !important;
+    background-color: #1c1c1e; /* Apple Dark Mode */
+    color: #ffffff !important; /* Λευκό κείμενο για αντίθεση */
     font-family: 'Nunito', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif !important;
     text-align: center;
     margin: 0;
-    padding: 10px;
+    padding: 20px;
     display: flex;
     justify-content: center;
     align-items: flex-start;
@@ -25,280 +25,274 @@ body {
 .modal {
     position: fixed;
     top: 0; left: 0; width: 100%; height: 100%;
-    background-color: rgba(0,0,0,0.8);
+    background-color: rgba(0,0,0,0.6); /* Πιο απαλό overlay */
     display: flex;
     justify-content: center;
     align-items: center;
     z-index: 1000;
+    backdrop-filter: blur(5px);
 }
 
-/* --- Η Μισέλ (Ακόμα πιο μικρή) --- */
+/* --- Η Μισέλ --- */
 .mascot {
-    width: 80px; 
-    height: 80px;
+    width: 140px !important;
+    height: 140px !important;
     border-radius: 50%;
-    border: 3px solid #000000 !important;
-    box-shadow: 4px 4px 0px #000000 !important;
+    border: 2px solid rgba(255, 255, 255, 0.1) !important;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3) !important;
     object-fit: cover;
-    margin-bottom: 10px;
+    margin-bottom: 20px;
 }
 
-/* --- Κεντρικό Κουτί (Τελείως Διαφανές) --- */
+/* --- Κεντρικό Κουτί --- */
 .container {
     max-width: 600px;
     width: 100%;
     margin: 0 auto;
-    background-color: transparent !important; /* Κατευθείαν στο φόντο */
+    background-color: transparent !important;
     padding: 10px;
     border: none !important; 
     box-shadow: none !important; 
 }
 
 h1 {
-    font-size: 2.2em !important; /* Μικρότερα γράμματα */
-    margin: 5px 0;
-    color: #fcebc7 !important;
-    text-shadow: 2px 2px 0px #000000;
+    font-size: 2.2em !important;
+    margin: 5px 0 20px 0;
+    color: #ffffff !important;
+    font-weight: 600;
+    text-shadow: none; /* Αφαίρεση του text-shadow για πιο minimal look */
+}
+
+/* Κάρτες (Frosted Glass) */
+.quiz-box, .notes-container, .about-section, .stats, .math-keyboard, .modal-content {
+    background-color: rgba(44, 44, 46, 0.7) !important;
+    border-radius: 20px;
+    padding: 24px;
+    margin-top: 15px;
+    backdrop-filter: blur(15px);
+    border: 1px solid rgba(255, 255, 255, 0.1) !important;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2) !important;
 }
 
 .stats p {
-    font-size: 1em !important;
-    color: #fcebc7 !important;
-}
-
-/* Κουτιά Ασκήσεων και Πρόχειρου (Διαφανή με λεπτό περίγραμμα) */
-.quiz-box, .notes-container, .about-section {
-    background-color: transparent !important; 
-    border: none !important; 
-    border-radius: 8px;
-    padding: 15px;
-    margin-top: 10px;
-    box-shadow: none !important; 
+    font-size: 1.1em !important;
+    color: #ebebf5 !important; /* Secondary text color Apple */
 }
 
 /* Η Εξίσωση */
 .equation-text {
-    font-size: 1.8em !important; /* Πολύ πιο μαζεμένη */
-    font-weight: bold;
-    color: #fcebc7 !important;
-    margin: 10px 0;
-    border-bottom: 2px dashed #fcebc7;
+    font-size: 2em !important;
+    font-weight: 600;
+    color: #ffffff !important;
+    margin: 15px 0;
     display: inline-block;
-    padding-bottom: 5px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.2);
 }
 
 /* Πεδία Απάντησης & Μενού */
 input[type="text"], textarea, select {
-    background-color: rgba(255, 255, 255, 0.9) !important; /* Ελαφρώς διαφανή λευκά */
-    border: 2px solid #000000 !important;
-    border-radius: 8px;
-    padding: 8px 12px;
-    font-size: 1em !important;
+    background-color: rgba(118, 118, 128, 0.24) !important; /* iOS style fill */
+    border: 1px solid rgba(255, 255, 255, 0.1) !important;
+    border-radius: 12px;
+    padding: 12px 16px;
+    font-size: 1.1em !important;
     font-family: inherit !important;
-    color: #000000 !important;
+    color: #ffffff !important;
     width: 100%;
     max-width: 250px;
-    margin: 5px auto;
+    margin: 10px auto;
     display: block;
+    outline: none;
+    transition: all 0.2s ease;
 }
 
-/* --- ΚΟΥΜΠΙΑ (Πιο μικρά) --- */
+input[type="text"]:focus, textarea:focus, select:focus {
+    border-color: #007AFF !important;
+    background-color: rgba(118, 118, 128, 0.3) !important;
+}
+
+::placeholder {
+    color: rgba(235, 235, 245, 0.6) !important;
+}
+
+select option {
+    background-color: #2c2c2e !important;
+    color: #ffffff !important;
+}
+
+/* --- ΚΟΥΜΠΙΑ --- */
 button {
     font-family: inherit !important;
-    font-size: 1em !important;
-    padding: 6px 14px;
-    border: 3px solid #000000 !important; 
-    border-radius: 8px;
+    font-size: 1.1em !important;
+    padding: 10px 20px;
+    border: none !important;
+    border-radius: 14px;
     cursor: pointer;
-    box-shadow: 3px 3px 0px #000000 !important; 
-    font-weight: bold;
-    color: #000000 !important; 
-    margin: 4px;
-    transition: transform 0.1s, box-shadow 0.1s;
+    font-weight: 600;
+    color: #ffffff !important; 
+    margin: 6px;
+    transition: all 0.2s ease;
+    background-color: rgba(118, 118, 128, 0.24) !important; /* Default dark gray button */
+}
+
+button:hover {
+    transform: scale(1.02);
+    background-color: rgba(118, 118, 128, 0.35) !important;
 }
 
 button:active {
-    transform: translate(3px, 3px) !important;
-    box-shadow: 0px 0px 0px #000000 !important;
+    transform: scale(0.98) !important;
 }
 
-.check-btn, #btn-check { background-color: #4CAF50 !important; } 
-.help-btn, #btn-help { background-color: #FF5722 !important; }  
-.skip-btn, #btn-skip { background-color: #FFC107 !important; }  
+/* iOS Blue Buttons */
+.check-btn, #btn-check, #btn-login, .tab-btn.active { 
+    background-color: #007AFF !important; 
+    color: #ffffff !important;
+    box-shadow: 0 4px 14px rgba(0, 122, 255, 0.3) !important;
+} 
 
-#btn-login { background-color: #ffffff !important; color: #4285F4 !important; font-size: 1em !important; }
-.stats-btn, #btn-stats { background-color: #FFC107 !important; color: #000000 !important; }
-#btn-chat-toggle { background-color: #03dac6 !important; color: #000000 !important; } 
+.check-btn:hover, #btn-check:hover, #btn-login:hover {
+    background-color: #0056b3 !important;
+}
+
+/* Secondary Buttons */
+.help-btn, #btn-help, .skip-btn, #btn-skip, .stats-btn, #btn-stats, #btn-chat-toggle, #btn-profile, .kbd-toggle { 
+    background-color: rgba(44, 44, 46, 0.8) !important;
+    border: 1px solid rgba(255, 255, 255, 0.1) !important;
+    color: #ffffff !important;
+}
 
 .math-keyboard {
     display: grid;
     grid-template-columns: repeat(5, 1fr);
-    gap: 5px;
-    margin-top: 10px;
-    max-width: 300px;
+    gap: 8px;
+    margin-top: 15px;
+    max-width: 320px;
     margin-left: auto;
     margin-right: auto;
 }
 
 .math-keyboard button {
-    background-color: rgba(68, 68, 68, 0.8) !important;
-    color: #fcebc7 !important;
-    border-color: #000000 !important;
-    padding: 6px 5px;
-    font-size: 1.1em !important;
+    background-color: rgba(118, 118, 128, 0.24) !important;
+    color: #ffffff !important;
+    padding: 12px 5px;
+    font-size: 1.2em !important;
     width: 100%;
     margin: 0 !important;
+    border-radius: 10px;
+}
+
+.math-keyboard button:hover {
+    background-color: rgba(118, 118, 128, 0.35) !important;
 }
 
 #btn-ai, #btn-clear {
-    background-color: rgba(68, 68, 68, 0.8) !important;
-    color: #fcebc7 !important;
-    border-color: #000000 !important;
-    padding: 4px 10px;
-    font-size: 0.9em !important;
+    font-size: 1em !important;
 }
 
 /* Τα Παράθυρα (Chat & Στατιστικά) */
 .modal-content {
-    background-color: #333333 !important;
-    border: 4px solid #000000 !important;
-    border-radius: 12px;
-    box-shadow: 10px 10px 0px #000000 !important;
-    color: #fcebc7 !important;
-    max-width: 400px;
-    padding: 20px;
+    max-width: 450px;
 }
-/* --- Διόρθωση για τις Πηγές Μελέτης (Links) --- */
+
+/* --- Πηγές Μελέτης (Links) --- */
 .resources-list {
-    list-style-type: none !important; /* Αφαιρεί τις τελείες της λίστας */
+    list-style-type: none !important;
     padding: 0 !important;
-    margin: 10px 0;
+    margin: 15px 0;
 }
 
 .resources-list li {
-    margin: 10px 0;
-    font-size: 1.2em;
+    margin: 12px 0;
+    font-size: 1.1em;
 }
 
 .resources-list a {
-    color: #03dac6 !important; /* Φωτεινό Κυανό (όπως το κουμπί του Chat) */
-    text-decoration: none !important; /* Βγάζει την υπογράμμιση */
-    font-weight: bold;
-    padding: 5px 10px;
-    border: 2px dashed transparent;
-    transition: all 0.2s ease-in-out;
+    color: #007AFF !important;
+    text-decoration: none !important;
+    font-weight: 500;
+    padding: 8px 12px;
+    border-radius: 8px;
+    transition: all 0.2s ease;
+    background-color: rgba(0, 122, 255, 0.1);
 }
 
-/* Τι γίνεται όταν περνάς το ποντίκι από πάνω (Hover) */
 .resources-list a:hover {
-    color: #FFC107 !important; /* Γίνεται έντονο κίτρινο */
-    border-bottom: 2px dashed #FFC107; /* Εμφανίζεται μια διακεκομμένη γραμμή */
-}
-/* --- ΚΑΝΟΥΜΕ ΤΑ ΚΟΥΤΑΚΙΑ ΔΙΑΦΑΝΑ --- */
-input[type="text"], textarea, select {
-    background-color: transparent !important; /* Αφαίρεση του λευκού φόντου */
-    border: 2px solid #fcebc7 !important; /* Ανοιχτόχρωμο περίγραμμα για να ξεχωρίζει */
-    color: #fcebc7 !important; /* Ανοιχτόχρωμα γράμματα */
-}
-
-/* Ανοιχτόχρωμο κείμενο για τη λέξη "Απάντηση..." (Placeholder) */
-::placeholder {
-    color: rgba(252, 235, 199, 0.6) !important;
-}
-
-/* Όταν πατάς τα μενού για να ανοίξουν, πρέπει να έχουν σκούρο φόντο, 
-   αλλιώς οι επιλογές θα μπερδεύονται με την εικόνα! */
-select option {
-    background-color: #2c1b18 !important;
-    color: #fcebc7 !important;
-}
-
-/* Κουμπί Google, Προφίλ και Μικρό Κουμπί Πληκτρολογίου */
-#btn-login, #btn-profile, .kbd-toggle {
-    background-color: transparent !important; 
-    color: #fcebc7 !important; 
-    border: 2px solid #fcebc7 !important; 
-}
-#btn-profile {
-    border-color: #bb86fc !important;
-}
-/* --- ΜΕΓΑΛΩΝΟΥΜΕ ΤΗ ΜΙΣΕΛ 🐾 --- */
-.mascot {
-    width: 140px !important;  /* Από 80px που ήταν, τώρα γίνεται αρκετά μεγαλύτερη */
-    height: 140px !important;
+    background-color: rgba(0, 122, 255, 0.2);
+    color: #0056b3 !important;
 }
 
 /* --- Προφίλ Χρήστη (Profile Modal) --- */
 .badges-grid {
     display: grid;
     grid-template-columns: repeat(4, 1fr);
-    gap: 10px;
+    gap: 12px;
     justify-content: center;
-    margin: 0 auto;
+    margin: 20px auto;
 }
 
 .badge-item {
-    font-size: 2em;
-    background: rgba(0, 0, 0, 0.4);
-    border: 2px solid #bb86fc;
-    border-radius: 12px;
-    padding: 10px;
-    box-shadow: 3px 3px 0px #000000;
-    transition: transform 0.2s;
+    font-size: 2.2em;
+    background: rgba(118, 118, 128, 0.24);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 16px;
+    padding: 15px;
+    transition: all 0.2s ease;
 }
 
 .badge-item:hover {
-    transform: scale(1.1);
+    transform: scale(1.08);
+    background: rgba(118, 118, 128, 0.35);
 }
 
 .badge-item.locked {
     filter: grayscale(100%) opacity(40%);
-    border-color: #555;
 }
 
 .progress-bar-container {
     width: 100%;
-    height: 20px;
-    background-color: #252525;
-    border: 2px solid #000;
+    height: 12px;
+    background-color: rgba(118, 118, 128, 0.24);
     border-radius: 10px;
-    margin-top: 5px;
+    margin-top: 15px;
     overflow: hidden;
-    box-shadow: inset 2px 2px 5px rgba(0,0,0,0.5);
 }
 
 .progress-bar-fill {
     height: 100%;
-    background: linear-gradient(90deg, #bb86fc, #03dac6);
+    background: #007AFF;
     width: 0%;
     transition: width 0.5s ease-out;
+    border-radius: 10px;
 }
 
 /* --- TABS SYSTEM --- */
 .tabs-container {
     display: flex;
     justify-content: center;
-    gap: 10px;
-    margin-bottom: 20px;
+    gap: 12px;
+    margin-bottom: 24px;
 }
 
 .tab-btn {
-    background-color: transparent !important;
-    color: #fcebc7 !important;
-    border: 2px solid #555 !important;
-    padding: 8px 20px;
-    font-size: 1.2em !important;
-    border-radius: 8px;
-    transition: all 0.3s ease;
+    background-color: rgba(118, 118, 128, 0.24) !important;
+    color: #ebebf5 !important;
+    border: none !important;
+    padding: 10px 24px;
+    font-size: 1.1em !important;
+    border-radius: 14px;
+    transition: all 0.2s ease;
     cursor: pointer;
+    font-weight: 500;
 }
 
 .tab-btn:hover {
-    border-color: #bb86fc !important;
+    background-color: rgba(118, 118, 128, 0.35) !important;
 }
 
 .tab-btn.active {
-    background-color: rgba(187, 134, 252, 0.2) !important;
-    border-color: #bb86fc !important;
-    box-shadow: 0 0 10px rgba(187, 134, 252, 0.5) !important;
+    background-color: #007AFF !important;
+    color: #ffffff !important;
+    box-shadow: 0 4px 14px rgba(0, 122, 255, 0.3) !important;
 }

@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="el">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -11,18 +12,22 @@
     <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
     <link rel="stylesheet" href="style.css?v=1.4">
 </head>
+
 <body>
     <div class="container">
         <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
             <div style="display: flex; gap: 5px;">
-                <button id="btn-login" onclick="loginWithGoogle()" style="background: #4285F4; color: white; border: none; padding: 8px 15px; border-radius: 5px; cursor: pointer; font-weight: bold;">
+                <button id="btn-login" onclick="loginWithGoogle()"
+                    style="background: #4285F4; color: white; border: none; padding: 8px 15px; border-radius: 5px; cursor: pointer; font-weight: bold;">
                     ☁️ Σύνδεση
                 </button>
-                <button id="btn-profile" onclick="toggleProfile()" style="background: #bb86fc; color: black; border: none; padding: 8px 15px; border-radius: 5px; cursor: pointer; font-weight: bold;">
+                <button id="btn-profile" onclick="toggleProfile()"
+                    style="background: #bb86fc; color: black; border: none; padding: 8px 15px; border-radius: 5px; cursor: pointer; font-weight: bold;">
                     👤 Προφίλ
                 </button>
             </div>
-            <select id="lang-select" onchange="changeLanguage()" style="background: #252525; border: 1px solid #bb86fc; padding: 5px; border-radius: 5px; color: white; cursor: pointer;">
+            <select id="lang-select" onchange="changeLanguage()"
+                style="background: #252525; border: 1px solid #bb86fc; padding: 5px; border-radius: 5px; color: white; cursor: pointer;">
                 <option value="el">🇬🇷 Ελληνικά</option>
                 <option value="en">🇬🇧 English</option>
                 <option value="fr">🇫🇷 Français</option>
@@ -40,92 +45,109 @@
 
         <div id="math-section">
             <div class="grade-selector">
-            <label for="grade-select" id="lbl-level">Επίπεδο Σπουδών:</label>
-            <select id="grade-select" onchange="changeGrade()"></select>
-        </div>
-        
-        <div class="difficulty-selector" style="margin-top: 10px; margin-bottom: 15px;">
-            <label for="level-select" id="lbl-select-level" style="font-weight: bold; color: #bb86fc;">Δυσκολία:</label>
-            <select id="level-select" onchange="loadNextProblem()" style="padding: 5px; border-radius: 5px; background: #252525; color: white; border: 1px solid #03dac6;">
-                <option value="1" id="opt-level-1">Επίπεδο 1: Γατάκι (ax + b = c)</option>
-                <option value="2" id="opt-level-2">Επίπεδο 2: Γάτος (ax + b = cx + d)</option>
-                <option value="3" id="opt-level-3">Επίπεδο 3: Τίγρης (Δευτεροβάθμιες)</option>
-                <option value="4" id="opt-level-4">Επίπεδο 4: Λιοντάρι (Κλάσματα & Παρενθέσεις)</option>
-            </select>
-        </div>
-        
-        <div class="stats">
-            <p>
-                <span id="lbl-score">Σκορ:</span> <span id="score" class="highlight-text">0</span> | 
-                <span id="user-rank" style="color: #FFD700; font-weight: bold; margin: 0 10px;">🐱 Αρχάριο Γατάκι</span> | 
-                <span id="lbl-time">Χρόνος:</span> <span id="timer" class="highlight-text">00:00</span>
-            </p>
-            <button id="btn-secret" onclick="showCatSecret()" class="stats-btn" style="background-color: #FFC107; color: #000; font-weight: bold;">💡 Μυστικό!</button>
-            <button id="btn-chat-toggle" onclick="toggleChat()" style="background: #03dac6; color: black; font-weight: bold;">💬 Chat</button>
-        </div>
-
-        <div class="quiz-box">
-            <p id="equation" class="equation-text">Φόρτωση...</p>
-            
-            <div class="input-container">
-                <input type="text" id="answer" placeholder="Απάντηση...">
-                <button onclick="toggleKeyboard()" class="kbd-toggle" id="kbd-toggle-btn" title="Εμφάνιση Μαθηματικού Πληκτρολογίου">⌨️</button>
+                <label for="grade-select" id="lbl-level">Επίπεδο Σπουδών:</label>
+                <select id="grade-select" onchange="changeGrade()"></select>
             </div>
 
-            <div id="math-keyboard" class="math-keyboard hidden">
-                <button onclick="insertSymbol('²')">x²</button>
-                <button onclick="insertSymbol('³')">x³</button>
-                <button onclick="insertSymbol('√')">√</button>
-                <button onclick="insertSymbol('±')">±</button>
-                <button onclick="insertSymbol('°')">°</button>
-                <button onclick="insertSymbol('≤')">≤</button>
-                <button onclick="insertSymbol('≥')">≥</button>
-                <button onclick="insertSymbol('≠')">≠</button>
-                <button onclick="insertSymbol('θ')">θ</button>
-                <button onclick="insertSymbol('Δ')">Δ</button>
-                <button onclick="insertSymbol('α')">α</button>
-                <button onclick="insertSymbol('β')">β</button>
-                <button onclick="insertSymbol('∫')">∫</button>
-                <button onclick="insertSymbol('π')">π</button>
-                <button onclick="insertSymbol('∞')">∞</button>
+            <div class="difficulty-selector" style="margin-top: 10px; margin-bottom: 15px;">
+                <label for="level-select" id="lbl-select-level"
+                    style="font-weight: bold; color: #bb86fc;">Δυσκολία:</label>
+                <select id="level-select" onchange="loadNextProblem()"
+                    style="padding: 5px; border-radius: 5px; background: #252525; color: white; border: 1px solid #03dac6;">
+                    <option value="1" id="opt-level-1">Επίπεδο 1: Γατάκι (ax + b = c)</option>
+                    <option value="2" id="opt-level-2">Επίπεδο 2: Γάτος (ax + b = cx + d)</option>
+                    <option value="3" id="opt-level-3">Επίπεδο 3: Τίγρης (Δευτεροβάθμιες)</option>
+                    <option value="4" id="opt-level-4">Επίπεδο 4: Λιοντάρι (Κλάσματα & Παρενθέσεις)</option>
+                </select>
             </div>
-            
-            <div class="buttons-group">
-                <button onclick="checkAnswer()" class="check-btn" id="btn-check">Έλεγχος</button>
-                <button onclick="showHelp()" class="help-btn" id="btn-help">Βήμα-Βήμα</button>
-                <button onclick="skipProblem()" class="skip-btn" id="btn-skip">Παράλειψη</button>
-            </div>
-            
-            <p id="feedback"></p>
-            <div id="help-steps" class="help-steps hidden"></div>
 
-            <div class="notes-container">
-                <div style="display: flex; justify-content: space-between; align-items: center;">
-                    <label for="user-notes" id="lbl-notes">Πρόχειρο & Υπολογιστής 📝🧮</label>
-                    <div>
-                        <button onclick="askAI()" style="background: none; border: none; color: #03dac6; cursor: pointer; font-size: 14px; font-weight: bold; margin-right: 15px;" id="btn-ai">✨ Έλεγχος AI</button>
-                        <button onclick="clearNotes()" style="background: none; border: none; color: #cf6679; cursor: pointer; font-size: 12px;" id="btn-clear">🗑️ Καθαρισμός</button>
+            <div class="stats">
+                <p>
+                    <span id="lbl-score">Σκορ:</span> <span id="score" class="highlight-text">0</span> |
+                    <span id="user-rank" style="color: #FFD700; font-weight: bold; margin: 0 10px;">🐱 Αρχάριο
+                        Γατάκι</span> |
+                    <span id="lbl-time">Χρόνος:</span> <span id="timer" class="highlight-text">00:00</span>
+                </p>
+                <button id="btn-secret" onclick="showCatSecret()" class="stats-btn"
+                    style="background-color: #FFC107; color: #000; font-weight: bold;">💡 Μυστικό!</button>
+                <button id="btn-chat-toggle" onclick="toggleChat()"
+                    style="background: #03dac6; color: black; font-weight: bold;">💬 Chat</button>
+            </div>
+
+            <div class="quiz-box">
+                <p id="equation" class="equation-text">Φόρτωση...</p>
+
+                <div class="input-container">
+                    <input type="text" id="answer" placeholder="Απάντηση...">
+                    <button onclick="toggleKeyboard()" class="kbd-toggle" id="kbd-toggle-btn"
+                        title="Εμφάνιση Μαθηματικού Πληκτρολογίου">⌨️</button>
+                </div>
+
+                <div id="math-keyboard" class="math-keyboard hidden">
+                    <button onclick="insertSymbol('²')">x²</button>
+                    <button onclick="insertSymbol('³')">x³</button>
+                    <button onclick="insertSymbol('√')">√</button>
+                    <button onclick="insertSymbol('±')">±</button>
+                    <button onclick="insertSymbol('°')">°</button>
+                    <button onclick="insertSymbol('≤')">≤</button>
+                    <button onclick="insertSymbol('≥')">≥</button>
+                    <button onclick="insertSymbol('≠')">≠</button>
+                    <button onclick="insertSymbol('θ')">θ</button>
+                    <button onclick="insertSymbol('Δ')">Δ</button>
+                    <button onclick="insertSymbol('α')">α</button>
+                    <button onclick="insertSymbol('β')">β</button>
+                    <button onclick="insertSymbol('∫')">∫</button>
+                    <button onclick="insertSymbol('π')">π</button>
+                    <button onclick="insertSymbol('∞')">∞</button>
+                </div>
+
+                <div class="buttons-group">
+                    <button onclick="checkAnswer()" class="check-btn" id="btn-check">Έλεγχος</button>
+                    <button onclick="showHelp()" class="help-btn" id="btn-help">Βήμα-Βήμα</button>
+                    <button onclick="skipProblem()" class="skip-btn" id="btn-skip">Παράλειψη</button>
+                </div>
+
+                <p id="feedback"></p>
+                <div id="help-steps" class="help-steps hidden"></div>
+
+                <div class="notes-container">
+                    <div style="display: flex; justify-content: space-between; align-items: center;">
+                        <label for="user-notes" id="lbl-notes">Πρόχειρο & Υπολογιστής 📝🧮</label>
+                        <div>
+                            <button onclick="askAI()"
+                                style="background: none; border: none; color: #03dac6; cursor: pointer; font-size: 14px; font-weight: bold; margin-right: 15px;"
+                                id="btn-ai">✨ Έλεγχος AI</button>
+                            <button onclick="clearNotes()"
+                                style="background: none; border: none; color: #cf6679; cursor: pointer; font-size: 12px;"
+                                id="btn-clear">🗑️ Καθαρισμός</button>
+                        </div>
+                    </div>
+
+                    <textarea id="user-notes" spellcheck="true" placeholder="Γράψε εδώ τις σκέψεις σου..."></textarea>
+                    <p id="ai-response"
+                        style="color: #03dac6; font-size: 14px; font-style: italic; margin-top: 5px; min-height: 20px; text-align: left;">
+                    </p>
+                    <div id="scientific-calculator"
+                        style="width: 100%; height: 250px; margin-top: 10px; border-radius: 8px; border: 1px solid #444;">
                     </div>
                 </div>
-                
-                <textarea id="user-notes" spellcheck="true" placeholder="Γράψε εδώ τις σκέψεις σου..."></textarea>
-                <p id="ai-response" style="color: #03dac6; font-size: 14px; font-style: italic; margin-top: 5px; min-height: 20px; text-align: left;"></p>
-                <div id="scientific-calculator" style="width: 100%; height: 250px; margin-top: 10px; border-radius: 8px; border: 1px solid #444;"></div>
+
+                <h3 id="lbl-graph" style="color: #bb86fc; text-align: left; margin-top: 30px; font-size: 16px;">Γραφική
+                    Παράσταση 📈</h3>
+                <div id="calculator" class="graph-box" style="height: 350px; width: 100%; margin-top: 5px;"></div>
             </div>
 
-            <h3 id="lbl-graph" style="color: #bb86fc; text-align: left; margin-top: 30px; font-size: 16px;">Γραφική Παράσταση 📈</h3>
-            <div id="calculator" class="graph-box" style="height: 350px; width: 100%; margin-top: 5px;"></div>
-        </div>
-        
-        <button onclick="resetProgress()" class="reset-btn" id="btn-reset">Μηδενισμός Προόδου</button>
+            <button onclick="resetProgress()" class="reset-btn" id="btn-reset">Μηδενισμός Προόδου</button>
         </div> <!-- End of math-section -->
 
         <div id="physics-section" class="hidden">
             <h2 id="physics-title" style="color: #03dac6;">Εργαστήριο Φυσικής της Μισέλ 🔭</h2>
-            
+
             <div class="difficulty-selector" style="margin-bottom: 15px;">
-                <label for="physics-level-select" id="lbl-physics-level" style="font-weight: bold; color: #bb86fc;">Θέμα:</label>
-                <select id="physics-level-select" onchange="generatePhysicsProblem()" style="padding: 5px; border-radius: 5px; background: #252525; color: white; border: 1px solid #03dac6;">
+                <label for="physics-level-select" id="lbl-physics-level"
+                    style="font-weight: bold; color: #bb86fc;">Θέμα:</label>
+                <select id="physics-level-select" onchange="generatePhysicsProblem()"
+                    style="padding: 5px; border-radius: 5px; background: #252525; color: white; border: 1px solid #03dac6;">
                     <option value="1" id="phys-opt-1">1. Ταχύτητα (v = s/t)</option>
                     <option value="2" id="phys-opt-2">2. Απόσταση (s = v*t)</option>
                     <option value="3" id="phys-opt-3">3. Χρόνος (t = s/v)</option>
@@ -133,19 +155,20 @@
             </div>
 
             <div class="quiz-box">
-                <p id="physics-problem" class="equation-text" style="font-size: 1.2em !important; line-height: 1.5; border-bottom: none; font-weight: normal; margin-bottom: 20px;">
+                <p id="physics-problem" class="equation-text"
+                    style="font-size: 1.2em !important; line-height: 1.5; border-bottom: none; font-weight: normal; margin-bottom: 20px;">
                     Επίλεξε θέμα για να ξεκινήσεις τα πειράματα!
                 </p>
-                
+
                 <div class="input-container">
                     <input type="text" id="physics-answer" placeholder="Απάντηση...">
                 </div>
-                
+
                 <div class="buttons-group" style="margin-top: 15px;">
                     <button onclick="checkPhysicsAnswer()" class="check-btn" id="btn-physics-check">Έλεγχος</button>
                     <button onclick="generatePhysicsProblem()" class="skip-btn" id="btn-physics-next">Επόμενο</button>
                 </div>
-                
+
                 <p id="physics-feedback"></p>
             </div>
         </div>
@@ -162,7 +185,8 @@
             </ul>
 
             <h3 id="lbl-about-title" style="margin-top: 25px;">Σχετικά με την Catgebra 🐾</h3>
-            <p id="lbl-about-text" style="font-size: 0.85em; line-height: 1.4; color: #e0d5c1;">Η Catgebra δημιουργήθηκε για να κάνει την εκμάθηση της Άλγεβρας διασκεδαστική!</p>
+            <p id="lbl-about-text" style="font-size: 0.85em; line-height: 1.4; color: #e0d5c1;">Η Catgebra δημιουργήθηκε
+                για να κάνει την εκμάθηση της Άλγεβρας διασκεδαστική!</p>
         </div>
     </div>
 
@@ -179,40 +203,58 @@
     <div id="chat-modal" class="modal hidden">
         <div class="modal-content" style="max-width: 400px;">
             <h2 id="chat-title" style="color: #bb86fc;">Γατό-Chat 💬🐾</h2>
-            <div id="chat-messages" style="height: 250px; overflow-y: auto; background: #1e1e1e; border: 1px solid #444; border-radius: 8px; padding: 10px; margin-bottom: 15px; text-align: left; font-size: 14px;">
-                <p id="chat-msg-placeholder" style="color: #888; text-align: center;">Συνδέσου με Google για να δεις τα μηνύματα!</p>
+            <div id="chat-messages"
+                style="height: 250px; overflow-y: auto; background: #1e1e1e; border: 1px solid #444; border-radius: 8px; padding: 10px; margin-bottom: 15px; text-align: left; font-size: 14px;">
+                <p id="chat-msg-placeholder" style="color: #888; text-align: center;">Συνδέσου με Google για να δεις τα
+                    μηνύματα!</p>
             </div>
-            <select id="canned-messages" style="width: 100%; padding: 10px; margin-bottom: 10px; background: #333; color: white; border-radius: 5px; border: 1px solid #555;">
+            <select id="canned-messages"
+                style="width: 100%; padding: 10px; margin-bottom: 10px; background: #333; color: white; border-radius: 5px; border: 1px solid #555;">
                 <option value="1" id="can-1">Γεια σε όλους! 🐾</option>
                 <option value="2" id="can-2">Αυτή η άσκηση με δυσκόλεψε! 🙀</option>
                 <option value="3" id="can-3">Μόλις ανέβηκα κατηγορία! 🏆</option>
             </select>
-            <button id="btn-chat-send" onclick="sendCannedMessage()" style="background-color: #03dac6; color: black; font-weight: bold; width: 100%; margin-bottom: 10px;">Αποστολή 📩</button>
+            <button id="btn-chat-send" onclick="sendCannedMessage()"
+                style="background-color: #03dac6; color: black; font-weight: bold; width: 100%; margin-bottom: 10px;">Αποστολή
+                📩</button>
             <button id="btn-chat-close" onclick="toggleChat()" style="width: 100%;">Κλείσιμο</button>
         </div>
     </div>
 
-    <div id="secret-modal" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(0,0,0,0.7); z-index: 9999; justify-content: center; align-items: center; backdrop-filter: blur(3px);">
-        <div style="background-color: #FFFDE7; border: 4px solid #FFC107; border-radius: 20px; text-align: center; padding: 30px; max-width: 85%; width: 400px; box-shadow: 0 10px 25px rgba(0,0,0,0.5);">
-            <h2 id="secret-modal-title" style="color: #FF9800; margin-top: 0; margin-bottom: 15px; font-family: sans-serif;">💡 Το Μυστικό της Μισέλ!</h2>
-            <p id="secret-text" style="font-size: 18px; margin: 20px 0; color: #333; font-weight: bold; font-family: sans-serif; line-height: 1.5;"></p>
-            <button id="btn-secret-close" onclick="closeSecret()" style="background-color: #FFC107; color: black; font-weight: bold; padding: 12px 25px; border-radius: 10px; border: none; cursor: pointer; font-size: 16px; box-shadow: 0 4px 6px rgba(0,0,0,0.1);">Τέλεια! 🐾</button>
+    <div id="secret-modal"
+        style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(0,0,0,0.7); z-index: 9999; justify-content: center; align-items: center; backdrop-filter: blur(3px);">
+        <div
+            style="background-color: #FFFDE7; border: 4px solid #FFC107; border-radius: 20px; text-align: center; padding: 30px; max-width: 85%; width: 400px; box-shadow: 0 10px 25px rgba(0,0,0,0.5);">
+            <h2 id="secret-modal-title"
+                style="color: #FF9800; margin-top: 0; margin-bottom: 15px; font-family: sans-serif;">💡 Το Μυστικό της
+                Μισέλ!</h2>
+            <p id="secret-text"
+                style="font-size: 18px; margin: 20px 0; color: #333; font-weight: bold; font-family: sans-serif; line-height: 1.5;">
+            </p>
+            <button id="btn-secret-close" onclick="closeSecret()"
+                style="background-color: #FFC107; color: black; font-weight: bold; padding: 12px 25px; border-radius: 10px; border: none; cursor: pointer; font-size: 16px; box-shadow: 0 4px 6px rgba(0,0,0,0.1);">Τέλεια!
+                🐾</button>
         </div>
     </div>
 
     <div id="profile-modal" class="modal hidden">
         <div class="modal-content" style="max-width: 450px; text-align: center;">
             <h2 id="profile-title" style="color: #03dac6; margin-top: 0;">Το Προφίλ μου 👤</h2>
-            
+
             <div style="position: relative; display: inline-block;">
-                <img src="cat.jpg" alt="User Avatar" class="mascot" id="profile-avatar" style="width: 100px !important; height: 100px !important; margin: 10px auto; cursor: pointer;" onclick="document.getElementById('avatar-upload').click();" title="Αλλαγή Εικόνας">
-                <input type="file" id="avatar-upload" accept="image/*" style="display: none;" onchange="uploadAvatar(event)">
-                <div style="font-size: 0.8em; color: #bb86fc; cursor: pointer; margin-top: -5px; margin-bottom: 10px;" onclick="document.getElementById('avatar-upload').click();">✏️ Αλλαγή Εικόνας</div>
+                <img src="cat.jpg" alt="User Avatar" class="mascot" id="profile-avatar"
+                    style="width: 100px !important; height: 100px !important; margin: 10px auto; cursor: pointer;"
+                    onclick="document.getElementById('avatar-upload').click();" title="Αλλαγή Εικόνας">
+                <input type="file" id="avatar-upload" accept="image/*" style="display: none;"
+                    onchange="uploadAvatar(event)">
+                <div style="font-size: 0.8em; color: #bb86fc; cursor: pointer; margin-top: -5px; margin-bottom: 10px;"
+                    onclick="document.getElementById('avatar-upload').click();">✏️ Αλλαγή Εικόνας</div>
             </div>
-            
+
             <h3 id="profile-name" style="margin: 5px 0;">Catgebra Player</h3>
-            <p id="profile-rank" style="color: #FFD700; font-weight: bold; font-size: 1.2em; margin: 5px 0;">🐱 Αρχάριο Γατάκι</p>
-            
+            <p id="profile-rank" style="color: #FFD700; font-weight: bold; font-size: 1.2em; margin: 5px 0;">🐱 Αρχάριο
+                Γατάκι</p>
+
             <div style="margin: 20px 0;">
                 <h4 style="color: #bb86fc; margin-bottom: 10px;">Τα Παράσημά μου</h4>
                 <div class="badges-grid">
@@ -230,7 +272,8 @@
                 </div>
             </div>
 
-            <button id="btn-profile-close" onclick="toggleProfile()" style="width: 100%; margin-top: 10px;">Κλείσιμο</button>
+            <button id="btn-profile-close" onclick="toggleProfile()"
+                style="width: 100%; margin-top: 10px;">Κλείσιμο</button>
         </div>
     </div>
 
@@ -240,16 +283,17 @@
     <script type="module" src="auth.js?v=1.6"></script>
 
     <script>
-        window.showCatSecret = function() {
+        window.showCatSecret = function () {
             if (typeof window.triggerCatSecret === 'function') {
                 window.triggerCatSecret();
             }
         };
 
-        window.closeSecret = function() {
+        window.closeSecret = function () {
             const modal = document.getElementById("secret-modal");
             if (modal) modal.style.display = "none";
         };
     </script>
 </body>
+
 </html>
