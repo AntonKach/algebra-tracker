@@ -42,13 +42,13 @@
 <h1 id="main-title">Catgebra</h1>
 
 <div class="tabs-container">
-<button class="tab-btn active" id="tab-math" onclick="switchTab('math')">Μαθηματικά</button>
-<button class="tab-btn" id="tab-physics" onclick="switchTab('physics')">Φυσική</button>
+<button class="tab-btn active" id="tab-algebra" onclick="switchTab('algebra')">Άλγεβρα</button>
+<button class="tab-btn" id="tab-geometry" onclick="switchTab('geometry')">Γεωμετρία</button>
 </div>
 
         <div class="main-layout">
             <div class="left-column">
-                <div id="math-section">
+                <div id="algebra-section">
                     <div class="grade-selector">
                         <label for="grade-select" id="lbl-level">Επίπεδο Σπουδών:</label>
                         <select id="grade-select" onchange="changeGrade()"></select>
@@ -109,37 +109,24 @@
                         <p id="feedback"></p>
                         <div id="help-steps" class="help-steps hidden"></div>
                     </div>
-                </div> <!-- End of math-section -->
+                </div> <!-- End of algebra-section -->
 
-                <div id="physics-section" class="hidden">
-                    <h2 id="physics-title" style="color: #03dac6;">Εργαστήριο Φυσικής της Μισέλ</h2>
-
-                    <div class="difficulty-selector" style="margin-bottom: 15px;">
-                        <label for="physics-level-select" id="lbl-physics-level" style="font-weight: bold; color: #bb86fc;">Θέμα:</label>
-                        <select id="physics-level-select" onchange="generatePhysicsProblem()" style="padding: 5px; border-radius: 5px; background: #252525; color: white; border: 1px solid #03dac6;">
-                            <option value="1" id="phys-opt-1">1. Ταχύτητα (v = s/t)</option>
-                            <option value="2" id="phys-opt-2">2. Απόσταση (s = v*t)</option>
-                            <option value="3" id="phys-opt-3">3. Χρόνος (t = s/v)</option>
-                        </select>
-                    </div>
-
-                    <div class="quiz-box">
-                        <p id="physics-problem" class="equation-text" style="font-size: 1.2em !important; line-height: 1.5; border-bottom: none; font-weight: normal; margin-bottom: 20px;">
-                            Επίλεξε θέμα για να ξεκινήσεις τα πειράματα!
+                <div id="geometry-section" class="hidden">
+                    <div class="quiz-box" style="text-align: center;">
+                        <canvas id="geo-canvas" width="400" height="250" style="background-color: #2C2C2E; border-radius: 16px; margin: 0 auto; display: block;"></canvas>
+                        <p id="geo-problem" class="equation-text" style="font-size: 1.2em !important; line-height: 1.5; border-bottom: none; font-weight: normal; margin-top: 15px;">
+                            Φόρτωση...
                         </p>
-
                         <div class="input-container">
-                            <input type="text" id="physics-answer" placeholder="Απάντηση...">
+                            <input type="text" id="geo-answer" placeholder="Απάντηση...">
                         </div>
-
-                        <div class="buttons-group" style="margin-top: 15px;">
-                            <button onclick="checkPhysicsAnswer()" class="check-btn" id="btn-physics-check">Έλεγχος</button>
-                            <button onclick="generatePhysicsProblem()" class="skip-btn" id="btn-physics-next">Επόμενο</button>
+                        <div class="buttons-group" style="margin-top: 15px; justify-content: center;">
+                            <button onclick="checkGeoAnswer()" class="check-btn" id="btn-geo-check">Έλεγχος</button>
+                            <button onclick="generateGeoProblem()" class="skip-btn" id="btn-geo-next">Επόμενο</button>
                         </div>
-
-                        <p id="physics-feedback"></p>
+                        <p id="geo-feedback" style="font-weight: bold; margin-top: 10px;"></p>
                     </div>
-                </div> <!-- End physics section -->
+                </div> <!-- End geometry section -->
                 
                 <button onclick="resetProgress()" class="reset-btn" id="btn-reset" style="margin-top: 20px;">Μηδενισμός Προόδου</button>
             </div> <!-- End left-column -->

@@ -15,7 +15,7 @@ let score = 0, currentProblem = {}, timerInterval, seconds = 0, calculator, sciC
 let currentLang = "el"; 
 let userStats = JSON.parse(localStorage.getItem("mathUserStats")) || { played: 0, correct: 0, wrong: 0 };
 let lastFocusedInput = "answer";
-let currentPhysicsAnswer = 0;
+let currentGeoAnswer = 0;
 
 if (typeof educationData === 'undefined') {
  window.educationData = {
@@ -495,82 +495,85 @@ function checkAnswer() {
  if (window.saveToCloud) window.saveToCloud(score, userStats);
 }
 
-window.checkPhysicsAnswer = function() {
- const ansEl = document.getElementById("physics-answer");
- if(!ansEl) return;
- 
- const userAns = parseFloat(ansEl.value);
- const t = translations[currentLang] || translations["el"];
- 
- if (isNaN(userAns)) {
- safeSetText("physics-feedback", t.physCheckNum);
- document.getElementById("physics-feedback").style.color = "#FFC107";
- return;
- }
- 
- if (userAns === currentPhysicsAnswer) {
- safeSetText("physics-feedback", "Μπράβο! Σωστή απάντηση! ");
- document.getElementById("physics-feedback").style.color = "#4CAF50";
- if (typeof confetti === 'function') confetti({ particleCount: 150, spread: 80, origin: { y: 0.6 } });
- 
- score += 10;
- userStats.correct++;
- userStats.played++;
- 
- updateRank();
- updateStatsUI();
- updateGameData();
- } else {
- safeSetText("physics-feedback", "Ουπς! Προσπάθησε ξανά. Δεν πειράζει! ");
- document.getElementById("physics-feedback").style.color = "#cf6679";
- 
- userStats.wrong = (userStats.wrong || 0) + 1;
- userStats.played++;
- updateStatsUI();
- updateGameData();
- }
+window.checkGeoAnswer = function() {
+    const ansEl = document.getElementById("geo-answer");
+    if(!ansEl) return;
+    const userAns = parseFloat(ansEl.value);
+    const fbEl = document.getElementById("geo-feedback");
+    
+    if (isNaN(userAns)) {
+        if(fbEl) { fbEl.innerText = "Βάλε αριθμό!"; fbEl.style.color = "#FFD60A"; }
+        return;
+    }
+    
+    if (userAns === currentGeoAnswer) {
+        if(fbEl) { fbEl.innerText = "Σωστά! 🥳"; fbEl.style.color = "#32D74B"; }
+        score += 15;
+        userStats.correct++;
+        userStats.played++;
+        updateRank();
+        updateStatsUI();
+        updateGameData();
+        if(typeof confetti === 'function') confetti({ particleCount: 150, spread: 80, origin: { y: 0.6 } });
+        setTimeout(window.generateGeoProblem, 1500);
+    } else {
+        if(fbEl) { fbEl.innerText = "Ουπς! Λάθος. Ξαναδοκίμασε."; fbEl.style.color = "#FF453A"; }
+        userStats.wrong = (userStats.wrong || 0) + 1;
+        userStats.played++;
+        updateStatsUI();
+        updateGameData();
+    }
 };
 
-window.generatePhysicsProblem = function() {
- const level = document.getElementById("physics-level-select").value;
- const problemEl = document.getElementById("physics-problem");
- const inputEl = document.getElementById("physics-answer");
- const feedbackEl = document.getElementById("physics-feedback");
- 
- if (inputEl) inputEl.value = "";
- if (feedbackEl) feedbackEl.innerText = "";
-
- const rand = (min, max) =>Math.floor(Math.random() * (max - min + 1)) + min;
- const t = translations[currentLang] || translations["el"];
- 
- let scenarios = [];
- let text = "";
-
- if (level === "1") {
- // v = s / t
- let time = rand(2, 10);
- let v = rand(2, 12);
- let s = v * time; 
- currentPhysicsAnswer = v;
- scenarios = t.physScenarios1.map(str =>str.replace('{s}', s).replace('{t}', time).replace('{v}', v));
- } else if (level === "2") {
- // s = v * t
- let v = rand(2, 8);
- let time = rand(3, 10);
- let s = v * time;
- currentPhysicsAnswer = s;
- scenarios = t.physScenarios2.map(str =>str.replace('{s}', s).replace('{t}', time).replace('{v}', v));
- } else if (level === "3") {
- // t = s / v
- let time = rand(2, 10);
- let v = rand(2, 10);
- let s = v * time;
- currentPhysicsAnswer = time;
- scenarios = t.physScenarios3.map(str =>str.replace('{s}', s).replace('{t}', time).replace('{v}', v));
- }
- 
- text = scenarios[Math.floor(Math.random() * scenarios.length)];
- if (problemEl) problemEl.innerText = text;
+window.generateGeoProblem = function() {
+    const canvas = document.getElementById("geo-canvas");
+    if(!canvas) return;
+    const ctx = canvas.getContext("2d");
+    
+    // Clear canvas
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    
+    // Random dimensions
+    const a = Math.floor(Math.random() * 10) + 3;
+    const b = Math.floor(Math.random() * 8) + 2;
+    currentGeoAnswer = a * b;
+    
+    // Scale for drawing
+    const scale = 15;
+    const drawWidth = a * scale;
+    const drawHeight = b * scale;
+    
+    // Center drawing
+    const startX = (canvas.width - drawWidth) / 2;
+    const startY = (canvas.height - drawHeight) / 2;
+    
+    // Draw rectangle
+    ctx.strokeStyle = "#0A84FF"; // iOS Blue accent
+    ctx.lineWidth = 4;
+    ctx.fillStyle = "rgba(10, 132, 255, 0.1)";
+    
+    ctx.beginPath();
+    ctx.rect(startX, startY, drawWidth, drawHeight);
+    ctx.fill();
+    ctx.stroke();
+    
+    // Draw text
+    ctx.fillStyle = "#ffffff";
+    ctx.font = "18px 'Nunito', sans-serif";
+    ctx.textAlign = "center";
+    ctx.fillText("a = " + a, startX + drawWidth/2, startY - 10);
+    ctx.fillText("b = " + b, startX - 25, startY + drawHeight/2 + 5);
+    
+    // Update problem text
+    const probEl = document.getElementById("geo-problem");
+    if(probEl) probEl.innerHTML = "Υπολόγισε το εμβαδόν του οικοπέδου ($E = a \\cdot b$).";
+    
+    // Clear input
+    const inputEl = document.getElementById("geo-answer");
+    if(inputEl) inputEl.value = "";
+    
+    const feedbackEl = document.getElementById("geo-feedback");
+    if(feedbackEl) feedbackEl.innerText = "";
 };
 
 function updateStatsUI() {
@@ -640,21 +643,22 @@ window.toggleChat = function() { const cm = document.getElementById("chat-modal"
 window.toggleProfile = function() { const pm = document.getElementById("profile-modal"); if(pm) pm.classList.toggle("hidden"); };
 
 window.switchTab = function(tabName) {
- const mathSection = document.getElementById("math-section");
- const physicsSection = document.getElementById("physics-section");
- const tabMath = document.getElementById("tab-math");
- const tabPhysics = document.getElementById("tab-physics");
+ const algebraSection = document.getElementById("algebra-section");
+ const geometrySection = document.getElementById("geometry-section");
+ const tabAlgebra = document.getElementById("tab-algebra");
+ const tabGeometry = document.getElementById("tab-geometry");
 
- if (tabName === 'math') {
- if(mathSection) mathSection.classList.remove("hidden");
- if(physicsSection) physicsSection.classList.add("hidden");
- if(tabMath) tabMath.classList.add("active");
- if(tabPhysics) tabPhysics.classList.remove("active");
- } else {
- if(mathSection) mathSection.classList.add("hidden");
- if(physicsSection) physicsSection.classList.remove("hidden");
- if(tabMath) tabMath.classList.remove("active");
- if(tabPhysics) tabPhysics.classList.add("active");
+ if (tabName === 'algebra') {
+ if(algebraSection) algebraSection.classList.remove("hidden");
+ if(geometrySection) geometrySection.classList.add("hidden");
+ if(tabAlgebra) tabAlgebra.classList.add("active");
+ if(tabGeometry) tabGeometry.classList.remove("active");
+ } else if (tabName === 'geometry') {
+ if(algebraSection) algebraSection.classList.add("hidden");
+ if(geometrySection) geometrySection.classList.remove("hidden");
+ if(tabAlgebra) tabAlgebra.classList.remove("active");
+ if(tabGeometry) tabGeometry.classList.add("active");
+ if(!currentGeoAnswer) window.generateGeoProblem();
  }
 };
 
