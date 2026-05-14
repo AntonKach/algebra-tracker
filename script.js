@@ -239,7 +239,9 @@ window.onload = function() {
  if (calcEl && typeof Desmos !== 'undefined') calculator = Desmos.GraphingCalculator(calcEl, { keypad: true, expressions: false, settingsMenu: false, invertedColors: true });
 
  const geoEl = document.getElementById('desmos-geometry');
- if (geoEl && typeof Desmos !== 'undefined') window.geoCalculator = Desmos.Geometry(geoEl, { language: 'el' });
+ if (geoEl && typeof Desmos !== 'undefined' && typeof Desmos.Geometry === 'function') {
+    window.geoCalculator = Desmos.Geometry(geoEl, { language: 'el' });
+ }
 
  safeSetText("score", score);
  updateRank();
