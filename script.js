@@ -71,6 +71,7 @@ const translations = {
  catSuccess: ["Purr-fect! Βρήκες το x! ", "Meow-gnificent! ", "Γατίσια αντανακλαστικά! "],
  catError: ["Ουπς! Μήπως πάτησα το πληκτρολόγιο; ", "Μιάου... Κάτι δεν πήγε καλά. "],
  tabMath: " Μαθηματικά", tabPhysics: " Φυσική",
+ tabAlgebra: "Άλγεβρα", tabGeometry: "Γεωμετρία", tabTrig: "Τριγωνομετρία", tabTopology: "Τοπολογία",
  physicsTitle: "Εργαστήριο Φυσικής της Μισέλ ", lblPhysicsLevel: "Θέμα:",
  physOpt1: "1. Ταχύτητα (v = s/t)", physOpt2: "2. Απόσταση (s = v*t)", physOpt3: "3. Χρόνος (t = s/v)",
  btnPhysicsNext: "Επόμενο", physicsPlaceholder: "Επίλεξε θέμα για να ξεκινήσεις τα πειράματα!",
@@ -112,6 +113,7 @@ const translations = {
  stepWords: { move: "Move:", div: "Divide:", sub: "Subtract:", mult: "Multiply:" },
  catSuccess: ["Purr-fect! You found x! "], catError: ["Oops! Wrong answer. "],
  tabMath: " Math", tabPhysics: " Physics",
+ tabAlgebra: "Algebra", tabGeometry: "Geometry", tabTrig: "Trigonometry", tabTopology: "Topology",
  physicsTitle: "Michelle's Physics Lab ", lblPhysicsLevel: "Topic:",
  physOpt1: "1. Velocity (v = s/t)", physOpt2: "2. Distance (s = v*t)", physOpt3: "3. Time (t = s/v)",
  btnPhysicsNext: "Next", physicsPlaceholder: "Select a topic to start the experiments!",
@@ -153,6 +155,7 @@ const translations = {
  stepWords: { move: "On déplace:", div: "On divise:", sub: "On soustrait:", mult: "On multiplie:" },
  catSuccess: ["Purr-fect! Tu as trouvé x! "], catError: ["Oups! Mauvaise réponse. "],
  tabMath: " Mathématiques", tabPhysics: " Physique",
+ tabAlgebra: "Algèbre", tabGeometry: "Géométrie", tabTrig: "Trigonométrie", tabTopology: "Topologie",
  physicsTitle: "Laboratoire de Physique de Michelle ", lblPhysicsLevel: "Sujet:",
  physOpt1: "1. Vitesse (v = s/t)", physOpt2: "2. Distance (s = v*t)", physOpt3: "3. Temps (t = s/v)",
  btnPhysicsNext: "Suivant", physicsPlaceholder: "Sélectionnez un sujet pour commencer les expériences!",
@@ -194,6 +197,7 @@ const translations = {
  stepWords: { move: "Taşıyoruz:", div: "Bölüyoruz:", sub: "Çıkarıyoruz:", mult: "Çarpıyoruz:" },
  catSuccess: ["Purr-fect! x'i buldun! "], catError: ["Oops! Yanlış cevap. "],
  tabMath: " Matematik", tabPhysics: " Fizik",
+ tabAlgebra: "Cebir", tabGeometry: "Geometri", tabTrig: "Trigonometri", tabTopology: "Topoloji",
  physicsTitle: "Michelle'in Fizik Laboratuvarı ", lblPhysicsLevel: "Konu:",
  physOpt1: "1. Hız (v = s/t)", physOpt2: "2. Mesafe (s = v*t)", physOpt3: "3. Zaman (t = s/v)",
  btnPhysicsNext: "Sonraki", physicsPlaceholder: "Deneylere başlamak için bir konu seçin!",
@@ -334,6 +338,23 @@ function changeLanguage() {
  safeSetText("btn-chat-close", t.btnChatClose);
  safeSetText("secret-modal-title", t.secretModalTitle);
  safeSetText("btn-secret-close", t.btnSecretClose);
+ 
+ safeSetText("tab-algebra", t.tabAlgebra);
+ safeSetText("tab-geometry", t.tabGeometry);
+ safeSetText("tab-trig", t.tabTrig);
+ safeSetText("tab-topology", t.tabTopology);
+ 
+ safeSetPlaceholder("geo-answer", t.placeholderAns);
+ safeSetPlaceholder("trig-answer", t.placeholderAns);
+ safeSetPlaceholder("topology-answer", t.placeholderAns);
+ 
+ safeSetText("btn-geo-check", t.btnCheck);
+ safeSetText("btn-trig-check", t.btnCheck);
+ safeSetText("btn-topology-check", t.btnCheck);
+ 
+ safeSetText("btn-geo-next", t.btnPhysicsNext || t.btnSkip);
+ safeSetText("btn-trig-next", t.btnPhysicsNext || t.btnSkip);
+ safeSetText("btn-topology-next", t.btnPhysicsNext || t.btnSkip);
  
  safeSetText("btn-ai", t.btnAI);
  safeSetText("lbl-resources", t.lblResources);
