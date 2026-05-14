@@ -9,6 +9,8 @@ if ('serviceWorker' in navigator) {
   });
 }
 
+let consecutiveCorrect = 0;
+let consecutiveWrong = 0;
 let score = 0, currentProblem = {}, timerInterval, seconds = 0, calculator, sciCalculator;
 let currentLang = "el"; 
 let userStats = JSON.parse(localStorage.getItem("mathUserStats")) || { played: 0, correct: 0, wrong: 0 };
@@ -442,13 +444,44 @@ function checkAnswer() {
  if (userAns === expected) {
  userStats.correct++;
  score += 20;
- safeSetText("feedback", t.catSuccess[Math.floor(Math.random() * t.catSuccess.length)]);
+ consecutiveCorrect++;
+ consecutiveWrong = 0;
+ 
+ let fbEl = document.getElementById("feedback");
+ if (consecutiveCorrect === 3) {
+   if(fbEl) {
+     fbEl.innerHTML = `Είσαι ασταμάτητος! 🚀 Μήπως ήρθε η ώρα να δοκιμάσεις το επόμενο επίπεδο δυσκολίας;`;
+     fbEl.style.color = "#0A84FF"; // iOS Blue
+   }
+ } else {
+   safeSetText("feedback", t.catSuccess[Math.floor(Math.random() * t.catSuccess.length)]);
+   if(fbEl) fbEl.style.color = ""; // reset color
+ }
  
  if (typeof confetti === 'function') confetti({ particleCount: 150, spread: 80, origin: { y: 0.6 } });
  try { new Audio('correct.mp3').play().catch(()=>{}); } catch(e){}
  setTimeout(loadNextProblem, 2000);
  } else {
- safeSetText("feedback", t.catError[Math.floor(Math.random() * t.catError.length)]);
+ consecutiveWrong++;
+ consecutiveCorrect = 0;
+ 
+ let fbEl = document.getElementById("feedback");
+ if (consecutiveWrong >= 2) {
+   const levelSelect = document.getElementById("level-select");
+   const level = levelSelect ? parseInt(levelSelect.value) : 1;
+   let tipMsg = "";
+   if (level === 1) tipMsg = "💡 Tip: Όταν μεταφέρεις έναν αριθμό στην άλλη πλευρά του ίσον, μην ξεχνάς να του αλλάζεις πρόσημο!";
+   else if (level === 2) tipMsg = "💡 Tip: Μάζεψε πρώτα όλα τα x στη μία πλευρά και όλους τους αριθμούς στην άλλη.";
+   else tipMsg = "💡 Tip: Πρόσεξε καλά τις πράξεις με τα κλάσματα και τις παρενθέσεις. Κάνε το βήμα-βήμα στο πρόχειρο!";
+   
+   if(fbEl) {
+     fbEl.innerText = tipMsg;
+     fbEl.style.color = "#FFD60A"; // iOS Yellow
+   }
+ } else {
+   safeSetText("feedback", t.catError[Math.floor(Math.random() * t.catError.length)]);
+   if(fbEl) fbEl.style.color = ""; // reset color
+ }
  try { new Audio('fail.mp3').play().catch(()=>{}); } catch(e){}
  }
 
