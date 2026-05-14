@@ -238,6 +238,9 @@ window.onload = function() {
  const calcEl = document.getElementById('calculator');
  if (calcEl && typeof Desmos !== 'undefined') calculator = Desmos.GraphingCalculator(calcEl, { keypad: true, expressions: false, settingsMenu: false, invertedColors: true });
 
+ const geoEl = document.getElementById('desmos-geometry');
+ if (geoEl && typeof Desmos !== 'undefined') window.geoCalculator = Desmos.Geometry(geoEl, { language: 'el' });
+
  safeSetText("score", score);
  updateRank();
  
@@ -594,6 +597,27 @@ window.generateTrigProblem = function() {
     if(inputEl) inputEl.value = "";
     if(feedbackEl) feedbackEl.innerText = "";
     
+    const canvas = document.getElementById("trig-canvas");
+    if(canvas) {
+        const ctx = canvas.getContext("2d");
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        
+        // Draw a generic right triangle for trig
+        ctx.strokeStyle = "#0A84FF";
+        ctx.lineWidth = 4;
+        ctx.fillStyle = "rgba(10, 132, 255, 0.1)";
+        ctx.beginPath();
+        ctx.moveTo(100, 200); // bottom left
+        ctx.lineTo(300, 200); // bottom right
+        ctx.lineTo(300, 50); // top right
+        ctx.closePath();
+        ctx.fill();
+        ctx.stroke();
+        
+        // Draw right angle square
+        ctx.strokeRect(280, 180, 20, 20);
+    }
+    
     const scenario = Math.floor(Math.random() * 2);
     if (scenario === 0) {
         const multiplier = Math.floor(Math.random() * 3) + 1;
@@ -645,6 +669,33 @@ window.generateTopologyProblem = function() {
     
     if(inputEl) inputEl.value = "";
     if(feedbackEl) feedbackEl.innerText = "";
+    
+    const canvas = document.getElementById("topology-canvas");
+    if(canvas) {
+        const ctx = canvas.getContext("2d");
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        
+        // Draw a generic graph (polyhedron planar projection)
+        ctx.strokeStyle = "#32D74B"; // green for topology
+        ctx.lineWidth = 3;
+        ctx.fillStyle = "#32D74B";
+        
+        const nodes = [[200, 50], [100, 150], [300, 150], [150, 220], [250, 220]];
+        const edges = [[0,1], [0,2], [1,2], [1,3], [2,4], [3,4], [1,4], [2,3]];
+        
+        ctx.beginPath();
+        edges.forEach(e => {
+            ctx.moveTo(nodes[e[0]][0], nodes[e[0]][1]);
+            ctx.lineTo(nodes[e[1]][0], nodes[e[1]][1]);
+        });
+        ctx.stroke();
+        
+        nodes.forEach(n => {
+            ctx.beginPath();
+            ctx.arc(n[0], n[1], 8, 0, Math.PI * 2);
+            ctx.fill();
+        });
+    }
     
     const V = Math.floor(Math.random() * 10) + 4; // Vertices
     const E = V + Math.floor(Math.random() * 10) + 2; // Edges
