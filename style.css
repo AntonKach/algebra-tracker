@@ -270,6 +270,7 @@ button:active {
 .tabs-container {
     display: inline-flex;
     justify-content: center;
+    flex-wrap: wrap;
     background-color: rgba(118, 118, 128, 0.24);
     padding: 4px;
     border-radius: 16px;

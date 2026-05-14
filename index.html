@@ -44,6 +44,8 @@
 <div class="tabs-container">
 <button class="tab-btn active" id="tab-algebra" onclick="switchTab('algebra')">Άλγεβρα</button>
 <button class="tab-btn" id="tab-geometry" onclick="switchTab('geometry')">Γεωμετρία</button>
+<button class="tab-btn" id="tab-trig" onclick="switchTab('trig')">Τριγωνομετρία</button>
+<button class="tab-btn" id="tab-topology" onclick="switchTab('topology')">Τοπολογία</button>
 </div>
 
         <div class="main-layout">
@@ -113,7 +115,6 @@
 
                 <div id="geometry-section" class="hidden">
                     <div class="quiz-box" style="text-align: center;">
-                        <canvas id="geo-canvas" width="400" height="250" style="background-color: #2C2C2E; border-radius: 16px; margin: 0 auto; display: block;"></canvas>
                         <p id="geo-problem" class="equation-text" style="font-size: 1.2em !important; line-height: 1.5; border-bottom: none; font-weight: normal; margin-top: 15px;">
                             Φόρτωση...
                         </p>
@@ -127,6 +128,38 @@
                         <p id="geo-feedback" style="font-weight: bold; margin-top: 10px;"></p>
                     </div>
                 </div> <!-- End geometry section -->
+
+                <div id="trig-section" class="hidden">
+                    <div class="quiz-box" style="text-align: center;">
+                        <p id="trig-problem" class="equation-text" style="font-size: 1.2em !important; line-height: 1.5; border-bottom: none; font-weight: normal; margin-top: 15px;">
+                            Φόρτωση...
+                        </p>
+                        <div class="input-container">
+                            <input type="text" id="trig-answer" placeholder="Απάντηση...">
+                        </div>
+                        <div class="buttons-group" style="margin-top: 15px; justify-content: center;">
+                            <button onclick="checkTrigAnswer()" class="check-btn" id="btn-trig-check">Έλεγχος</button>
+                            <button onclick="generateTrigProblem()" class="skip-btn" id="btn-trig-next">Επόμενο</button>
+                        </div>
+                        <p id="trig-feedback" style="font-weight: bold; margin-top: 10px;"></p>
+                    </div>
+                </div> <!-- End trig section -->
+
+                <div id="topology-section" class="hidden">
+                    <div class="quiz-box" style="text-align: center;">
+                        <p id="topology-problem" class="equation-text" style="font-size: 1.2em !important; line-height: 1.5; border-bottom: none; font-weight: normal; margin-top: 15px;">
+                            Φόρτωση...
+                        </p>
+                        <div class="input-container">
+                            <input type="text" id="topology-answer" placeholder="Απάντηση...">
+                        </div>
+                        <div class="buttons-group" style="margin-top: 15px; justify-content: center;">
+                            <button onclick="checkTopologyAnswer()" class="check-btn" id="btn-topology-check">Έλεγχος</button>
+                            <button onclick="generateTopologyProblem()" class="skip-btn" id="btn-topology-next">Επόμενο</button>
+                        </div>
+                        <p id="topology-feedback" style="font-weight: bold; margin-top: 10px;"></p>
+                    </div>
+                </div> <!-- End topology section -->
                 
                 <button onclick="resetProgress()" class="reset-btn" id="btn-reset" style="margin-top: 20px;">Μηδενισμός Προόδου</button>
             </div> <!-- End left-column -->

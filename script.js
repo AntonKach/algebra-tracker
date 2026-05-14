@@ -16,6 +16,8 @@ let currentLang = "el";
 let userStats = JSON.parse(localStorage.getItem("mathUserStats")) || { played: 0, correct: 0, wrong: 0 };
 let lastFocusedInput = "answer";
 let currentGeoAnswer = 0;
+let currentTrigAnswer = 0;
+let currentTopologyAnswer = 0;
 
 if (typeof educationData === 'undefined') {
  window.educationData = {
@@ -526,54 +528,129 @@ window.checkGeoAnswer = function() {
 };
 
 window.generateGeoProblem = function() {
-    const canvas = document.getElementById("geo-canvas");
-    if(!canvas) return;
-    const ctx = canvas.getContext("2d");
-    
-    // Clear canvas
-    ctx.clearRect(0, 0, canvas.width, canvas.height);
-    
-    // Random dimensions
-    const a = Math.floor(Math.random() * 10) + 3;
-    const b = Math.floor(Math.random() * 8) + 2;
-    currentGeoAnswer = a * b;
-    
-    // Scale for drawing
-    const scale = 15;
-    const drawWidth = a * scale;
-    const drawHeight = b * scale;
-    
-    // Center drawing
-    const startX = (canvas.width - drawWidth) / 2;
-    const startY = (canvas.height - drawHeight) / 2;
-    
-    // Draw rectangle
-    ctx.strokeStyle = "#0A84FF"; // iOS Blue accent
-    ctx.lineWidth = 4;
-    ctx.fillStyle = "rgba(10, 132, 255, 0.1)";
-    
-    ctx.beginPath();
-    ctx.rect(startX, startY, drawWidth, drawHeight);
-    ctx.fill();
-    ctx.stroke();
-    
-    // Draw text
-    ctx.fillStyle = "#ffffff";
-    ctx.font = "18px 'Nunito', sans-serif";
-    ctx.textAlign = "center";
-    ctx.fillText("a = " + a, startX + drawWidth/2, startY - 10);
-    ctx.fillText("b = " + b, startX - 25, startY + drawHeight/2 + 5);
-    
-    // Update problem text
     const probEl = document.getElementById("geo-problem");
-    if(probEl) probEl.innerHTML = "Υπολόγισε το εμβαδόν του οικοπέδου (E = a · b).";
-    
-    // Clear input
     const inputEl = document.getElementById("geo-answer");
-    if(inputEl) inputEl.value = "";
-    
     const feedbackEl = document.getElementById("geo-feedback");
+    
+    if(inputEl) inputEl.value = "";
     if(feedbackEl) feedbackEl.innerText = "";
+    
+    const scenario = Math.floor(Math.random() * 3);
+    if (scenario === 0) {
+        const a = Math.floor(Math.random() * 10) + 3;
+        const b = Math.floor(Math.random() * 8) + 2;
+        currentGeoAnswer = a * b;
+        if(probEl) probEl.innerHTML = `Θέλουμε να αγοράσουμε ένα νέο χαλί για το σαλόνι. Αν ο χώρος έχει μήκος ${a} μέτρα και πλάτος ${b} μέτρα, ποιο είναι το εμβαδόν του χαλιού που χρειαζόμαστε; (E = a · b)`;
+    } else if (scenario === 1) {
+        const a = Math.floor(Math.random() * 5) + 3;
+        const b = Math.floor(Math.random() * 5) + 3;
+        const c = Math.floor(Math.random() * 5) + 3;
+        currentGeoAnswer = a + b + c;
+        if(probEl) probEl.innerHTML = `Φτιάχνουμε ένα μικρό παρτέρι με λουλούδια σε τριγωνικό σχήμα και θέλουμε να του βάλουμε ξύλινο φράχτη γύρω γύρω. Αν οι πλευρές είναι ${a}, ${b} και ${c} μέτρα, πόσα μέτρα φράχτη πρέπει να αγοράσουμε; (P = a + b + c)`;
+    } else {
+        const a = Math.floor(Math.random() * 5) + 2;
+        const b = Math.floor(Math.random() * 5) + 2;
+        const c = Math.floor(Math.random() * 5) + 2;
+        currentGeoAnswer = a * b * c;
+        if(probEl) probEl.innerHTML = `Θέλουμε να οργανώσουμε την ντουλάπα με κουτιά αποθήκευσης. Αν ένα κουτί έχει διαστάσεις ${a}, ${b}, ${c} μέτρα, ποιος είναι ο όγκος του; (V = a · b · c)`;
+    }
+};
+
+window.checkTrigAnswer = function() {
+    const ansEl = document.getElementById("trig-answer");
+    if(!ansEl) return;
+    const userAns = parseFloat(ansEl.value);
+    const fbEl = document.getElementById("trig-feedback");
+    
+    if (isNaN(userAns)) {
+        if(fbEl) { fbEl.innerText = "Βάλε αριθμό!"; fbEl.style.color = "#FFD60A"; }
+        return;
+    }
+    
+    if (userAns === currentTrigAnswer) {
+        if(fbEl) { fbEl.innerText = "Σωστά! 🥳"; fbEl.style.color = "#32D74B"; }
+        score += 15;
+        userStats.correct++;
+        userStats.played++;
+        updateRank();
+        updateStatsUI();
+        updateGameData();
+        if(typeof confetti === 'function') confetti({ particleCount: 150, spread: 80, origin: { y: 0.6 } });
+        setTimeout(window.generateTrigProblem, 1500);
+    } else {
+        if(fbEl) { fbEl.innerText = "Ουπς! Λάθος. Ξαναδοκίμασε."; fbEl.style.color = "#FF453A"; }
+        userStats.wrong = (userStats.wrong || 0) + 1;
+        userStats.played++;
+        updateStatsUI();
+        updateGameData();
+    }
+};
+
+window.generateTrigProblem = function() {
+    const probEl = document.getElementById("trig-problem");
+    const inputEl = document.getElementById("trig-answer");
+    const feedbackEl = document.getElementById("trig-feedback");
+    
+    if(inputEl) inputEl.value = "";
+    if(feedbackEl) feedbackEl.innerText = "";
+    
+    const scenario = Math.floor(Math.random() * 2);
+    if (scenario === 0) {
+        const multiplier = Math.floor(Math.random() * 3) + 1;
+        const a = 3 * multiplier;
+        const b = 4 * multiplier;
+        currentTrigAnswer = 5 * multiplier;
+        if(probEl) probEl.innerHTML = `Ακουμπάμε μια σκάλα στον τοίχο για να κρεμάσουμε ένα κάδρο. Αν η βάση της σκάλας απέχει ${a} μέτρα από τον τοίχο και το ύψος μέχρι το κάδρο είναι ${b} μέτρα, τι μήκος πρέπει να έχει η σκάλα; (Πυθαγόρειο: c^2 = a^2 + b^2)`;
+    } else {
+        const opposite = Math.floor(Math.random() * 5) + 1;
+        currentTrigAnswer = 2 * opposite;
+        if(probEl) probEl.innerHTML = `Μια ξύλινη ράμπα στο κατώφλι του σπιτιού σχηματίζει γωνία 30 μοιρών με το έδαφος. Αν το ύψος του κατωφλιού (απέναντι πλευρά) είναι ${opposite} μέτρα, πόσο μήκος πρέπει να έχει η ράμπα (υποτείνουσα); (sin30 = 0.5, οπότε Υποτείνουσα = Απέναντι / 0.5)`;
+    }
+};
+
+window.checkTopologyAnswer = function() {
+    const ansEl = document.getElementById("topology-answer");
+    if(!ansEl) return;
+    const userAns = parseFloat(ansEl.value);
+    const fbEl = document.getElementById("topology-feedback");
+    
+    if (isNaN(userAns)) {
+        if(fbEl) { fbEl.innerText = "Βάλε αριθμό!"; fbEl.style.color = "#FFD60A"; }
+        return;
+    }
+    
+    if (userAns === currentTopologyAnswer) {
+        if(fbEl) { fbEl.innerText = "Σωστά! 🥳"; fbEl.style.color = "#32D74B"; }
+        score += 20;
+        userStats.correct++;
+        userStats.played++;
+        updateRank();
+        updateStatsUI();
+        updateGameData();
+        if(typeof confetti === 'function') confetti({ particleCount: 150, spread: 80, origin: { y: 0.6 } });
+        setTimeout(window.generateTopologyProblem, 1500);
+    } else {
+        if(fbEl) { fbEl.innerText = "Ουπς! Λάθος. Ξαναδοκίμασε."; fbEl.style.color = "#FF453A"; }
+        userStats.wrong = (userStats.wrong || 0) + 1;
+        userStats.played++;
+        updateStatsUI();
+        updateGameData();
+    }
+};
+
+window.generateTopologyProblem = function() {
+    const probEl = document.getElementById("topology-problem");
+    const inputEl = document.getElementById("topology-answer");
+    const feedbackEl = document.getElementById("topology-feedback");
+    
+    if(inputEl) inputEl.value = "";
+    if(feedbackEl) feedbackEl.innerText = "";
+    
+    const V = Math.floor(Math.random() * 10) + 4; // Vertices
+    const E = V + Math.floor(Math.random() * 10) + 2; // Edges
+    currentTopologyAnswer = 2 - V + E;
+    
+    if(probEl) probEl.innerHTML = `Φτιάχνουμε μια χάρτινη κατασκευή origami. Αν η κατασκευή έχει ${V} γωνίες (κορυφές - V) και ${E} τσακίσεις (ακμές - E), πόσες επίπεδες επιφάνειες (έδρες - F) έχει; (Τύπος Euler: V - E + F = 2)`;
 };
 
 function updateStatsUI() {
@@ -643,23 +720,30 @@ window.toggleChat = function() { const cm = document.getElementById("chat-modal"
 window.toggleProfile = function() { const pm = document.getElementById("profile-modal"); if(pm) pm.classList.toggle("hidden"); };
 
 window.switchTab = function(tabName) {
- const algebraSection = document.getElementById("algebra-section");
- const geometrySection = document.getElementById("geometry-section");
- const tabAlgebra = document.getElementById("tab-algebra");
- const tabGeometry = document.getElementById("tab-geometry");
+ const sections = {
+  'algebra': document.getElementById("algebra-section"),
+  'geometry': document.getElementById("geometry-section"),
+  'trig': document.getElementById("trig-section"),
+  'topology': document.getElementById("topology-section")
+ };
+ const tabs = {
+  'algebra': document.getElementById("tab-algebra"),
+  'geometry': document.getElementById("tab-geometry"),
+  'trig': document.getElementById("tab-trig"),
+  'topology': document.getElementById("tab-topology")
+ };
 
- if (tabName === 'algebra') {
- if(algebraSection) algebraSection.classList.remove("hidden");
- if(geometrySection) geometrySection.classList.add("hidden");
- if(tabAlgebra) tabAlgebra.classList.add("active");
- if(tabGeometry) tabGeometry.classList.remove("active");
- } else if (tabName === 'geometry') {
- if(algebraSection) algebraSection.classList.add("hidden");
- if(geometrySection) geometrySection.classList.remove("hidden");
- if(tabAlgebra) tabAlgebra.classList.remove("active");
- if(tabGeometry) tabGeometry.classList.add("active");
- if(!currentGeoAnswer) window.generateGeoProblem();
+ for (let key in sections) {
+  if (sections[key]) sections[key].classList.add("hidden");
+  if (tabs[key]) tabs[key].classList.remove("active");
  }
+
+ if (sections[tabName]) sections[tabName].classList.remove("hidden");
+ if (tabs[tabName]) tabs[tabName].classList.add("active");
+
+ if (tabName === 'geometry' && !currentGeoAnswer) window.generateGeoProblem();
+ if (tabName === 'trig' && !currentTrigAnswer) window.generateTrigProblem();
+ if (tabName === 'topology' && !currentTopologyAnswer) window.generateTopologyProblem();
 };
 
 function sendCannedMessage() {
