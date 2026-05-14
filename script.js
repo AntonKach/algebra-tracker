@@ -566,7 +566,7 @@ window.generateGeoProblem = function() {
     
     // Update problem text
     const probEl = document.getElementById("geo-problem");
-    if(probEl) probEl.innerHTML = "Υπολόγισε το εμβαδόν του οικοπέδου ($E = a \\cdot b$).";
+    if(probEl) probEl.innerHTML = "Υπολόγισε το εμβαδόν του οικοπέδου (E = a · b).";
     
     // Clear input
     const inputEl = document.getElementById("geo-answer");
