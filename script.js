@@ -222,7 +222,7 @@ window.onload = function() {
  if (savedStats) userStats = JSON.parse(savedStats);
  
  const savedScore = localStorage.getItem("mathScore");
- if (savedScore) score = parseInt(savedScore);
+ if (savedScore && !isNaN(parseInt(savedScore))) score = parseInt(savedScore);
 
  const savedAvatar = localStorage.getItem("userAvatar");
  if (savedAvatar) {
@@ -233,7 +233,7 @@ window.onload = function() {
  }
  
  const sciEl = document.getElementById('scientific-calculator');
- if (sciEl && typeof Desmos !== 'undefined') sciCalculator = Desmos.ScientificCalculator(sciEl, { invertedColors: true });
+ if (sciEl && typeof Desmos !== 'undefined' && typeof Desmos.ScientificCalculator === 'function') sciCalculator = Desmos.ScientificCalculator(sciEl, { invertedColors: true });
  
  const calcEl = document.getElementById('calculator');
  if (calcEl && typeof Desmos !== 'undefined') calculator = Desmos.GraphingCalculator(calcEl, { keypad: true, expressions: false, settingsMenu: false, invertedColors: true });
@@ -252,7 +252,16 @@ window.onload = function() {
 
  changeLanguage(); 
  startTimer();
- window.generatePhysicsProblem();
+ 
+ document.addEventListener('keydown', function(event) {
+     if (event.key === 'Enter') {
+         const aeId = document.activeElement ? document.activeElement.id : null;
+         if (aeId === 'answer') checkAnswer();
+         else if (aeId === 'geo-answer') window.checkGeoAnswer();
+         else if (aeId === 'trig-answer') window.checkTrigAnswer();
+         else if (aeId === 'topology-answer') window.checkTopologyAnswer();
+     }
+ });
  } catch (e) { console.error("OnLoad Error:", e); }
 };
 
@@ -415,7 +424,7 @@ function loadNextProblem() {
  }
 
  currentProblem = { equation: equationStr, answer: correctAns, steps: stepList };
- safeSetHTML("equation", equationStr.replace(/x²/g, "x²"));
+ safeSetHTML("equation", equationStr);
  safeSetValue("answer", "");
  safeSetText("feedback", "");
  
@@ -491,13 +500,7 @@ function checkAnswer() {
  }
 
  safeSetText("score", score);
- updateRank();
- updateStatsUI();
-
- localStorage.setItem("mathUserStats", JSON.stringify(userStats));
- localStorage.setItem("mathScore", score);
-
- if (window.saveToCloud) window.saveToCloud(score, userStats);
+ updateGameData();
 }
 
 window.checkGeoAnswer = function() {
@@ -516,8 +519,6 @@ window.checkGeoAnswer = function() {
         score += 15;
         userStats.correct++;
         userStats.played++;
-        updateRank();
-        updateStatsUI();
         updateGameData();
         if(typeof confetti === 'function') confetti({ particleCount: 150, spread: 80, origin: { y: 0.6 } });
         setTimeout(window.generateGeoProblem, 1500);
@@ -525,7 +526,6 @@ window.checkGeoAnswer = function() {
         if(fbEl) { fbEl.innerText = "Ουπς! Λάθος. Ξαναδοκίμασε."; fbEl.style.color = "#FF453A"; }
         userStats.wrong = (userStats.wrong || 0) + 1;
         userStats.played++;
-        updateStatsUI();
         updateGameData();
     }
 };
@@ -575,8 +575,6 @@ window.checkTrigAnswer = function() {
         score += 15;
         userStats.correct++;
         userStats.played++;
-        updateRank();
-        updateStatsUI();
         updateGameData();
         if(typeof confetti === 'function') confetti({ particleCount: 150, spread: 80, origin: { y: 0.6 } });
         setTimeout(window.generateTrigProblem, 1500);
@@ -584,7 +582,6 @@ window.checkTrigAnswer = function() {
         if(fbEl) { fbEl.innerText = "Ουπς! Λάθος. Ξαναδοκίμασε."; fbEl.style.color = "#FF453A"; }
         userStats.wrong = (userStats.wrong || 0) + 1;
         userStats.played++;
-        updateStatsUI();
         updateGameData();
     }
 };
@@ -648,8 +645,6 @@ window.checkTopologyAnswer = function() {
         score += 20;
         userStats.correct++;
         userStats.played++;
-        updateRank();
-        updateStatsUI();
         updateGameData();
         if(typeof confetti === 'function') confetti({ particleCount: 150, spread: 80, origin: { y: 0.6 } });
         setTimeout(window.generateTopologyProblem, 1500);
@@ -657,7 +652,6 @@ window.checkTopologyAnswer = function() {
         if(fbEl) { fbEl.innerText = "Ουπς! Λάθος. Ξαναδοκίμασε."; fbEl.style.color = "#FF453A"; }
         userStats.wrong = (userStats.wrong || 0) + 1;
         userStats.played++;
-        updateStatsUI();
         updateGameData();
     }
 };
