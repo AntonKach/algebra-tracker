@@ -1,5 +1,5 @@
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-app.js";
-import { getAuth, signInWithPopup, GoogleAuthProvider, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-auth.js";
+import { getAuth, signInWithPopup, GoogleAuthProvider, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-auth.js";
 import { getFirestore, doc, setDoc, getDoc, collection, addDoc, query, orderBy, limit, onSnapshot, serverTimestamp, getDocs } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-firestore.js";
 
 const firebaseConfig = {
@@ -42,6 +42,18 @@ onAuthStateChanged(auth, async (user) => {
         if (window.listenToChat) {
             window.listenToChat();
         }
+
+        const btnLogout = document.getElementById("btn-logout");
+        if (btnLogout) btnLogout.style.display = "inline-block";
+    } else {
+        const btn = document.getElementById("btn-login");
+        if (btn) btn.innerText = "Σύνδεση";
+        
+        const btnLogout = document.getElementById("btn-logout");
+        if (btnLogout) btnLogout.style.display = "none";
+        
+        window.currentUserId = null;
+        window.currentUserName = null;
     }
 });
 
@@ -74,11 +86,26 @@ window.loginWithGoogle = async () => {
         }
 
         if (window.listenToChat) window.listenToChat();
+        
+        const btnLogout = document.getElementById("btn-logout");
+        if (btnLogout) btnLogout.style.display = "inline-block";
 
     } catch (error) {
         console.error("Σφάλμα σύνδεσης:", error);
         // ΤΩΡΑ ΘΑ ΒΛΕΠΟΥΜΕ ΤΟ ΣΦΑΛΜΑ ΣΤΗΝ ΟΘΟΝΗ:
         alert("Ουπς! Σφάλμα σύνδεσης: " + error.message);
+    }
+};
+
+window.logoutFromGoogle = async () => {
+    try {
+        await signOut(auth);
+        alert("Αποσυνδεθήκατε επιτυχώς. 🐾");
+        // Reload page to clear sensitive chat/game data in memory
+        window.location.reload();
+    } catch (error) {
+        console.error("Σφάλμα αποσύνδεσης:", error);
+        alert("Ουπς! Σφάλμα αποσύνδεσης: " + error.message);
     }
 };
 

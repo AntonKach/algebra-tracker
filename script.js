@@ -440,6 +440,16 @@ function changeLanguage() {
  safeSetHTML("legal-desc-1", t.legalDesc1);
  safeSetHTML("legal-desc-2", t.legalDesc2);
  safeSetText("legal-checkbox-label", t.legalCheckbox);
+ 
+ const btnLogout = document.getElementById("btn-logout");
+ if (btnLogout) {
+     if (currentLang === "el") btnLogout.innerText = "Έξοδος";
+     else if (currentLang === "en") btnLogout.innerText = "Logout";
+     else if (currentLang === "fr") btnLogout.innerText = "Déconnexion";
+     else if (currentLang === "es") btnLogout.innerText = "Salir";
+     else if (currentLang === "tr") btnLogout.innerText = "Çıkış";
+ }
+
 
  // Μεταφράσεις Φυσικής
  safeSetText("tab-math", t.tabMath);
