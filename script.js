@@ -268,6 +268,11 @@ window.onload = function() {
          else if (aeId === 'topology-answer') window.checkTopologyAnswer();
      }
  });
+
+ if (localStorage.getItem('catgebra_agreement') !== 'true') {
+     const modal = document.getElementById('legal-modal');
+     if (modal) modal.style.display = 'flex';
+ }
  } catch (e) { console.error("OnLoad Error:", e); }
 };
 
@@ -787,6 +792,46 @@ function toggleKeyboard() { const mk = document.getElementById("math-keyboard");
 window.toggleChat = function() { const cm = document.getElementById("chat-modal"); if(cm) cm.classList.toggle("hidden"); };
 window.toggleProfile = function() { const pm = document.getElementById("profile-modal"); if(pm) pm.classList.toggle("hidden"); };
 
+window.uploadAvatar = function(event) {
+ const file = event.target.files[0];
+ if (!file) return;
+
+ const reader = new FileReader();
+ reader.onload = function(e) {
+ const base64Image = e.target.result;
+ 
+ try {
+ localStorage.setItem("userAvatar", base64Image);
+ } catch (error) {
+ console.error("Storage limit exceeded", error);
+ alert("Η εικόνα είναι πολύ μεγάλη! Παρακαλώ διάλεξε μικρότερο αρχείο.");
+ return;
+ }
+
+ const mainAvatar = document.getElementById("main-avatar");
+ const profileAvatar = document.getElementById("profile-avatar");
+ if (mainAvatar) mainAvatar.src = base64Image;
+ if (profileAvatar) profileAvatar.src = base64Image;
+ };
+ reader.readAsDataURL(file);
+};
+
+window.toggleLegalButton = function() {
+    const cb = document.getElementById('legal-checkbox');
+    const btn = document.getElementById('btn-agree');
+    if (cb && btn) {
+        btn.disabled = !cb.checked;
+    }
+};
+
+window.acceptLegalAgreement = function() {
+    localStorage.setItem('catgebra_agreement', 'true');
+    const modal = document.getElementById('legal-modal');
+    if (modal) {
+        modal.style.display = 'none';
+    }
+};
+
 window.switchTab = function(tabName) {
  const sections = {
   'algebra': document.getElementById("algebra-section"),
@@ -863,26 +908,3 @@ window.triggerCatSecret = function() {
  }
 };
 
-window.uploadAvatar = function(event) {
- const file = event.target.files[0];
- if (!file) return;
-
- const reader = new FileReader();
- reader.onload = function(e) {
- const base64Image = e.target.result;
- 
- try {
- localStorage.setItem("userAvatar", base64Image);
- } catch (error) {
- console.error("Storage limit exceeded", error);
- alert("Η εικόνα είναι πολύ μεγάλη! Παρακαλώ διάλεξε μικρότερο αρχείο.");
- return;
- }
-
- const mainAvatar = document.getElementById("main-avatar");
- const profileAvatar = document.getElementById("profile-avatar");
- if (mainAvatar) mainAvatar.src = base64Image;
- if (profileAvatar) profileAvatar.src = base64Image;
- };
- reader.readAsDataURL(file);
-};

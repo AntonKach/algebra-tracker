@@ -293,6 +293,21 @@
 </div>
 </div>
 
+<div id="legal-modal" style="display: none;">
+    <div class="legal-content">
+        <h2>Όροι Χρήσης & Ασφάλεια</h2>
+        <p>
+            Η εφαρμογή παρέχεται "ως έχει" (As-Is). Σεβόμαστε την ιδιωτικότητά σας και 
+            χρησιμοποιούμε κρυπτογράφηση για την ασφάλεια των δεδομένων σας.
+        </p>
+        <div class="legal-checkbox-container">
+            <input type="checkbox" id="legal-checkbox" onchange="toggleLegalButton()">
+            <label for="legal-checkbox">Έχω διαβάσει και συμφωνώ</label>
+        </div>
+        <button id="btn-agree" disabled onclick="acceptLegalAgreement()">Συμφωνώ</button>
+    </div>
+</div>
+
 <script src="data.js?v=1.6"></script>
 <script src="secrets.js?v=1.6"></script>
 <script src="script.js?v=1.6"></script>
