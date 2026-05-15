@@ -16,8 +16,11 @@ let currentLang = "el";
 let userStats = JSON.parse(localStorage.getItem("mathUserStats")) || { played: 0, correct: 0, wrong: 0 };
 let lastFocusedInput = "answer";
 let currentGeoAnswer = 0;
+let currentGeoProblem = { formula: "", steps: [] };
 let currentTrigAnswer = 0;
+let currentTrigProblem = { formula: "", steps: [] };
 let currentTopologyAnswer = 0;
+let currentTopologyProblem = { formula: "", steps: [] };
 
 if (typeof educationData === 'undefined') {
  window.educationData = {
@@ -532,6 +535,13 @@ function changeLanguage() {
  safeSetText("btn-trig-next", t.btnPhysicsNext || t.btnSkip);
  safeSetText("btn-topology-next", t.btnPhysicsNext || t.btnSkip);
  
+ safeSetText("btn-help-geo", t.btnHelp);
+ safeSetText("btn-mathjs-step-geo", t.btnMathjsStep);
+ safeSetText("btn-help-trig", t.btnHelp);
+ safeSetText("btn-mathjs-step-trig", t.btnMathjsStep);
+ safeSetText("btn-help-top", t.btnHelp);
+ safeSetText("btn-mathjs-step-top", t.btnMathjsStep);
+ 
  safeSetText("btn-ai", t.btnAI);
  safeSetText("lbl-resources", t.lblResources);
  safeSetText("lbl-about-title", t.lblAboutTitle);
@@ -767,18 +777,21 @@ window.generateGeoProblem = function() {
         const b = Math.floor(Math.random() * 8) + 2;
         currentGeoAnswer = a * b;
         if(probEl) probEl.innerHTML = `Θέλουμε να αγοράσουμε ένα νέο χαλί για το σαλόνι. Αν ο χώρος έχει μήκος ${a} μέτρα και πλάτος ${b} μέτρα, ποιο είναι το εμβαδόν του χαλιού που χρειαζόμαστε; (E = a · b)`;
+        currentGeoProblem = { formula: `${a} * ${b}`, steps: [`Εμβαδόν Ορθογωνίου: E = a · b`, `Επομένως: E = ${a} · ${b}`, `Λύση: E = ${currentGeoAnswer}`] };
     } else if (scenario === 1) {
         const a = Math.floor(Math.random() * 5) + 3;
         const b = Math.floor(Math.random() * 5) + 3;
         const c = Math.floor(Math.random() * 5) + 3;
         currentGeoAnswer = a + b + c;
         if(probEl) probEl.innerHTML = `Φτιάχνουμε ένα μικρό παρτέρι με λουλούδια σε τριγωνικό σχήμα και θέλουμε να του βάλουμε ξύλινο φράχτη γύρω γύρω. Αν οι πλευρές είναι ${a}, ${b} και ${c} μέτρα, πόσα μέτρα φράχτη πρέπει να αγοράσουμε; (P = a + b + c)`;
+        currentGeoProblem = { formula: `${a} + ${b} + ${c}`, steps: [`Περίμετρος Τριγώνου: P = a + b + c`, `Επομένως: P = ${a} + ${b} + ${c}`, `Λύση: P = ${currentGeoAnswer}`] };
     } else {
         const a = Math.floor(Math.random() * 5) + 2;
         const b = Math.floor(Math.random() * 5) + 2;
         const c = Math.floor(Math.random() * 5) + 2;
         currentGeoAnswer = a * b * c;
         if(probEl) probEl.innerHTML = `Θέλουμε να οργανώσουμε την ντουλάπα με κουτιά αποθήκευσης. Αν ένα κουτί έχει διαστάσεις ${a}, ${b}, ${c} μέτρα, ποιος είναι ο όγκος του; (V = a · b · c)`;
+        currentGeoProblem = { formula: `${a} * ${b} * ${c}`, steps: [`Όγκος Ορθογωνίου Παραλληλεπιπέδου: V = a · b · c`, `Επομένως: V = ${a} · ${b} · ${c}`, `Λύση: V = ${currentGeoAnswer}`] };
     }
 };
 
@@ -844,11 +857,13 @@ window.generateTrigProblem = function() {
         const a = 3 * multiplier;
         const b = 4 * multiplier;
         currentTrigAnswer = 5 * multiplier;
-        if(probEl) probEl.innerHTML = `Ακουμπάμε μια σκάλα στον τοίχο για να κρεμάσουμε ένα κάδρο. Αν η βάση της σκάλας απέχει ${a} μέτρα από τον τοίχο και το ύψος μέχρι το κάδρο είναι ${b} μέτρα, τι μήκος πρέπει να έχει η σκάλα; (Πυθαγόρειο: c^2 = a^2 + b^2)`;
+        if(probEl) probEl.innerHTML = `Ακουμπάμε μια σκάλα στον τοίχο για να κρεμάσουμε ένα κάδρο. Αν η βάση της σκάλας απέχει ${a} μέτρα από τον τοίχο και το ύψος μέχρι το κάδρο είναι ${b} μέτρα, τι μήκος πρέπει να έχει η σκάλα; (Πυθαγόρειο: c² = a² + b²)`;
+        currentTrigProblem = { formula: `sqrt(${a}^2 + ${b}^2)`, steps: [`Πυθαγόρειο Θεώρημα: c² = a² + b²`, `c² = ${a}² + ${b}²`, `c = √(${a*a} + ${b*b})`, `Λύση: c = ${currentTrigAnswer}`] };
     } else {
         const opposite = Math.floor(Math.random() * 5) + 1;
         currentTrigAnswer = 2 * opposite;
-        if(probEl) probEl.innerHTML = `Μια ξύλινη ράμπα στο κατώφλι του σπιτιού σχηματίζει γωνία 30 μοιρών με το έδαφος. Αν το ύψος του κατωφλιού (απέναντι πλευρά) είναι ${opposite} μέτρα, πόσο μήκος πρέπει να έχει η ράμπα (υποτείνουσα); (sin30 = 0.5, οπότε Υποτείνουσα = Απέναντι / 0.5)`;
+        if(probEl) probEl.innerHTML = `Μια ξύλινη ράμπα στο κατώφλι του σπιτιού σχηματίζει γωνία 30 μοιρών με το έδαφος. Αν το ύψος του κατωφλιού (απέναντι πλευρά) είναι ${opposite} μέτρα, πόσο μήκος πρέπει να έχει η ράμπα (υποτείνουσα); (sin30° = 0.5, οπότε Υποτείνουσα = Απέναντι / 0.5)`;
+        currentTrigProblem = { formula: `${opposite} / 0.5`, steps: [`Ημίτονο Γωνίας: sin(30°) = Απέναντι / Υποτείνουσα`, `0.5 = ${opposite} / c`, `c = ${opposite} / 0.5`, `Λύση: c = ${currentTrigAnswer}`] };
     }
 };
 
@@ -919,6 +934,7 @@ window.generateTopologyProblem = function() {
     currentTopologyAnswer = 2 - V + E;
     
     if(probEl) probEl.innerHTML = `Φτιάχνουμε μια χάρτινη κατασκευή origami. Αν η κατασκευή έχει ${V} γωνίες (κορυφές - V) και ${E} τσακίσεις (ακμές - E), πόσες επίπεδες επιφάνειες (έδρες - F) έχει; (Τύπος Euler: V - E + F = 2)`;
+    currentTopologyProblem = { formula: `2 - ${V} + ${E}`, steps: [`Τύπος Euler: V - E + F = 2`, `${V} - ${E} + F = 2`, `F = 2 - ${V} + ${E}`, `Λύση: F = ${currentTopologyAnswer}`] };
 };
 
 function updateStatsUI() {
@@ -1141,6 +1157,21 @@ window.triggerCatSecret = function() {
  }
 };
 
+function formatMathString(str) {
+    if (!str) return "";
+    return str.replace(/\^2/g, '²')
+              .replace(/\^3/g, '³')
+              .replace(/\^4/g, '⁴')
+              .replace(/\^5/g, '⁵')
+              .replace(/\^6/g, '⁶')
+              .replace(/\^7/g, '⁷')
+              .replace(/\^8/g, '⁸')
+              .replace(/\^9/g, '⁹')
+              .replace(/\^0/g, '⁰')
+              .replace(/\*/g, '·')
+              .replace(/sqrt/g, '√');
+}
+
 window.analyzeSteps = function() {
     const eqText = document.getElementById("equation").innerText;
     const helpDiv = document.getElementById("help-steps");
@@ -1159,18 +1190,19 @@ window.analyzeSteps = function() {
                 let lhs = parts[0].trim();
                 let rhs = parts[1].trim();
 
-                let simplifiedLHS = math.simplify(lhs).toString();
-                let simplifiedRHS = math.simplify(rhs).toString();
+                let simplifiedLHS = formatMathString(math.simplify(lhs).toString());
+                let simplifiedRHS = formatMathString(math.simplify(rhs).toString());
 
-                helpDiv.innerHTML += `Αρχική: <code>${lhs} = ${rhs}</code><br>`;
+                helpDiv.innerHTML += `Αρχική: <code>${formatMathString(lhs)} = ${formatMathString(rhs)}</code><br>`;
                 
                 let expr = `(${lhs}) - (${rhs})`;
-                let simplifiedExpr = math.simplify(expr).toString();
+                let simplifiedExpr = formatMathString(math.simplify(expr).toString());
                 helpDiv.innerHTML += `Βήμα 1 (f(x) = 0): <code>${simplifiedExpr} = 0</code><br>`;
                 
                 try {
-                    let b_val = math.evaluate(simplifiedExpr, {x: 0});
-                    let a_val = math.derivative(simplifiedExpr, 'x').evaluate({x: 0});
+                    let rawExpr = math.simplify(expr).toString();
+                    let b_val = math.evaluate(rawExpr, {x: 0});
+                    let a_val = math.derivative(rawExpr, 'x').evaluate({x: 0});
                     
                     if (a_val !== 0) {
                         let root = -b_val / a_val;
@@ -1182,7 +1214,7 @@ window.analyzeSteps = function() {
                 }
 
             } else {
-                let simplified = math.simplify(equationToSolve).toString();
+                let simplified = formatMathString(math.simplify(equationToSolve).toString());
                 helpDiv.innerHTML += `Απλοποίηση: ${simplified}`;
             }
         } else {
@@ -1191,6 +1223,82 @@ window.analyzeSteps = function() {
     } catch (e) {
         console.error(e);
         helpDiv.innerHTML += "Δεν ήταν δυνατή η ανάλυση με τη math.js. Μάλλον η εξίσωση είναι πολύπλοκη!";
+    }
+};
+
+window.showGeoHelp = function() {
+    const helpDiv = document.getElementById("geo-help-steps");
+    if (!helpDiv) return;
+    helpDiv.classList.remove("hidden");
+    helpDiv.innerHTML = "<strong>Βήματα Επίλυσης:</strong><br>" + currentGeoProblem.steps.join("<br>");
+};
+
+window.analyzeGeoSteps = function() {
+    const helpDiv = document.getElementById("geo-help-steps");
+    if (!helpDiv) return;
+    helpDiv.classList.remove("hidden");
+    helpDiv.innerHTML = "<strong style='color: #03dac6;'>Ανάλυση με math.js:</strong><br>";
+    if (typeof math !== 'undefined') {
+        try {
+            let simplified = formatMathString(math.simplify(currentGeoProblem.formula).toString());
+            helpDiv.innerHTML += `Πράξη: <code>${formatMathString(currentGeoProblem.formula)}</code><br>`;
+            helpDiv.innerHTML += `Αποτέλεσμα: <strong>${simplified}</strong>`;
+        } catch (e) {
+            helpDiv.innerHTML += "Η πράξη δεν μπορεί να αναλυθεί περαιτέρω από το math.js.";
+        }
+    } else {
+        helpDiv.innerHTML += "Σφάλμα: Η βιβλιοθήκη math.js δεν φόρτωσε!";
+    }
+};
+
+window.showTrigHelp = function() {
+    const helpDiv = document.getElementById("trig-help-steps");
+    if (!helpDiv) return;
+    helpDiv.classList.remove("hidden");
+    helpDiv.innerHTML = "<strong>Βήματα Επίλυσης:</strong><br>" + currentTrigProblem.steps.join("<br>");
+};
+
+window.analyzeTrigSteps = function() {
+    const helpDiv = document.getElementById("trig-help-steps");
+    if (!helpDiv) return;
+    helpDiv.classList.remove("hidden");
+    helpDiv.innerHTML = "<strong style='color: #03dac6;'>Ανάλυση με math.js:</strong><br>";
+    if (typeof math !== 'undefined') {
+        try {
+            let formula = currentTrigProblem.formula;
+            let simplified = formatMathString(math.evaluate(formula).toString());
+            helpDiv.innerHTML += `Πράξη: <code>${formatMathString(formula)}</code><br>`;
+            helpDiv.innerHTML += `Αποτέλεσμα: <strong>${simplified}</strong>`;
+        } catch (e) {
+            helpDiv.innerHTML += "Η πράξη δεν μπορεί να αναλυθεί περαιτέρω από το math.js.";
+        }
+    } else {
+        helpDiv.innerHTML += "Σφάλμα: Η βιβλιοθήκη math.js δεν φόρτωσε!";
+    }
+};
+
+window.showTopologyHelp = function() {
+    const helpDiv = document.getElementById("topology-help-steps");
+    if (!helpDiv) return;
+    helpDiv.classList.remove("hidden");
+    helpDiv.innerHTML = "<strong>Βήματα Επίλυσης:</strong><br>" + currentTopologyProblem.steps.join("<br>");
+};
+
+window.analyzeTopologySteps = function() {
+    const helpDiv = document.getElementById("topology-help-steps");
+    if (!helpDiv) return;
+    helpDiv.classList.remove("hidden");
+    helpDiv.innerHTML = "<strong style='color: #03dac6;'>Ανάλυση με math.js:</strong><br>";
+    if (typeof math !== 'undefined') {
+        try {
+            let simplified = formatMathString(math.simplify(currentTopologyProblem.formula).toString());
+            helpDiv.innerHTML += `Πράξη: <code>${formatMathString(currentTopologyProblem.formula)}</code><br>`;
+            helpDiv.innerHTML += `Αποτέλεσμα: <strong>${simplified}</strong>`;
+        } catch (e) {
+            helpDiv.innerHTML += "Η πράξη δεν μπορεί να αναλυθεί περαιτέρω από το math.js.";
+        }
+    } else {
+        helpDiv.innerHTML += "Σφάλμα: Η βιβλιοθήκη math.js δεν φόρτωσε!";
     }
 };
 
