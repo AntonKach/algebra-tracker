@@ -1,6 +1,6 @@
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-app.js";
 import { getAuth, signInWithPopup, GoogleAuthProvider, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-auth.js";
-import { getFirestore, doc, setDoc, getDoc, collection, addDoc, query, orderBy, limit, onSnapshot, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-firestore.js";
+import { getFirestore, doc, setDoc, getDoc, collection, addDoc, query, orderBy, limit, onSnapshot, serverTimestamp, getDocs } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-firestore.js";
 
 const firebaseConfig = {
   apiKey: "AIzaSyCovxsWgdbcq2xcvtEMcg281DshyVRQl7A",
@@ -38,6 +38,10 @@ onAuthStateChanged(auth, async (user) => {
         if (window.listenToChat) {
             window.listenToChat();
         }
+        
+        if (window.initE2EE) {
+            await window.initE2EE();
+        }
     }
 });
 
@@ -67,6 +71,10 @@ window.loginWithGoogle = async () => {
         
         if (window.listenToChat) window.listenToChat();
 
+        if (window.initE2EE) {
+            await window.initE2EE();
+        }
+
     } catch (error) {
         console.error("Σφάλμα σύνδεσης:", error);
         // ΤΩΡΑ ΘΑ ΒΛΕΠΟΥΜΕ ΤΟ ΣΦΑΛΜΑ ΣΤΗΝ ΟΘΟΝΗ:
@@ -87,7 +95,7 @@ window.saveToCloud = async (newScore, newStats) => {
 window.listenToChat = function() {
     const q = query(collection(db, "messages"), orderBy("createdAt", "desc"), limit(15));
     
-    onSnapshot(q, (snapshot) => {
+    onSnapshot(q, async (snapshot) => {
         const chatBox = document.getElementById("chat-messages");
         if (!chatBox) return;
         
@@ -95,12 +103,34 @@ window.listenToChat = function() {
         snapshot.forEach((doc) => msgs.push(doc.data()));
         
         chatBox.innerHTML = "";
-        msgs.reverse().forEach(data => {
+        const reversedMsgs = msgs.reverse();
+        
+        for (const data of reversedMsgs) {
+            let displayText = "(Μη αναγνώσιμο μήνυμα - Δεν υπάρχει E2EE κλειδί)";
+            
+            // Decrypt if it's an encrypted message
+            if (data.encryptedTexts && window.myPrivateKey && window.currentUserId) {
+                const myEncryptedBase64 = data.encryptedTexts[window.currentUserId];
+                if (myEncryptedBase64) {
+                    try {
+                        const encryptedBuffer = window.CryptoEngine.base64ToArrayBuffer(myEncryptedBase64);
+                        displayText = await window.CryptoEngine.decryptMessage(encryptedBuffer, window.myPrivateKey);
+                        displayText += ' <span style="font-size: 0.8em; color: #32D74B;" title="E2EE Προστατευμένο">🔒</span>';
+                    } catch (e) {
+                        console.error("Failed to decrypt message", e);
+                        displayText = "(Σφάλμα αποκρυπτογράφησης)";
+                    }
+                }
+            } else if (data.text) {
+                // Fallback for old unencrypted messages
+                displayText = data.text;
+            }
+
             const isMe = data.user === window.currentUserName ? " (Εγώ)" : "";
             chatBox.innerHTML += `<div style="margin-bottom: 8px; padding: 6px; background: rgba(0,0,0,0.4); border-radius: 5px;">
-                <strong style="color: #bb86fc;">${data.user}${isMe}:</strong> ${data.text}
+                <strong style="color: #bb86fc;">${data.user}${isMe}:</strong> ${displayText}
             </div>`;
-        });
+        }
         chatBox.scrollTop = chatBox.scrollHeight;
     });
 };
@@ -110,9 +140,98 @@ window.sendChatMessage = async function(text) {
         alert("Πρέπει να κάνεις Σύνδεση με Google για να στείλεις μήνυμα! 🐾");
         return;
     }
-    await addDoc(collection(db, "messages"), {
-        text: text,
-        user: window.currentUserName,
-        createdAt: serverTimestamp()
-    });
+
+    try {
+        // Fetch all users to get their public keys
+        const usersSnap = await getDocs(collection(db, "users"));
+        const encryptedTexts = {};
+
+        for (const userDoc of usersSnap.docs) {
+            const userData = userDoc.data();
+            if (userData.publicKey) {
+                try {
+                    // Import the recipient's public key
+                    const recipientPubKey = await window.crypto.subtle.importKey(
+                        "jwk",
+                        userData.publicKey,
+                        { name: "RSA-OAEP", hash: "SHA-256" },
+                        true,
+                        ["encrypt"]
+                    );
+                    
+                    // Encrypt the message
+                    const encryptedBuffer = await window.CryptoEngine.encryptMessage(text, recipientPubKey);
+                    
+                    // Convert to Base64
+                    encryptedTexts[userDoc.id] = window.CryptoEngine.arrayBufferToBase64(encryptedBuffer);
+                } catch (e) {
+                    console.error("Failed to encrypt for user:", userDoc.id, e);
+                }
+            }
+        }
+
+        await addDoc(collection(db, "messages"), {
+            encryptedTexts: encryptedTexts,
+            user: window.currentUserName,
+            senderId: window.currentUserId,
+            createdAt: serverTimestamp()
+        });
+    } catch (error) {
+        console.error("Error sending message:", error);
+        alert("Σφάλμα κατά την αποστολή του μηνύματος.");
+    }
 };
+
+window.initE2EE = async function() {
+    if (!window.CryptoEngine) return;
+    try {
+        let privateKeyJwk = localStorage.getItem("e2ee_private_key");
+        let publicKeyJwk = localStorage.getItem("e2ee_public_key");
+
+        if (!privateKeyJwk || !publicKeyJwk) {
+            console.log("Generating new E2EE keys...");
+            const keyPair = await window.CryptoEngine.generateKeyPair();
+            
+            const pubJwk = await window.crypto.subtle.exportKey("jwk", keyPair.publicKey);
+            const privJwk = await window.crypto.subtle.exportKey("jwk", keyPair.privateKey);
+            
+            localStorage.setItem("e2ee_public_key", JSON.stringify(pubJwk));
+            localStorage.setItem("e2ee_private_key", JSON.stringify(privJwk));
+            
+            window.myPrivateKey = keyPair.privateKey;
+            window.myPublicKey = keyPair.publicKey;
+            
+            // Αποθήκευση του public key στο προφίλ του χρήστη ώστε να μπορούν να το βρουν οι άλλοι
+            const userRef = doc(db, "users", window.currentUserId);
+            await setDoc(userRef, { publicKey: pubJwk }, { merge: true });
+            
+        } else {
+            console.log("Loading E2EE keys from storage...");
+            window.myPrivateKey = await window.crypto.subtle.importKey(
+                "jwk",
+                JSON.parse(privateKeyJwk),
+                { name: "RSA-OAEP", hash: "SHA-256" },
+                true,
+                ["decrypt"]
+            );
+            window.myPublicKey = await window.crypto.subtle.importKey(
+                "jwk",
+                JSON.parse(publicKeyJwk),
+                { name: "RSA-OAEP", hash: "SHA-256" },
+                true,
+                ["encrypt"]
+            );
+        }
+        
+        // Update UI (Το λουκέτο γίνεται πράσινο)
+        const lockIcon = document.getElementById("e2ee-lock");
+        if (lockIcon) {
+            lockIcon.style.color = "#32D74B"; // iOS Green
+            lockIcon.title = "E2EE Active";
+            lockIcon.style.filter = "drop-shadow(0 0 5px rgba(50,215,75,0.4))";
+        }
+    } catch (e) {
+        console.error("E2EE Init Error:", e);
+    }
+};
+
