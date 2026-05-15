@@ -340,13 +340,16 @@ button:active {
 
 .legal-content h2 {
     margin-top: 0;
-    color: #0A84FF;
+    color: #0A84FF !important;
+    display: block !important;
 }
 
 .legal-content p {
     font-size: 0.95em;
     line-height: 1.5;
     margin-bottom: 20px;
+    color: #ffffff !important;
+    display: block !important;
 }
 
 .legal-checkbox-container {
