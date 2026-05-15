@@ -35,12 +35,12 @@ onAuthStateChanged(auth, async (user) => {
             }
         }
         
-        if (window.listenToChat) {
-            window.listenToChat();
-        }
-        
         if (window.initE2EE) {
             await window.initE2EE();
+        }
+
+        if (window.listenToChat) {
+            window.listenToChat();
         }
     }
 });
@@ -69,11 +69,11 @@ window.loginWithGoogle = async () => {
             alert("Καλώς ήρθες, " + user.displayName + "! Έγινε δημιουργία προφίλ. 🐾");
         }
         
-        if (window.listenToChat) window.listenToChat();
-
         if (window.initE2EE) {
             await window.initE2EE();
         }
+
+        if (window.listenToChat) window.listenToChat();
 
     } catch (error) {
         console.error("Σφάλμα σύνδεσης:", error);
@@ -146,7 +146,19 @@ window.sendChatMessage = async function(text) {
         const usersSnap = await getDocs(collection(db, "users"));
         const encryptedTexts = {};
 
+        // Always encrypt for ourselves first to guarantee we can read our own message
+        if (window.myPublicKey) {
+            try {
+                const myEncryptedBuffer = await window.CryptoEngine.encryptMessage(text, window.myPublicKey);
+                encryptedTexts[window.currentUserId] = window.CryptoEngine.arrayBufferToBase64(myEncryptedBuffer);
+            } catch (e) {
+                console.error("Failed to encrypt for self:", e);
+            }
+        }
+
         for (const userDoc of usersSnap.docs) {
+            if (userDoc.id === window.currentUserId) continue; // Ήδη το κάναμε
+            
             const userData = userDoc.data();
             if (userData.publicKey) {
                 try {
