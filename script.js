@@ -94,6 +94,22 @@ const translations = {
  "Ο Άντον έχει να διανύσει {s} μέτρα μέχρι το γραφείο του. Περπατάει με ταχύτητα {v} m/s. Πόσο χρόνο θα κάνει;",
  "Η Μισέλ περπατάει στον διάδρομο μήκους {s} μέτρων με ταχύτητα {v} m/s. Σε πόσα δευτερόλεπτα θα τον διασχίσει;"
  ],
+ geoScenarios: [
+  "Θέλουμε να αγοράσουμε ένα νέο χαλί για το σαλόνι. Αν ο χώρος έχει μήκος {a} μέτρα και πλάτος {b} μέτρα, ποιο είναι το εμβαδόν του χαλιού που χρειαζόμαστε; (E = a · b)",
+  "Φτιάχνουμε ένα μικρό παρτέρι με λουλούδια σε τριγωνικό σχήμα και θέλουμε να του βάλουμε ξύλινο φράχτη γύρω γύρω. Αν οι πλευρές είναι {a}, {b} και {c} μέτρα, πόσα μέτρα φράχτη πρέπει να αγοράσουμε; (P = a + b + c)",
+  "Θέλουμε να οργανώσουμε την ντουλάπα με κουτιά αποθήκευσης. Αν ένα κουτί έχει διαστάσεις {a}, {b}, {c} μέτρα, ποιος είναι ο όγκος του; (V = a · b · c)"
+ ],
+ trigScenarios: [
+  "Ακουμπάμε μια σκάλα στον τοίχο για να κρεμάσουμε ένα κάδρο. Αν η βάση της σκάλας απέχει {a} μέτρα από τον τοίχο και το ύψος μέχρι το κάδρο είναι {b} μέτρα, τι μήκος πρέπει να έχει η σκάλα; (Πυθαγόρειο: c² = a² + b²)",
+  "Μια ξύλινη ράμπα στο κατώφλι του σπιτιού σχηματίζει γωνία 30 μοιρών με το έδαφος. Αν το ύψος του κατωφλιού (απέναντι πλευρά) είναι {opposite} μέτρα, πόσο μήκος πρέπει να έχει η ράμπα (υποτείνουσα); (sin30° = 0.5, οπότε Υποτείνουσα = Απέναντι / 0.5)"
+ ],
+ topScenario: "Φτιάχνουμε μια χάρτινη κατασκευή origami. Αν η κατασκευή έχει {V} γωνίες (κορυφές - V) και {E} τσακίσεις (ακμές - E), πόσες επίπεδες επιφάνειες (έδρες - F) έχει; (Τύπος Euler: V - E + F = 2)",
+ helpAnalysis: "Ανάλυση με math.js",
+ helpOriginal: "Αρχική", helpStep1: "Βήμα 1", helpStep2: "Βήμα 2 (Παράγωγος - Εύρεση κλίσης)",
+ helpSolution: "Λύση", helpError: "Δεν ήταν δυνατή η ανάλυση.",
+ helpStepsTitle: "Βήματα Επίλυσης", helpAction: "Πράξη", helpResult: "Αποτέλεσμα",
+ geoStepArea: "Εμβαδόν Ορθογωνίου", geoStepPerim: "Περίμετρος Τριγώνου", geoStepVol: "Όγκος",
+ stepHence: "Επομένως", trigStepPyth: "Πυθαγόρειο Θεώρημα", trigStepSin: "Ημίτονο Γωνίας", topStepEuler: "Τύπος Euler",
  legalTitle: "Όροι Χρήσης & Ασφάλεια",
  legalWelcome: "Καλώς ήρθατε στην Catgebra. Πριν ξεκινήσουμε την περιήγηση στον κόσμο των μαθηματικών, παρακαλούμε διαβάστε τα παρακάτω:",
  legalDesc1: "<strong>Εκπαιδευτικός Σκοπός (As-Is):</strong> Η εφαρμογή παρέχεται \"ως έχει\", αποκλειστικά ως υποστηρικτικό εκπαιδευτικό βοήθημα. Δεν φέρουμε ουδεμία ευθύνη για τυχόν σφάλματα στους αλγορίθμους, στα αποτελέσματα ή για τις επιπτώσεις αυτών σε ακαδημαϊκές βαθμολογίες.",
@@ -142,6 +158,22 @@ const translations = {
  "Anton has to cover {s} meters to his office. He walks at a speed of {v} m/s. How much time will it take?",
  "Michelle walks in the {s}-meter corridor at a speed of {v} m/s. In how many seconds will she cross it?"
  ],
+ geoScenarios: [
+  "We want to buy a new carpet for the living room. If the room is {a} meters long and {b} meters wide, what is the area of the carpet we need? (A = a · b)",
+  "We are making a small flower bed in a triangular shape and want to put a wooden fence around it. If the sides are {a}, {b} and {c} meters, how many meters of fence should we buy? (P = a + b + c)",
+  "We want to organize the closet with storage boxes. If a box has dimensions {a}, {b}, {c} meters, what is its volume? (V = a · b · c)"
+ ],
+ trigScenarios: [
+  "We lean a ladder against the wall to hang a picture. If the base of the ladder is {a} meters from the wall and the height to the picture is {b} meters, how long should the ladder be? (Pythagorean: c² = a² + b²)",
+  "A wooden ramp at the threshold of the house forms a 30-degree angle with the ground. If the height of the threshold (opposite side) is {opposite} meters, how long should the ramp be (hypotenuse)? (sin30° = 0.5, so Hypotenuse = Opposite / 0.5)"
+ ],
+ topScenario: "We are making a paper origami craft. If the craft has {V} corners (vertices - V) and {E} folds (edges - E), how many flat surfaces (faces - F) does it have? (Euler's Formula: V - E + F = 2)",
+ helpAnalysis: "Math.js Analysis",
+ helpOriginal: "Original", helpStep1: "Step 1", helpStep2: "Step 2 (Derivative)",
+ helpSolution: "Solution", helpError: "Analysis was not possible.",
+ helpStepsTitle: "Solution Steps", helpAction: "Operation", helpResult: "Result",
+ geoStepArea: "Rectangle Area", geoStepPerim: "Triangle Perimeter", geoStepVol: "Volume",
+ stepHence: "Hence", trigStepPyth: "Pythagorean Theorem", trigStepSin: "Sine of Angle", topStepEuler: "Euler's Formula",
  legalTitle: "Terms of Use & Privacy",
  legalWelcome: "Welcome to Catgebra. Before we begin our math journey, please review the following:",
  legalDesc1: "<strong>Educational Purpose (As-Is):</strong> This application is provided \"as is\", strictly as a supplemental educational tool. We assume no liability for any algorithmic errors, incorrect results, or their impact on academic performance or grading.",
@@ -190,6 +222,22 @@ const translations = {
  "Anton doit parcourir {s} mètres jusqu'à son bureau. Il marche à une vitesse de {v} m/s. Combien de temps cela prendra-t-il ?",
  "Michelle marche dans le couloir de {s} mètres à une vitesse de {v} m/s. En combien de secondes le traversera-t-elle ?"
  ],
+ geoScenarios: [
+  "Nous voulons acheter un nouveau tapis pour le salon. Si la pièce fait {a} mètres de long et {b} mètres de large, quelle est la surface du tapis dont nous avons besoin ? (A = a · b)",
+  "Nous créons un petit parterre de fleurs de forme triangulaire et voulons l'entourer d'une clôture en bois. Si les côtés mesurent {a}, {b} et {c} mètres, combien de mètres de clôture devrions-nous acheter ? (P = a + b + c)",
+  "Nous voulons organiser le placard avec des boîtes de rangement. Si une boîte a pour dimensions {a}, {b}, {c} mètres, quel est son volume ? (V = a · b · c)"
+ ],
+ trigScenarios: [
+  "Nous posons une échelle contre le mur pour accrocher un tableau. Si la base de l'échelle est à {a} mètres du mur et la hauteur du tableau est de {b} mètres, quelle doit être la longueur de l'échelle ? (Pythagore : c² = a² + b²)",
+  "Une rampe en bois au seuil de la maison forme un angle de 30 degrés avec le sol. Si la hauteur du seuil (côté opposé) est de {opposite} mètres, quelle doit être la longueur de la rampe (hypoténuse) ? (sin30° = 0.5, donc Hypoténuse = Opposé / 0.5)"
+ ],
+ topScenario: "Nous fabriquons un origami en papier. Si la création a {V} coins (sommets - V) et {E} plis (arêtes - E), combien de surfaces planes (faces - F) a-t-elle ? (Formule d'Euler : V - E + F = 2)",
+ helpAnalysis: "Analyse Math.js",
+ helpOriginal: "Original", helpStep1: "Étape 1", helpStep2: "Étape 2 (Dérivée)",
+ helpSolution: "Solution", helpError: "L'analyse n'a pas été possible.",
+ helpStepsTitle: "Étapes de résolution", helpAction: "Opération", helpResult: "Résultat",
+ geoStepArea: "Aire du rectangle", geoStepPerim: "Périmètre du triangle", geoStepVol: "Volume",
+ stepHence: "Donc", trigStepPyth: "Théorème de Pythagore", trigStepSin: "Sinus de l'angle", topStepEuler: "Formule d'Euler",
  legalTitle: "Conditions d'Utilisation et Confidentialité",
  legalWelcome: "Bienvenue sur Catgebra. Avant de commencer, veuillez lire attentivement ce qui suit :",
  legalDesc1: "<strong>But Éducatif (En l'état) :</strong> Cette application est fournie « telle quelle », strictement comme un outil éducatif de soutien. Nous déclinons toute responsabilité en cas d'erreurs algorithmiques, de résultats inexacts ou de leur impact sur vos notes académiques.",
@@ -238,6 +286,22 @@ const translations = {
  "Anton tiene que cubrir {s} metros hasta su oficina. Camina a una velocidad de {v} m/s. ¿Cuánto tiempo le tomará?",
  "Michelle camina en el pasillo de {s} metros a una velocidad de {v} m/s. ¿En cuántos segundos lo cruzará?"
  ],
+ geoScenarios: [
+  "Queremos comprar una alfombra nueva para la sala de estar. Si la habitación tiene {a} metros de largo y {b} metros de ancho, ¿cuál es el área de la alfombra que necesitamos? (A = a · b)",
+  "Estamos haciendo un pequeño macizo de flores en forma triangular y queremos ponerle una valla de madera alrededor. Si los lados miden {a}, {b} y {c} metros, ¿cuántos metros de valla deberíamos comprar? (P = a + b + c)",
+  "Queremos organizar el armario con cajas de almacenamiento. Si una caja tiene dimensiones {a}, {b}, {c} metros, ¿cuál es su volumen? (V = a · b · c)"
+ ],
+ trigScenarios: [
+  "Apoyamos una escalera contra la pared para colgar un cuadro. Si la base de la escalera está a {a} metros de la pared y la altura al cuadro es de {b} metros, ¿cuánto debe medir la escalera? (Pitágoras: c² = a² + b²)",
+  "Una rampa de madera en el umbral de la casa forma un ángulo de 30 grados con el suelo. Si la altura del umbral (lado opuesto) es de {opposite} metros, ¿cuánto debe medir la rampa (hipotenusa)? (sin30° = 0.5, por lo tanto Hipotenusa = Opuesto / 0.5)"
+ ],
+ topScenario: "Estamos haciendo una manualidad de origami de papel. Si la manualidad tiene {V} esquinas (vértices - V) y {E} pliegues (aristas - E), ¿cuántas superficies planas (caras - F) tiene? (Fórmula de Euler: V - E + F = 2)",
+ helpAnalysis: "Análisis con Math.js",
+ helpOriginal: "Original", helpStep1: "Paso 1", helpStep2: "Paso 2 (Derivada)",
+ helpSolution: "Solución", helpError: "El análisis no fue posible.",
+ helpStepsTitle: "Pasos de resolución", helpAction: "Operación", helpResult: "Resultado",
+ geoStepArea: "Área del rectángulo", geoStepPerim: "Perímetro del triángulo", geoStepVol: "Volumen",
+ stepHence: "Por lo tanto", trigStepPyth: "Teorema de Pitágoras", trigStepSin: "Seno del ángulo", topStepEuler: "Fórmula de Euler",
  legalTitle: "Términos de Uso y Privacidad",
  legalWelcome: "Bienvenido a Catgebra. Antes de comenzar, por favor revise lo siguiente:",
  legalDesc1: "<strong>Propósito Educativo (Tal cual):</strong> Esta aplicación se proporciona \"tal cual\", estrictamente como una herramienta educativa complementaria. No asumimos ninguna responsabilidad por errores algorítmicos, resultados incorrectos o su impacto en el rendimiento académico.",
@@ -286,6 +350,22 @@ const translations = {
  "Anton'un ofisine gitmesi için {s} metre gitmesi gerekiyor. {v} m/s hızla yürüyor. Ne kadar zaman alacak?",
  "Michelle {s} metrelik koridorda {v} m/s hızla yürüyor. Kaç saniyede geçecek?"
  ],
+ geoScenarios: [
+  "Oturma odası için yeni bir halı almak istiyoruz. Oda {a} metre uzunluğunda ve {b} metre genişliğindeyse, ihtiyacımız olan halının alanı nedir? (A = a · b)",
+  "Üçgen şeklinde küçük bir çiçeklik yapıyoruz ve etrafına ahşap bir çit koymak istiyoruz. Kenarlar {a}, {b} ve {c} metre ise kaç metre çit almalıyız? (P = a + b + c)",
+  "Dolabı saklama kutularıyla düzenlemek istiyoruz. Bir kutunun boyutları {a}, {b}, {c} metre ise hacmi nedir? (V = a · b · c)"
+ ],
+ trigScenarios: [
+  "Bir resim asmak için duvara bir merdiven dayıyoruz. Merdivenin tabanı duvardan {a} metre uzaklıkta ve resmin yüksekliği {b} metre ise, merdiven ne kadar uzun olmalıdır? (Pisagor: c² = a² + b²)",
+  "Evin eşiğindeki ahşap bir rampa yerle 30 derecelik bir açı oluşturur. Eşiğin yüksekliği (karşı kenar) {opposite} metre ise, rampa ne kadar uzun olmalıdır (hipotenüs)? (sin30° = 0.5, yani Hipotenüs = Karşı / 0.5)"
+ ],
+ topScenario: "Kağıttan bir origami yapıyoruz. Eserin {V} köşesi (köşeler - V) ve {E} katlaması (ayrıtlar - E) varsa, kaç tane düz yüzeyi (yüzler - F) vardır? (Euler Formülü: V - E + F = 2)",
+ helpAnalysis: "Math.js Analizi",
+ helpOriginal: "Orijinal", helpStep1: "Adım 1", helpStep2: "Adım 2 (Türev)",
+ helpSolution: "Çözüm", helpError: "Analiz mümkün olmadı.",
+ helpStepsTitle: "Çözüm Adımları", helpAction: "İşlem", helpResult: "Sonuç",
+ geoStepArea: "Dikdörtgenin Alanı", geoStepPerim: "Üçgenin Çevresi", geoStepVol: "Hacmi",
+ stepHence: "Böylece", trigStepPyth: "Pisagor Teoremi", trigStepSin: "Açının Sinüsü", topStepEuler: "Euler Formülü",
  legalTitle: "Kullanım Koşulları ve Gizlilik",
  legalWelcome: "Catgebra'ya hoş geldiniz. Matematik dünyasına adım atmadan önce lütfen aşağıdakileri okuyun:",
  legalDesc1: "<strong>Eğitim Amacı (Olduğu Gibi / As-Is):</strong> Bu uygulama \"olduğu gibi\", yalnızca destekleyici bir eğitim aracı olarak sunulmaktadır. Algoritmik hatalar, yanlış sonuçlar veya bunların akademik notlara etkisi konusunda hiçbir sorumluluk kabul etmiyoruz.",
@@ -334,6 +414,22 @@ const translations = {
  "Anton deve coprire {s} metri fino al suo ufficio. Cammina a una velocità di {v} m/s. Quanto tempo ci vorrà?",
  "Michelle cammina nel corridoio di {s} metri a una velocità di {v} m/s. In quanti secondi lo attraverserà?"
  ],
+ geoScenarios: [
+  "Vogliamo comprare un nuovo tappeto per il soggiorno. Se la stanza è lunga {a} metri e larga {b} metri, qual è l'area del tappeto di cui abbiamo bisogno? (A = a · b)",
+  "Stiamo realizzando una piccola aiuola a forma triangolare e vogliamo metterci una staccionata di legno intorno. Se i lati misurano {a}, {b} e {c} metri, quanti metri di staccionata dovremmo comprare? (P = a + b + c)",
+  "Vogliamo organizzare l'armadio con scatole di immagazzinaggio. Se una scatola ha dimensioni {a}, {b}, {c} metri, qual è il suo volume? (V = a · b · c)"
+ ],
+ trigScenarios: [
+  "Appoggiamo una scala al muro per appendere un quadro. Se la base della scala si trova a {a} metri dal muro e l'altezza del quadro è di {b} metri, quanto deve essere lunga la scala? (Pitagora: c² = a² + b²)",
+  "Una rampa di legno sulla soglia di casa forma un angolo di 30 gradi con il suolo. Se l'altezza della soglia (lato opposto) è di {opposite} metri, quanto deve essere lunga la rampa (ipotenusa)? (sin30° = 0.5, quindi Ipotenusa = Opposto / 0.5)"
+ ],
+ topScenario: "Stiamo realizzando un origami di carta. Se la creazione ha {V} angoli (vertici - V) e {E} pieghe (spigoli - E), quante superfici piane (facce - F) ha? (Formula di Euler: V - E + F = 2)",
+ helpAnalysis: "Analisi con Math.js",
+ helpOriginal: "Originale", helpStep1: "Passo 1", helpStep2: "Passo 2 (Derivata)",
+ helpSolution: "Soluzione", helpError: "L'analisi non è stata possibile.",
+ helpStepsTitle: "Passaggi della soluzione", helpAction: "Operazione", helpResult: "Risultato",
+ geoStepArea: "Area del rettangolo", geoStepPerim: "Perimetro del triangolo", geoStepVol: "Volume",
+ stepHence: "Quindi", trigStepPyth: "Teorema di Pitagora", trigStepSin: "Seno dell'angolo", topStepEuler: "Formula di Eulero",
  legalTitle: "Termini di Utilizzo e Privacy",
  legalWelcome: "Benvenuti su Catgebra. Prima di iniziare, si prega di leggere quanto segue:",
  legalDesc1: "<strong>Scopo Educativo (Come è):</strong> Questa applicazione è fornita \"così com'è\", come strumento educativo di supporto. Non ci assumiamo alcuna responsabilità per errori algoritmici o per il loro impatto sul rendimento scolastico.",
@@ -382,6 +478,22 @@ const translations = {
  "يجب على أنطون قطع {s} متر إلى مكتبه. يمشي بسرعة {v} m/s. كم من الوقت سيستغرق؟",
  "تمشي ميشيل في الممر بطول {s} متر بسرعة {v} م/ث. في كم ثانية ستعبره؟"
  ],
+ geoScenarios: [
+  "نريد شراء سجادة جديدة لغرفة المعيشة. إذا كان طول الغرفة {a} مترًا وعرضها {b} مترًا، فما هي مساحة السجادة التي نحتاجها؟ (A = a · b)",
+  "نحن نصنع حوض زهور صغير على شكل مثلث ونريد وضع سياج خشبي حوله. إذا كانت الأضلاع {a} و {b} و {c} مترًا، فكم مترًا من السياج يجب أن نشتري؟ (P = a + b + c)",
+  "نريد تنظيم الخزانة بصناديق التخزين. إذا كان الصندوق بأبعاد {a} و {b} و {c} مترًا، فما هو حجمه؟ (V = a · b · c)"
+ ],
+ trigScenarios: [
+  "نسند سلمًا على الحائط لتعليق صورة. إذا كانت قاعدة السلم تبعد {a} متر عن الحائط والارتفاع إلى الصورة هو {b} متر، فكم يجب أن يكون طول السلم؟ (فيثاغورس: c² = a² + b²)",
+  "يشكل منحدر خشبي عند عتبة المنزل زاوية 30 درجة مع الأرض. إذا كان ارتفاع العتبة (الضلع المقابل) هو {opposite} متر، فكم يجب أن يكون طول المنحدر (الوتر)؟ (sin30° = 0.5، إذن الوتر = المقابل / 0.5)"
+ ],
+ topScenario: "نحن نصنع حرفة أوريغامي ورقية. إذا كان للحرفة {V} زاوية (رؤوس - V) و {E} طية (حواف - E)، فكم عدد الأسطح المستوية (أوجه - F) التي تحتوي عليها؟ (صيغة أويلر: V - E + F = 2)",
+ helpAnalysis: "تحليل Math.js",
+ helpOriginal: "أصلي", helpStep1: "الخطوة 1", helpStep2: "الخطوة 2 (المشتق)",
+ helpSolution: "الحل", helpError: "لم يكن التحليل ممكنا.",
+ helpStepsTitle: "خطوات الحل", helpAction: "عملية", helpResult: "نتيجة",
+ geoStepArea: "مساحة المستطيل", geoStepPerim: "محيط المثلث", geoStepVol: "حجم",
+ stepHence: "وبالتالي", trigStepPyth: "نظرية فيثاغورس", trigStepSin: "جيب الزاوية", topStepEuler: "صيغة أويلر",
  legalTitle: "شروط الاستخدام والخصوصية",
  legalWelcome: "مرحباً بك في Catgebra. قبل أن نبدأ، يرجى قراءة ما يلي:",
  legalDesc1: "<strong>الغرض التعليمي (كما هو):</strong> يتم تقديم هذا التطبيق كأداة تعليمية داعمة. لا نتحمل أي مسؤولية عن الأخطاء الخوارزمية أو النتائج غير الصحيحة أو تأثيرها على الأداء الأكاديمي.",
@@ -615,46 +727,47 @@ function loadNextProblem() {
  const p = gradeInfo.problems[randIdx];
  equationStr = p.equation;
  correctAns = p.answer;
- const stepsObj = p.steps[currentLang] || p.steps["el"];
- stepList = Array.isArray(stepsObj) ? stepsObj : [stepsObj];
- } else {
- if (level === 1) {
- let x = getRandomInt(-10, 10), a = getRandomInt(1, 10), b = getRandomInt(-20, 20);
- let c = (a * x) + b;
- equationStr = `${a}x ${b >= 0 ? "+" : "-"} ${Math.abs(b)} = ${c}`;
- correctAns = x.toString();
- stepList = [`${words.move} ${a}x = ${c} ${b >= 0 ? '-' : '+'} ${Math.abs(b)}`, `${words.div} x = ${x}`];
- } else if (level === 2) {
- let x = getRandomInt(-10, 10), a = getRandomInt(1, 10), c_c = getRandomInt(1, 10);
- while(a === c_c) c_c = getRandomInt(1, 10);
- let b = getRandomInt(-20, 20);
- let d = (a * x) + b - (c_c * x);
- equationStr = `${a}x ${b >= 0 ? "+" : "-"} ${Math.abs(b)} = ${c_c}x ${d >= 0 ? "+" : "-"} ${Math.abs(d)}`;
- correctAns = x.toString();
- stepList = [`Φέρνουμε τα x αριστερά...`, `Λύση: x = ${x}`];
- } else if (level === 3) {
- let r1 = getRandomInt(-5, 5), r2 = getRandomInt(-5, 5);
- let b = -(r1 + r2), c = r1 * r2;
- equationStr = `x² ${b>=0?'+':'-'} ${Math.abs(b)}x ${c>=0?'+':'-'} ${Math.abs(c)} = 0`;
- let roots = [r1, r2].sort((a,b) =>a - b);
- correctAns = r1 === r2 ? r1.toString() : `${roots[0]},${roots[1]}`;
- stepList = [`Λύνουμε τη δευτεροβάθμια...`, `Ρίζες: ${correctAns}`];
- } else if (level === 4) {
- let x = 0;
- while (x === 0) x = getRandomInt(-5, 5);
- let a = 0;
- while (a === 0) a = getRandomInt(-4, 5);
- let c_val = getRandomInt(2, 6);
- let d = getRandomInt(-8, 8);
- 
- let b = c_val * d - a * x;
- 
- let aStr = a === 1 ? "" : (a === -1 ? "-" : a);
- equationStr = `(${aStr}x ${b >= 0 ? "+" : "-"} ${Math.abs(b)}) / ${c_val} = ${d}`;
- correctAns = x.toString();
- stepList = [`Πολλαπλασιάζουμε με το ${c_val} για να διώξουμε τον παρανομαστή...`, `Χωρίζουμε γνωστούς από αγνώστους...`, `Λύση: x = ${x}`];
- }
- }
+        const stepsObj = p.steps[currentLang] || p.steps["el"];
+        stepList = Array.isArray(stepsObj) ? stepsObj : [stepsObj];
+    } else {
+        const t = translations[currentLang] || translations["el"];
+        if (level === 1) {
+            let x = getRandomInt(-10, 10), a = getRandomInt(1, 10), b = getRandomInt(-20, 20);
+            let c = (a * x) + b;
+            equationStr = `${a}x ${b >= 0 ? "+" : "-"} ${Math.abs(b)} = ${c}`;
+            correctAns = x.toString();
+            stepList = [`${words.move} ${a}x = ${c} ${b >= 0 ? '-' : '+'} ${Math.abs(b)}`, `${words.div} x = ${x}`];
+        } else if (level === 2) {
+            let x = getRandomInt(-10, 10), a = getRandomInt(1, 10), c_c = getRandomInt(1, 10);
+            while(a === c_c) c_c = getRandomInt(1, 10);
+            let b = getRandomInt(-20, 20);
+            let d = (a * x) + b - (c_c * x);
+            equationStr = `${a}x ${b >= 0 ? "+" : "-"} ${Math.abs(b)} = ${c_c}x ${d >= 0 ? "+" : "-"} ${Math.abs(d)}`;
+            correctAns = x.toString();
+            stepList = [`${words.move} ${a}x - ${c_c}x = ${d} ${b >= 0 ? '-' : '+'} ${Math.abs(b)}`, `${t.helpSolution || "Solution"}: x = ${x}`];
+        } else if (level === 3) {
+            let r1 = getRandomInt(-5, 5), r2 = getRandomInt(-5, 5);
+            let b = -(r1 + r2), c = r1 * r2;
+            equationStr = `x² ${b>=0?'+':'-'} ${Math.abs(b)}x ${c>=0?'+':'-'} ${Math.abs(c)} = 0`;
+            let roots = [r1, r2].sort((a,b) => a - b);
+            correctAns = r1 === r2 ? r1.toString() : `${roots[0]},${roots[1]}`;
+            stepList = [`Δ = ${b}² - 4(1)(${c})`, `x₁,₂ = (-(${b}) ± √Δ) / 2`, `${t.helpSolution || "Solution"}: ${correctAns}`];
+        } else if (level === 4) {
+            let x = 0;
+            while (x === 0) x = getRandomInt(-5, 5);
+            let a = 0;
+            while (a === 0) a = getRandomInt(-4, 5);
+            let c_val = getRandomInt(2, 6);
+            let d = getRandomInt(-8, 8);
+            
+            let b = c_val * d - a * x;
+            
+            let aStr = a === 1 ? "" : (a === -1 ? "-" : a);
+            equationStr = `(${aStr}x ${b >= 0 ? "+" : "-"} ${Math.abs(b)}) / ${c_val} = ${d}`;
+            correctAns = x.toString();
+            stepList = [`* ${c_val}`, `${words.move} x ->`, `${t.helpSolution || "Solution"}: x = ${x}`];
+        }
+    }
 
  currentProblem = { equation: equationStr, answer: correctAns, steps: stepList };
  safeSetHTML("equation", equationStr);
@@ -687,6 +800,7 @@ function checkAnswer() {
 
  userStats.played++; 
  const t = translations[currentLang] || translations["el"];
+ const isEl = currentLang === "el";
 
  if (userAns === expected) {
  userStats.correct++;
@@ -697,7 +811,7 @@ function checkAnswer() {
  let fbEl = document.getElementById("feedback");
  if (consecutiveCorrect === 3) {
    if(fbEl) {
-     fbEl.innerHTML = `Είσαι ασταμάτητος! 🚀 Μήπως ήρθε η ώρα να δοκιμάσεις το επόμενο επίπεδο δυσκολίας;`;
+     fbEl.innerHTML = isEl ? `Είσαι ασταμάτητος! 🚀 Μήπως ήρθε η ώρα να δοκιμάσεις το επόμενο επίπεδο δυσκολίας;` : `You're unstoppable! 🚀 Time to try the next difficulty level?`;
      fbEl.style.color = "#0A84FF"; // iOS Blue
    }
  } else {
@@ -717,9 +831,9 @@ function checkAnswer() {
    const levelSelect = document.getElementById("level-select");
    const level = levelSelect ? parseInt(levelSelect.value) : 1;
    let tipMsg = "";
-   if (level === 1) tipMsg = "💡 Tip: Όταν μεταφέρεις έναν αριθμό στην άλλη πλευρά του ίσον, μην ξεχνάς να του αλλάζεις πρόσημο!";
-   else if (level === 2) tipMsg = "💡 Tip: Μάζεψε πρώτα όλα τα x στη μία πλευρά και όλους τους αριθμούς στην άλλη.";
-   else tipMsg = "💡 Tip: Πρόσεξε καλά τις πράξεις με τα κλάσματα και τις παρενθέσεις. Κάνε το βήμα-βήμα στο πρόχειρο!";
+   if (level === 1) tipMsg = isEl ? "💡 Tip: Όταν μεταφέρεις έναν αριθμό στην άλλη πλευρά του ίσον, μην ξεχνάς να του αλλάζεις πρόσημο!" : "💡 Tip: When moving a number to the other side, change its sign!";
+   else if (level === 2) tipMsg = isEl ? "💡 Tip: Μάζεψε πρώτα όλα τα x στη μία πλευρά και όλους τους αριθμούς στην άλλη." : "💡 Tip: Gather all 'x' on one side and numbers on the other.";
+   else tipMsg = isEl ? "💡 Tip: Πρόσεξε καλά τις πράξεις με τα κλάσματα και τις παρενθέσεις. Κάνε το βήμα-βήμα στο πρόχειρο!" : "💡 Tip: Be careful with fractions and parentheses. Go step-by-step on the scratchpad!";
    
    if(fbEl) {
      fbEl.innerText = tipMsg;
@@ -771,27 +885,31 @@ window.generateGeoProblem = function() {
     if(inputEl) inputEl.value = "";
     if(feedbackEl) feedbackEl.innerText = "";
     
+    const t = translations[currentLang] || translations["el"];
     const scenario = Math.floor(Math.random() * 3);
     if (scenario === 0) {
         const a = Math.floor(Math.random() * 10) + 3;
         const b = Math.floor(Math.random() * 8) + 2;
         currentGeoAnswer = a * b;
-        if(probEl) probEl.innerHTML = `Θέλουμε να αγοράσουμε ένα νέο χαλί για το σαλόνι. Αν ο χώρος έχει μήκος ${a} μέτρα και πλάτος ${b} μέτρα, ποιο είναι το εμβαδόν του χαλιού που χρειαζόμαστε; (E = a · b)`;
-        currentGeoProblem = { formula: `${a} * ${b}`, steps: [`Εμβαδόν Ορθογωνίου: E = a · b`, `Επομένως: E = ${a} · ${b}`, `Λύση: E = ${currentGeoAnswer}`] };
+        let text = t.geoScenarios[0].replace("{a}", a).replace("{b}", b);
+        if(probEl) probEl.innerHTML = text;
+        currentGeoProblem = { formula: `${a} * ${b}`, steps: [`${t.geoStepArea}: E = a · b`, `${t.stepHence}: E = ${a} · ${b}`, `${t.helpSolution}: E = ${currentGeoAnswer}`] };
     } else if (scenario === 1) {
         const a = Math.floor(Math.random() * 5) + 3;
         const b = Math.floor(Math.random() * 5) + 3;
         const c = Math.floor(Math.random() * 5) + 3;
         currentGeoAnswer = a + b + c;
-        if(probEl) probEl.innerHTML = `Φτιάχνουμε ένα μικρό παρτέρι με λουλούδια σε τριγωνικό σχήμα και θέλουμε να του βάλουμε ξύλινο φράχτη γύρω γύρω. Αν οι πλευρές είναι ${a}, ${b} και ${c} μέτρα, πόσα μέτρα φράχτη πρέπει να αγοράσουμε; (P = a + b + c)`;
-        currentGeoProblem = { formula: `${a} + ${b} + ${c}`, steps: [`Περίμετρος Τριγώνου: P = a + b + c`, `Επομένως: P = ${a} + ${b} + ${c}`, `Λύση: P = ${currentGeoAnswer}`] };
+        let text = t.geoScenarios[1].replace("{a}", a).replace("{b}", b).replace("{c}", c);
+        if(probEl) probEl.innerHTML = text;
+        currentGeoProblem = { formula: `${a} + ${b} + ${c}`, steps: [`${t.geoStepPerim}: P = a + b + c`, `${t.stepHence}: P = ${a} + ${b} + ${c}`, `${t.helpSolution}: P = ${currentGeoAnswer}`] };
     } else {
         const a = Math.floor(Math.random() * 5) + 2;
         const b = Math.floor(Math.random() * 5) + 2;
         const c = Math.floor(Math.random() * 5) + 2;
         currentGeoAnswer = a * b * c;
-        if(probEl) probEl.innerHTML = `Θέλουμε να οργανώσουμε την ντουλάπα με κουτιά αποθήκευσης. Αν ένα κουτί έχει διαστάσεις ${a}, ${b}, ${c} μέτρα, ποιος είναι ο όγκος του; (V = a · b · c)`;
-        currentGeoProblem = { formula: `${a} * ${b} * ${c}`, steps: [`Όγκος Ορθογωνίου Παραλληλεπιπέδου: V = a · b · c`, `Επομένως: V = ${a} · ${b} · ${c}`, `Λύση: V = ${currentGeoAnswer}`] };
+        let text = t.geoScenarios[2].replace("{a}", a).replace("{b}", b).replace("{c}", c);
+        if(probEl) probEl.innerHTML = text;
+        currentGeoProblem = { formula: `${a} * ${b} * ${c}`, steps: [`${t.geoStepVol}: V = a · b · c`, `${t.stepHence}: V = ${a} · ${b} · ${c}`, `${t.helpSolution}: V = ${currentGeoAnswer}`] };
     }
 };
 
@@ -835,35 +953,36 @@ window.generateTrigProblem = function() {
         const ctx = canvas.getContext("2d");
         ctx.clearRect(0, 0, canvas.width, canvas.height);
         
-        // Draw a generic right triangle for trig
         ctx.strokeStyle = "#0A84FF";
         ctx.lineWidth = 4;
         ctx.fillStyle = "rgba(10, 132, 255, 0.1)";
         ctx.beginPath();
-        ctx.moveTo(100, 200); // bottom left
-        ctx.lineTo(300, 200); // bottom right
-        ctx.lineTo(300, 50); // top right
+        ctx.moveTo(100, 200);
+        ctx.lineTo(300, 200);
+        ctx.lineTo(300, 50);
         ctx.closePath();
         ctx.fill();
         ctx.stroke();
         
-        // Draw right angle square
         ctx.strokeRect(280, 180, 20, 20);
     }
     
+    const t = translations[currentLang] || translations["el"];
     const scenario = Math.floor(Math.random() * 2);
     if (scenario === 0) {
         const multiplier = Math.floor(Math.random() * 3) + 1;
         const a = 3 * multiplier;
         const b = 4 * multiplier;
         currentTrigAnswer = 5 * multiplier;
-        if(probEl) probEl.innerHTML = `Ακουμπάμε μια σκάλα στον τοίχο για να κρεμάσουμε ένα κάδρο. Αν η βάση της σκάλας απέχει ${a} μέτρα από τον τοίχο και το ύψος μέχρι το κάδρο είναι ${b} μέτρα, τι μήκος πρέπει να έχει η σκάλα; (Πυθαγόρειο: c² = a² + b²)`;
-        currentTrigProblem = { formula: `sqrt(${a}^2 + ${b}^2)`, steps: [`Πυθαγόρειο Θεώρημα: c² = a² + b²`, `c² = ${a}² + ${b}²`, `c = √(${a*a} + ${b*b})`, `Λύση: c = ${currentTrigAnswer}`] };
+        let text = t.trigScenarios[0].replace("{a}", a).replace("{b}", b);
+        if(probEl) probEl.innerHTML = text;
+        currentTrigProblem = { formula: `sqrt(${a}^2 + ${b}^2)`, steps: [`${t.trigStepPyth}: c² = a² + b²`, `c² = ${a}² + ${b}²`, `c = √(${a*a} + ${b*b})`, `${t.helpSolution}: c = ${currentTrigAnswer}`] };
     } else {
         const opposite = Math.floor(Math.random() * 5) + 1;
         currentTrigAnswer = 2 * opposite;
-        if(probEl) probEl.innerHTML = `Μια ξύλινη ράμπα στο κατώφλι του σπιτιού σχηματίζει γωνία 30 μοιρών με το έδαφος. Αν το ύψος του κατωφλιού (απέναντι πλευρά) είναι ${opposite} μέτρα, πόσο μήκος πρέπει να έχει η ράμπα (υποτείνουσα); (sin30° = 0.5, οπότε Υποτείνουσα = Απέναντι / 0.5)`;
-        currentTrigProblem = { formula: `${opposite} / 0.5`, steps: [`Ημίτονο Γωνίας: sin(30°) = Απέναντι / Υποτείνουσα`, `0.5 = ${opposite} / c`, `c = ${opposite} / 0.5`, `Λύση: c = ${currentTrigAnswer}`] };
+        let text = t.trigScenarios[1].replace("{opposite}", opposite);
+        if(probEl) probEl.innerHTML = text;
+        currentTrigProblem = { formula: `${opposite} / 0.5`, steps: [`${t.trigStepSin}: sin(30°) = Απέναντι / Υποτείνουσα`, `0.5 = ${opposite} / c`, `c = ${opposite} / 0.5`, `${t.helpSolution}: c = ${currentTrigAnswer}`] };
     }
 };
 
@@ -907,8 +1026,7 @@ window.generateTopologyProblem = function() {
         const ctx = canvas.getContext("2d");
         ctx.clearRect(0, 0, canvas.width, canvas.height);
         
-        // Draw a generic graph (polyhedron planar projection)
-        ctx.strokeStyle = "#32D74B"; // green for topology
+        ctx.strokeStyle = "#32D74B";
         ctx.lineWidth = 3;
         ctx.fillStyle = "#32D74B";
         
@@ -929,12 +1047,14 @@ window.generateTopologyProblem = function() {
         });
     }
     
-    const V = Math.floor(Math.random() * 10) + 4; // Vertices
-    const E = V + Math.floor(Math.random() * 10) + 2; // Edges
+    const t = translations[currentLang] || translations["el"];
+    const V = Math.floor(Math.random() * 10) + 4;
+    const E = V + Math.floor(Math.random() * 10) + 2;
     currentTopologyAnswer = 2 - V + E;
     
-    if(probEl) probEl.innerHTML = `Φτιάχνουμε μια χάρτινη κατασκευή origami. Αν η κατασκευή έχει ${V} γωνίες (κορυφές - V) και ${E} τσακίσεις (ακμές - E), πόσες επίπεδες επιφάνειες (έδρες - F) έχει; (Τύπος Euler: V - E + F = 2)`;
-    currentTopologyProblem = { formula: `2 - ${V} + ${E}`, steps: [`Τύπος Euler: V - E + F = 2`, `${V} - ${E} + F = 2`, `F = 2 - ${V} + ${E}`, `Λύση: F = ${currentTopologyAnswer}`] };
+    let text = t.topScenario.replace("{V}", V).replace("{E}", E);
+    if(probEl) probEl.innerHTML = text;
+    currentTopologyProblem = { formula: `2 - ${V} + ${E}`, steps: [`${t.topStepEuler}: V - E + F = 2`, `${V} - ${E} + F = 2`, `F = 2 - ${V} + ${E}`, `${t.helpSolution}: F = ${currentTopologyAnswer}`] };
 };
 
 function updateStatsUI() {
@@ -1177,8 +1297,9 @@ window.analyzeSteps = function() {
     const helpDiv = document.getElementById("help-steps");
     if (!helpDiv) return;
 
+    const t = translations[currentLang] || translations["el"];
     helpDiv.classList.remove("hidden");
-    helpDiv.innerHTML = "<strong style='color: #03dac6;'>Ανάλυση με math.js (Math Machine):</strong><br>";
+    helpDiv.innerHTML = `<strong style='color: #03dac6;'>${t.helpAnalysis || "Ανάλυση με math.js"}:</strong><br>`;
 
     try {
         if (typeof math !== 'undefined') {
@@ -1193,11 +1314,11 @@ window.analyzeSteps = function() {
                 let simplifiedLHS = formatMathString(math.simplify(lhs).toString());
                 let simplifiedRHS = formatMathString(math.simplify(rhs).toString());
 
-                helpDiv.innerHTML += `Αρχική: <code>${formatMathString(lhs)} = ${formatMathString(rhs)}</code><br>`;
+                helpDiv.innerHTML += `${t.helpOriginal || "Αρχική"}: <code>${formatMathString(lhs)} = ${formatMathString(rhs)}</code><br>`;
                 
                 let expr = `(${lhs}) - (${rhs})`;
                 let simplifiedExpr = formatMathString(math.simplify(expr).toString());
-                helpDiv.innerHTML += `Βήμα 1 (f(x) = 0): <code>${simplifiedExpr} = 0</code><br>`;
+                helpDiv.innerHTML += `${t.helpStep1 || "Βήμα 1"} (f(x) = 0): <code>${simplifiedExpr} = 0</code><br>`;
                 
                 try {
                     let rawExpr = math.simplify(expr).toString();
@@ -1206,11 +1327,11 @@ window.analyzeSteps = function() {
                     
                     if (a_val !== 0) {
                         let root = -b_val / a_val;
-                        helpDiv.innerHTML += `Βήμα 2 (Παράγωγος - Εύρεση κλίσης): <code>a=${a_val}, b=${b_val}</code><br>`;
-                        helpDiv.innerHTML += `Λύση: x = -b / a = <strong>${root}</strong>`;
+                        helpDiv.innerHTML += `${t.helpStep2 || "Βήμα 2 (Παράγωγος - Εύρεση κλίσης)"}: <code>a=${a_val}, b=${b_val}</code><br>`;
+                        helpDiv.innerHTML += `${t.helpSolution || "Λύση"}: x = -b / a = <strong>${root}</strong>`;
                     }
                 } catch(err) {
-                    helpDiv.innerHTML += "Η εξίσωση δεν είναι απλή γραμμική ή έχει άλλη μεταβλητή (π.χ. y).";
+                    helpDiv.innerHTML += t.helpError || "Η εξίσωση δεν είναι απλή γραμμική ή έχει άλλη μεταβλητή (π.χ. y).";
                 }
 
             } else {
@@ -1222,29 +1343,31 @@ window.analyzeSteps = function() {
         }
     } catch (e) {
         console.error(e);
-        helpDiv.innerHTML += "Δεν ήταν δυνατή η ανάλυση με τη math.js. Μάλλον η εξίσωση είναι πολύπλοκη!";
+        helpDiv.innerHTML += (t.helpError || "Δεν ήταν δυνατή η ανάλυση με τη math.js. Μάλλον η εξίσωση είναι πολύπλοκη!");
     }
 };
 
 window.showGeoHelp = function() {
     const helpDiv = document.getElementById("geo-help-steps");
     if (!helpDiv) return;
+    const t = translations[currentLang] || translations["el"];
     helpDiv.classList.remove("hidden");
-    helpDiv.innerHTML = "<strong>Βήματα Επίλυσης:</strong><br>" + currentGeoProblem.steps.join("<br>");
+    helpDiv.innerHTML = `<strong>${t.helpStepsTitle || "Βήματα Επίλυσης"}:</strong><br>` + currentGeoProblem.steps.join("<br>");
 };
 
 window.analyzeGeoSteps = function() {
     const helpDiv = document.getElementById("geo-help-steps");
     if (!helpDiv) return;
+    const t = translations[currentLang] || translations["el"];
     helpDiv.classList.remove("hidden");
-    helpDiv.innerHTML = "<strong style='color: #03dac6;'>Ανάλυση με math.js:</strong><br>";
+    helpDiv.innerHTML = `<strong style='color: #03dac6;'>${t.helpAnalysis || "Ανάλυση με math.js"}:</strong><br>`;
     if (typeof math !== 'undefined') {
         try {
             let simplified = formatMathString(math.simplify(currentGeoProblem.formula).toString());
-            helpDiv.innerHTML += `Πράξη: <code>${formatMathString(currentGeoProblem.formula)}</code><br>`;
-            helpDiv.innerHTML += `Αποτέλεσμα: <strong>${simplified}</strong>`;
+            helpDiv.innerHTML += `${t.helpAction || "Πράξη"}: <code>${formatMathString(currentGeoProblem.formula)}</code><br>`;
+            helpDiv.innerHTML += `${t.helpResult || "Αποτέλεσμα"}: <strong>${simplified}</strong>`;
         } catch (e) {
-            helpDiv.innerHTML += "Η πράξη δεν μπορεί να αναλυθεί περαιτέρω από το math.js.";
+            helpDiv.innerHTML += (t.helpError || "Η πράξη δεν μπορεί να αναλυθεί περαιτέρω από το math.js.");
         }
     } else {
         helpDiv.innerHTML += "Σφάλμα: Η βιβλιοθήκη math.js δεν φόρτωσε!";
@@ -1254,23 +1377,25 @@ window.analyzeGeoSteps = function() {
 window.showTrigHelp = function() {
     const helpDiv = document.getElementById("trig-help-steps");
     if (!helpDiv) return;
+    const t = translations[currentLang] || translations["el"];
     helpDiv.classList.remove("hidden");
-    helpDiv.innerHTML = "<strong>Βήματα Επίλυσης:</strong><br>" + currentTrigProblem.steps.join("<br>");
+    helpDiv.innerHTML = `<strong>${t.helpStepsTitle || "Βήματα Επίλυσης"}:</strong><br>` + currentTrigProblem.steps.join("<br>");
 };
 
 window.analyzeTrigSteps = function() {
     const helpDiv = document.getElementById("trig-help-steps");
     if (!helpDiv) return;
+    const t = translations[currentLang] || translations["el"];
     helpDiv.classList.remove("hidden");
-    helpDiv.innerHTML = "<strong style='color: #03dac6;'>Ανάλυση με math.js:</strong><br>";
+    helpDiv.innerHTML = `<strong style='color: #03dac6;'>${t.helpAnalysis || "Ανάλυση με math.js"}:</strong><br>`;
     if (typeof math !== 'undefined') {
         try {
             let formula = currentTrigProblem.formula;
             let simplified = formatMathString(math.evaluate(formula).toString());
-            helpDiv.innerHTML += `Πράξη: <code>${formatMathString(formula)}</code><br>`;
-            helpDiv.innerHTML += `Αποτέλεσμα: <strong>${simplified}</strong>`;
+            helpDiv.innerHTML += `${t.helpAction || "Πράξη"}: <code>${formatMathString(formula)}</code><br>`;
+            helpDiv.innerHTML += `${t.helpResult || "Αποτέλεσμα"}: <strong>${simplified}</strong>`;
         } catch (e) {
-            helpDiv.innerHTML += "Η πράξη δεν μπορεί να αναλυθεί περαιτέρω από το math.js.";
+            helpDiv.innerHTML += (t.helpError || "Η πράξη δεν μπορεί να αναλυθεί περαιτέρω από το math.js.");
         }
     } else {
         helpDiv.innerHTML += "Σφάλμα: Η βιβλιοθήκη math.js δεν φόρτωσε!";
@@ -1280,22 +1405,24 @@ window.analyzeTrigSteps = function() {
 window.showTopologyHelp = function() {
     const helpDiv = document.getElementById("topology-help-steps");
     if (!helpDiv) return;
+    const t = translations[currentLang] || translations["el"];
     helpDiv.classList.remove("hidden");
-    helpDiv.innerHTML = "<strong>Βήματα Επίλυσης:</strong><br>" + currentTopologyProblem.steps.join("<br>");
+    helpDiv.innerHTML = `<strong>${t.helpStepsTitle || "Βήματα Επίλυσης"}:</strong><br>` + currentTopologyProblem.steps.join("<br>");
 };
 
 window.analyzeTopologySteps = function() {
     const helpDiv = document.getElementById("topology-help-steps");
     if (!helpDiv) return;
+    const t = translations[currentLang] || translations["el"];
     helpDiv.classList.remove("hidden");
-    helpDiv.innerHTML = "<strong style='color: #03dac6;'>Ανάλυση με math.js:</strong><br>";
+    helpDiv.innerHTML = `<strong style='color: #03dac6;'>${t.helpAnalysis || "Ανάλυση με math.js"}:</strong><br>`;
     if (typeof math !== 'undefined') {
         try {
             let simplified = formatMathString(math.simplify(currentTopologyProblem.formula).toString());
-            helpDiv.innerHTML += `Πράξη: <code>${formatMathString(currentTopologyProblem.formula)}</code><br>`;
-            helpDiv.innerHTML += `Αποτέλεσμα: <strong>${simplified}</strong>`;
+            helpDiv.innerHTML += `${t.helpAction || "Πράξη"}: <code>${formatMathString(currentTopologyProblem.formula)}</code><br>`;
+            helpDiv.innerHTML += `${t.helpResult || "Αποτέλεσμα"}: <strong>${simplified}</strong>`;
         } catch (e) {
-            helpDiv.innerHTML += "Η πράξη δεν μπορεί να αναλυθεί περαιτέρω από το math.js.";
+            helpDiv.innerHTML += (t.helpError || "Η πράξη δεν μπορεί να αναλυθεί περαιτέρω από το math.js.");
         }
     } else {
         helpDiv.innerHTML += "Σφάλμα: Η βιβλιοθήκη math.js δεν φόρτωσε!";
