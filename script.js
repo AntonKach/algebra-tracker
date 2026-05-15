@@ -54,7 +54,7 @@ const translations = {
  optLevel1: "Επίπεδο 1: Γατάκι (ax + b = c)", optLevel2: "Επίπεδο 2: Γάτος (ax + b = cx + d)", optLevel3: "Επίπεδο 3: Τίγρης (Δευτεροβάθμιες)", optLevel4: "Επίπεδο 4: Λιοντάρι (Κλάσματα & Παρενθέσεις)",
  lblScore: "Σκορ:", lblTime: "Χρόνος:", btnSecret: " Μυστικό!", btnChatToggle: " Chat",
  placeholderAns: "Απάντηση...", kbdToggleTitle: "Εμφάνιση Μαθηματικού Πληκτρολογίου",
- btnCheck: "Έλεγχος", btnHelp: "Βήμα-Βήμα", btnSkip: "Παράλειψη",
+ btnCheck: "Έλεγχος", btnHelp: "Βήμα-Βήμα", btnMathjsStep: "Ανάλυση Βημάτων", btnSkip: "Παράλειψη",
  lblNotes: "Πρόχειρο & Υπολογιστής ", btnAI: " Έλεγχος AI", placeholderNotes: "Γράψε εδώ τις σκέψεις σου...", btnClear: " Καθαρισμός",
  lblGraph: "Γραφική Παράσταση ",
  btnReset: "Μηδενισμός", btnStats: " Στατιστικά", modalTitle: "Τα Στατιστικά μου ",
@@ -103,7 +103,7 @@ const translations = {
  optLevel1: "Level 1: Kitten (ax + b = c)", optLevel2: "Level 2: Cat (ax + b = cx + d)", optLevel3: "Level 3: Tiger (Quadratics)", optLevel4: "Level 4: Lion (Fractions & Parentheses)",
  lblScore: "Score:", lblTime: "Time:", btnSecret: " Secret!", btnChatToggle: " Chat",
  placeholderAns: "Answer...", kbdToggleTitle: "Show Math Keyboard",
- btnCheck: "Check", btnHelp: "Step-by-Step", btnSkip: "Skip",
+ btnCheck: "Check", btnHelp: "Step-by-Step", btnMathjsStep: "Step Analysis", btnSkip: "Skip",
  lblNotes: "Scratchpad & Calculator ", btnAI: " AI Check", placeholderNotes: "Write your thoughts...", btnClear: " Clear",
  lblGraph: "Graph ",
  btnReset: "Reset", btnStats: " Stats", modalTitle: "My Statistics ",
@@ -150,7 +150,7 @@ const translations = {
  optLevel1: "Niveau 1: Chaton (ax + b = c)", optLevel2: "Niveau 2: Chat (ax + b = cx + d)", optLevel3: "Niveau 3: Tigre (Second degré)", optLevel4: "Niveau 4 : Lion (Fractions et Parenthèses)",
  lblScore: "Score:", lblTime: "Temps:", btnSecret: " Secret!", btnChatToggle: " Chat",
  placeholderAns: "Réponse...", kbdToggleTitle: "Afficher le clavier mathématique",
- btnCheck: "Vérifier", btnHelp: "Étape par étape", btnSkip: "Passer",
+ btnCheck: "Vérifier", btnHelp: "Étape par étape", btnMathjsStep: "Analyse des étapes", btnSkip: "Passer",
  lblNotes: "Brouillon & Calculatrice ", btnAI: " Vérification IA", placeholderNotes: "Écris tes pensées ici...", btnClear: " Effacer",
  lblGraph: "Graphique ",
  btnReset: "Réinitialiser", btnStats: " Stats", modalTitle: "Mes Statistiques ",
@@ -197,7 +197,7 @@ const translations = {
  optLevel1: "Nivel 1: Gatito (ax + b = c)", optLevel2: "Nivel 2: Gato (ax + b = cx + d)", optLevel3: "Nivel 3: Tigre (Cuadráticas)", optLevel4: "Nivel 4: León (Fracciones y Paréntesis)",
  lblScore: "Puntaje:", lblTime: "Tiempo:", btnSecret: " ¡Secreto!", btnChatToggle: " Chat",
  placeholderAns: "Respuesta...", kbdToggleTitle: "Mostrar Teclado Matemático",
- btnCheck: "Comprobar", btnHelp: "Paso a paso", btnSkip: "Saltar",
+ btnCheck: "Comprobar", btnHelp: "Paso a paso", btnMathjsStep: "Análisis de pasos", btnSkip: "Saltar",
  lblNotes: "Borrador y Calculadora ", btnAI: " Comprobación AI", placeholderNotes: "Escribe tus pensamientos...", btnClear: " Borrar",
  lblGraph: "Gráfico ",
  btnReset: "Restablecer", btnStats: " Estadísticas", modalTitle: "Mis Estadísticas ",
@@ -244,7 +244,7 @@ const translations = {
  optLevel1: "Seviye 1: Yavru Kedi (ax + b = c)", optLevel2: "Seviye 2: Kedi (ax + b = cx + d)", optLevel3: "Seviye 3: Kaplan (İkinci Dereceden)", optLevel4: "Seviye 4: Aslan (Kesirler ve Parantezler)",
  lblScore: "Puan:", lblTime: "Zaman:", btnSecret: " Sır!", btnChatToggle: " Sohbet",
  placeholderAns: "Cevap...", kbdToggleTitle: "Matematik Klavyesini Göster",
- btnCheck: "Kontrol", btnHelp: "Adım Adım", btnSkip: "Geç",
+ btnCheck: "Kontrol", btnHelp: "Adım Adım", btnMathjsStep: "Adım Analizi", btnSkip: "Geç",
  lblNotes: "Karalama Defteri ", btnAI: " AI Kontrolü", placeholderNotes: "Düşüncelerini yaz...", btnClear: " Temizle",
  lblGraph: "Grafik ",
  btnReset: "Sıfırla", btnStats: " İstatistikler", modalTitle: "İstatistiklerim ",
@@ -391,6 +391,7 @@ function changeLanguage() {
  if (kbdBtn) kbdBtn.title = t.kbdToggleTitle;
  safeSetText("btn-check", t.btnCheck);
  safeSetText("btn-help", t.btnHelp);
+ safeSetText("btn-mathjs-step", t.btnMathjsStep);
  safeSetText("btn-skip", t.btnSkip);
  safeSetText("lbl-notes", t.lblNotes);
  safeSetText("btn-clear", t.btnClear);
