@@ -95,7 +95,8 @@ const translations = {
  legalWelcome: "Καλώς ήρθατε στην Catgebra. Πριν ξεκινήσουμε την περιήγηση στον κόσμο των μαθηματικών, παρακαλούμε διαβάστε τα παρακάτω:",
  legalDesc1: "<strong>Εκπαιδευτικός Σκοπός (As-Is):</strong> Η εφαρμογή παρέχεται \"ως έχει\", αποκλειστικά ως υποστηρικτικό εκπαιδευτικό βοήθημα. Δεν φέρουμε ουδεμία ευθύνη για τυχόν σφάλματα στους αλγορίθμους, στα αποτελέσματα ή για τις επιπτώσεις αυτών σε ακαδημαϊκές βαθμολογίες.",
  legalDesc2: "<strong>Ιδιωτικότητα & Δεδομένα:</strong> Ο σεβασμός στην ιδιωτικότητά σας είναι απόλυτος. Τα δεδομένα προόδου αποθηκεύονται αυστηρά και μόνο τοπικά στη συσκευή σας. Η επικοινωνία στο E2EE Chat προστατεύεται με κρυπτογράφηση από άκρο σε άκρο. Δεν έχουμε καμία δυνατότητα πρόσβασης, ανάγνωσης ή αποθήκευσης των μηνυμάτων σας.",
- legalCheckbox: "Έχω διαβάσει, κατανοώ και αποδέχομαι τους Όρους Χρήσης."
+ legalCheckbox: "Έχω διαβάσει, κατανοώ και αποδέχομαι τους Όρους Χρήσης.",
+ legalAgree: "Συμφωνώ"
  },
  en: {
  mainTitle: "Catgebra ", btnLogin: " Login with Google",
@@ -142,7 +143,8 @@ const translations = {
  legalWelcome: "Welcome to Catgebra. Before we begin our math journey, please review the following:",
  legalDesc1: "<strong>Educational Purpose (As-Is):</strong> This application is provided \"as is\", strictly as a supplemental educational tool. We assume no liability for any algorithmic errors, incorrect results, or their impact on academic performance or grading.",
  legalDesc2: "<strong>Privacy & Data Security:</strong> Your privacy is absolute. Progress data is stored exclusively on your local device. Communication within the E2EE Chat is protected by end-to-end encryption. We have zero access to read, intercept, or store the content of your messages.",
- legalCheckbox: "I have read, understood, and agree to the Terms of Use."
+ legalCheckbox: "I have read, understood, and agree to the Terms of Use.",
+ legalAgree: "I Agree"
  },
  fr: {
  mainTitle: "Catgebra ", btnLogin: " Se connecter avec Google",
@@ -189,7 +191,8 @@ const translations = {
  legalWelcome: "Bienvenue sur Catgebra. Avant de commencer, veuillez lire attentivement ce qui suit :",
  legalDesc1: "<strong>But Éducatif (En l'état) :</strong> Cette application est fournie « telle quelle », strictement comme un outil éducatif de soutien. Nous déclinons toute responsabilité en cas d'erreurs algorithmiques, de résultats inexacts ou de leur impact sur vos notes académiques.",
  legalDesc2: "<strong>Confidentialité et Données :</strong> Votre vie privée est absolue. Vos données de progression sont stockées uniquement sur votre appareil local. Les communications dans le chat E2EE sont protégées par un chiffrement de bout en bout. Nous n'avons aucun moyen d'accéder, de lire ou de stocker vos messages.",
- legalCheckbox: "J'ai lu, compris et j'accepte les Conditions d'Utilisation."
+ legalCheckbox: "J'ai lu, compris et j'accepte les Conditions d'Utilisation.",
+ legalAgree: "J'accepte"
  },
  es: {
  mainTitle: "Catgebra ", btnLogin: " Iniciar sesión con Google",
@@ -236,7 +239,8 @@ const translations = {
  legalWelcome: "Bienvenido a Catgebra. Antes de comenzar, por favor revise lo siguiente:",
  legalDesc1: "<strong>Propósito Educativo (Tal cual):</strong> Esta aplicación se proporciona \"tal cual\", estrictamente como una herramienta educativa complementaria. No asumimos ninguna responsabilidad por errores algorítmicos, resultados incorrectos o su impacto en el rendimiento académico.",
  legalDesc2: "<strong>Privacidad y Datos:</strong> Su privacidad es absoluta. Los datos de progreso se almacenan exclusivamente de forma local en su dispositivo. La comunicación en el Chat E2EE está protegida por cifrado de extremo a extremo. No tenemos acceso para leer, interceptar ni almacenar el contenido de sus mensajes.",
- legalCheckbox: "He leído, comprendido y acepto los Términos de Uso."
+ legalCheckbox: "He leído, comprendido y acepto los Términos de Uso.",
+ legalAgree: "Acepto"
  },
  tr: {
  mainTitle: "Catgebra ", btnLogin: " Google ile Giriş",
@@ -283,7 +287,8 @@ const translations = {
  legalWelcome: "Catgebra'ya hoş geldiniz. Matematik dünyasına adım atmadan önce lütfen aşağıdakileri okuyun:",
  legalDesc1: "<strong>Eğitim Amacı (Olduğu Gibi / As-Is):</strong> Bu uygulama \"olduğu gibi\", yalnızca destekleyici bir eğitim aracı olarak sunulmaktadır. Algoritmik hatalar, yanlış sonuçlar veya bunların akademik notlara etkisi konusunda hiçbir sorumluluk kabul etmiyoruz.",
  legalDesc2: "<strong>Gizlilik ve Veriler:</strong> Gizliliğinize saygımız mutlaktır. İlerleme verileriniz yalnızca cihazınızda yerel olarak saklanır. E2EE Sohbet (Chat) içindeki iletişim, uçtan uca şifreleme ile korunmaktadır. Mesajlarınızın içeriğine erişme, okuma veya depolama imkanımız kesinlikle yoktur.",
- legalCheckbox: "Kullanım Koşullarını okudum, anladım ve kabul ediyorum."
+ legalCheckbox: "Kullanım Koşullarını okudum, anladım ve kabul ediyorum.",
+ legalAgree: "Kabul Ediyorum"
  },
  it: {
  mainTitle: "Catgebra ", btnLogin: " Accedi con Google",
@@ -330,7 +335,8 @@ const translations = {
  legalWelcome: "Benvenuti su Catgebra. Prima di iniziare, si prega di leggere quanto segue:",
  legalDesc1: "<strong>Scopo Educativo (Come è):</strong> Questa applicazione è fornita \"così com'è\", come strumento educativo di supporto. Non ci assumiamo alcuna responsabilità per errori algoritmici o per il loro impatto sul rendimento scolastico.",
  legalDesc2: "<strong>Privacy e Dati:</strong> La tua privacy è assoluta. I dati sui progressi sono memorizzati esclusivamente a livello locale sul tuo dispositivo. La comunicazione nella Chat E2EE è protetta da crittografia. Non abbiamo alcun accesso per leggere i tuoi messaggi.",
- legalCheckbox: "Ho letto, compreso e accetto i Termini di Utilizzo."
+ legalCheckbox: "Ho letto, compreso e accetto i Termini di Utilizzo.",
+ legalAgree: "Accetto"
  },
  ar: {
  mainTitle: "Catgebra ", btnLogin: " تسجيل الدخول",
@@ -377,7 +383,8 @@ const translations = {
  legalWelcome: "مرحباً بك في Catgebra. قبل أن نبدأ، يرجى قراءة ما يلي:",
  legalDesc1: "<strong>الغرض التعليمي (كما هو):</strong> يتم تقديم هذا التطبيق كأداة تعليمية داعمة. لا نتحمل أي مسؤولية عن الأخطاء الخوارزمية أو النتائج غير الصحيحة أو تأثيرها على الأداء الأكاديمي.",
  legalDesc2: "<strong>الخصوصية والبيانات:</strong> خصوصيتك مطلقة. يتم تخزين بيانات التقدم محليًا فقط على جهازك. الاتصال داخل E2EE Chat محمي بتشفير من طرف إلى طرف. ليس لدينا أي وصول لقراءة محتوى رسائلك.",
- legalCheckbox: "لقد قرأت وفهمت وأوافق على شروط الاستخدام."
+ legalCheckbox: "لقد قرأت وفهمت وأوافق على شروط الاستخدام.",
+ legalAgree: "أوافق"
  }
 };
 
@@ -535,6 +542,12 @@ function changeLanguage() {
  safeSetHTML("legal-desc-1", t.legalDesc1);
  safeSetHTML("legal-desc-2", t.legalDesc2);
  safeSetText("legal-checkbox-label", t.legalCheckbox);
+ safeSetText("btn-agree", t.legalAgree);
+ 
+ const modalSelect = document.getElementById("legal-lang-select");
+ if (modalSelect && modalSelect.value !== currentLang) {
+     modalSelect.value = currentLang;
+ }
  
  const btnLogout = document.getElementById("btn-logout");
  if (btnLogout) {
@@ -1232,6 +1245,15 @@ window.clearOcrCanvas = function() {
     if (!ocrCtx) return;
     ocrCtx.fillStyle = 'white';
     ocrCtx.fillRect(0, 0, ocrCanvas.width, ocrCanvas.height);
+};
+
+window.changeLanguageFromModal = function() {
+    const mainSelect = document.getElementById("lang-select");
+    const modalSelect = document.getElementById("legal-lang-select");
+    if (mainSelect && modalSelect) {
+        mainSelect.value = modalSelect.value;
+        changeLanguage();
+    }
 };
 
 window.recognizeHandwriting = async function() {
