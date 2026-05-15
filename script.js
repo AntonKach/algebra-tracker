@@ -247,6 +247,8 @@ window.onload = function() {
     window.geoCalculator = Desmos.Geometry(geoEl, { language: 'el' });
  }
 
+ initOcrCanvas();
+
  safeSetText("score", score);
  updateRank();
  
@@ -942,5 +944,150 @@ window.triggerCatSecret = function() {
  } else {
  alert(randomSecret); 
  }
+};
+
+window.analyzeSteps = function() {
+    const eqText = document.getElementById("equation").innerText;
+    const helpDiv = document.getElementById("help-steps");
+    if (!helpDiv) return;
+
+    helpDiv.classList.remove("hidden");
+    helpDiv.innerHTML = "<strong style='color: #03dac6;'>Ανάλυση με math.js (Math Machine):</strong><br>";
+
+    try {
+        if (typeof math !== 'undefined') {
+            let equationToSolve = eqText;
+            equationToSolve = equationToSolve.replace(/ /g, '');
+            
+            if (equationToSolve.includes('=')) {
+                const parts = equationToSolve.split('=');
+                let lhs = parts[0].trim();
+                let rhs = parts[1].trim();
+
+                let simplifiedLHS = math.simplify(lhs).toString();
+                let simplifiedRHS = math.simplify(rhs).toString();
+
+                helpDiv.innerHTML += `Αρχική: <code>${lhs} = ${rhs}</code><br>`;
+                
+                let expr = `(${lhs}) - (${rhs})`;
+                let simplifiedExpr = math.simplify(expr).toString();
+                helpDiv.innerHTML += `Βήμα 1 (f(x) = 0): <code>${simplifiedExpr} = 0</code><br>`;
+                
+                try {
+                    let b_val = math.evaluate(simplifiedExpr, {x: 0});
+                    let a_val = math.derivative(simplifiedExpr, 'x').evaluate({x: 0});
+                    
+                    if (a_val !== 0) {
+                        let root = -b_val / a_val;
+                        helpDiv.innerHTML += `Βήμα 2 (Παράγωγος - Εύρεση κλίσης): <code>a=${a_val}, b=${b_val}</code><br>`;
+                        helpDiv.innerHTML += `Λύση: x = -b / a = <strong>${root}</strong>`;
+                    }
+                } catch(err) {
+                    helpDiv.innerHTML += "Η εξίσωση δεν είναι απλή γραμμική ή έχει άλλη μεταβλητή (π.χ. y).";
+                }
+
+            } else {
+                let simplified = math.simplify(equationToSolve).toString();
+                helpDiv.innerHTML += `Απλοποίηση: ${simplified}`;
+            }
+        } else {
+            helpDiv.innerHTML += "Σφάλμα: Η βιβλιοθήκη math.js δεν φόρτωσε!";
+        }
+    } catch (e) {
+        console.error(e);
+        helpDiv.innerHTML += "Δεν ήταν δυνατή η ανάλυση με τη math.js. Μάλλον η εξίσωση είναι πολύπλοκη!";
+    }
+};
+
+let ocrCanvas, ocrCtx;
+let isDrawingOcr = false;
+
+window.initOcrCanvas = function() {
+    ocrCanvas = document.getElementById('ocr-canvas');
+    if (!ocrCanvas) return;
+    ocrCtx = ocrCanvas.getContext('2d');
+    
+    ocrCtx.fillStyle = 'white';
+    ocrCtx.fillRect(0, 0, ocrCanvas.width, ocrCanvas.height);
+    ocrCtx.lineWidth = 4;
+    ocrCtx.lineCap = 'round';
+    ocrCtx.strokeStyle = 'black';
+
+    ocrCanvas.addEventListener('mousedown', startOcrDraw);
+    ocrCanvas.addEventListener('mousemove', drawOcr);
+    ocrCanvas.addEventListener('mouseup', stopOcrDraw);
+    ocrCanvas.addEventListener('mouseout', stopOcrDraw);
+    
+    ocrCanvas.addEventListener('touchstart', (e) => { e.preventDefault(); startOcrDraw(e.touches[0]); });
+    ocrCanvas.addEventListener('touchmove', (e) => { e.preventDefault(); drawOcr(e.touches[0]); });
+    ocrCanvas.addEventListener('touchend', stopOcrDraw);
+};
+
+function startOcrDraw(e) {
+    isDrawingOcr = true;
+    const rect = ocrCanvas.getBoundingClientRect();
+    const x = (e.clientX || e.pageX) - rect.left;
+    const y = (e.clientY || e.pageY) - rect.top;
+    ocrCtx.beginPath();
+    ocrCtx.moveTo(x, y);
+}
+
+function drawOcr(e) {
+    if (!isDrawingOcr) return;
+    const rect = ocrCanvas.getBoundingClientRect();
+    const x = (e.clientX || e.pageX) - rect.left;
+    const y = (e.clientY || e.pageY) - rect.top;
+    ocrCtx.lineTo(x, y);
+    ocrCtx.stroke();
+}
+
+function stopOcrDraw() {
+    isDrawingOcr = false;
+    if(ocrCtx) ocrCtx.closePath();
+}
+
+window.clearOcrCanvas = function() {
+    if (!ocrCtx) return;
+    ocrCtx.fillStyle = 'white';
+    ocrCtx.fillRect(0, 0, ocrCanvas.width, ocrCanvas.height);
+};
+
+window.recognizeHandwriting = async function() {
+    const btn = document.querySelector('.ocr-container .check-btn');
+    if (!ocrCanvas || !btn) return;
+    
+    const originalText = btn.innerText;
+    btn.innerText = "Σκέφτεται...";
+    btn.disabled = true;
+
+    try {
+        if (typeof Tesseract === 'undefined') {
+            alert("Το Tesseract.js OCR δεν έχει φορτώσει!");
+            return;
+        }
+        
+        const dataUrl = ocrCanvas.toDataURL('image/png');
+        
+        const result = await Tesseract.recognize(dataUrl, 'eng');
+        
+        const text = result.data.text.trim();
+        if (text) {
+            const input = document.getElementById("geo-answer");
+            if (input) {
+                // Keep numbers and math symbols
+                let cleaned = text.replace(/[^0-9a-zA-Z\+\-\*\/\=\.\,\(\)]/g, "");
+                cleaned = cleaned.replace(/O/g, '0').replace(/l/g, '1');
+                input.value = cleaned;
+            }
+        } else {
+            alert("Δεν καταφέραμε να αναγνωρίσουμε τι έγραψες! Δοκίμασε να γράψεις πιο καθαρά.");
+        }
+    } catch (err) {
+        console.error("OCR Error:", err);
+        alert("Σφάλμα κατά την αναγνώριση OCR.");
+    } finally {
+        btn.innerText = originalText;
+        btn.disabled = false;
+    }
 };
 

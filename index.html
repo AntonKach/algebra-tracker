@@ -13,6 +13,8 @@
 <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700&display=swap" rel="stylesheet">
 <script src="https://www.desmos.com/api/v1.8/calculator.js?apiKey=dcb31709b452b1cf9dc26972add0fda6"></script>
 <script src="https://www.desmos.com/api/v1.8/geometry.js?apiKey=dcb31709b452b1cf9dc26972add0fda6"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjs/11.8.0/math.js"></script>
+<script src="https://unpkg.com/tesseract.js@v2.1.0/dist/tesseract.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
 <link rel="stylesheet" href="style.css?v=1.4">
 </head>
@@ -105,6 +107,7 @@
 
                         <div class="buttons-group">
                             <button onclick="checkAnswer()" class="check-btn" id="btn-check">Έλεγχος</button>
+                            <button onclick="analyzeSteps()" class="help-btn" id="btn-mathjs-step">Ανάλυση Βημάτων</button>
                             <button onclick="showHelp()" class="help-btn" id="btn-help">Βήμα-Βήμα</button>
                             <button onclick="skipProblem()" class="skip-btn" id="btn-skip">Παράλειψη</button>
                         </div>
@@ -123,6 +126,17 @@
                         <div class="input-container">
                             <input type="text" id="geo-answer" placeholder="Απάντηση...">
                         </div>
+                        
+                        <!-- OCR Handwriting Canvas -->
+                        <div class="ocr-container" style="margin-top: 15px; background: rgba(0,0,0,0.2); padding: 15px; border-radius: 12px;">
+                            <p style="font-size: 0.9em; color: #ebebf5; margin-bottom: 10px;">Γράψε την απάντησή σου με το χέρι (AI OCR):</p>
+                            <canvas id="ocr-canvas" width="280" height="120" style="background: white; border-radius: 8px; border: 2px solid #555; cursor: crosshair; touch-action: none;"></canvas>
+                            <div style="margin-top: 10px; display: flex; justify-content: center; gap: 10px;">
+                                <button onclick="clearOcrCanvas()" class="skip-btn" style="font-size: 0.9em !important; padding: 6px 12px; margin: 0;">Καθαρισμός</button>
+                                <button onclick="recognizeHandwriting()" class="check-btn" style="font-size: 0.9em !important; padding: 6px 12px; margin: 0;">Αναγνώριση</button>
+                            </div>
+                        </div>
+
                         <div class="buttons-group" style="margin-top: 15px; justify-content: center;">
                             <button onclick="checkGeoAnswer()" class="check-btn" id="btn-geo-check">Έλεγχος</button>
                             <button onclick="generateGeoProblem()" class="skip-btn" id="btn-geo-next">Επόμενο</button>
