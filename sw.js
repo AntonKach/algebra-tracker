@@ -1,4 +1,4 @@
-const CACHE_NAME = 'catgebra-v3';
+const CACHE_NAME = 'catgebra-v4';
 const urlsToCache = [
   './',
   './index.html',
@@ -13,7 +13,7 @@ self.addEventListener('install', event => {
   event.waitUntil(
     caches.open(CACHE_NAME)
       .then(cache => {
-        console.log('Opened cache v2');
+        console.log('Opened cache v4');
         return cache.addAll(urlsToCache);
       })
   );
