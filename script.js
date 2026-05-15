@@ -21,10 +21,10 @@ let currentTopologyAnswer = 0;
 
 if (typeof educationData === 'undefined') {
  window.educationData = {
- "gym_a": { title: { el: "Α' Γυμνασίου", en: "7th Grade", fr: "5e", tr: "7. Sınıf" } },
- "gym_b": { title: { el: "Β' Γυμνασίου", en: "8th Grade", fr: "4e", tr: "8. Sınıf" } },
- "gym_c": { title: { el: "Γ' Γυμνασίου", en: "9th Grade", fr: "3e", tr: "9. Sınıf" } },
- "lyc_a": { title: { el: "Α' Λυκείου", en: "10th Grade", fr: "2de", tr: "10. Sınıf" } }
+  "gym_a": { title: { el: "Α' Γυμνασίου", en: "7th Grade", fr: "5e", es: "1º ESO", it: "1ª Media", tr: "7. Sınıf", ar: "الصف السابع" } },
+  "gym_b": { title: { el: "Β' Γυμνασίου", en: "8th Grade", fr: "4e", es: "2º ESO", it: "2ª Media", tr: "8. Sınıf", ar: "الصف الثامن" } },
+  "gym_c": { title: { el: "Γ' Γυμνασίου", en: "9th Grade", fr: "3e", es: "3º ESO", it: "3ª Media", tr: "9. Sınıf", ar: "الصف التاسع" } },
+  "lyc_a": { title: { el: "Α' Λυκείου", en: "10th Grade", fr: "2de", es: "4º ESO", it: "1ª Superiore", tr: "10. Sınıf", ar: "الصف العاشر" } }
  };
 }
 
@@ -284,6 +284,100 @@ const translations = {
  legalDesc1: "<strong>Eğitim Amacı (Olduğu Gibi / As-Is):</strong> Bu uygulama \"olduğu gibi\", yalnızca destekleyici bir eğitim aracı olarak sunulmaktadır. Algoritmik hatalar, yanlış sonuçlar veya bunların akademik notlara etkisi konusunda hiçbir sorumluluk kabul etmiyoruz.",
  legalDesc2: "<strong>Gizlilik ve Veriler:</strong> Gizliliğinize saygımız mutlaktır. İlerleme verileriniz yalnızca cihazınızda yerel olarak saklanır. E2EE Sohbet (Chat) içindeki iletişim, uçtan uca şifreleme ile korunmaktadır. Mesajlarınızın içeriğine erişme, okuma veya depolama imkanımız kesinlikle yoktur.",
  legalCheckbox: "Kullanım Koşullarını okudum, anladım ve kabul ediyorum."
+ },
+ it: {
+ mainTitle: "Catgebra ", btnLogin: " Accedi con Google",
+ lblLevel: "Livello di studio:", lblSelectLevel: "Difficoltà:",
+ optLevel1: "Livello 1: Gattino (ax + b = c)", optLevel2: "Livello 2: Gatto (ax + b = cx + d)", optLevel3: "Livello 3: Tigre (Equazioni)", optLevel4: "Livello 4: Leone (Frazioni)",
+ lblScore: "Punteggio:", lblTime: "Tempo:", btnSecret: " Segreto!", btnChatToggle: " Chat",
+ placeholderAns: "Risposta...", kbdToggleTitle: "Mostra Tastiera Matematica",
+ btnCheck: "Controlla", btnHelp: "Passo dopo passo", btnMathjsStep: "Analisi dei passi", btnSkip: "Salta",
+ lblNotes: "Bozza e Calcolatrice ", btnAI: " Controllo AI", placeholderNotes: "Scrivi i tuoi pensieri...", btnClear: " Pulisci",
+ lblGraph: "Grafico ",
+ btnReset: "Ripristina", btnStats: " Statistiche", modalTitle: "Le mie Statistiche ",
+ lblPlayed: "Risolti:", lblCorrect: "Corretti:", lblRate: "Percentuale di successo:", btnClose: "Chiudi",
+ lblAboutTitle: "A proposito di Catgebra ", lblAboutText: "Catgebra rende l'algebra divertente!",
+ lblResources: "Risorse ",
+ chatTitle: "Cat-Chat ", chatMsgPlaceholder: "Accedi con Google per vedere i messaggi!",
+ can1: "Ciao a tutti! ", can2: "Questo problema era difficile! ", can3: "Sono appena salito di livello! ",
+ btnChatSend: "Invia ", btnChatClose: "Chiudi",
+ secretModalTitle: " Il Segreto di Michelle!", btnSecretClose: "Purr-fetto! ",
+ rank1: " Gattino Principiante", rank2: " Gatto Intelligente", rank3: " Lince Veloce", rank4: " Tigre Matematica",
+ stepWords: { move: "Spostare:", div: "Dividere:", sub: "Sottrarre:", mult: "Moltiplicare:" },
+ catSuccess: ["Purr-fetto! Hai trovato x! "], catError: ["Ops! Risposta sbagliata. "],
+ tabMath: " Matematica", tabPhysics: " Fisica",
+ tabAlgebra: "Algebra", tabGeometry: "Geometria", tabTrig: "Trigonometria", tabTopology: "Topologia",
+ physicsTitle: "Laboratorio di Fisica di Michelle ", lblPhysicsLevel: "Argomento:",
+ physOpt1: "1. Velocità (v = s/t)", physOpt2: "2. Distanza (s = v*t)", physOpt3: "3. Tempo (t = s/v)",
+ btnPhysicsNext: "Avanti", physicsPlaceholder: "Seleziona un argomento per iniziare gli esperimenti!",
+ physCheckNum: "Per favore inserisci un numero! ",
+ physScenarios1: [
+ "Michelle corre per prendere il laser rosso! Copre {s} metri in {t} secondi. Qual è la sua velocità? (v = s / t)",
+ "Un topo robotico attraversa il soggiorno ({s} metri) in {t} secondi. A che velocità si muove?",
+ "Michelle ha sentito il suono della scatoletta! Ha corso {s} metri in {t} secondi. Trova la sua velocità."
+ ],
+ physScenarios2: [
+ "Michelle corre a una velocità costante di {v} m/s per {t} secondi inseguendo una farfalla. Quanti metri ha percorso? (s = v * t)",
+ "Anton cammina a {v} m/s per {t} secondi per prendere il suo caffè. Che distanza ha coperto?",
+ "Un uccello vola a una velocità di {v} m/s per {t} secondi e Michelle lo guarda dalla finestra. Che distanza ha coperto l'uccello?"
+ ],
+ physScenarios3: [
+ "La distanza dalla ciotola del cibo è di {s} metri. Se Michelle corre a una velocità di {v} m/s, in quanti secondi la raggiungerà? (t = s / v)",
+ "Anton deve coprire {s} metri fino al suo ufficio. Cammina a una velocità di {v} m/s. Quanto tempo ci vorrà?",
+ "Michelle cammina nel corridoio di {s} metri a una velocità di {v} m/s. In quanti secondi lo attraverserà?"
+ ],
+ legalTitle: "Termini di Utilizzo e Privacy",
+ legalWelcome: "Benvenuti su Catgebra. Prima di iniziare, si prega di leggere quanto segue:",
+ legalDesc1: "<strong>Scopo Educativo (Come è):</strong> Questa applicazione è fornita \"così com'è\", come strumento educativo di supporto. Non ci assumiamo alcuna responsabilità per errori algoritmici o per il loro impatto sul rendimento scolastico.",
+ legalDesc2: "<strong>Privacy e Dati:</strong> La tua privacy è assoluta. I dati sui progressi sono memorizzati esclusivamente a livello locale sul tuo dispositivo. La comunicazione nella Chat E2EE è protetta da crittografia. Non abbiamo alcun accesso per leggere i tuoi messaggi.",
+ legalCheckbox: "Ho letto, compreso e accetto i Termini di Utilizzo."
+ },
+ ar: {
+ mainTitle: "Catgebra ", btnLogin: " تسجيل الدخول",
+ lblLevel: "مستوى الدراسة:", lblSelectLevel: "الصعوبة:",
+ optLevel1: "المستوى 1: قطة صغيرة (ax + b = c)", optLevel2: "المستوى 2: قطة (ax + b = cx + d)", optLevel3: "المستوى 3: نمر (المعادلات التربيعية)", optLevel4: "المستوى 4: أسد (الكسور والأقواس)",
+ lblScore: "النتيجة:", lblTime: "الوقت:", btnSecret: " سر!", btnChatToggle: " دردشة",
+ placeholderAns: "الإجابة...", kbdToggleTitle: "إظهار لوحة المفاتيح الرياضية",
+ btnCheck: "تحقق", btnHelp: "خطوة بخطوة", btnMathjsStep: "تحليل الخطوات", btnSkip: "تخطي",
+ lblNotes: "مسودة وآلة حاسبة ", btnAI: " فحص الذكاء الاصطناعي", placeholderNotes: "اكتب أفكارك هنا...", btnClear: " مسح",
+ lblGraph: "رسم بياني ",
+ btnReset: "إعادة تعيين", btnStats: " إحصائيات", modalTitle: "إحصائياتي ",
+ lblPlayed: "تم حلها:", lblCorrect: "صحيح:", lblRate: "معدل النجاح:", btnClose: "إغلاق",
+ lblAboutTitle: "حول Catgebra ", lblAboutText: "Catgebra يجعل الجبر ممتعًا!",
+ lblResources: "الموارد ",
+ chatTitle: "دردشة القطط ", chatMsgPlaceholder: "سجل الدخول لرؤية الرسائل!",
+ can1: "مرحبا بالجميع! ", can2: "كانت هذه المشكلة صعبة! ", can3: "لقد ارتفعت في المستوى للتو! ",
+ btnChatSend: "إرسال ", btnChatClose: "إغلاق",
+ secretModalTitle: " سر ميشيل!", btnSecretClose: "رائع! ",
+ rank1: " قطة مبتدئة", rank2: " قطة ذكية", rank3: " وشق سريع", rank4: " نمر الرياضيات",
+ stepWords: { move: "نقل:", div: "قسمة:", sub: "طرح:", mult: "ضرب:" },
+ catSuccess: ["رائع! لقد وجدت x! "], catError: ["عفوا! إجابة خاطئة. "],
+ tabMath: " رياضيات", tabPhysics: " فيزياء",
+ tabAlgebra: "جبر", tabGeometry: "هندسة", tabTrig: "علم المثلثات", tabTopology: "طوبولوجيا",
+ physicsTitle: "مختبر فيزياء ميشيل ", lblPhysicsLevel: "الموضوع:",
+ physOpt1: "1. السرعة (v = s/t)", physOpt2: "2. المسافة (s = v*t)", physOpt3: "3. الوقت (t = s/v)",
+ btnPhysicsNext: "التالي", physicsPlaceholder: "اختر موضوعًا لبدء التجارب!",
+ physCheckNum: "الرجاء إدخال رقم! ",
+ physScenarios1: [
+ "تركض ميشيل للقبض على الليزر الأحمر! تقطع {s} متر في {t} ثانية. ما هي سرعتها؟ (v = s / t)",
+ "فأر آلي يعبر غرفة المعيشة ({s} متر) في {t} ثانية. ما هي سرعته؟",
+ "سمعت ميشيل صوت العلبة! ركضت {s} متر في {t} ثانية. جد سرعتها."
+ ],
+ physScenarios2: [
+ "تركض ميشيل بسرعة ثابتة {v} م/ث لمدة {t} ثانية تطارد فراشة. كم متراً قطعت؟ (s = v * t)",
+ "يمشي أنطون بسرعة {v} م/ث لمدة {t} ثانية للحصول على قهوته. ما المسافة التي قطعها؟",
+ "يطير طائر بسرعة {v} م/ث لمدة {t} ثانية وميشيل تراقبه من النافذة. ما المسافة التي قطعها الطائر؟"
+ ],
+ physScenarios3: [
+ "المسافة إلى وعاء الطعام هي {s} متر. إذا ركضت ميشيل بسرعة {v} م/ث، في كم ثانية ستصل؟ (t = s / v)",
+ "يجب على أنطون قطع {s} متر إلى مكتبه. يمشي بسرعة {v} m/s. كم من الوقت سيستغرق؟",
+ "تمشي ميشيل في الممر بطول {s} متر بسرعة {v} م/ث. في كم ثانية ستعبره؟"
+ ],
+ legalTitle: "شروط الاستخدام والخصوصية",
+ legalWelcome: "مرحباً بك في Catgebra. قبل أن نبدأ، يرجى قراءة ما يلي:",
+ legalDesc1: "<strong>الغرض التعليمي (كما هو):</strong> يتم تقديم هذا التطبيق كأداة تعليمية داعمة. لا نتحمل أي مسؤولية عن الأخطاء الخوارزمية أو النتائج غير الصحيحة أو تأثيرها على الأداء الأكاديمي.",
+ legalDesc2: "<strong>الخصوصية والبيانات:</strong> خصوصيتك مطلقة. يتم تخزين بيانات التقدم محليًا فقط على جهازك. الاتصال داخل E2EE Chat محمي بتشفير من طرف إلى طرف. ليس لدينا أي وصول لقراءة محتوى رسائلك.",
+ legalCheckbox: "لقد قرأت وفهمت وأوافق على شروط الاستخدام."
  }
 };
 
@@ -448,7 +542,9 @@ function changeLanguage() {
      else if (currentLang === "en") btnLogout.innerText = "Logout";
      else if (currentLang === "fr") btnLogout.innerText = "Déconnexion";
      else if (currentLang === "es") btnLogout.innerText = "Salir";
+     else if (currentLang === "it") btnLogout.innerText = "Esci";
      else if (currentLang === "tr") btnLogout.innerText = "Çıkış";
+     else if (currentLang === "ar") btnLogout.innerText = "تسجيل الخروج";
  }
 
 
