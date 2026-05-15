@@ -859,18 +859,54 @@ window.switchTab = function(tabName) {
  if (tabName === 'topology' && !currentTopologyAnswer) window.generateTopologyProblem();
 };
 
-function sendCannedMessage() {
- const el = document.getElementById("canned-messages");
- if (!el) return;
- const selectedText = el.options[el.selectedIndex].text;
- if (window.sendChatMessage) {
- window.sendChatMessage(selectedText);
- } else {
- let msg = "Περίμενε να φορτώσει η σύνδεση! ";
- if (currentLang === 'en') msg = "Please wait for the connection! ";
- if (currentLang === 'fr') msg = "Veuillez patienter pour la connexion! ";
- if (currentLang === 'tr') msg = "Lütfen bağlantıyı bekleyin! ";
- alert(msg);
+async function sendCustomMessage() {
+ const inputEl = document.getElementById("chat-input");
+ const btn = document.getElementById("btn-chat-send");
+ if (!inputEl || !btn) return;
+ 
+ const text = inputEl.value.trim();
+ if (!text) return;
+ 
+ if (!window.sendChatMessage) {
+  let msg = "Περίμενε να φορτώσει η σύνδεση! 🐾";
+  if (currentLang === 'en') msg = "Please wait for the connection! 🐾";
+  if (currentLang === 'fr') msg = "Veuillez patienter pour la connexion! 🐾";
+  if (currentLang === 'tr') msg = "Lütfen bağlantıyı bekleyin! 🐾";
+  alert(msg);
+  return;
+ }
+ 
+ const originalBtnText = btn.innerText;
+ btn.innerText = "Έλεγχος AI...";
+ btn.disabled = true;
+ inputEl.disabled = true;
+ 
+ try {
+  const prompt = `Αξιολόγησε αυστηρά αν το παρακάτω μήνυμα είναι υβριστικό, προσβλητικό, επικίνδυνο ή ακατάλληλο για παιδιά. Απάντησε ΜΟΝΟ με τη λέξη "ΝΑΙ" (αν είναι ακατάλληλο) ή "ΟΧΙ" (αν είναι ασφαλές): "${text}"`;
+  const response = await fetch('/api/tutor', { 
+   method: 'POST', 
+   headers: { 'Content-Type': 'application/json' }, 
+   body: JSON.stringify({ text: prompt }) 
+  });
+  
+  const data = await response.json();
+  const aiReply = data.reply ? data.reply.trim().toUpperCase() : "";
+  
+  // Checking if the reply contains "ΝΑΙ"
+  if (aiReply.includes("ΝΑΙ")) {
+   alert("Το μήνυμά σου κρίθηκε ακατάλληλο από το AI Moderator και δεν στάλθηκε. Παρακαλούμε κράτησε το chat καθαρό! 🐾");
+  } else {
+   await window.sendChatMessage(text);
+   inputEl.value = ""; // Clear input only if sent successfully
+  }
+ } catch (error) {
+  console.error("Σφάλμα AI Moderation:", error);
+  alert("Αποτυχία σύνδεσης με τον AI Moderator. Προσπάθησε ξανά.");
+ } finally {
+  btn.innerText = originalBtnText;
+  btn.disabled = false;
+  inputEl.disabled = false;
+  inputEl.focus();
  }
 }
 

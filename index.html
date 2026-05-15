@@ -230,13 +230,9 @@
 <p id="chat-msg-placeholder" style="color: #888; text-align: center;">Συνδέσου με Google για να δεις τα
  μηνύματα!</p>
 </div>
-<select id="canned-messages"
- style="width: 100%; padding: 10px; margin-bottom: 10px; background: #333; color: white; border-radius: 5px; border: 1px solid #555;">
-<option value="1" id="can-1">Γεια σε όλους!</option>
-<option value="2" id="can-2">Αυτή η άσκηση με δυσκόλεψε!</option>
-<option value="3" id="can-3">Μόλις ανέβηκα κατηγορία!</option>
-</select>
-<button id="btn-chat-send" onclick="sendCannedMessage()"
+<input type="text" id="chat-input" placeholder="Γράψε το μήνυμά σου..." onkeypress="if(event.key === 'Enter') sendCustomMessage()"
+ style="width: 100%; padding: 12px; margin-bottom: 10px; background: rgba(118, 118, 128, 0.24); color: white; border-radius: 12px; border: 1px solid rgba(255, 255, 255, 0.1); outline: none;">
+<button id="btn-chat-send" onclick="sendCustomMessage()"
  style="background-color: #03dac6; color: black; font-weight: bold; width: 100%; margin-bottom: 10px;">Αποστολή
 </button>
 <button id="btn-chat-close" onclick="toggleChat()" style="width: 100%;">Κλείσιμο</button>
