@@ -67,17 +67,7 @@ const translations = {
  btnChatSend: "Αποστολή ", btnChatClose: "Κλείσιμο",
  secretModalTitle: " Το Μυστικό της Μισέλ!", btnSecretClose: "Τέλεια! ",
  rank1: " Αρχάριο Γατάκι", rank2: " Έξυπνος Γάτος", rank3: " Γρήγορος Λύγκας", rank4: " Μαθηματικός Τίγρης",
- stepWords: { move: "Μεταφέρουμε:", div: "Διαιρούμε:", sub: "Αφαιρούμε:", mult: "Πολλαπλασιάζουμε:" },
- catSuccess: ["Purr-fect! Βρήκες το x! ", "Meow-gnificent! ", "Γατίσια αντανακλαστικά! "],
- catError: ["Ουπς! Μήπως πάτησα το πληκτρολόγιο; ", "Μιάου... Κάτι δεν πήγε καλά. "],
- tabMath: " Μαθηματικά", tabPhysics: " Φυσική",
- tabAlgebra: "Άλγεβρα", tabGeometry: "Γεωμετρία", tabTrig: "Τριγωνομετρία", tabTopology: "Τοπολογία",
- physicsTitle: "Εργαστήριο Φυσικής της Μισέλ ", lblPhysicsLevel: "Θέμα:",
- physOpt1: "1. Ταχύτητα (v = s/t)", physOpt2: "2. Απόσταση (s = v*t)", physOpt3: "3. Χρόνος (t = s/v)",
- btnPhysicsNext: "Επόμενο", physicsPlaceholder: "Επίλεξε θέμα για να ξεκινήσεις τα πειράματα!",
- physCheckNum: "Παρακαλώ βάλε έναν αριθμό! ",
- physScenarios1: [
- "Η Μισέλ τρέχει να πιάσει το κόκκινο λέιζερ! Διανύει {s} μέτρα σε {t} δευτερόλεπτα. Ποια είναι η ταχύτητά της; (v = s / t)",
+ stepWords: { move: "Μεταφέρουμε:", div: "Διαιρούμε:", sub: "Αφαι "Η Μισέλ τρέχει να πιάσει το κόκκινο λέιζερ! Διανύει {s} μέτρα σε {t} δευτερόλεπτα. Ποια είναι η ταχύτητά της; (v = s / t)",
  "Ένα ρομποτικό ποντίκι διασχίζει το σαλόνι ({s} μέτρα) σε {t} δευτερόλεπτα. Με τι ταχύτητα κινείται;",
  "Η Μισέλ άκουσε τον ήχο της κονσέρβας! Έτρεξε {s} μέτρα σε {t} δευτερόλεπτα. Βρες την ταχύτητά της."
  ],
@@ -90,7 +80,12 @@ const translations = {
  "Η απόσταση μέχρι το μπολ με το φαγητό είναι {s} μέτρα. Αν η Μισέλ τρέχει με ταχύτητα {v} m/s, σε πόσα δευτερόλεπτα θα φτάσει; (t = s / v)",
  "Ο Άντον έχει να διανύσει {s} μέτρα μέχρι το γραφείο του. Περπατάει με ταχύτητα {v} m/s. Πόσο χρόνο θα κάνει;",
  "Η Μισέλ περπατάει στον διάδρομο μήκους {s} μέτρων με ταχύτητα {v} m/s. Σε πόσα δευτερόλεπτα θα τον διασχίσει;"
- ]
+ ],
+ legalTitle: "Όροι Χρήσης & Ασφάλεια",
+ legalWelcome: "Καλώς ήρθατε στην Catgebra. Πριν ξεκινήσουμε την περιήγηση στον κόσμο των μαθηματικών, παρακαλούμε διαβάστε τα παρακάτω:",
+ legalDesc1: "<strong>Εκπαιδευτικός Σκοπός (As-Is):</strong> Η εφαρμογή παρέχεται \"ως έχει\", αποκλειστικά ως υποστηρικτικό εκπαιδευτικό βοήθημα. Δεν φέρουμε ουδεμία ευθύνη για τυχόν σφάλματα στους αλγορίθμους, στα αποτελέσματα ή για τις επιπτώσεις αυτών σε ακαδημαϊκές βαθμολογίες.",
+ legalDesc2: "<strong>Ιδιωτικότητα & Δεδομένα:</strong> Ο σεβασμός στην ιδιωτικότητά σας είναι απόλυτος. Τα δεδομένα προόδου αποθηκεύονται αυστηρά και μόνο τοπικά στη συσκευή σας. Η επικοινωνία στο E2EE Chat προστατεύεται με κρυπτογράφηση από άκρο σε άκρο. Δεν έχουμε καμία δυνατότητα πρόσβασης, ανάγνωσης ή αποθήκευσης των μηνυμάτων σας.",
+ legalCheckbox: "Έχω διαβάσει, κατανοώ και αποδέχομαι τους Όρους Χρήσης."
  },
  en: {
  mainTitle: "Catgebra ", btnLogin: " Login with Google",
@@ -132,7 +127,12 @@ const translations = {
  "The distance to the food bowl is {s} meters. If Michelle runs at a speed of {v} m/s, in how many seconds will she reach it? (t = s / v)",
  "Anton has to cover {s} meters to his office. He walks at a speed of {v} m/s. How much time will it take?",
  "Michelle walks in the {s}-meter corridor at a speed of {v} m/s. In how many seconds will she cross it?"
- ]
+ ],
+ legalTitle: "Terms of Use & Privacy",
+ legalWelcome: "Welcome to Catgebra. Before we begin our math journey, please review the following:",
+ legalDesc1: "<strong>Educational Purpose (As-Is):</strong> This application is provided \"as is\", strictly as a supplemental educational tool. We assume no liability for any algorithmic errors, incorrect results, or their impact on academic performance or grading.",
+ legalDesc2: "<strong>Privacy & Data Security:</strong> Your privacy is absolute. Progress data is stored exclusively on your local device. Communication within the E2EE Chat is protected by end-to-end encryption. We have zero access to read, intercept, or store the content of your messages.",
+ legalCheckbox: "I have read, understood, and agree to the Terms of Use."
  },
  fr: {
  mainTitle: "Catgebra ", btnLogin: " Se connecter avec Google",
@@ -174,7 +174,59 @@ const translations = {
  "La distance jusqu'à la gamelle de nourriture est de {s} mètres. Si Michelle court à une vitesse de {v} m/s, en combien de secondes l'atteindra-t-elle ? (t = s / v)",
  "Anton doit parcourir {s} mètres jusqu'à son bureau. Il marche à une vitesse de {v} m/s. Combien de temps cela prendra-t-il ?",
  "Michelle marche dans le couloir de {s} mètres à une vitesse de {v} m/s. En combien de secondes le traversera-t-elle ?"
- ]
+ ],
+ legalTitle: "Conditions d'Utilisation et Confidentialité",
+ legalWelcome: "Bienvenue sur Catgebra. Avant de commencer, veuillez lire attentivement ce qui suit :",
+ legalDesc1: "<strong>But Éducatif (En l'état) :</strong> Cette application est fournie « telle quelle », strictement comme un outil éducatif de soutien. Nous déclinons toute responsabilité en cas d'erreurs algorithmiques, de résultats inexacts ou de leur impact sur vos notes académiques.",
+ legalDesc2: "<strong>Confidentialité et Données :</strong> Votre vie privée est absolue. Vos données de progression sont stockées uniquement sur votre appareil local. Les communications dans le chat E2EE sont protégées par un chiffrement de bout en bout. Nous n'avons aucun moyen d'accéder, de lire ou de stocker vos messages.",
+ legalCheckbox: "J'ai lu, compris et j'accepte les Conditions d'Utilisation."
+ },
+ es: {
+ mainTitle: "Catgebra ", btnLogin: " Iniciar sesión con Google",
+ lblLevel: "Nivel de estudio:", lblSelectLevel: "Dificultad:",
+ optLevel1: "Nivel 1: Gatito (ax + b = c)", optLevel2: "Nivel 2: Gato (ax + b = cx + d)", optLevel3: "Nivel 3: Tigre (Cuadráticas)", optLevel4: "Nivel 4: León (Fracciones y Paréntesis)",
+ lblScore: "Puntaje:", lblTime: "Tiempo:", btnSecret: " ¡Secreto!", btnChatToggle: " Chat",
+ placeholderAns: "Respuesta...", kbdToggleTitle: "Mostrar Teclado Matemático",
+ btnCheck: "Comprobar", btnHelp: "Paso a paso", btnSkip: "Saltar",
+ lblNotes: "Borrador y Calculadora ", btnAI: " Comprobación AI", placeholderNotes: "Escribe tus pensamientos...", btnClear: " Borrar",
+ lblGraph: "Gráfico ",
+ btnReset: "Restablecer", btnStats: " Estadísticas", modalTitle: "Mis Estadísticas ",
+ lblPlayed: "Resueltos:", lblCorrect: "Correctos:", lblRate: "Tasa de éxito:", btnClose: "Cerrar",
+ lblAboutTitle: "Sobre Catgebra ", lblAboutText: "¡Catgebra hace que el álgebra sea divertida!",
+ lblResources: "Recursos ",
+ chatTitle: "Cat-Chat ", chatMsgPlaceholder: "¡Inicia sesión con Google para ver los mensajes!",
+ can1: "¡Hola a todos! ", can2: "¡Este problema fue difícil! ", can3: "¡Acabo de subir de nivel! ",
+ btnChatSend: "Enviar ", btnChatClose: "Cerrar",
+ secretModalTitle: " ¡El Secreto de Michelle!", btnSecretClose: "¡Purrfecto! ",
+ rank1: " Gatito Principiante", rank2: " Gato Inteligente", rank3: " Lince Rápido", rank4: " Tigre Matemático",
+ stepWords: { move: "Mover:", div: "Dividir:", sub: "Restar:", mult: "Multiplicar:" },
+ catSuccess: ["¡Purr-fecto! ¡Encontraste x! "], catError: ["¡Ups! Respuesta equivocada. "],
+ tabMath: " Matemáticas", tabPhysics: " Física",
+ tabAlgebra: "Álgebra", tabGeometry: "Geometría", tabTrig: "Trigonometría", tabTopology: "Topología",
+ physicsTitle: "Laboratorio de Física de Michelle ", lblPhysicsLevel: "Tema:",
+ physOpt1: "1. Velocidad (v = s/t)", physOpt2: "2. Distancia (s = v*t)", physOpt3: "3. Tiempo (t = s/v)",
+ btnPhysicsNext: "Siguiente", physicsPlaceholder: "¡Selecciona un tema para comenzar los experimentos!",
+ physCheckNum: "¡Por favor, ingresa un número! ",
+ physScenarios1: [
+ "¡Michelle corre para atrapar el láser rojo! Cubre {s} metros en {t} segundos. ¿Cuál es su velocidad? (v = s / t)",
+ "Un ratón robótico cruza la sala ({s} metros) en {t} segundos. ¿Cuál es su velocidad?",
+ "¡Michelle escuchó el sonido de la lata! Corrió {s} metros en {t} segundos. Encuentra su velocidad."
+ ],
+ physScenarios2: [
+ "Michelle corre a una velocidad constante de {v} m/s durante {t} segundos persiguiendo una mariposa. ¿Cuántos metros cubrió? (s = v * t)",
+ "Anton camina a {v} m/s durante {t} segundos para tomar su café. ¿Qué distancia cubrió?",
+ "Un pájaro vuela a una velocidad de {v} m/s durante {t} segundos y Michelle lo observa desde la ventana. ¿Qué distancia cubrió el pájaro?"
+ ],
+ physScenarios3: [
+ "La distancia al tazón de comida es de {s} metros. Si Michelle corre a una velocidad de {v} m/s, ¿en cuántos segundos lo alcanzará? (t = s / v)",
+ "Anton tiene que cubrir {s} metros hasta su oficina. Camina a una velocidad de {v} m/s. ¿Cuánto tiempo le tomará?",
+ "Michelle camina en el pasillo de {s} metros a una velocidad de {v} m/s. ¿En cuántos segundos lo cruzará?"
+ ],
+ legalTitle: "Términos de Uso y Privacidad",
+ legalWelcome: "Bienvenido a Catgebra. Antes de comenzar, por favor revise lo siguiente:",
+ legalDesc1: "<strong>Propósito Educativo (Tal cual):</strong> Esta aplicación se proporciona \"tal cual\", estrictamente como una herramienta educativa complementaria. No asumimos ninguna responsabilidad por errores algorítmicos, resultados incorrectos o su impacto en el rendimiento académico.",
+ legalDesc2: "<strong>Privacidad y Datos:</strong> Su privacidad es absoluta. Los datos de progreso se almacenan exclusivamente de forma local en su dispositivo. La comunicación en el Chat E2EE está protegida por cifrado de extremo a extremo. No tenemos acceso para leer, interceptar ni almacenar el contenido de sus mensajes.",
+ legalCheckbox: "He leído, comprendido y acepto los Términos de Uso."
  },
  tr: {
  mainTitle: "Catgebra ", btnLogin: " Google ile Giriş",
@@ -216,7 +268,12 @@ const translations = {
  "Yemek kabına olan mesafe {s} metredir. Michelle {v} m/s hızla koşarsa kaç saniyede ulaşır? (t = s / v)",
  "Anton'un ofisine gitmesi için {s} metre gitmesi gerekiyor. {v} m/s hızla yürüyor. Ne kadar zaman alacak?",
  "Michelle {s} metrelik koridorda {v} m/s hızla yürüyor. Kaç saniyede geçecek?"
- ]
+ ],
+ legalTitle: "Kullanım Koşulları ve Gizlilik",
+ legalWelcome: "Catgebra'ya hoş geldiniz. Matematik dünyasına adım atmadan önce lütfen aşağıdakileri okuyun:",
+ legalDesc1: "<strong>Eğitim Amacı (Olduğu Gibi / As-Is):</strong> Bu uygulama \"olduğu gibi\", yalnızca destekleyici bir eğitim aracı olarak sunulmaktadır. Algoritmik hatalar, yanlış sonuçlar veya bunların akademik notlara etkisi konusunda hiçbir sorumluluk kabul etmiyoruz.",
+ legalDesc2: "<strong>Gizlilik ve Veriler:</strong> Gizliliğinize saygımız mutlaktır. İlerleme verileriniz yalnızca cihazınızda yerel olarak saklanır. E2EE Sohbet (Chat) içindeki iletişim, uçtan uca şifreleme ile korunmaktadır. Mesajlarınızın içeriğine erişme, okuma veya depolama imkanımız kesinlikle yoktur.",
+ legalCheckbox: "Kullanım Koşullarını okudum, anladım ve kabul ediyorum."
  }
 };
 
@@ -367,6 +424,12 @@ function changeLanguage() {
  safeSetText("lbl-resources", t.lblResources);
  safeSetText("lbl-about-title", t.lblAboutTitle);
  safeSetText("lbl-about-text", t.lblAboutText);
+
+ safeSetText("legal-title", t.legalTitle);
+ safeSetText("legal-welcome", t.legalWelcome);
+ safeSetHTML("legal-desc-1", t.legalDesc1);
+ safeSetHTML("legal-desc-2", t.legalDesc2);
+ safeSetText("legal-checkbox-label", t.legalCheckbox);
 
  // Μεταφράσεις Φυσικής
  safeSetText("tab-math", t.tabMath);
@@ -823,6 +886,8 @@ window.toggleLegalButton = function() {
     const btn = document.getElementById('btn-agree');
     if (cb && btn) {
         btn.disabled = !cb.checked;
+        btn.style.opacity = cb.checked ? "1" : "0.5";
+        btn.style.cursor = cb.checked ? "pointer" : "not-allowed";
     }
 };
 
