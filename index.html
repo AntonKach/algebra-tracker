@@ -94,24 +94,6 @@
                             <button onclick="toggleKeyboard()" class="kbd-toggle" id="kbd-toggle-btn" title="Εμφάνιση Μαθηματικού Πληκτρολογίου">123</button>
                         </div>
 
-                        <div id="math-keyboard" class="math-keyboard hidden">
-                            <button onclick="insertSymbol('²')">x²</button>
-                            <button onclick="insertSymbol('³')">x³</button>
-                            <button onclick="insertSymbol('√')">√</button>
-                            <button onclick="insertSymbol('±')">±</button>
-                            <button onclick="insertSymbol('°')">°</button>
-                            <button onclick="insertSymbol('≤')">≤</button>
-                            <button onclick="insertSymbol('≥')">≥</button>
-                            <button onclick="insertSymbol('≠')">≠</button>
-                            <button onclick="insertSymbol('θ')">θ</button>
-                            <button onclick="insertSymbol('Δ')">Δ</button>
-                            <button onclick="insertSymbol('α')">α</button>
-                            <button onclick="insertSymbol('β')">β</button>
-                            <button onclick="insertSymbol('∫')">∫</button>
-                            <button onclick="insertSymbol('π')">π</button>
-                            <button onclick="insertSymbol('∞')">∞</button>
-                        </div>
-
                         <div class="buttons-group">
                             <button onclick="checkAnswer()" class="check-btn" id="btn-check">Έλεγχος</button>
                             <button onclick="analyzeSteps()" class="help-btn" id="btn-mathjs-step">Ανάλυση Βημάτων</button>
@@ -132,6 +114,7 @@
                         </p>
                         <div class="input-container">
                             <input type="text" id="geo-answer" placeholder="Απάντηση...">
+                            <button onclick="toggleKeyboard()" class="kbd-toggle" title="Εμφάνιση Μαθηματικού Πληκτρολογίου">123</button>
                         </div>
                         
                         <!-- OCR Handwriting Canvas -->
@@ -146,8 +129,11 @@
 
                         <div class="buttons-group" style="margin-top: 15px; justify-content: center;">
                             <button onclick="checkGeoAnswer()" class="check-btn" id="btn-geo-check">Έλεγχος</button>
+                            <button onclick="analyzeGeoSteps()" class="help-btn" id="btn-mathjs-step-geo">Ανάλυση Βημάτων</button>
+                            <button onclick="showGeoHelp()" class="help-btn" id="btn-help-geo">Βήμα-Βήμα</button>
                             <button onclick="generateGeoProblem()" class="skip-btn" id="btn-geo-next">Επόμενο</button>
                         </div>
+                        <div id="geo-help-steps" class="help-steps hidden"></div>
                         <p id="geo-feedback" style="font-weight: bold; margin-top: 10px;"></p>
                     </div>
                 </div> <!-- End geometry section -->
@@ -160,11 +146,15 @@
                         </p>
                         <div class="input-container">
                             <input type="text" id="trig-answer" placeholder="Απάντηση...">
+                            <button onclick="toggleKeyboard()" class="kbd-toggle" title="Εμφάνιση Μαθηματικού Πληκτρολογίου">123</button>
                         </div>
                         <div class="buttons-group" style="margin-top: 15px; justify-content: center;">
                             <button onclick="checkTrigAnswer()" class="check-btn" id="btn-trig-check">Έλεγχος</button>
+                            <button onclick="analyzeTrigSteps()" class="help-btn" id="btn-mathjs-step-trig">Ανάλυση Βημάτων</button>
+                            <button onclick="showTrigHelp()" class="help-btn" id="btn-help-trig">Βήμα-Βήμα</button>
                             <button onclick="generateTrigProblem()" class="skip-btn" id="btn-trig-next">Επόμενο</button>
                         </div>
+                        <div id="trig-help-steps" class="help-steps hidden"></div>
                         <p id="trig-feedback" style="font-weight: bold; margin-top: 10px;"></p>
                     </div>
                 </div> <!-- End trig section -->
@@ -177,15 +167,37 @@
                         </p>
                         <div class="input-container">
                             <input type="text" id="topology-answer" placeholder="Απάντηση...">
+                            <button onclick="toggleKeyboard()" class="kbd-toggle" title="Εμφάνιση Μαθηματικού Πληκτρολογίου">123</button>
                         </div>
                         <div class="buttons-group" style="margin-top: 15px; justify-content: center;">
                             <button onclick="checkTopologyAnswer()" class="check-btn" id="btn-topology-check">Έλεγχος</button>
+                            <button onclick="analyzeTopologySteps()" class="help-btn" id="btn-mathjs-step-top">Ανάλυση Βημάτων</button>
+                            <button onclick="showTopologyHelp()" class="help-btn" id="btn-help-top">Βήμα-Βήμα</button>
                             <button onclick="generateTopologyProblem()" class="skip-btn" id="btn-topology-next">Επόμενο</button>
                         </div>
+                        <div id="topology-help-steps" class="help-steps hidden"></div>
                         <p id="topology-feedback" style="font-weight: bold; margin-top: 10px;"></p>
                     </div>
                 </div> <!-- End topology section -->
                 
+                <div id="math-keyboard" class="math-keyboard hidden" style="margin-top: 15px;">
+                    <button onclick="insertSymbol('²')">x²</button>
+                    <button onclick="insertSymbol('³')">x³</button>
+                    <button onclick="insertSymbol('√')">√</button>
+                    <button onclick="insertSymbol('±')">±</button>
+                    <button onclick="insertSymbol('°')">°</button>
+                    <button onclick="insertSymbol('≤')">≤</button>
+                    <button onclick="insertSymbol('≥')">≥</button>
+                    <button onclick="insertSymbol('≠')">≠</button>
+                    <button onclick="insertSymbol('θ')">θ</button>
+                    <button onclick="insertSymbol('Δ')">Δ</button>
+                    <button onclick="insertSymbol('α')">α</button>
+                    <button onclick="insertSymbol('β')">β</button>
+                    <button onclick="insertSymbol('∫')">∫</button>
+                    <button onclick="insertSymbol('π')">π</button>
+                    <button onclick="insertSymbol('∞')">∞</button>
+                </div>
+
                 <button onclick="resetProgress()" class="reset-btn" id="btn-reset" style="margin-top: 20px;">Μηδενισμός Προόδου</button>
             </div> <!-- End left-column -->
 
