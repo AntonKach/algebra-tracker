@@ -48,460 +48,8 @@ window.updateGameData = function(cloudScore, cloudStats) {
  localStorage.setItem("mathScore", score);
  
  if (window.saveToCloud) window.saveToCloud(score, userStats);
- };
-
-const translations = {
- el: {
- mainTitle: "Catgebra ", btnLogin: " Σύνδεση με Google",
- lblLevel: "Επίπεδο Σπουδών:", lblSelectLevel: "Δυσκολία:", 
- optLevel1: "Επίπεδο 1: Γατάκι (ax + b = c)", optLevel2: "Επίπεδο 2: Γάτος (ax + b = cx + d)", optLevel3: "Επίπεδο 3: Τίγρης (Δευτεροβάθμιες)", optLevel4: "Επίπεδο 4: Λιοντάρι (Κλάσματα & Παρενθέσεις)",
- lblScore: "Σκορ:", lblTime: "Χρόνος:", btnSecret: " Μυστικό!", btnChatToggle: " Chat",
- placeholderAns: "Απάντηση...", kbdToggleTitle: "Εμφάνιση Μαθηματικού Πληκτρολογίου",
- btnCheck: "Έλεγχος", btnHelp: "Βήμα-Βήμα", btnMathjsStep: "Ανάλυση Βημάτων", btnSkip: "Παράλειψη",
- lblNotes: "Πρόχειρο & Υπολογιστής ", btnAI: " Έλεγχος AI", placeholderNotes: "Γράψε εδώ τις σκέψεις σου...", btnClear: " Καθαρισμός",
- lblGraph: "Γραφική Παράσταση ",
- btnReset: "Μηδενισμός", btnStats: " Στατιστικά", modalTitle: "Τα Στατιστικά μου ",
- lblPlayed: "Λυμένες Ασκήσεις:", lblCorrect: "Σωστές:", lblRate: "Ποσοστό Επιτυχίας:", btnClose: "Κλείσιμο",
- lblAboutTitle: "Σχετικά με την Catgebra ", 
- lblAboutText: "Η Catgebra δημιουργήθηκε για να κάνει την Άλγεβρα διασκεδαστική!",
- lblResources: "Πηγές Μελέτης ",
- chatTitle: "Γατό-Chat ", chatMsgPlaceholder: "Συνδέσου με Google για να δεις τα μηνύματα!",
- can1: "Γεια σε όλους! ", can2: "Αυτή η άσκηση με δυσκόλεψε! ", can3: "Μόλις ανέβηκα κατηγορία! ",
- btnChatSend: "Αποστολή ", btnChatClose: "Κλείσιμο",
- secretModalTitle: " Το Μυστικό της Μισέλ!", btnSecretClose: "Τέλεια! ",
- rank1: " Αρχάριο Γατάκι", rank2: " Έξυπνος Γάτος", rank3: " Γρήγορος Λύγκας", rank4: " Μαθηματικός Τίγρης",
- stepWords: { move: "Μεταφέρουμε:", div: "Διαιρούμε:", sub: "Αφαιρούμε:", mult: "Πολλαπλασιάζουμε:" },
- catSuccess: ["Purr-fect! Βρήκες το x! ", "Meow-gnificent! ", "Γατίσια αντανακλαστικά! "],
- catError: ["Ουπς! Μήπως πάτησα το πληκτρολόγιο; ", "Μιάου... Κάτι δεν πήγε καλά. "],
- tabMath: " Μαθηματικά", tabPhysics: " Φυσική",
- tabAlgebra: "Άλγεβρα", tabGeometry: "Γεωμετρία", tabTrig: "Τριγωνομετρία", tabTopology: "Τοπολογία",
- physicsTitle: "Εργαστήριο Φυσικής της Μισέλ ", lblPhysicsLevel: "Θέμα:",
- physOpt1: "1. Ταχύτητα (v = s/t)", physOpt2: "2. Απόσταση (s = v*t)", physOpt3: "3. Χρόνος (t = s/v)",
- btnPhysicsNext: "Επόμενο", physicsPlaceholder: "Επίλεξε θέμα για να ξεκινήσεις τα πειράματα!",
- physCheckNum: "Παρακαλώ βάλε έναν αριθμό! ",
- physScenarios1: [
- "Η Μισέλ τρέχει να πιάσει το κόκκινο λέιζερ! Διανύει {s} μέτρα σε {t} δευτερόλεπτα. Ποια είναι η ταχύτητά της; (v = s / t)",
- "Ένα ρομποτικό ποντίκι διασχίζει το σαλόνι ({s} μέτρα) σε {t} δευτερόλεπτα. Με τι ταχύτητα κινείται;",
- "Η Μισέλ άκουσε τον ήχο της κονσέρβας! Έτρεξε {s} μέτρα σε {t} δευτερόλεπτα. Βρες την ταχύτητά της."
- ],
- physScenarios2: [
- "Η Μισέλ τρέχει σταθερά με ταχύτητα {v} m/s για {t} δευτερόλεπτα κυνηγώντας μια πεταλούδα. Πόσα μέτρα διένυσε; (s = v * t)",
- "Ο Άντον περπατάει με {v} m/s για {t} δευτερόλεπτα για να πάρει τον καφέ του. Τι απόσταση κάλυψε;",
- "Ένα πουλί πετάει με ταχύτητα {v} m/s για {t} δευτερόλεπτα και η Μισέλ το κοιτάζει από το παράθυρο. Πόση απόσταση διένυσε το πουλί;"
- ],
- physScenarios3: [
- "Η απόσταση μέχρι το μπολ με το φαγητό είναι {s} μέτρα. Αν η Μισέλ τρέχει με ταχύτητα {v} m/s, σε πόσα δευτερόλεπτα θα φτάσει; (t = s / v)",
- "Ο Άντον έχει να διανύσει {s} μέτρα μέχρι το γραφείο του. Περπατάει με ταχύτητα {v} m/s. Πόσο χρόνο θα κάνει;",
- "Η Μισέλ περπατάει στον διάδρομο μήκους {s} μέτρων με ταχύτητα {v} m/s. Σε πόσα δευτερόλεπτα θα τον διασχίσει;"
- ],
- geoScenarios: [
-  "Θέλουμε να αγοράσουμε ένα νέο χαλί για το σαλόνι. Αν ο χώρος έχει μήκος {a} μέτρα και πλάτος {b} μέτρα, ποιο είναι το εμβαδόν του χαλιού που χρειαζόμαστε; (E = a · b)",
-  "Φτιάχνουμε ένα μικρό παρτέρι με λουλούδια σε τριγωνικό σχήμα και θέλουμε να του βάλουμε ξύλινο φράχτη γύρω γύρω. Αν οι πλευρές είναι {a}, {b} και {c} μέτρα, πόσα μέτρα φράχτη πρέπει να αγοράσουμε; (P = a + b + c)",
-  "Θέλουμε να οργανώσουμε την ντουλάπα με κουτιά αποθήκευσης. Αν ένα κουτί έχει διαστάσεις {a}, {b}, {c} μέτρα, ποιος είναι ο όγκος του; (V = a · b · c)"
- ],
- trigScenarios: [
-  "Ακουμπάμε μια σκάλα στον τοίχο για να κρεμάσουμε ένα κάδρο. Αν η βάση της σκάλας απέχει {a} μέτρα από τον τοίχο και το ύψος μέχρι το κάδρο είναι {b} μέτρα, τι μήκος πρέπει να έχει η σκάλα; (Πυθαγόρειο: c² = a² + b²)",
-  "Μια ξύλινη ράμπα στο κατώφλι του σπιτιού σχηματίζει γωνία 30 μοιρών με το έδαφος. Αν το ύψος του κατωφλιού (απέναντι πλευρά) είναι {opposite} μέτρα, πόσο μήκος πρέπει να έχει η ράμπα (υποτείνουσα); (sin30° = 0.5, οπότε Υποτείνουσα = Απέναντι / 0.5)"
- ],
- topScenario: "Φτιάχνουμε μια χάρτινη κατασκευή origami. Αν η κατασκευή έχει {V} γωνίες (κορυφές - V) και {E} τσακίσεις (ακμές - E), πόσες επίπεδες επιφάνειες (έδρες - F) έχει; (Τύπος Euler: V - E + F = 2)",
- helpAnalysis: "Ανάλυση με math.js",
- helpOriginal: "Αρχική", helpStep1: "Βήμα 1", helpStep2: "Βήμα 2 (Παράγωγος - Εύρεση κλίσης)",
- helpSolution: "Λύση", helpError: "Δεν ήταν δυνατή η ανάλυση.",
- helpStepsTitle: "Βήματα Επίλυσης", helpAction: "Πράξη", helpResult: "Αποτέλεσμα",
- geoStepArea: "Εμβαδόν Ορθογωνίου", geoStepPerim: "Περίμετρος Τριγώνου", geoStepVol: "Όγκος",
- stepHence: "Επομένως", trigStepPyth: "Πυθαγόρειο Θεώρημα", trigStepSin: "Ημίτονο Γωνίας", topStepEuler: "Τύπος Euler",
- legalTitle: "Όροι Χρήσης & Ασφάλεια",
- legalWelcome: "Καλώς ήρθατε στην Catgebra. Πριν ξεκινήσουμε την περιήγηση στον κόσμο των μαθηματικών, παρακαλούμε διαβάστε τα παρακάτω:",
- legalDesc1: "<strong>Εκπαιδευτικός Σκοπός (As-Is):</strong> Η εφαρμογή παρέχεται \"ως έχει\", αποκλειστικά ως υποστηρικτικό εκπαιδευτικό βοήθημα. Δεν φέρουμε ουδεμία ευθύνη για τυχόν σφάλματα στους αλγορίθμους, στα αποτελέσματα ή για τις επιπτώσεις αυτών σε ακαδημαϊκές βαθμολογίες.",
- legalDesc2: "<strong>Ιδιωτικότητα & Δεδομένα:</strong> Ο σεβασμός στην ιδιωτικότητά σας είναι απόλυτος. Τα δεδομένα προόδου αποθηκεύονται αυστηρά και μόνο τοπικά στη συσκευή σας. Η επικοινωνία στο E2EE Chat προστατεύεται με κρυπτογράφηση από άκρο σε άκρο. Δεν έχουμε καμία δυνατότητα πρόσβασης, ανάγνωσης ή αποθήκευσης των μηνυμάτων σας.",
- legalCheckbox: "Έχω διαβάσει, κατανοώ και αποδέχομαι τους Όρους Χρήσης.",
- legalAgree: "Συμφωνώ"
- },
- en: {
- mainTitle: "Catgebra ", btnLogin: " Login with Google",
- lblLevel: "Study Level:", lblSelectLevel: "Difficulty:",
- optLevel1: "Level 1: Kitten (ax + b = c)", optLevel2: "Level 2: Cat (ax + b = cx + d)", optLevel3: "Level 3: Tiger (Quadratics)", optLevel4: "Level 4: Lion (Fractions & Parentheses)",
- lblScore: "Score:", lblTime: "Time:", btnSecret: " Secret!", btnChatToggle: " Chat",
- placeholderAns: "Answer...", kbdToggleTitle: "Show Math Keyboard",
- btnCheck: "Check", btnHelp: "Step-by-Step", btnMathjsStep: "Step Analysis", btnSkip: "Skip",
- lblNotes: "Scratchpad & Calculator ", btnAI: " AI Check", placeholderNotes: "Write your thoughts...", btnClear: " Clear",
- lblGraph: "Graph ",
- btnReset: "Reset", btnStats: " Stats", modalTitle: "My Statistics ",
- lblPlayed: "Solved:", lblCorrect: "Correct:", lblRate: "Success Rate:", btnClose: "Close",
- lblAboutTitle: "About Catgebra ", lblAboutText: "Catgebra makes Algebra fun!",
- lblResources: "Resources ",
- chatTitle: "Cat-Chat ", chatMsgPlaceholder: "Login with Google to see messages!",
- can1: "Hello everyone! ", can2: "This problem was hard! ", can3: "I just leveled up! ",
- btnChatSend: "Send ", btnChatClose: "Close",
- secretModalTitle: " Michelle's Secret!", btnSecretClose: "Purrfect! ",
- rank1: " Beginner Kitten", rank2: " Smart Cat", rank3: " Fast Lynx", rank4: " Math Tiger",
- stepWords: { move: "Move:", div: "Divide:", sub: "Subtract:", mult: "Multiply:" },
- catSuccess: ["Purr-fect! You found x! "], catError: ["Oops! Wrong answer. "],
- tabMath: " Math", tabPhysics: " Physics",
- tabAlgebra: "Algebra", tabGeometry: "Geometry", tabTrig: "Trigonometry", tabTopology: "Topology",
- physicsTitle: "Michelle's Physics Lab ", lblPhysicsLevel: "Topic:",
- physOpt1: "1. Velocity (v = s/t)", physOpt2: "2. Distance (s = v*t)", physOpt3: "3. Time (t = s/v)",
- btnPhysicsNext: "Next", physicsPlaceholder: "Select a topic to start the experiments!",
- physCheckNum: "Please enter a number! ",
- physScenarios1: [
- "Michelle runs to catch the red laser! She covers {s} meters in {t} seconds. What is her velocity? (v = s / t)",
- "A robotic mouse crosses the living room ({s} meters) in {t} seconds. What is its speed?",
- "Michelle heard the sound of the can! She ran {s} meters in {t} seconds. Find her speed."
- ],
- physScenarios2: [
- "Michelle runs at a steady speed of {v} m/s for {t} seconds chasing a butterfly. How many meters did she cover? (s = v * t)",
- "Anton walks at {v} m/s for {t} seconds to get his coffee. What distance did he cover?",
- "A bird flies at a speed of {v} m/s for {t} seconds and Michelle watches it from the window. What distance did the bird cover?"
- ],
- physScenarios3: [
- "The distance to the food bowl is {s} meters. If Michelle runs at a speed of {v} m/s, in how many seconds will she reach it? (t = s / v)",
- "Anton has to cover {s} meters to his office. He walks at a speed of {v} m/s. How much time will it take?",
- "Michelle walks in the {s}-meter corridor at a speed of {v} m/s. In how many seconds will she cross it?"
- ],
- geoScenarios: [
-  "We want to buy a new carpet for the living room. If the room is {a} meters long and {b} meters wide, what is the area of the carpet we need? (A = a · b)",
-  "We are making a small flower bed in a triangular shape and want to put a wooden fence around it. If the sides are {a}, {b} and {c} meters, how many meters of fence should we buy? (P = a + b + c)",
-  "We want to organize the closet with storage boxes. If a box has dimensions {a}, {b}, {c} meters, what is its volume? (V = a · b · c)"
- ],
- trigScenarios: [
-  "We lean a ladder against the wall to hang a picture. If the base of the ladder is {a} meters from the wall and the height to the picture is {b} meters, how long should the ladder be? (Pythagorean: c² = a² + b²)",
-  "A wooden ramp at the threshold of the house forms a 30-degree angle with the ground. If the height of the threshold (opposite side) is {opposite} meters, how long should the ramp be (hypotenuse)? (sin30° = 0.5, so Hypotenuse = Opposite / 0.5)"
- ],
- topScenario: "We are making a paper origami craft. If the craft has {V} corners (vertices - V) and {E} folds (edges - E), how many flat surfaces (faces - F) does it have? (Euler's Formula: V - E + F = 2)",
- helpAnalysis: "Math.js Analysis",
- helpOriginal: "Original", helpStep1: "Step 1", helpStep2: "Step 2 (Derivative)",
- helpSolution: "Solution", helpError: "Analysis was not possible.",
- helpStepsTitle: "Solution Steps", helpAction: "Operation", helpResult: "Result",
- geoStepArea: "Rectangle Area", geoStepPerim: "Triangle Perimeter", geoStepVol: "Volume",
- stepHence: "Hence", trigStepPyth: "Pythagorean Theorem", trigStepSin: "Sine of Angle", topStepEuler: "Euler's Formula",
- legalTitle: "Terms of Use & Privacy",
- legalWelcome: "Welcome to Catgebra. Before we begin our math journey, please review the following:",
- legalDesc1: "<strong>Educational Purpose (As-Is):</strong> This application is provided \"as is\", strictly as a supplemental educational tool. We assume no liability for any algorithmic errors, incorrect results, or their impact on academic performance or grading.",
- legalDesc2: "<strong>Privacy & Data Security:</strong> Your privacy is absolute. Progress data is stored exclusively on your local device. Communication within the E2EE Chat is protected by end-to-end encryption. We have zero access to read, intercept, or store the content of your messages.",
- legalCheckbox: "I have read, understood, and agree to the Terms of Use.",
- legalAgree: "I Agree"
- },
- fr: {
- mainTitle: "Catgebra ", btnLogin: " Se connecter avec Google",
- lblLevel: "Niveau d'étude:", lblSelectLevel: "Difficulté:",
- optLevel1: "Niveau 1: Chaton (ax + b = c)", optLevel2: "Niveau 2: Chat (ax + b = cx + d)", optLevel3: "Niveau 3: Tigre (Second degré)", optLevel4: "Niveau 4 : Lion (Fractions et Parenthèses)",
- lblScore: "Score:", lblTime: "Temps:", btnSecret: " Secret!", btnChatToggle: " Chat",
- placeholderAns: "Réponse...", kbdToggleTitle: "Afficher le clavier mathématique",
- btnCheck: "Vérifier", btnHelp: "Étape par étape", btnMathjsStep: "Analyse des étapes", btnSkip: "Passer",
- lblNotes: "Brouillon & Calculatrice ", btnAI: " Vérification IA", placeholderNotes: "Écris tes pensées ici...", btnClear: " Effacer",
- lblGraph: "Graphique ",
- btnReset: "Réinitialiser", btnStats: " Stats", modalTitle: "Mes Statistiques ",
- lblPlayed: "Résolus:", lblCorrect: "Corrects:", lblRate: "Taux de réussite:", btnClose: "Fermer",
- lblAboutTitle: "À propos de Catgebra ", lblAboutText: "Catgebra a été créé pour rendre l'Algèbre amusante!",
- lblResources: "Ressources ",
- chatTitle: "Cat-Chat ", chatMsgPlaceholder: "Connecte-toi avec Google pour voir les messages!",
- can1: "Salut tout le monde! ", can2: "Cet exercice était difficile! ", can3: "Je viens de monter de niveau! ",
- btnChatSend: "Envoyer ", btnChatClose: "Fermer",
- secretModalTitle: " Le Secret de Michelle!", btnSecretClose: "Parfait! ",
- rank1: " Chaton Débutant", rank2: " Chat Intelligent", rank3: " Lynx Rapide", rank4: " Tigre Math.",
- stepWords: { move: "On déplace:", div: "On divise:", sub: "On soustrait:", mult: "On multiplie:" },
- catSuccess: ["Purr-fect! Tu as trouvé x! "], catError: ["Oups! Mauvaise réponse. "],
- tabMath: " Mathématiques", tabPhysics: " Physique",
- tabAlgebra: "Algèbre", tabGeometry: "Géométrie", tabTrig: "Trigonométrie", tabTopology: "Topologie",
- physicsTitle: "Laboratoire de Physique de Michelle ", lblPhysicsLevel: "Sujet:",
- physOpt1: "1. Vitesse (v = s/t)", physOpt2: "2. Distance (s = v*t)", physOpt3: "3. Temps (t = s/v)",
- btnPhysicsNext: "Suivant", physicsPlaceholder: "Sélectionnez un sujet pour commencer les expériences!",
- physCheckNum: "Veuillez entrer un nombre! ",
- physScenarios1: [
- "Michelle court pour attraper le laser rouge! Elle parcourt {s} mètres en {t} secondes. Quelle est sa vitesse ? (v = s / t)",
- "Une souris robotique traverse le salon ({s} mètres) en {t} secondes. À quelle vitesse se déplace-t-elle ?",
- "Michelle a entendu le bruit de la boîte ! Elle a couru {s} mètres en {t} secondes. Trouve sa vitesse."
- ],
- physScenarios2: [
- "Michelle court à une vitesse constante de {v} m/s pendant {t} secondes en chassant un papillon. Combien de mètres a-t-elle parcouru ? (s = v * t)",
- "Anton marche à {v} m/s pendant {t} secondes pour prendre son café. Quelle distance a-t-il couverte ?",
- "Un oiseau vole à une vitesse de {v} m/s pendant {t} secondes et Michelle le regarde par la fenêtre. Quelle distance l'oiseau a-t-il couverte ?"
- ],
- physScenarios3: [
- "La distance jusqu'à la gamelle de nourriture est de {s} mètres. Si Michelle court à une vitesse de {v} m/s, en combien de secondes l'atteindra-t-elle ? (t = s / v)",
- "Anton doit parcourir {s} mètres jusqu'à son bureau. Il marche à une vitesse de {v} m/s. Combien de temps cela prendra-t-il ?",
- "Michelle marche dans le couloir de {s} mètres à une vitesse de {v} m/s. En combien de secondes le traversera-t-elle ?"
- ],
- geoScenarios: [
-  "Nous voulons acheter un nouveau tapis pour le salon. Si la pièce fait {a} mètres de long et {b} mètres de large, quelle est la surface du tapis dont nous avons besoin ? (A = a · b)",
-  "Nous créons un petit parterre de fleurs de forme triangulaire et voulons l'entourer d'une clôture en bois. Si les côtés mesurent {a}, {b} et {c} mètres, combien de mètres de clôture devrions-nous acheter ? (P = a + b + c)",
-  "Nous voulons organiser le placard avec des boîtes de rangement. Si une boîte a pour dimensions {a}, {b}, {c} mètres, quel est son volume ? (V = a · b · c)"
- ],
- trigScenarios: [
-  "Nous posons une échelle contre le mur pour accrocher un tableau. Si la base de l'échelle est à {a} mètres du mur et la hauteur du tableau est de {b} mètres, quelle doit être la longueur de l'échelle ? (Pythagore : c² = a² + b²)",
-  "Une rampe en bois au seuil de la maison forme un angle de 30 degrés avec le sol. Si la hauteur du seuil (côté opposé) est de {opposite} mètres, quelle doit être la longueur de la rampe (hypoténuse) ? (sin30° = 0.5, donc Hypoténuse = Opposé / 0.5)"
- ],
- topScenario: "Nous fabriquons un origami en papier. Si la création a {V} coins (sommets - V) et {E} plis (arêtes - E), combien de surfaces planes (faces - F) a-t-elle ? (Formule d'Euler : V - E + F = 2)",
- helpAnalysis: "Analyse Math.js",
- helpOriginal: "Original", helpStep1: "Étape 1", helpStep2: "Étape 2 (Dérivée)",
- helpSolution: "Solution", helpError: "L'analyse n'a pas été possible.",
- helpStepsTitle: "Étapes de résolution", helpAction: "Opération", helpResult: "Résultat",
- geoStepArea: "Aire du rectangle", geoStepPerim: "Périmètre du triangle", geoStepVol: "Volume",
- stepHence: "Donc", trigStepPyth: "Théorème de Pythagore", trigStepSin: "Sinus de l'angle", topStepEuler: "Formule d'Euler",
- legalTitle: "Conditions d'Utilisation et Confidentialité",
- legalWelcome: "Bienvenue sur Catgebra. Avant de commencer, veuillez lire attentivement ce qui suit :",
- legalDesc1: "<strong>But Éducatif (En l'état) :</strong> Cette application est fournie « telle quelle », strictement comme un outil éducatif de soutien. Nous déclinons toute responsabilité en cas d'erreurs algorithmiques, de résultats inexacts ou de leur impact sur vos notes académiques.",
- legalDesc2: "<strong>Confidentialité et Données :</strong> Votre vie privée est absolue. Vos données de progression sont stockées uniquement sur votre appareil local. Les communications dans le chat E2EE sont protégées par un chiffrement de bout en bout. Nous n'avons aucun moyen d'accéder, de lire ou de stocker vos messages.",
- legalCheckbox: "J'ai lu, compris et j'accepte les Conditions d'Utilisation.",
- legalAgree: "J'accepte"
- },
- es: {
- mainTitle: "Catgebra ", btnLogin: " Iniciar sesión con Google",
- lblLevel: "Nivel de estudio:", lblSelectLevel: "Dificultad:",
- optLevel1: "Nivel 1: Gatito (ax + b = c)", optLevel2: "Nivel 2: Gato (ax + b = cx + d)", optLevel3: "Nivel 3: Tigre (Cuadráticas)", optLevel4: "Nivel 4: León (Fracciones y Paréntesis)",
- lblScore: "Puntaje:", lblTime: "Tiempo:", btnSecret: " ¡Secreto!", btnChatToggle: " Chat",
- placeholderAns: "Respuesta...", kbdToggleTitle: "Mostrar Teclado Matemático",
- btnCheck: "Comprobar", btnHelp: "Paso a paso", btnMathjsStep: "Análisis de pasos", btnSkip: "Saltar",
- lblNotes: "Borrador y Calculadora ", btnAI: " Comprobación AI", placeholderNotes: "Escribe tus pensamientos...", btnClear: " Borrar",
- lblGraph: "Gráfico ",
- btnReset: "Restablecer", btnStats: " Estadísticas", modalTitle: "Mis Estadísticas ",
- lblPlayed: "Resueltos:", lblCorrect: "Correctos:", lblRate: "Tasa de éxito:", btnClose: "Cerrar",
- lblAboutTitle: "Sobre Catgebra ", lblAboutText: "¡Catgebra hace que el álgebra sea divertida!",
- lblResources: "Recursos ",
- chatTitle: "Cat-Chat ", chatMsgPlaceholder: "¡Inicia sesión con Google para ver los mensajes!",
- can1: "¡Hola a todos! ", can2: "¡Este problema fue difícil! ", can3: "¡Acabo de subir de nivel! ",
- btnChatSend: "Enviar ", btnChatClose: "Cerrar",
- secretModalTitle: " ¡El Secreto de Michelle!", btnSecretClose: "¡Purrfecto! ",
- rank1: " Gatito Principiante", rank2: " Gato Inteligente", rank3: " Lince Rápido", rank4: " Tigre Matemático",
- stepWords: { move: "Mover:", div: "Dividir:", sub: "Restar:", mult: "Multiplicar:" },
- catSuccess: ["¡Purr-fecto! ¡Encontraste x! "], catError: ["¡Ups! Respuesta equivocada. "],
- tabMath: " Matemáticas", tabPhysics: " Física",
- tabAlgebra: "Álgebra", tabGeometry: "Geometría", tabTrig: "Trigonometría", tabTopology: "Topología",
- physicsTitle: "Laboratorio de Física de Michelle ", lblPhysicsLevel: "Tema:",
- physOpt1: "1. Velocidad (v = s/t)", physOpt2: "2. Distancia (s = v*t)", physOpt3: "3. Tiempo (t = s/v)",
- btnPhysicsNext: "Siguiente", physicsPlaceholder: "¡Selecciona un tema para comenzar los experimentos!",
- physCheckNum: "¡Por favor, ingresa un número! ",
- physScenarios1: [
- "¡Michelle corre para atrapar el láser rojo! Cubre {s} metros en {t} segundos. ¿Cuál es su velocidad? (v = s / t)",
- "Un ratón robótico cruza la sala ({s} metros) en {t} segundos. ¿Cuál es su velocidad?",
- "¡Michelle escuchó el sonido de la lata! Corrió {s} metros en {t} segundos. Encuentra su velocidad."
- ],
- physScenarios2: [
- "Michelle corre a una velocidad constante de {v} m/s durante {t} segundos persiguiendo una mariposa. ¿Cuántos metros cubrió? (s = v * t)",
- "Anton camina a {v} m/s durante {t} segundos para tomar su café. ¿Qué distancia cubrió?",
- "Un pájaro vuela a una velocidad de {v} m/s durante {t} segundos y Michelle lo observa desde la ventana. ¿Qué distancia cubrió el pájaro?"
- ],
- physScenarios3: [
- "La distancia al tazón de comida es de {s} metros. Si Michelle corre a una velocidad de {v} m/s, ¿en cuántos segundos lo alcanzará? (t = s / v)",
- "Anton tiene que cubrir {s} metros hasta su oficina. Camina a una velocidad de {v} m/s. ¿Cuánto tiempo le tomará?",
- "Michelle camina en el pasillo de {s} metros a una velocidad de {v} m/s. ¿En cuántos segundos lo cruzará?"
- ],
- geoScenarios: [
-  "Queremos comprar una alfombra nueva para la sala de estar. Si la habitación tiene {a} metros de largo y {b} metros de ancho, ¿cuál es el área de la alfombra que necesitamos? (A = a · b)",
-  "Estamos haciendo un pequeño macizo de flores en forma triangular y queremos ponerle una valla de madera alrededor. Si los lados miden {a}, {b} y {c} metros, ¿cuántos metros de valla deberíamos comprar? (P = a + b + c)",
-  "Queremos organizar el armario con cajas de almacenamiento. Si una caja tiene dimensiones {a}, {b}, {c} metros, ¿cuál es su volumen? (V = a · b · c)"
- ],
- trigScenarios: [
-  "Apoyamos una escalera contra la pared para colgar un cuadro. Si la base de la escalera está a {a} metros de la pared y la altura al cuadro es de {b} metros, ¿cuánto debe medir la escalera? (Pitágoras: c² = a² + b²)",
-  "Una rampa de madera en el umbral de la casa forma un ángulo de 30 grados con el suelo. Si la altura del umbral (lado opuesto) es de {opposite} metros, ¿cuánto debe medir la rampa (hipotenusa)? (sin30° = 0.5, por lo tanto Hipotenusa = Opuesto / 0.5)"
- ],
- topScenario: "Estamos haciendo una manualidad de origami de papel. Si la manualidad tiene {V} esquinas (vértices - V) y {E} pliegues (aristas - E), ¿cuántas superficies planas (caras - F) tiene? (Fórmula de Euler: V - E + F = 2)",
- helpAnalysis: "Análisis con Math.js",
- helpOriginal: "Original", helpStep1: "Paso 1", helpStep2: "Paso 2 (Derivada)",
- helpSolution: "Solución", helpError: "El análisis no fue posible.",
- helpStepsTitle: "Pasos de resolución", helpAction: "Operación", helpResult: "Resultado",
- geoStepArea: "Área del rectángulo", geoStepPerim: "Perímetro del triángulo", geoStepVol: "Volumen",
- stepHence: "Por lo tanto", trigStepPyth: "Teorema de Pitágoras", trigStepSin: "Seno del ángulo", topStepEuler: "Fórmula de Euler",
- legalTitle: "Términos de Uso y Privacidad",
- legalWelcome: "Bienvenido a Catgebra. Antes de comenzar, por favor revise lo siguiente:",
- legalDesc1: "<strong>Propósito Educativo (Tal cual):</strong> Esta aplicación se proporciona \"tal cual\", estrictamente como una herramienta educativa complementaria. No asumimos ninguna responsabilidad por errores algorítmicos, resultados incorrectos o su impacto en el rendimiento académico.",
- legalDesc2: "<strong>Privacidad y Datos:</strong> Su privacidad es absoluta. Los datos de progreso se almacenan exclusivamente de forma local en su dispositivo. La comunicación en el Chat E2EE está protegida por cifrado de extremo a extremo. No tenemos acceso para leer, interceptar ni almacenar el contenido de sus mensajes.",
- legalCheckbox: "He leído, comprendido y acepto los Términos de Uso.",
- legalAgree: "Acepto"
- },
- tr: {
- mainTitle: "Catgebra ", btnLogin: " Google ile Giriş",
- lblLevel: "Eğitim Seviyesi:", lblSelectLevel: "Zorluk:",
- optLevel1: "Seviye 1: Yavru Kedi (ax + b = c)", optLevel2: "Seviye 2: Kedi (ax + b = cx + d)", optLevel3: "Seviye 3: Kaplan (İkinci Dereceden)", optLevel4: "Seviye 4: Aslan (Kesirler ve Parantezler)",
- lblScore: "Puan:", lblTime: "Zaman:", btnSecret: " Sır!", btnChatToggle: " Sohbet",
- placeholderAns: "Cevap...", kbdToggleTitle: "Matematik Klavyesini Göster",
- btnCheck: "Kontrol", btnHelp: "Adım Adım", btnMathjsStep: "Adım Analizi", btnSkip: "Geç",
- lblNotes: "Karalama Defteri ", btnAI: " AI Kontrolü", placeholderNotes: "Düşüncelerini yaz...", btnClear: " Temizle",
- lblGraph: "Grafik ",
- btnReset: "Sıfırla", btnStats: " İstatistikler", modalTitle: "İstatistiklerim ",
- lblPlayed: "Çözülen:", lblCorrect: "Doğru:", lblRate: "Başarı Oranı:", btnClose: "Kapat",
- lblAboutTitle: "Catgebra Hakkında ", lblAboutText: "Catgebra matematiği eğlenceli hale getirir!",
- lblResources: "Kaynaklar ",
- chatTitle: "Kedi Sohbeti ", chatMsgPlaceholder: "Mesajları görmek için giriş yapın!",
- can1: "Herkese merhaba! ", can2: "Bu çok zordu! ", can3: "Seviye atladım! ",
- btnChatSend: "Gönder ", btnChatClose: "Kapat",
- secretModalTitle: " Michelle'in Sırrı!", btnSecretClose: "Mükemmel! ",
- rank1: " Acemi Yavru Kedi", rank2: " Akıllı Kedi", rank3: " Hızlı Vaşak", rank4: " Matematik Kaplanı",
- stepWords: { move: "Taşıyoruz:", div: "Bölüyoruz:", sub: "Çıkarıyoruz:", mult: "Çarpıyoruz:" },
- catSuccess: ["Purr-fect! x'i buldun! "], catError: ["Oops! Yanlış cevap. "],
- tabMath: " Matematik", tabPhysics: " Fizik",
- tabAlgebra: "Cebir", tabGeometry: "Geometri", tabTrig: "Trigonometri", tabTopology: "Topoloji",
- physicsTitle: "Michelle'in Fizik Laboratuvarı ", lblPhysicsLevel: "Konu:",
- physOpt1: "1. Hız (v = s/t)", physOpt2: "2. Mesafe (s = v*t)", physOpt3: "3. Zaman (t = s/v)",
- btnPhysicsNext: "Sonraki", physicsPlaceholder: "Deneylere başlamak için bir konu seçin!",
- physCheckNum: "Lütfen bir sayı girin! ",
- physScenarios1: [
- "Michelle kırmızı lazeri yakalamak için koşuyor! {t} saniyede {s} metre yol alıyor. Hızı nedir? (v = s / t)",
- "Robotik bir fare oturma odasını ({s} metre) {t} saniyede geçiyor. Hangi hızda hareket ediyor?",
- "Michelle konserve kutusunun sesini duydu! {t} saniyede {s} metre koştu. Hızını bulun."
- ],
- physScenarios2: [
- "Michelle bir kelebeği kovalarken {t} saniye boyunca sabit {v} m/s hızla koşuyor. Kaç metre yol aldı? (s = v * t)",
- "Anton kahvesini almak için {t} saniye boyunca {v} m/s hızla yürüyor. Ne kadar mesafe kat etti?",
- "Bir kuş {t} saniye boyunca {v} m/s hızla uçuyor ve Michelle onu pencereden izliyor. Kuş ne kadar mesafe kat etti?"
- ],
- physScenarios3: [
- "Yemek kabına olan mesafe {s} metredir. Michelle {v} m/s hızla koşarsa kaç saniyede ulaşır? (t = s / v)",
- "Anton'un ofisine gitmesi için {s} metre gitmesi gerekiyor. {v} m/s hızla yürüyor. Ne kadar zaman alacak?",
- "Michelle {s} metrelik koridorda {v} m/s hızla yürüyor. Kaç saniyede geçecek?"
- ],
- geoScenarios: [
-  "Oturma odası için yeni bir halı almak istiyoruz. Oda {a} metre uzunluğunda ve {b} metre genişliğindeyse, ihtiyacımız olan halının alanı nedir? (A = a · b)",
-  "Üçgen şeklinde küçük bir çiçeklik yapıyoruz ve etrafına ahşap bir çit koymak istiyoruz. Kenarlar {a}, {b} ve {c} metre ise kaç metre çit almalıyız? (P = a + b + c)",
-  "Dolabı saklama kutularıyla düzenlemek istiyoruz. Bir kutunun boyutları {a}, {b}, {c} metre ise hacmi nedir? (V = a · b · c)"
- ],
- trigScenarios: [
-  "Bir resim asmak için duvara bir merdiven dayıyoruz. Merdivenin tabanı duvardan {a} metre uzaklıkta ve resmin yüksekliği {b} metre ise, merdiven ne kadar uzun olmalıdır? (Pisagor: c² = a² + b²)",
-  "Evin eşiğindeki ahşap bir rampa yerle 30 derecelik bir açı oluşturur. Eşiğin yüksekliği (karşı kenar) {opposite} metre ise, rampa ne kadar uzun olmalıdır (hipotenüs)? (sin30° = 0.5, yani Hipotenüs = Karşı / 0.5)"
- ],
- topScenario: "Kağıttan bir origami yapıyoruz. Eserin {V} köşesi (köşeler - V) ve {E} katlaması (ayrıtlar - E) varsa, kaç tane düz yüzeyi (yüzler - F) vardır? (Euler Formülü: V - E + F = 2)",
- helpAnalysis: "Math.js Analizi",
- helpOriginal: "Orijinal", helpStep1: "Adım 1", helpStep2: "Adım 2 (Türev)",
- helpSolution: "Çözüm", helpError: "Analiz mümkün olmadı.",
- helpStepsTitle: "Çözüm Adımları", helpAction: "İşlem", helpResult: "Sonuç",
- geoStepArea: "Dikdörtgenin Alanı", geoStepPerim: "Üçgenin Çevresi", geoStepVol: "Hacmi",
- stepHence: "Böylece", trigStepPyth: "Pisagor Teoremi", trigStepSin: "Açının Sinüsü", topStepEuler: "Euler Formülü",
- legalTitle: "Kullanım Koşulları ve Gizlilik",
- legalWelcome: "Catgebra'ya hoş geldiniz. Matematik dünyasına adım atmadan önce lütfen aşağıdakileri okuyun:",
- legalDesc1: "<strong>Eğitim Amacı (Olduğu Gibi / As-Is):</strong> Bu uygulama \"olduğu gibi\", yalnızca destekleyici bir eğitim aracı olarak sunulmaktadır. Algoritmik hatalar, yanlış sonuçlar veya bunların akademik notlara etkisi konusunda hiçbir sorumluluk kabul etmiyoruz.",
- legalDesc2: "<strong>Gizlilik ve Veriler:</strong> Gizliliğinize saygımız mutlaktır. İlerleme verileriniz yalnızca cihazınızda yerel olarak saklanır. E2EE Sohbet (Chat) içindeki iletişim, uçtan uca şifreleme ile korunmaktadır. Mesajlarınızın içeriğine erişme, okuma veya depolama imkanımız kesinlikle yoktur.",
- legalCheckbox: "Kullanım Koşullarını okudum, anladım ve kabul ediyorum.",
- legalAgree: "Kabul Ediyorum"
- },
- it: {
- mainTitle: "Catgebra ", btnLogin: " Accedi con Google",
- lblLevel: "Livello di studio:", lblSelectLevel: "Difficoltà:",
- optLevel1: "Livello 1: Gattino (ax + b = c)", optLevel2: "Livello 2: Gatto (ax + b = cx + d)", optLevel3: "Livello 3: Tigre (Equazioni)", optLevel4: "Livello 4: Leone (Frazioni)",
- lblScore: "Punteggio:", lblTime: "Tempo:", btnSecret: " Segreto!", btnChatToggle: " Chat",
- placeholderAns: "Risposta...", kbdToggleTitle: "Mostra Tastiera Matematica",
- btnCheck: "Controlla", btnHelp: "Passo dopo passo", btnMathjsStep: "Analisi dei passi", btnSkip: "Salta",
- lblNotes: "Bozza e Calcolatrice ", btnAI: " Controllo AI", placeholderNotes: "Scrivi i tuoi pensieri...", btnClear: " Pulisci",
- lblGraph: "Grafico ",
- btnReset: "Ripristina", btnStats: " Statistiche", modalTitle: "Le mie Statistiche ",
- lblPlayed: "Risolti:", lblCorrect: "Corretti:", lblRate: "Percentuale di successo:", btnClose: "Chiudi",
- lblAboutTitle: "A proposito di Catgebra ", lblAboutText: "Catgebra rende l'algebra divertente!",
- lblResources: "Risorse ",
- chatTitle: "Cat-Chat ", chatMsgPlaceholder: "Accedi con Google per vedere i messaggi!",
- can1: "Ciao a tutti! ", can2: "Questo problema era difficile! ", can3: "Sono appena salito di livello! ",
- btnChatSend: "Invia ", btnChatClose: "Chiudi",
- secretModalTitle: " Il Segreto di Michelle!", btnSecretClose: "Purr-fetto! ",
- rank1: " Gattino Principiante", rank2: " Gatto Intelligente", rank3: " Lince Veloce", rank4: " Tigre Matematica",
- stepWords: { move: "Spostare:", div: "Dividere:", sub: "Sottrarre:", mult: "Moltiplicare:" },
- catSuccess: ["Purr-fetto! Hai trovato x! "], catError: ["Ops! Risposta sbagliata. "],
- tabMath: " Matematica", tabPhysics: " Fisica",
- tabAlgebra: "Algebra", tabGeometry: "Geometria", tabTrig: "Trigonometria", tabTopology: "Topologia",
- physicsTitle: "Laboratorio di Fisica di Michelle ", lblPhysicsLevel: "Argomento:",
- physOpt1: "1. Velocità (v = s/t)", physOpt2: "2. Distanza (s = v*t)", physOpt3: "3. Tempo (t = s/v)",
- btnPhysicsNext: "Avanti", physicsPlaceholder: "Seleziona un argomento per iniziare gli esperimenti!",
- physCheckNum: "Per favore inserisci un numero! ",
- physScenarios1: [
- "Michelle corre per prendere il laser rosso! Copre {s} metri in {t} secondi. Qual è la sua velocità? (v = s / t)",
- "Un topo robotico attraversa il soggiorno ({s} metri) in {t} secondi. A che velocità si muove?",
- "Michelle ha sentito il suono della scatoletta! Ha corso {s} metri in {t} secondi. Trova la sua velocità."
- ],
- physScenarios2: [
- "Michelle corre a una velocità costante di {v} m/s per {t} secondi inseguendo una farfalla. Quanti metri ha percorso? (s = v * t)",
- "Anton cammina a {v} m/s per {t} secondi per prendere il suo caffè. Che distanza ha coperto?",
- "Un uccello vola a una velocità di {v} m/s per {t} secondi e Michelle lo guarda dalla finestra. Che distanza ha coperto l'uccello?"
- ],
- physScenarios3: [
- "La distanza dalla ciotola del cibo è di {s} metri. Se Michelle corre a una velocità di {v} m/s, in quanti secondi la raggiungerà? (t = s / v)",
- "Anton deve coprire {s} metri fino al suo ufficio. Cammina a una velocità di {v} m/s. Quanto tempo ci vorrà?",
- "Michelle cammina nel corridoio di {s} metri a una velocità di {v} m/s. In quanti secondi lo attraverserà?"
- ],
- geoScenarios: [
-  "Vogliamo comprare un nuovo tappeto per il soggiorno. Se la stanza è lunga {a} metri e larga {b} metri, qual è l'area del tappeto di cui abbiamo bisogno? (A = a · b)",
-  "Stiamo realizzando una piccola aiuola a forma triangolare e vogliamo metterci una staccionata di legno intorno. Se i lati misurano {a}, {b} e {c} metri, quanti metri di staccionata dovremmo comprare? (P = a + b + c)",
-  "Vogliamo organizzare l'armadio con scatole di immagazzinaggio. Se una scatola ha dimensioni {a}, {b}, {c} metri, qual è il suo volume? (V = a · b · c)"
- ],
- trigScenarios: [
-  "Appoggiamo una scala al muro per appendere un quadro. Se la base della scala si trova a {a} metri dal muro e l'altezza del quadro è di {b} metri, quanto deve essere lunga la scala? (Pitagora: c² = a² + b²)",
-  "Una rampa di legno sulla soglia di casa forma un angolo di 30 gradi con il suolo. Se l'altezza della soglia (lato opposto) è di {opposite} metri, quanto deve essere lunga la rampa (ipotenusa)? (sin30° = 0.5, quindi Ipotenusa = Opposto / 0.5)"
- ],
- topScenario: "Stiamo realizzando un origami di carta. Se la creazione ha {V} angoli (vertici - V) e {E} pieghe (spigoli - E), quante superfici piane (facce - F) ha? (Formula di Euler: V - E + F = 2)",
- helpAnalysis: "Analisi con Math.js",
- helpOriginal: "Originale", helpStep1: "Passo 1", helpStep2: "Passo 2 (Derivata)",
- helpSolution: "Soluzione", helpError: "L'analisi non è stata possibile.",
- helpStepsTitle: "Passaggi della soluzione", helpAction: "Operazione", helpResult: "Risultato",
- geoStepArea: "Area del rettangolo", geoStepPerim: "Perimetro del triangolo", geoStepVol: "Volume",
- stepHence: "Quindi", trigStepPyth: "Teorema di Pitagora", trigStepSin: "Seno dell'angolo", topStepEuler: "Formula di Eulero",
- legalTitle: "Termini di Utilizzo e Privacy",
- legalWelcome: "Benvenuti su Catgebra. Prima di iniziare, si prega di leggere quanto segue:",
- legalDesc1: "<strong>Scopo Educativo (Come è):</strong> Questa applicazione è fornita \"così com'è\", come strumento educativo di supporto. Non ci assumiamo alcuna responsabilità per errori algoritmici o per il loro impatto sul rendimento scolastico.",
- legalDesc2: "<strong>Privacy e Dati:</strong> La tua privacy è assoluta. I dati sui progressi sono memorizzati esclusivamente a livello locale sul tuo dispositivo. La comunicazione nella Chat E2EE è protetta da crittografia. Non abbiamo alcun accesso per leggere i tuoi messaggi.",
- legalCheckbox: "Ho letto, compreso e accetto i Termini di Utilizzo.",
- legalAgree: "Accetto"
- },
- ar: {
- mainTitle: "Catgebra ", btnLogin: " تسجيل الدخول",
- lblLevel: "مستوى الدراسة:", lblSelectLevel: "الصعوبة:",
- optLevel1: "المستوى 1: قطة صغيرة (ax + b = c)", optLevel2: "المستوى 2: قطة (ax + b = cx + d)", optLevel3: "المستوى 3: نمر (المعادلات التربيعية)", optLevel4: "المستوى 4: أسد (الكسور والأقواس)",
- lblScore: "النتيجة:", lblTime: "الوقت:", btnSecret: " سر!", btnChatToggle: " دردشة",
- placeholderAns: "الإجابة...", kbdToggleTitle: "إظهار لوحة المفاتيح الرياضية",
- btnCheck: "تحقق", btnHelp: "خطوة بخطوة", btnMathjsStep: "تحليل الخطوات", btnSkip: "تخطي",
- lblNotes: "مسودة وآلة حاسبة ", btnAI: " فحص الذكاء الاصطناعي", placeholderNotes: "اكتب أفكارك هنا...", btnClear: " مسح",
- lblGraph: "رسم بياني ",
- btnReset: "إعادة تعيين", btnStats: " إحصائيات", modalTitle: "إحصائياتي ",
- lblPlayed: "تم حلها:", lblCorrect: "صحيح:", lblRate: "معدل النجاح:", btnClose: "إغلاق",
- lblAboutTitle: "حول Catgebra ", lblAboutText: "Catgebra يجعل الجبر ممتعًا!",
- lblResources: "الموارد ",
- chatTitle: "دردشة القطط ", chatMsgPlaceholder: "سجل الدخول لرؤية الرسائل!",
- can1: "مرحبا بالجميع! ", can2: "كانت هذه المشكلة صعبة! ", can3: "لقد ارتفعت في المستوى للتو! ",
- btnChatSend: "إرسال ", btnChatClose: "إغلاق",
- secretModalTitle: " سر ميشيل!", btnSecretClose: "رائع! ",
- rank1: " قطة مبتدئة", rank2: " قطة ذكية", rank3: " وشق سريع", rank4: " نمر الرياضيات",
- stepWords: { move: "نقل:", div: "قسمة:", sub: "طرح:", mult: "ضرب:" },
- catSuccess: ["رائع! لقد وجدت x! "], catError: ["عفوا! إجابة خاطئة. "],
- tabMath: " رياضيات", tabPhysics: " فيزياء",
- tabAlgebra: "جبر", tabGeometry: "هندسة", tabTrig: "علم المثلثات", tabTopology: "طوبولوجيا",
- physicsTitle: "مختبر فيزياء ميشيل ", lblPhysicsLevel: "الموضوع:",
- physOpt1: "1. السرعة (v = s/t)", physOpt2: "2. المسافة (s = v*t)", physOpt3: "3. الوقت (t = s/v)",
- btnPhysicsNext: "التالي", physicsPlaceholder: "اختر موضوعًا لبدء التجارب!",
- physCheckNum: "الرجاء إدخال رقم! ",
- physScenarios1: [
- "تركض ميشيل للقبض على الليزر الأحمر! تقطع {s} متر في {t} ثانية. ما هي سرعتها؟ (v = s / t)",
- "فأر آلي يعبر غرفة المعيشة ({s} متر) في {t} ثانية. ما هي سرعته؟",
- "سمعت ميشيل صوت العلبة! ركضت {s} متر في {t} ثانية. جد سرعتها."
- ],
- physScenarios2: [
- "تركض ميشيل بسرعة ثابتة {v} م/ث لمدة {t} ثانية تطارد فراشة. كم متراً قطعت؟ (s = v * t)",
- "يمشي أنطون بسرعة {v} م/ث لمدة {t} ثانية للحصول على قهوته. ما المسافة التي قطعها؟",
- "يطير طائر بسرعة {v} م/ث لمدة {t} ثانية وميشيل تراقبه من النافذة. ما المسافة التي قطعها الطائر؟"
- ],
- physScenarios3: [
- "المسافة إلى وعاء الطعام هي {s} متر. إذا ركضت ميشيل بسرعة {v} م/ث، في كم ثانية ستصل؟ (t = s / v)",
- "يجب على أنطون قطع {s} متر إلى مكتبه. يمشي بسرعة {v} m/s. كم من الوقت سيستغرق؟",
- "تمشي ميشيل في الممر بطول {s} متر بسرعة {v} م/ث. في كم ثانية ستعبره؟"
- ],
- geoScenarios: [
-  "نريد شراء سجادة جديدة لغرفة المعيشة. إذا كان طول الغرفة {a} مترًا وعرضها {b} مترًا، فما هي مساحة السجادة التي نحتاجها؟ (A = a · b)",
-  "نحن نصنع حوض زهور صغير على شكل مثلث ونريد وضع سياج خشبي حوله. إذا كانت الأضلاع {a} و {b} و {c} مترًا، فكم مترًا من السياج يجب أن نشتري؟ (P = a + b + c)",
-  "نريد تنظيم الخزانة بصناديق التخزين. إذا كان الصندوق بأبعاد {a} و {b} و {c} مترًا، فما هو حجمه؟ (V = a · b · c)"
- ],
- trigScenarios: [
-  "نسند سلمًا على الحائط لتعليق صورة. إذا كانت قاعدة السلم تبعد {a} متر عن الحائط والارتفاع إلى الصورة هو {b} متر، فكم يجب أن يكون طول السلم؟ (فيثاغورس: c² = a² + b²)",
-  "يشكل منحدر خشبي عند عتبة المنزل زاوية 30 درجة مع الأرض. إذا كان ارتفاع العتبة (الضلع المقابل) هو {opposite} متر، فكم يجب أن يكون طول المنحدر (الوتر)؟ (sin30° = 0.5، إذن الوتر = المقابل / 0.5)"
- ],
- topScenario: "نحن نصنع حرفة أوريغامي ورقية. إذا كان للحرفة {V} زاوية (رؤوس - V) و {E} طية (حواف - E)، فكم عدد الأسطح المستوية (أوجه - F) التي تحتوي عليها؟ (صيغة أويلر: V - E + F = 2)",
- helpAnalysis: "تحليل Math.js",
- helpOriginal: "أصلي", helpStep1: "الخطوة 1", helpStep2: "الخطوة 2 (المشتق)",
- helpSolution: "الحل", helpError: "لم يكن التحليل ممكنا.",
- helpStepsTitle: "خطوات الحل", helpAction: "عملية", helpResult: "نتيجة",
- geoStepArea: "مساحة المستطيل", geoStepPerim: "محيط المثلث", geoStepVol: "حجم",
- stepHence: "وبالتالي", trigStepPyth: "نظرية فيثاغورس", trigStepSin: "جيب الزاوية", topStepEuler: "صيغة أويلر",
- legalTitle: "شروط الاستخدام والخصوصية",
- legalWelcome: "مرحباً بك في Catgebra. قبل أن نبدأ، يرجى قراءة ما يلي:",
- legalDesc1: "<strong>الغرض التعليمي (كما هو):</strong> يتم تقديم هذا التطبيق كأداة تعليمية داعمة. لا نتحمل أي مسؤولية عن الأخطاء الخوارزمية أو النتائج غير الصحيحة أو تأثيرها على الأداء الأكاديمي.",
- legalDesc2: "<strong>الخصوصية والبيانات:</strong> خصوصيتك مطلقة. يتم تخزين بيانات التقدم محليًا فقط على جهازك. الاتصال داخل E2EE Chat محمي بتشفير من طرف إلى طرف. ليس لدينا أي وصول لقراءة محتوى رسائلك.",
- legalCheckbox: "لقد قرأت وفهمت وأوافق على شروط الاستخدام.",
- legalAgree: "أوافق"
- }
 };
+
 
 window.onload = function() {
  try {
@@ -548,9 +96,9 @@ window.onload = function() {
      if (event.key === 'Enter') {
          const aeId = document.activeElement ? document.activeElement.id : null;
          if (aeId === 'answer') checkAnswer();
-         else if (aeId === 'geo-answer') window.checkGeoAnswer();
-         else if (aeId === 'trig-answer') window.checkTrigAnswer();
-         else if (aeId === 'topology-answer') window.checkTopologyAnswer();
+         else if (aeId === 'geo-answer') window.checkContextAnswer('geometry');
+         else if (aeId === 'trig-answer') window.checkContextAnswer('trig');
+         else if (aeId === 'topology-answer') window.checkContextAnswer('topology');
      }
  });
 
@@ -643,9 +191,9 @@ function changeLanguage() {
  safeSetText("btn-trig-check", t.btnCheck);
  safeSetText("btn-topology-check", t.btnCheck);
  
- safeSetText("btn-geo-next", t.btnPhysicsNext || t.btnSkip);
- safeSetText("btn-trig-next", t.btnPhysicsNext || t.btnSkip);
- safeSetText("btn-topology-next", t.btnPhysicsNext || t.btnSkip);
+ safeSetText("btn-geo-next", t.btnNext || t.btnSkip);
+ safeSetText("btn-trig-next", t.btnNext || t.btnSkip);
+ safeSetText("btn-topology-next", t.btnNext || t.btnSkip);
  
  safeSetText("btn-help-geo", t.btnHelp);
  safeSetText("btn-mathjs-step-geo", t.btnMathjsStep);
@@ -683,20 +231,16 @@ function changeLanguage() {
  }
 
 
- // Μεταφράσεις Φυσικής
- safeSetText("tab-math", t.tabMath);
- safeSetText("tab-physics", t.tabPhysics);
- safeSetText("physics-title", t.physicsTitle);
- safeSetText("lbl-physics-level", t.lblPhysicsLevel);
- safeSetText("phys-opt-1", t.physOpt1);
- safeSetText("phys-opt-2", t.physOpt2);
- safeSetText("phys-opt-3", t.physOpt3);
- safeSetText("btn-physics-next", t.btnPhysicsNext);
- safeSetPlaceholder("physics-answer", t.placeholderAns);
+
 
  updateRank();
  populateGradeSelect();
  loadNextProblem();
+ if (typeof window.generateContextProblem === 'function') {
+    window.generateContextProblem('geometry');
+    window.generateContextProblem('trig');
+    window.generateContextProblem('topology');
+ }
 }
 
 function changeGrade() { startTimer(); loadNextProblem(); }
@@ -850,212 +394,144 @@ function checkAnswer() {
  updateGameData();
 }
 
-window.checkGeoAnswer = function() {
-    const ansEl = document.getElementById("geo-answer");
-    if(!ansEl) return;
-    const userAns = parseFloat(ansEl.value);
-    const fbEl = document.getElementById("geo-feedback");
+window.checkContextAnswer = function(category) {
+    const ids = {
+        'geometry': { input: 'geo-answer', feedback: 'geo-feedback', answerVar: 'currentGeoAnswer', generator: 'geometry' },
+        'trig': { input: 'trig-answer', feedback: 'trig-feedback', answerVar: 'currentTrigAnswer', generator: 'trig' },
+        'topology': { input: 'topology-answer', feedback: 'topology-feedback', answerVar: 'currentTopologyAnswer', generator: 'topology' }
+    };
     
+    const config = ids[category];
+    if (!config) return;
+
+    const ansEl = document.getElementById(config.input);
+    const fbEl = document.getElementById(config.feedback);
+    if (!ansEl) return;
+
+    const userAns = parseFloat(ansEl.value);
+    const expected = window[config.answerVar];
+
     if (isNaN(userAns)) {
-        if(fbEl) { fbEl.innerText = "Βάλε αριθμό!"; fbEl.style.color = "#FFD60A"; }
+        if (fbEl) { 
+            fbEl.innerText = currentLang === 'el' ? "Βάλε αριθμό!" : "Enter a number!"; 
+            fbEl.style.color = "#FFD60A"; 
+        }
         return;
     }
-    
-    if (userAns === currentGeoAnswer) {
-        if(fbEl) { fbEl.innerText = "Σωστά! 🥳"; fbEl.style.color = "#32D74B"; }
-        score += 15;
+
+    // Use epsilon comparison for floating-point numbers to avoid precision issues
+    const epsilon = 0.0001;
+    const isCorrect = Math.abs(userAns - expected) < epsilon;
+
+    if (isCorrect) {
+        if (fbEl) { 
+            fbEl.innerText = currentLang === 'el' ? "Σωστά! 🥳" : "Correct! 🥳"; 
+            fbEl.style.color = "#32D74B"; 
+        }
+        score += (category === 'topology' ? 20 : 15);
         userStats.correct++;
         userStats.played++;
         updateGameData();
-        if(typeof confetti === 'function') confetti({ particleCount: 150, spread: 80, origin: { y: 0.6 } });
-        setTimeout(window.generateGeoProblem, 1500);
+        if (typeof confetti === 'function') confetti({ particleCount: 150, spread: 80, origin: { y: 0.6 } });
+        setTimeout(() => window.generateContextProblem(config.generator), 1500);
     } else {
-        if(fbEl) { fbEl.innerText = "Ουπς! Λάθος. Ξαναδοκίμασε."; fbEl.style.color = "#FF453A"; }
+        if (fbEl) { 
+            fbEl.innerText = currentLang === 'el' ? "Ουπς! Λάθος. Ξαναδοκίμασε." : "Oops! Wrong. Try again."; 
+            fbEl.style.color = "#FF453A"; 
+        }
         userStats.wrong = (userStats.wrong || 0) + 1;
         userStats.played++;
         updateGameData();
     }
 };
 
-window.generateGeoProblem = function() {
-    const probEl = document.getElementById("geo-problem");
-    const inputEl = document.getElementById("geo-answer");
-    const feedbackEl = document.getElementById("geo-feedback");
+window.generateContextProblem = function(category) {
+    const probEl = document.getElementById(`${category}-problem`);
+    const inputEl = document.getElementById(`${category}-answer`);
+    const feedbackEl = document.getElementById(`${category}-feedback`);
     
-    if(inputEl) inputEl.value = "";
-    if(feedbackEl) feedbackEl.innerText = "";
+    if (inputEl) inputEl.value = "";
+    if (feedbackEl) feedbackEl.innerText = "";
     
     const t = translations[currentLang] || translations["el"];
-    const scenario = Math.floor(Math.random() * 3);
-    if (scenario === 0) {
-        const a = Math.floor(Math.random() * 10) + 3;
-        const b = Math.floor(Math.random() * 8) + 2;
-        currentGeoAnswer = a * b;
-        let text = t.geoScenarios[0].replace("{a}", a).replace("{b}", b);
-        if(probEl) probEl.innerHTML = text;
-        currentGeoProblem = { formula: `${a} * ${b}`, steps: [`${t.geoStepArea}: E = a · b`, `${t.stepHence}: E = ${a} · ${b}`, `${t.helpSolution}: E = ${currentGeoAnswer}`] };
-    } else if (scenario === 1) {
-        const a = Math.floor(Math.random() * 5) + 3;
-        const b = Math.floor(Math.random() * 5) + 3;
-        const c = Math.floor(Math.random() * 5) + 3;
-        currentGeoAnswer = a + b + c;
-        let text = t.geoScenarios[1].replace("{a}", a).replace("{b}", b).replace("{c}", c);
-        if(probEl) probEl.innerHTML = text;
-        currentGeoProblem = { formula: `${a} + ${b} + ${c}`, steps: [`${t.geoStepPerim}: P = a + b + c`, `${t.stepHence}: P = ${a} + ${b} + ${c}`, `${t.helpSolution}: P = ${currentGeoAnswer}`] };
-    } else {
-        const a = Math.floor(Math.random() * 5) + 2;
-        const b = Math.floor(Math.random() * 5) + 2;
-        const c = Math.floor(Math.random() * 5) + 2;
-        currentGeoAnswer = a * b * c;
-        let text = t.geoScenarios[2].replace("{a}", a).replace("{b}", b).replace("{c}", c);
-        if(probEl) probEl.innerHTML = text;
-        currentGeoProblem = { formula: `${a} * ${b} * ${c}`, steps: [`${t.geoStepVol}: V = a · b · c`, `${t.stepHence}: V = ${a} · ${b} · ${c}`, `${t.helpSolution}: V = ${currentGeoAnswer}`] };
-    }
-};
 
-window.checkTrigAnswer = function() {
-    const ansEl = document.getElementById("trig-answer");
-    if(!ansEl) return;
-    const userAns = parseFloat(ansEl.value);
-    const fbEl = document.getElementById("trig-feedback");
-    
-    if (isNaN(userAns)) {
-        if(fbEl) { fbEl.innerText = "Βάλε αριθμό!"; fbEl.style.color = "#FFD60A"; }
-        return;
-    }
-    
-    if (userAns === currentTrigAnswer) {
-        if(fbEl) { fbEl.innerText = "Σωστά! 🥳"; fbEl.style.color = "#32D74B"; }
-        score += 15;
-        userStats.correct++;
-        userStats.played++;
-        updateGameData();
-        if(typeof confetti === 'function') confetti({ particleCount: 150, spread: 80, origin: { y: 0.6 } });
-        setTimeout(window.generateTrigProblem, 1500);
-    } else {
-        if(fbEl) { fbEl.innerText = "Ουπς! Λάθος. Ξαναδοκίμασε."; fbEl.style.color = "#FF453A"; }
-        userStats.wrong = (userStats.wrong || 0) + 1;
-        userStats.played++;
-        updateGameData();
-    }
-};
-
-window.generateTrigProblem = function() {
-    const probEl = document.getElementById("trig-problem");
-    const inputEl = document.getElementById("trig-answer");
-    const feedbackEl = document.getElementById("trig-feedback");
-    
-    if(inputEl) inputEl.value = "";
-    if(feedbackEl) feedbackEl.innerText = "";
-    
-    const canvas = document.getElementById("trig-canvas");
-    if(canvas) {
-        const ctx = canvas.getContext("2d");
-        ctx.clearRect(0, 0, canvas.width, canvas.height);
-        
-        ctx.strokeStyle = "#0A84FF";
-        ctx.lineWidth = 4;
-        ctx.fillStyle = "rgba(10, 132, 255, 0.1)";
-        ctx.beginPath();
-        ctx.moveTo(100, 200);
-        ctx.lineTo(300, 200);
-        ctx.lineTo(300, 50);
-        ctx.closePath();
-        ctx.fill();
-        ctx.stroke();
-        
-        ctx.strokeRect(280, 180, 20, 20);
-    }
-    
-    const t = translations[currentLang] || translations["el"];
-    const scenario = Math.floor(Math.random() * 2);
-    if (scenario === 0) {
-        const multiplier = Math.floor(Math.random() * 3) + 1;
-        const a = 3 * multiplier;
-        const b = 4 * multiplier;
-        currentTrigAnswer = 5 * multiplier;
-        let text = t.trigScenarios[0].replace("{a}", a).replace("{b}", b);
-        if(probEl) probEl.innerHTML = text;
-        currentTrigProblem = { formula: `sqrt(${a}^2 + ${b}^2)`, steps: [`${t.trigStepPyth}: c² = a² + b²`, `c² = ${a}² + ${b}²`, `c = √(${a*a} + ${b*b})`, `${t.helpSolution}: c = ${currentTrigAnswer}`] };
-    } else {
-        const opposite = Math.floor(Math.random() * 5) + 1;
-        currentTrigAnswer = 2 * opposite;
-        let text = t.trigScenarios[1].replace("{opposite}", opposite);
-        if(probEl) probEl.innerHTML = text;
-        currentTrigProblem = { formula: `${opposite} / 0.5`, steps: [`${t.trigStepSin}: sin(30°) = Απέναντι / Υποτείνουσα`, `0.5 = ${opposite} / c`, `c = ${opposite} / 0.5`, `${t.helpSolution}: c = ${currentTrigAnswer}`] };
-    }
-};
-
-window.checkTopologyAnswer = function() {
-    const ansEl = document.getElementById("topology-answer");
-    if(!ansEl) return;
-    const userAns = parseFloat(ansEl.value);
-    const fbEl = document.getElementById("topology-feedback");
-    
-    if (isNaN(userAns)) {
-        if(fbEl) { fbEl.innerText = "Βάλε αριθμό!"; fbEl.style.color = "#FFD60A"; }
-        return;
-    }
-    
-    if (userAns === currentTopologyAnswer) {
-        if(fbEl) { fbEl.innerText = "Σωστά! 🥳"; fbEl.style.color = "#32D74B"; }
-        score += 20;
-        userStats.correct++;
-        userStats.played++;
-        updateGameData();
-        if(typeof confetti === 'function') confetti({ particleCount: 150, spread: 80, origin: { y: 0.6 } });
-        setTimeout(window.generateTopologyProblem, 1500);
-    } else {
-        if(fbEl) { fbEl.innerText = "Ουπς! Λάθος. Ξαναδοκίμασε."; fbEl.style.color = "#FF453A"; }
-        userStats.wrong = (userStats.wrong || 0) + 1;
-        userStats.played++;
-        updateGameData();
-    }
-};
-
-window.generateTopologyProblem = function() {
-    const probEl = document.getElementById("topology-problem");
-    const inputEl = document.getElementById("topology-answer");
-    const feedbackEl = document.getElementById("topology-feedback");
-    
-    if(inputEl) inputEl.value = "";
-    if(feedbackEl) feedbackEl.innerText = "";
-    
-    const canvas = document.getElementById("topology-canvas");
-    if(canvas) {
-        const ctx = canvas.getContext("2d");
-        ctx.clearRect(0, 0, canvas.width, canvas.height);
-        
-        ctx.strokeStyle = "#32D74B";
-        ctx.lineWidth = 3;
-        ctx.fillStyle = "#32D74B";
-        
-        const nodes = [[200, 50], [100, 150], [300, 150], [150, 220], [250, 220]];
-        const edges = [[0,1], [0,2], [1,2], [1,3], [2,4], [3,4], [1,4], [2,3]];
-        
-        ctx.beginPath();
-        edges.forEach(e => {
-            ctx.moveTo(nodes[e[0]][0], nodes[e[0]][1]);
-            ctx.lineTo(nodes[e[1]][0], nodes[e[1]][1]);
-        });
-        ctx.stroke();
-        
-        nodes.forEach(n => {
+    if (category === 'geometry') {
+        const scenario = Math.floor(Math.random() * 3);
+        if (scenario === 0) {
+            const a = Math.floor(Math.random() * 10) + 3;
+            const b = Math.floor(Math.random() * 8) + 2;
+            window.currentGeoAnswer = a * b;
+            let text = t.geoScenarios[0].replace("{a}", a).replace("{b}", b);
+            if (probEl) probEl.innerHTML = text;
+            window.currentGeoProblem = { formula: `${a} * ${b}`, steps: [`${t.geoStepArea}: E = a · b`, `${t.stepHence}: E = ${a} · ${b}`, `${t.helpSolution}: E = ${window.currentGeoAnswer}`] };
+        } else if (scenario === 1) {
+            const a = Math.floor(Math.random() * 5) + 3;
+            const b = Math.floor(Math.random() * 5) + 3;
+            const c = Math.floor(Math.random() * 5) + 3;
+            window.currentGeoAnswer = a + b + c;
+            let text = t.geoScenarios[1].replace("{a}", a).replace("{b}", b).replace("{c}", c);
+            if (probEl) probEl.innerHTML = text;
+            window.currentGeoProblem = { formula: `${a} + ${b} + ${c}`, steps: [`${t.geoStepPerim}: P = a + b + c`, `${t.stepHence}: P = ${a} + ${b} + ${c}`, `${t.helpSolution}: P = ${window.currentGeoAnswer}`] };
+        } else {
+            const a = Math.floor(Math.random() * 5) + 2;
+            const b = Math.floor(Math.random() * 5) + 2;
+            const c = Math.floor(Math.random() * 5) + 2;
+            window.currentGeoAnswer = a * b * c;
+            let text = t.geoScenarios[2].replace("{a}", a).replace("{b}", b).replace("{c}", c);
+            if (probEl) probEl.innerHTML = text;
+            window.currentGeoProblem = { formula: `${a} * ${b} * ${c}`, steps: [`${t.geoStepVol}: V = a · b · c`, `${t.stepHence}: V = ${a} · ${b} · ${c}`, `${t.helpSolution}: V = ${window.currentGeoAnswer}`] };
+        }
+    } else if (category === 'trig') {
+        const canvas = document.getElementById("trig-canvas");
+        if (canvas) {
+            const ctx = canvas.getContext("2d");
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            ctx.strokeStyle = "#0A84FF";
+            ctx.lineWidth = 4;
+            ctx.fillStyle = "rgba(10, 132, 255, 0.1)";
             ctx.beginPath();
-            ctx.arc(n[0], n[1], 8, 0, Math.PI * 2);
-            ctx.fill();
-        });
+            ctx.moveTo(100, 200); ctx.lineTo(300, 200); ctx.lineTo(300, 50); ctx.closePath();
+            ctx.fill(); ctx.stroke();
+            ctx.strokeRect(280, 180, 20, 20);
+        }
+        const scenario = Math.floor(Math.random() * 2);
+        if (scenario === 0) {
+            const multiplier = Math.floor(Math.random() * 3) + 1;
+            const a = 3 * multiplier; const b = 4 * multiplier;
+            window.currentTrigAnswer = 5 * multiplier;
+            let text = t.trigScenarios[0].replace("{a}", a).replace("{b}", b);
+            if (probEl) probEl.innerHTML = text;
+            window.currentTrigProblem = { formula: `sqrt(${a}^2 + ${b}^2)`, steps: [`${t.trigStepPyth}: c² = a² + b²`, `c² = ${a}² + ${b}²`, `c = √(${a*a} + ${b*b})`, `${t.helpSolution}: c = ${window.currentTrigAnswer}`] };
+        } else {
+            const opposite = Math.floor(Math.random() * 5) + 1;
+            window.currentTrigAnswer = 2 * opposite;
+            let text = t.trigScenarios[1].replace("{opposite}", opposite);
+            if (probEl) probEl.innerHTML = text;
+            window.currentTrigProblem = { formula: `${opposite} / 0.5`, steps: [`${t.trigStepSin}: sin(30°) = ${t.lblOpposite} / ${t.lblHypotenuse}`, `0.5 = ${opposite} / c`, `c = ${opposite} / 0.5`, `${t.helpSolution}: c = ${window.currentTrigAnswer}`] };
+        }
+    } else if (category === 'topology') {
+        const canvas = document.getElementById("topology-canvas");
+        if (canvas) {
+            const ctx = canvas.getContext("2d");
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            ctx.strokeStyle = "#32D74B"; ctx.lineWidth = 3; ctx.fillStyle = "#32D74B";
+            const nodes = [[200, 50], [100, 150], [300, 150], [150, 220], [250, 220]];
+            const edges = [[0,1], [0,2], [1,2], [1,3], [2,4], [3,4], [1,4], [2,3]];
+            ctx.beginPath();
+            edges.forEach(e => { ctx.moveTo(nodes[e[0]][0], nodes[e[0]][1]); ctx.lineTo(nodes[e[1]][0], nodes[e[1]][1]); });
+            ctx.stroke();
+            nodes.forEach(n => { ctx.beginPath(); ctx.arc(n[0], n[1], 8, 0, Math.PI * 2); ctx.fill(); });
+        }
+        const V = Math.floor(Math.random() * 10) + 4;
+        const E = V + Math.floor(Math.random() * 10) + 2;
+        window.currentTopologyAnswer = 2 - V + E;
+        let text = t.topScenario.replace("{V}", V).replace("{E}", E);
+        if (probEl) probEl.innerHTML = text;
+        window.currentTopologyProblem = { formula: `2 - ${V} + ${E}`, steps: [`${t.topStepEuler}: V - E + F = 2`, `${V} - ${E} + F = 2`, `F = 2 - ${V} + ${E}`, `${t.helpSolution}: F = ${window.currentTopologyAnswer}`] };
     }
-    
-    const t = translations[currentLang] || translations["el"];
-    const V = Math.floor(Math.random() * 10) + 4;
-    const E = V + Math.floor(Math.random() * 10) + 2;
-    currentTopologyAnswer = 2 - V + E;
-    
-    let text = t.topScenario.replace("{V}", V).replace("{E}", E);
-    if(probEl) probEl.innerHTML = text;
-    currentTopologyProblem = { formula: `2 - ${V} + ${E}`, steps: [`${t.topStepEuler}: V - E + F = 2`, `${V} - ${E} + F = 2`, `F = 2 - ${V} + ${E}`, `${t.helpSolution}: F = ${currentTopologyAnswer}`] };
 };
+
+// Removed duplicate trig/topology checkers and generators
 
 function updateStatsUI() {
  safeSetText("stats-played", userStats.played);
@@ -1187,9 +663,9 @@ window.switchTab = function(tabName) {
  if (sections[tabName]) sections[tabName].classList.remove("hidden");
  if (tabs[tabName]) tabs[tabName].classList.add("active");
 
- if (tabName === 'geometry' && !currentGeoAnswer) window.generateGeoProblem();
- if (tabName === 'trig' && !currentTrigAnswer) window.generateTrigProblem();
- if (tabName === 'topology' && !currentTopologyAnswer) window.generateTopologyProblem();
+ if (tabName === 'geometry' && !window.currentGeoAnswer) window.generateContextProblem('geometry');
+ if (tabName === 'trig' && !window.currentTrigAnswer) window.generateContextProblem('trig');
+ if (tabName === 'topology' && !window.currentTopologyAnswer) window.generateContextProblem('topology');
 };
 
 async function sendCustomMessage() {
