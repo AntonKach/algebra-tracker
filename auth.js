@@ -1,5 +1,5 @@
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-app.js";
-import { getAuth, signInWithPopup, GoogleAuthProvider, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-auth.js";
+import { getAuth, signInWithPopup, GoogleAuthProvider, onAuthStateChanged, signOut, signInWithEmailAndPassword, createUserWithEmailAndPassword, updateProfile } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-auth.js";
 import { getFirestore, doc, setDoc, getDoc, collection, addDoc, query, orderBy, limit, onSnapshot, serverTimestamp, getDocs, where, or } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-firestore.js";
 
 const firebaseConfig = {
@@ -29,10 +29,10 @@ const sanitizeInput = window.sanitizeInput || ((str) => {
 onAuthStateChanged(auth, async (user) => {
     if (user) {
         const btn = document.getElementById("btn-login");
-        if (btn) btn.innerText = "👤 " + user.displayName;
+        if (btn) btn.innerText = "👤 " + (user.displayName || user.email.split('@')[0]);
         
         window.currentUserId = user.uid;
-        window.currentUserName = user.displayName;
+        window.currentUserName = user.displayName || user.email.split('@')[0];
         
         const userRef = doc(db, "users", user.uid);
         const docSnap = await getDoc(userRef);
@@ -54,6 +54,15 @@ onAuthStateChanged(auth, async (user) => {
 
         const btnLogout = document.getElementById("btn-logout");
         if (btnLogout) btnLogout.style.display = "inline-block";
+
+        const landingContainer = document.getElementById("landing-container");
+        if (landingContainer) {
+            landingContainer.style.display = "none";
+        }
+        const mainApp = document.getElementById("main-app");
+        if (mainApp) {
+            mainApp.style.display = "block";
+        }
     } else {
         const btn = document.getElementById("btn-login");
         if (btn) btn.innerText = "Σύνδεση";
@@ -438,6 +447,85 @@ window.initE2EE = async function() {
         }
     } catch (e) {
         console.error("E2EE Init Error:", e);
+    }
+};
+
+window.loginWithEmail = async (email, password) => {
+    try {
+        const userCredential = await signInWithEmailAndPassword(auth, email, password);
+        const user = userCredential.user;
+        window.currentUserId = user.uid;
+        window.currentUserName = user.displayName || user.email.split('@')[0];
+        
+        const userRef = doc(db, "users", user.uid);
+        const userSnap = await getDoc(userRef);
+        if (!userSnap.exists()) {
+            await setDoc(userRef, {
+                name: window.currentUserName,
+                email: user.email,
+                createdAt: serverTimestamp()
+            });
+        } else {
+            const data = userSnap.data();
+            if(window.updateGameData) {
+                window.updateGameData(data.score || 0, data.stats || { played: 0, correct: 0 });
+            }
+        }
+        
+        if (window.initE2EE) {
+            await window.initE2EE();
+        }
+        if (window.listenToChat) window.listenToChat();
+        
+        alert("Επιτυχής σύνδεση! 🐾");
+        const landingContainer = document.getElementById("landing-container");
+        if (landingContainer) {
+            landingContainer.style.display = "none";
+        }
+        const mainApp = document.getElementById("main-app");
+        if (mainApp) {
+            mainApp.style.display = "block";
+        }
+    } catch (e) {
+        console.error("Login error:", e);
+        alert("Σφάλμα σύνδεσης: " + e.message);
+    }
+};
+
+window.signUpWithEmail = async (email, password) => {
+    try {
+        const userCredential = await createUserWithEmailAndPassword(auth, email, password);
+        const user = userCredential.user;
+        const displayName = email.split('@')[0];
+        await updateProfile(user, { displayName: displayName });
+        
+        window.currentUserId = user.uid;
+        window.currentUserName = displayName;
+        
+        const userRef = doc(db, "users", user.uid);
+        await setDoc(userRef, {
+            name: displayName,
+            email: user.email,
+            createdAt: serverTimestamp()
+        });
+        
+        if (window.initE2EE) {
+            await window.initE2EE();
+        }
+        if (window.listenToChat) window.listenToChat();
+        
+        alert("Ο λογαριασμός δημιουργήθηκε επιτυχώς! 🐾");
+        const landingContainer = document.getElementById("landing-container");
+        if (landingContainer) {
+            landingContainer.style.display = "none";
+        }
+        const mainApp = document.getElementById("main-app");
+        if (mainApp) {
+            mainApp.style.display = "block";
+        }
+    } catch (e) {
+        console.error("Signup error:", e);
+        alert("Σφάλμα εγγραφής: " + e.message);
     }
 };
 

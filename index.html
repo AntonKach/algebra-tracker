@@ -21,6 +21,98 @@
 </head>
 
 <body>
+    <div id="landing-container" style="position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background-color: #121212; z-index: 99999; display: flex; flex-direction: column; align-items: center; justify-content: center; color: white;">
+    <h1 style="font-size: 4rem; margin-bottom: 10px;">Catgebra</h1>
+    <p style="font-size: 1.2rem; margin-bottom: 30px; color: #a1a1aa;">Μαθηματικά για την πραγματική ζωή.</p>
+    <button id="btn-explore" style="background-color: #0A84FF; color: white; padding: 15px 30px; border-radius: 12px; border: none; font-size: 1.2rem; cursor: pointer; font-weight: bold; box-shadow: 0 4px 15px rgba(10, 132, 255, 0.4);">Εξερεύνηση</button>
+</div>
+<!-- Landing Container Overlay (SPA Flow) -->
+<div id="landing-container">
+    
+    <!-- Landing View -->
+    <div id="landing-view">
+        <div class="landing-hero">
+            <h1 class="landing-title">Catgebra: Μαθηματικά για την πραγματική ζωή</h1>
+            <p class="landing-subtitle">Ξέχνα τα ανούσια προβλήματα. Λύσε πραγματικά σενάρια καθημερινότητας με απόλυτη προστασία της ιδιωτικότητάς σου.</p>
+            <button id="btn-explore" onclick="exploreApp()" class="landing-cta-btn">Σύνδεση / Εξερεύνηση</button>
+        </div>
+        
+        <div class="landing-features">
+            <div class="feature-card">
+                <span class="feature-icon">🍳</span>
+                <h3 class="feature-title">Πρακτικά Σενάρια</h3>
+                <p class="feature-desc">Μαγειρική, Κηπουρική, DIY. Λύσε αληθινά προβλήματα που βγάζουν νόημα στην καθημερινότητά σου!</p>
+            </div>
+            <div class="feature-card">
+                <span class="feature-icon">🔒</span>
+                <h3 class="feature-title">Απόλυτη Ιδιωτικότητα</h3>
+                <p class="feature-desc">Προστατευμένο E2EE Chat και τοπική αποθήκευση. Τα δεδομένα σου ανήκουν αποκλειστικά σε σένα.</p>
+            </div>
+            <div class="feature-card">
+                <span class="feature-icon">🧠</span>
+                <h3 class="feature-title">AI Tutor</h3>
+                <p class="feature-desc">Έξυπνη ανάλυση λύσεων βήμα-βήμα και υποστήριξη σε πραγματικό χρόνο για κάθε σου απορία.</p>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Login View (initially hidden) -->
+    <div id="login-view" style="display: none;">
+        <div class="login-card">
+            <h2 class="login-title">Είσοδος στην Catgebra</h2>
+            <p class="login-subtitle">Συνδεθείτε για να συνομιλήσετε με E2EE Chat και να σώσετε την πρόοδό σας στο Cloud!</p>
+            
+            <div class="login-form">
+                <input type="text" id="login-email" placeholder="Email (π.χ. kitty@catgebra.com)" style="max-width: 100%;">
+                <input type="password" id="login-password" placeholder="Κωδικός Πρόσβασης" style="max-width: 100%; background-color: rgba(118, 118, 128, 0.24); border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 12px; padding: 12px 16px; font-size: 1.1em; color: white; width: 100%; margin: 10px auto; outline: none; display: block;">
+                
+                <div style="margin-top: 20px; display: flex; flex-direction: column; gap: 10px;">
+                    <button id="btn-login-submit" onclick="submitLogin()" class="check-btn" style="width: 100%; margin: 0; padding: 14px;">Είσοδος</button>
+                    <button id="btn-signup-submit" onclick="submitSignup()" class="help-btn" style="width: 100%; margin: 0; padding: 14px;">Δημιουργία Λογαριασμού</button>
+                </div>
+            </div>
+            
+            <div style="margin: 20px 0; border-top: 1px solid rgba(255,255,255,0.1); padding-top: 20px;">
+                <p style="color: rgba(235, 235, 245, 0.6); font-size: 0.9em; margin-bottom: 12px;">Ή συνδεθείτε άμεσα με το Google Account σας:</p>
+                <button onclick="loginWithGoogle()" style="background: #4285F4; color: white; border: none; padding: 12px 20px; border-radius: 12px; cursor: pointer; font-weight: bold; width: 100%; box-shadow: 0 4px 15px rgba(66, 133, 244, 0.3); transition: 0.2s;">
+                    👤 Σύνδεση με Google
+                </button>
+            </div>
+            
+            <button onclick="goBackToLanding()" style="background: transparent; border: none; color: #0A84FF; cursor: pointer; font-size: 1em; font-weight: 600; text-decoration: underline; margin-top: 10px;">
+                ← Πίσω στην εξερεύνηση
+            </button>
+        </div>
+    </div>
+    
+    <!-- Disclaimer Modal (initially hidden) -->
+    <div id="disclaimer-modal" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); z-index: 100001; justify-content: center; align-items: center;">
+        <div class="legal-content" style="background: rgba(30, 30, 30, 0.85); padding: 30px; border-radius: 24px; max-width: 500px; text-align: left; border: 1px solid rgba(255,255,255,0.1); box-shadow: 0 10px 30px rgba(0,0,0,0.5);">
+            <div style="text-align: right; margin-bottom: 10px;">
+                <select id="legal-lang-select" onchange="changeLanguageFromModal()" style="background: #252525; border: 1px solid #bb86fc; padding: 5px; border-radius: 5px; color: white; cursor: pointer;">
+                    <option value="el">Ελληνικά</option>
+                    <option value="en">English</option>
+                    <option value="fr">Français</option>
+                    <option value="es">Español</option>
+                    <option value="it">Italiano</option>
+                    <option value="tr">Türkçe</option>
+                    <option value="ar">العربية</option>
+                </select>
+            </div>
+            <h2 id="legal-title" style="margin-top: 0; color: #0A84FF;">Όροι Χρήσης & Ασφάλεια</h2>
+            <p id="legal-welcome" style="color: #ccc;">Καλώς ήρθατε στην Catgebra. Πριν ξεκινήσουμε την περιήγηση στον κόσμο των μαθηματικών, παρακαλούμε διαβάστε τα παρακάτω:</p>
+            <p id="legal-desc-1" style="color: #ccc; font-size: 0.9em; margin-bottom: 15px;"><strong>Εκπαιδευτικός Σκοπός (As-Is):</strong> Η εφαρμογή παρέχεται "ως έχει", αποκλειστικά ως υποστηρικτικό εκπαιδευτικό βοήθημα. Δεν φέρουμε ουδεμία ευθύνη για τυχόν σφάλματα στους αλγορίθμους, στα αποτελέσματα ή για τις επιπτώσεις αυτών σε ακαδημαϊκές βαθμολογίες.</p>
+            <p id="legal-desc-2" style="color: #ccc; font-size: 0.9em; margin-bottom: 20px;"><strong>Ιδιωτικότητα & Δεδομένα:</strong> Ο σεβασμός στην ιδιωτικότητά σας είναι απόλυτος. Τα δεδομένα προόδου αποθηκεύονται αυστηρά και μόνο τοπικά στη συσκευή σας. Η επικοινωνία στο E2EE Chat προστατεύεται με κρυπτογράφηση από άκρο σε άκρο. Δεν έχουμε καμία δυνατότητα πρόσβασης, ανάγνωσης ή αποθήκευσης των μηνυμάτων σας.</p>
+            <div class="legal-checkbox-container" style="display: flex; align-items: center; gap: 10px; margin-bottom: 20px;">
+                <input type="checkbox" id="legal-checkbox" onchange="toggleLegalButton()" style="width: 20px; height: 20px; cursor: pointer; margin: 0;">
+                <label for="legal-checkbox" id="legal-checkbox-label" style="font-weight: bold; cursor: pointer; color: white;">Έχω διαβάσει, κατανοώ και αποδέχομαι τους Όρους Χρήσης.</label>
+            </div>
+            <button id="btn-agree" disabled onclick="acceptLegalAgreement()" style="width: 100%; padding: 15px; background: #0A84FF; color: white; font-weight: bold; font-size: 1.1em; border: none; border-radius: 12px; cursor: not-allowed; opacity: 0.5; transition: 0.3s;">Συμφωνώ</button>
+        </div>
+    </div>
+</div>
+
+<div id="main-app" style="display:none;">
 <div class="container">
 <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
 <div style="display: flex; gap: 5px;">
@@ -239,6 +331,7 @@
             </div> <!-- End right-column -->
         </div> <!-- End main-layout -->
 </div>
+</div>
 
 <div id="stats-modal" class="modal hidden">
 <div class="modal-content">
@@ -340,30 +433,7 @@
 </div>
 </div>
 
-<div id="legal-modal" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); backdrop-filter: blur(20px); z-index: 99999; justify-content: center; align-items: center;">
-    <div class="legal-content" style="background: rgba(30, 30, 30, 0.9); padding: 30px; border-radius: 24px; max-width: 500px; text-align: left; border: 1px solid rgba(255,255,255,0.1); box-shadow: 0 10px 30px rgba(0,0,0,0.5);">
-        <div style="text-align: right; margin-bottom: 10px;">
-            <select id="legal-lang-select" onchange="changeLanguageFromModal()" style="background: #252525; border: 1px solid #bb86fc; padding: 5px; border-radius: 5px; color: white; cursor: pointer;">
-                <option value="el">Ελληνικά</option>
-                <option value="en">English</option>
-                <option value="fr">Français</option>
-                <option value="es">Español</option>
-                <option value="it">Italiano</option>
-                <option value="tr">Türkçe</option>
-                <option value="ar">العربية</option>
-            </select>
-        </div>
-        <h2 id="legal-title" style="margin-top: 0;">Όροι Χρήσης & Ασφάλεια</h2>
-        <p id="legal-welcome" style="color: #ccc;">Καλώς ήρθατε στην Catgebra. Πριν ξεκινήσουμε την περιήγηση στον κόσμο των μαθηματικών, παρακαλούμε διαβάστε τα παρακάτω:</p>
-        <p id="legal-desc-1" style="color: #ccc; font-size: 0.9em; margin-bottom: 15px;"><strong>Εκπαιδευτικός Σκοπός (As-Is):</strong> Η εφαρμογή παρέχεται "ως έχει", αποκλειστικά ως υποστηρικτικό εκπαιδευτικό βοήθημα. Δεν φέρουμε ουδεμία ευθύνη για τυχόν σφάλματα στους αλγορίθμους, στα αποτελέσματα ή για τις επιπτώσεις αυτών σε ακαδημαϊκές βαθμολογίες.</p>
-        <p id="legal-desc-2" style="color: #ccc; font-size: 0.9em; margin-bottom: 20px;"><strong>Ιδιωτικότητα & Δεδομένα:</strong> Ο σεβασμός στην ιδιωτικότητά σας είναι απόλυτος. Τα δεδομένα προόδου αποθηκεύονται αυστηρά και μόνο τοπικά στη συσκευή σας. Η επικοινωνία στο E2EE Chat προστατεύεται με κρυπτογράφηση από άκρο σε άκρο. Δεν έχουμε καμία δυνατότητα πρόσβασης, ανάγνωσης ή αποθήκευσης των μηνυμάτων σας.</p>
-        <div class="legal-checkbox-container" style="margin-bottom: 20px;">
-            <input type="checkbox" id="legal-checkbox" onchange="toggleLegalButton()">
-            <label for="legal-checkbox" id="legal-checkbox-label" style="font-weight: bold; cursor: pointer; color: white;">Έχω διαβάσει, κατανοώ και αποδέχομαι τους Όρους Χρήσης.</label>
-        </div>
-        <button id="btn-agree" disabled onclick="acceptLegalAgreement()" style="width: 100%; padding: 15px; background: #03dac6; color: black; font-weight: bold; font-size: 1.1em; border: none; border-radius: 12px; cursor: not-allowed; opacity: 0.5; transition: 0.3s;">Συμφωνώ</button>
-    </div>
-</div>
+
 
 <script src="translations.js?v=1.8"></script>
 <script src="data.js?v=1.8"></script>
