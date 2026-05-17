@@ -32,6 +32,16 @@ if (typeof educationData === 'undefined') {
 }
 
 // --- ΒΟΗΘΗΤΙΚΕΣ ΣΥΝΑΡΤΗΣΕΙΣ ΑΣΦΑΛΕΙΑΣ ---
+function sanitizeInput(str) {
+    if (typeof str !== 'string') return str;
+    return str.replace(/&/g, "&amp;")
+              .replace(/</g, "&lt;")
+              .replace(/>/g, "&gt;")
+              .replace(/"/g, "&quot;")
+              .replace(/'/g, "&#x27;");
+}
+window.sanitizeInput = sanitizeInput;
+
 function safeSetText(id, text) { const el = document.getElementById(id); if (el) el.innerText = text; }
 function safeSetHTML(id, html) { const el = document.getElementById(id); if (el) el.innerHTML = html; }
 function safeSetPlaceholder(id, text) { const el = document.getElementById(id); if (el) el.placeholder = text; }

@@ -16,6 +16,15 @@ const auth = getAuth(app);
 const db = getFirestore(app);
 const provider = new GoogleAuthProvider();
 
+const sanitizeInput = window.sanitizeInput || ((str) => {
+    if (typeof str !== 'string') return str;
+    return str.replace(/&/g, "&amp;")
+              .replace(/</g, "&lt;")
+              .replace(/>/g, "&gt;")
+              .replace(/"/g, "&quot;")
+              .replace(/'/g, "&#x27;");
+});
+
 // Ο 'Θυρωρός' που ελέγχει αν είσαι ήδη συνδεδεμένος
 onAuthStateChanged(auth, async (user) => {
     if (user) {
@@ -194,10 +203,12 @@ window.loadUsersList = async function() {
             if (doc.id === window.currentUserId) return;
             found = true;
             const data = doc.data();
-            listEl.innerHTML += `<div onclick="window.openPrivateChat('${doc.id}', '${data.name || 'Άγνωστος'}')" style="padding:10px; border-bottom:1px solid #444; cursor:pointer; display:flex; align-items:center; gap:10px;">
-                <div style="background:#03dac6; color:black; width:30px; height:30px; border-radius:50%; display:flex; justify-content:center; align-items:center; font-weight:bold;">${(data.name || '?').charAt(0).toUpperCase()}</div>
+            const escapedNameForJs = (data.name || 'Άγνωστος').replace(/\\/g, '\\\\').replace(/'/g, "\\'");
+            const sanitizedName = sanitizeInput(data.name || 'Άγνωστος');
+            listEl.innerHTML += `<div onclick="window.openPrivateChat('${doc.id}', '${escapedNameForJs}')" style="padding:10px; border-bottom:1px solid #444; cursor:pointer; display:flex; align-items:center; gap:10px;">
+                <div style="background:#03dac6; color:black; width:30px; height:30px; border-radius:50%; display:flex; justify-content:center; align-items:center; font-weight:bold;">${(sanitizedName).charAt(0).toUpperCase()}</div>
                 <div>
-                    <div style="color:white; font-weight:bold;">${data.name || 'Άγνωστος User'}</div>
+                    <div style="color:white; font-weight:bold;">${sanitizedName}</div>
                 </div>
             </div>`;
         });
@@ -249,6 +260,7 @@ window.listenToChat = function() {
         
         for (const data of reversedMsgs) {
             let displayText = "(Μη αναγνώσιμο μήνυμα - Δεν υπάρχει E2EE κλειδί)";
+            let isEncrypted = false;
             
             // Decrypt if it's an encrypted message
             if (data.encryptedTexts && window.myPrivateKey && window.currentUserId) {
@@ -257,7 +269,7 @@ window.listenToChat = function() {
                     try {
                         const encryptedBuffer = window.CryptoEngine.base64ToArrayBuffer(myEncryptedBase64);
                         displayText = await window.CryptoEngine.decryptMessage(encryptedBuffer, window.myPrivateKey);
-                        displayText += ' <span style="font-size: 0.8em; color: #32D74B;" title="E2EE Προστατευμένο">🔒</span>';
+                        isEncrypted = true;
                     } catch (e) {
                         console.error("Failed to decrypt message", e);
                         displayText = "(Σφάλμα αποκρυπτογράφησης)";
@@ -268,9 +280,15 @@ window.listenToChat = function() {
                 displayText = data.text;
             }
 
+            displayText = sanitizeInput(displayText);
+            if (isEncrypted) {
+                displayText += ' <span style="font-size: 0.8em; color: #32D74B;" title="E2EE Προστατευμένο">🔒</span>';
+            }
+
+            const sanitizedUser = sanitizeInput(data.user || 'Άγνωστος');
             const isMe = data.user === window.currentUserName ? " (Εγώ)" : "";
             chatBox.innerHTML += `<div style="margin-bottom: 8px; padding: 6px; background: rgba(0,0,0,0.4); border-radius: 5px;">
-                <strong style="color: #bb86fc;">${data.user}${isMe}:</strong> ${displayText}
+                <strong style="color: #bb86fc;">${sanitizedUser}${isMe}:</strong> ${displayText}
             </div>`;
         }
         chatBox.scrollTop = chatBox.scrollHeight;
