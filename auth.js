@@ -55,6 +55,10 @@ onAuthStateChanged(auth, async (user) => {
         const btnLogout = document.getElementById("btn-logout");
         if (btnLogout) btnLogout.style.display = "inline-block";
 
+        const welcomeSplash = document.getElementById("welcome-splash");
+        if (welcomeSplash) {
+            welcomeSplash.style.display = "none";
+        }
         const landingContainer = document.getElementById("landing-container");
         if (landingContainer) {
             landingContainer.style.display = "none";
@@ -72,6 +76,19 @@ onAuthStateChanged(auth, async (user) => {
         
         window.currentUserId = null;
         window.currentUserName = null;
+
+        const welcomeSplash = document.getElementById("welcome-splash");
+        if (welcomeSplash) {
+            welcomeSplash.style.display = "none";
+        }
+        const landingContainer = document.getElementById("landing-container");
+        if (landingContainer) {
+            landingContainer.style.display = "flex";
+        }
+        const mainApp = document.getElementById("main-app");
+        if (mainApp) {
+            mainApp.style.display = "none";
+        }
     }
 });
 
@@ -107,6 +124,19 @@ window.loginWithGoogle = async () => {
         
         const btnLogout = document.getElementById("btn-logout");
         if (btnLogout) btnLogout.style.display = "inline-block";
+
+        const welcomeSplash = document.getElementById("welcome-splash");
+        if (welcomeSplash) {
+            welcomeSplash.style.display = "none";
+        }
+        const landingContainer = document.getElementById("landing-container");
+        if (landingContainer) {
+            landingContainer.style.display = "none";
+        }
+        const mainApp = document.getElementById("main-app");
+        if (mainApp) {
+            mainApp.style.display = "block";
+        }
 
     } catch (error) {
         console.error("Σφάλμα σύνδεσης:", error);
@@ -478,6 +508,10 @@ window.loginWithEmail = async (email, password) => {
         if (window.listenToChat) window.listenToChat();
         
         alert("Επιτυχής σύνδεση! 🐾");
+        const welcomeSplash = document.getElementById("welcome-splash");
+        if (welcomeSplash) {
+            welcomeSplash.style.display = "none";
+        }
         const landingContainer = document.getElementById("landing-container");
         if (landingContainer) {
             landingContainer.style.display = "none";
@@ -515,6 +549,10 @@ window.signUpWithEmail = async (email, password) => {
         if (window.listenToChat) window.listenToChat();
         
         alert("Ο λογαριασμός δημιουργήθηκε επιτυχώς! 🐾");
+        const welcomeSplash = document.getElementById("welcome-splash");
+        if (welcomeSplash) {
+            welcomeSplash.style.display = "none";
+        }
         const landingContainer = document.getElementById("landing-container");
         if (landingContainer) {
             landingContainer.style.display = "none";

@@ -698,6 +698,9 @@ window.acceptLegalAgreement = function () {
     const modal = document.getElementById('disclaimer-modal');
     if (modal) modal.style.display = 'none';
 
+    const welcomeSplash = document.getElementById("welcome-splash");
+    if (welcomeSplash) welcomeSplash.style.display = 'none';
+
     const landingContainer = document.getElementById("landing-container");
     if (landingContainer) landingContainer.style.display = 'none';
 
@@ -1071,6 +1074,14 @@ window.recognizeHandwriting = async function () {
 };
 
 document.addEventListener("DOMContentLoaded", () => {
+    const btnWelcomeExplore = document.getElementById("btn-welcome-explore");
+    if (btnWelcomeExplore) {
+        btnWelcomeExplore.addEventListener("click", () => {
+            const welcomeSplash = document.getElementById("welcome-splash");
+            if (welcomeSplash) welcomeSplash.style.display = "none";
+        });
+    }
+
     const btnExplore = document.getElementById("btn-explore");
     if (btnExplore) {
         btnExplore.addEventListener("click", () => {
