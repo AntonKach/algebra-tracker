@@ -78,15 +78,33 @@ window.onload = function () {
         }
 
         const sciEl = document.getElementById('scientific-calculator');
-        if (sciEl && typeof Desmos !== 'undefined' && typeof Desmos.ScientificCalculator === 'function') sciCalculator = Desmos.ScientificCalculator(sciEl, { invertedColors: true });
+        if (sciEl && typeof Desmos !== 'undefined' && typeof Desmos.ScientificCalculator === 'function') {
+            sciCalculator = Desmos.ScientificCalculator(sciEl, { invertedColors: true });
+            window.sciCalculator = sciCalculator;
+        }
 
         const calcEl = document.getElementById('calculator');
-        if (calcEl && typeof Desmos !== 'undefined') calculator = Desmos.GraphingCalculator(calcEl, { keypad: true, expressions: false, settingsMenu: false, invertedColors: true });
+        if (calcEl && typeof Desmos !== 'undefined') {
+            calculator = Desmos.GraphingCalculator(calcEl, { keypad: true, expressions: false, settingsMenu: false, invertedColors: true });
+            window.calculator = calculator;
+        }
 
         const geoEl = document.getElementById('desmos-geometry');
         if (geoEl && typeof Desmos !== 'undefined' && typeof Desmos.Geometry === 'function') {
             window.geoCalculator = Desmos.Geometry(geoEl, { language: 'el' });
         }
+
+        window.resizeAllCalculators = function() {
+            if (window.calculator && typeof window.calculator.resize === 'function') {
+                window.calculator.resize();
+            }
+            if (window.sciCalculator && typeof window.sciCalculator.resize === 'function') {
+                window.sciCalculator.resize();
+            }
+            if (window.geoCalculator && typeof window.geoCalculator.resize === 'function') {
+                window.geoCalculator.resize();
+            }
+        };
 
         initOcrCanvas();
 
@@ -705,7 +723,12 @@ window.acceptLegalAgreement = function () {
     if (landingContainer) landingContainer.style.display = 'none';
 
     const mainApp = document.getElementById("main-app");
-    if (mainApp) mainApp.style.display = 'block';
+    if (mainApp) {
+        mainApp.style.display = 'block';
+        if (window.resizeAllCalculators) {
+            window.resizeAllCalculators();
+        }
+    }
 };
 
 window.switchTab = function (tabName) {
@@ -730,7 +753,12 @@ window.switchTab = function (tabName) {
     if (sections[tabName]) sections[tabName].classList.remove("hidden");
     if (tabs[tabName]) tabs[tabName].classList.add("active");
 
-    if (tabName === 'geometry' && !window.currentGeoAnswer) window.generateContextProblem('geometry');
+    if (tabName === 'geometry') {
+        if (window.geoCalculator && typeof window.geoCalculator.resize === 'function') {
+            window.geoCalculator.resize();
+        }
+        if (!window.currentGeoAnswer) window.generateContextProblem('geometry');
+    }
     if (tabName === 'trig' && !window.currentTrigAnswer) window.generateContextProblem('trig');
     if (tabName === 'topology' && !window.currentTopologyAnswer) window.generateContextProblem('topology');
 };

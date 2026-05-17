@@ -66,6 +66,9 @@ onAuthStateChanged(auth, async (user) => {
         const mainApp = document.getElementById("main-app");
         if (mainApp) {
             mainApp.style.display = "block";
+            if (window.resizeAllCalculators) {
+                window.resizeAllCalculators();
+            }
         }
     } else {
         const btn = document.getElementById("btn-login");
@@ -136,6 +139,9 @@ window.loginWithGoogle = async () => {
         const mainApp = document.getElementById("main-app");
         if (mainApp) {
             mainApp.style.display = "block";
+            if (window.resizeAllCalculators) {
+                window.resizeAllCalculators();
+            }
         }
 
     } catch (error) {
@@ -519,6 +525,9 @@ window.loginWithEmail = async (email, password) => {
         const mainApp = document.getElementById("main-app");
         if (mainApp) {
             mainApp.style.display = "block";
+            if (window.resizeAllCalculators) {
+                window.resizeAllCalculators();
+            }
         }
     } catch (e) {
         console.error("Login error:", e);
@@ -560,6 +569,9 @@ window.signUpWithEmail = async (email, password) => {
         const mainApp = document.getElementById("main-app");
         if (mainApp) {
             mainApp.style.display = "block";
+            if (window.resizeAllCalculators) {
+                window.resizeAllCalculators();
+            }
         }
     } catch (e) {
         console.error("Signup error:", e);
