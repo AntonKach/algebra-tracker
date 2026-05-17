@@ -1,6 +1,6 @@
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-app.js";
 import { getAuth, signInWithPopup, GoogleAuthProvider, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-auth.js";
-import { getFirestore, doc, setDoc, getDoc, collection, addDoc, query, orderBy, limit, onSnapshot, serverTimestamp, getDocs } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-firestore.js";
+import { getFirestore, doc, setDoc, getDoc, collection, addDoc, query, orderBy, limit, onSnapshot, serverTimestamp, getDocs, where, or } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-firestore.js";
 
 const firebaseConfig = {
   apiKey: "AIzaSyCovxsWgdbcq2xcvtEMcg281DshyVRQl7A",
@@ -119,15 +119,130 @@ window.saveToCloud = async (newScore, newStats) => {
     }
 };
 
-window.listenToChat = function() {
-    const q = query(collection(db, "messages"), orderBy("createdAt", "desc"), limit(15));
+window.activeChatUserId = null;
+window.activeChatUserName = "";
+window.unsubscribeChat = null;
+
+window.openGlobalChat = function() {
+    window.activeChatUserId = null;
+    window.activeChatUserName = "";
+    const backBtn = document.getElementById("btn-back-chat");
+    if(backBtn) backBtn.style.display = "none";
+    document.getElementById("chat-title").innerText = "Γατό-Chat (Global)";
+    document.getElementById("chat-view").style.display = "flex";
+    document.getElementById("users-list-view").style.display = "none";
     
-    onSnapshot(q, async (snapshot) => {
+    document.getElementById("btn-tab-global").style.background = "#03dac6";
+    document.getElementById("btn-tab-global").style.color = "black";
+    document.getElementById("btn-tab-private").style.background = "#252525";
+    document.getElementById("btn-tab-private").style.color = "white";
+
+    window.listenToChat();
+};
+
+window.openPrivateList = function() {
+    window.activeChatUserId = null;
+    window.activeChatUserName = "";
+    if (window.unsubscribeChat) {
+        window.unsubscribeChat();
+        window.unsubscribeChat = null;
+    }
+    
+    const backBtn = document.getElementById("btn-back-chat");
+    if(backBtn) backBtn.style.display = "none";
+    document.getElementById("chat-title").innerText = "Private Messages";
+    document.getElementById("chat-view").style.display = "none";
+    document.getElementById("users-list-view").style.display = "flex";
+    
+    document.getElementById("btn-tab-global").style.background = "#252525";
+    document.getElementById("btn-tab-global").style.color = "white";
+    document.getElementById("btn-tab-private").style.background = "#03dac6";
+    document.getElementById("btn-tab-private").style.color = "black";
+
+    window.loadUsersList();
+};
+
+window.openPrivateChat = function(userId, userName) {
+    window.activeChatUserId = userId;
+    window.activeChatUserName = userName;
+    
+    const backBtn = document.getElementById("btn-back-chat");
+    if(backBtn) backBtn.style.display = "block";
+    document.getElementById("chat-title").innerText = "Chat w/ " + userName;
+    document.getElementById("chat-view").style.display = "flex";
+    document.getElementById("users-list-view").style.display = "none";
+    
+    window.listenToChat();
+};
+
+window.loadUsersList = async function() {
+    const listEl = document.getElementById("users-list");
+    if (!listEl) return;
+    listEl.innerHTML = "<p style='color:#888;text-align:center;'>Φόρτωση χρηστών...</p>";
+    
+    if (!window.currentUserId) {
+        listEl.innerHTML = "<p style='color:#cf6679;text-align:center;'>Συνδέσου με Google για να δεις τους χρήστες!</p>";
+        return;
+    }
+    
+    try {
+        const usersSnap = await getDocs(collection(db, "users"));
+        listEl.innerHTML = "";
+        let found = false;
+        
+        usersSnap.forEach(doc => {
+            if (doc.id === window.currentUserId) return;
+            found = true;
+            const data = doc.data();
+            listEl.innerHTML += `<div onclick="window.openPrivateChat('${doc.id}', '${data.name || 'Άγνωστος'}')" style="padding:10px; border-bottom:1px solid #444; cursor:pointer; display:flex; align-items:center; gap:10px;">
+                <div style="background:#03dac6; color:black; width:30px; height:30px; border-radius:50%; display:flex; justify-content:center; align-items:center; font-weight:bold;">${(data.name || '?').charAt(0).toUpperCase()}</div>
+                <div>
+                    <div style="color:white; font-weight:bold;">${data.name || 'Άγνωστος User'}</div>
+                </div>
+            </div>`;
+        });
+        
+        if (!found) {
+            listEl.innerHTML = "<p style='color:#888;text-align:center;'>Δεν βρέθηκαν άλλοι χρήστες.</p>";
+        }
+    } catch (e) {
+        console.error("Error loading users:", e);
+        listEl.innerHTML = "<p style='color:#cf6679;text-align:center;'>Σφάλμα φόρτωσης χρηστών.</p>";
+    }
+};
+
+window.listenToChat = function() {
+    if (window.unsubscribeChat) {
+        window.unsubscribeChat();
+        window.unsubscribeChat = null;
+    }
+
+    let q;
+    if (window.activeChatUserId) {
+        // Private Chat logic
+        if (!window.currentUserId) return;
+        q = query(collection(db, "private_messages"), 
+                  where("participants", "array-contains", window.currentUserId),
+                  orderBy("createdAt", "desc"), 
+                  limit(20));
+    } else {
+        // Global Chat logic
+        q = query(collection(db, "messages"), orderBy("createdAt", "desc"), limit(15));
+    }
+    
+    window.unsubscribeChat = onSnapshot(q, async (snapshot) => {
         const chatBox = document.getElementById("chat-messages");
         if (!chatBox) return;
         
         const msgs = [];
-        snapshot.forEach((doc) => msgs.push(doc.data()));
+        snapshot.forEach((doc) => {
+            const data = doc.data();
+            if (window.activeChatUserId) {
+                // For private messages, ensure it belongs to the EXACT pair of users
+                if (!data.participants || !data.participants.includes(window.activeChatUserId)) return;
+            }
+            msgs.push(data);
+        });
         
         chatBox.innerHTML = "";
         const reversedMsgs = msgs.reverse();
@@ -169,8 +284,6 @@ window.sendChatMessage = async function(text) {
     }
 
     try {
-        // Fetch all users to get their public keys
-        const usersSnap = await getDocs(collection(db, "users"));
         const encryptedTexts = {};
 
         // Always encrypt for ourselves first to guarantee we can read our own message
@@ -183,38 +296,74 @@ window.sendChatMessage = async function(text) {
             }
         }
 
-        for (const userDoc of usersSnap.docs) {
-            if (userDoc.id === window.currentUserId) continue; // Ήδη το κάναμε
-            
-            const userData = userDoc.data();
-            if (userData.publicKey) {
-                try {
-                    // Import the recipient's public key
-                    const recipientPubKey = await window.crypto.subtle.importKey(
-                        "jwk",
-                        userData.publicKey,
-                        { name: "RSA-OAEP", hash: "SHA-256" },
-                        true,
-                        ["encrypt"]
-                    );
-                    
-                    // Encrypt the message
-                    const encryptedBuffer = await window.CryptoEngine.encryptMessage(text, recipientPubKey);
-                    
-                    // Convert to Base64
-                    encryptedTexts[userDoc.id] = window.CryptoEngine.arrayBufferToBase64(encryptedBuffer);
-                } catch (e) {
-                    console.error("Failed to encrypt for user:", userDoc.id, e);
+        if (window.activeChatUserId) {
+            // Private Message
+            const targetUserDoc = await getDoc(doc(db, "users", window.activeChatUserId));
+            if (targetUserDoc.exists()) {
+                const userData = targetUserDoc.data();
+                if (userData.publicKey) {
+                    try {
+                        const recipientPubKey = await window.crypto.subtle.importKey(
+                            "jwk",
+                            userData.publicKey,
+                            { name: "RSA-OAEP", hash: "SHA-256" },
+                            true,
+                            ["encrypt"]
+                        );
+                        
+                        const encryptedBuffer = await window.CryptoEngine.encryptMessage(text, recipientPubKey);
+                        encryptedTexts[window.activeChatUserId] = window.CryptoEngine.arrayBufferToBase64(encryptedBuffer);
+                    } catch (e) {
+                        console.error("Failed to encrypt for user:", window.activeChatUserId, e);
+                    }
                 }
             }
-        }
 
-        await addDoc(collection(db, "messages"), {
-            encryptedTexts: encryptedTexts,
-            user: window.currentUserName,
-            senderId: window.currentUserId,
-            createdAt: serverTimestamp()
-        });
+            await addDoc(collection(db, "private_messages"), {
+                encryptedTexts: encryptedTexts,
+                user: window.currentUserName,
+                senderId: window.currentUserId,
+                participants: [window.currentUserId, window.activeChatUserId],
+                createdAt: serverTimestamp()
+            });
+
+        } else {
+            // Global Message
+            const usersSnap = await getDocs(collection(db, "users"));
+
+            for (const userDoc of usersSnap.docs) {
+                if (userDoc.id === window.currentUserId) continue; // Ήδη το κάναμε
+                
+                const userData = userDoc.data();
+                if (userData.publicKey) {
+                    try {
+                        // Import the recipient's public key
+                        const recipientPubKey = await window.crypto.subtle.importKey(
+                            "jwk",
+                            userData.publicKey,
+                            { name: "RSA-OAEP", hash: "SHA-256" },
+                            true,
+                            ["encrypt"]
+                        );
+                        
+                        // Encrypt the message
+                        const encryptedBuffer = await window.CryptoEngine.encryptMessage(text, recipientPubKey);
+                        
+                        // Convert to Base64
+                        encryptedTexts[userDoc.id] = window.CryptoEngine.arrayBufferToBase64(encryptedBuffer);
+                    } catch (e) {
+                        console.error("Failed to encrypt for user:", userDoc.id, e);
+                    }
+                }
+            }
+
+            await addDoc(collection(db, "messages"), {
+                encryptedTexts: encryptedTexts,
+                user: window.currentUserName,
+                senderId: window.currentUserId,
+                createdAt: serverTimestamp()
+            });
+        }
     } catch (error) {
         console.error("Error sending message:", error);
         alert("Σφάλμα κατά την αποστολή του μηνύματος.");
