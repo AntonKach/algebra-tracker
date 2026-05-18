@@ -42,6 +42,12 @@ onAuthStateChanged(auth, async (user) => {
             if(window.updateGameData) {
                 window.updateGameData(data.score, data.stats);
             }
+        } else {
+            await setDoc(userRef, {
+                name: user.displayName || user.email.split('@')[0],
+                email: user.email,
+                createdAt: serverTimestamp()
+            });
         }
         
         if (window.initE2EE) {
@@ -116,6 +122,11 @@ window.loginWithGoogle = async () => {
             }
             alert("Καλώς ήρθες, " + user.displayName + "! Το σκορ σου φορτώθηκε! ☁️🐾");
         } else {
+            await setDoc(userRef, {
+                name: user.displayName,
+                email: user.email,
+                createdAt: serverTimestamp()
+            });
             alert("Καλώς ήρθες, " + user.displayName + "! Έγινε δημιουργία προφίλ. 🐾");
         }
         

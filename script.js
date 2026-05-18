@@ -26,7 +26,7 @@ if (typeof educationData === 'undefined') {
     window.educationData = {
         "gym_a": { title: { el: "Α' Γυμνασίου", en: "7th Grade", fr: "5e", es: "1º ESO", it: "1ª Media", tr: "7. Sınıf", ar: "الصف السابع" } },
         "gym_b": { title: { el: "Β' Γυμνασίου", en: "8th Grade", fr: "4e", es: "2º ESO", it: "2ª Media", tr: "8. Sınıf", ar: "الصف الثامن" } },
-        "gym_c": { title: { el: "Γ' Γυμνασίου", en: "9th Grade", fr: "3e", es: "3º ESO", it: "3ª Media", tr: "9. Sınıf", ar: "الصف التاسع" } },
+        "gym_g": { title: { el: "Γ' Γυμνασίου", en: "9th Grade", fr: "3e", es: "3º ESO", it: "3ª Media", tr: "9. Sınıf", ar: "الصف التاسع" } },
         "lyc_a": { title: { el: "Α' Λυκείου", en: "10th Grade", fr: "2de", es: "4º ESO", it: "1ª Superiore", tr: "10. Sınıf", ar: "الصف العاشر" } }
     };
 }
@@ -95,15 +95,20 @@ window.onload = function () {
         }
 
         window.resizeAllCalculators = function() {
-            if (window.calculator && typeof window.calculator.resize === 'function') {
-                window.calculator.resize();
-            }
-            if (window.sciCalculator && typeof window.sciCalculator.resize === 'function') {
-                window.sciCalculator.resize();
-            }
-            if (window.geoCalculator && typeof window.geoCalculator.resize === 'function') {
-                window.geoCalculator.resize();
-            }
+            const doResize = () => {
+                if (window.calculator && typeof window.calculator.resize === 'function') {
+                    window.calculator.resize();
+                }
+                if (window.sciCalculator && typeof window.sciCalculator.resize === 'function') {
+                    window.sciCalculator.resize();
+                }
+                if (window.geoCalculator && typeof window.geoCalculator.resize === 'function') {
+                    window.geoCalculator.resize();
+                }
+            };
+            doResize();
+            setTimeout(doResize, 100);
+            setTimeout(doResize, 250);
         };
 
         initOcrCanvas();
@@ -882,9 +887,6 @@ window.analyzeSteps = function () {
                 let lhs = parts[0].trim();
                 let rhs = parts[1].trim();
 
-                let simplifiedLHS = formatMathString(math.simplify(lhs).toString());
-                let simplifiedRHS = formatMathString(math.simplify(rhs).toString());
-
                 helpDiv.innerHTML += `${t.helpOriginal || "Αρχική"}: <code>${formatMathString(lhs)} = ${formatMathString(rhs)}</code><br>`;
 
                 let expr = `(${lhs}) - (${rhs})`;
@@ -893,16 +895,69 @@ window.analyzeSteps = function () {
 
                 try {
                     let rawExpr = math.simplify(expr).toString();
-                    let b_val = math.evaluate(rawExpr, { x: 0 });
-                    let a_val = math.derivative(rawExpr, 'x').evaluate({ x: 0 });
+                    
+                    // Derivatives
+                    let d1 = math.derivative(rawExpr, 'x');
+                    let d2 = math.derivative(d1, 'x');
 
-                    if (a_val !== 0) {
-                        let root = -b_val / a_val;
-                        helpDiv.innerHTML += `${t.helpStep2 || "Βήμα 2 (Παράγωγος - Εύρεση κλίσης)"}: <code>a=${a_val}, b=${b_val}</code><br>`;
-                        helpDiv.innerHTML += `${t.helpSolution || "Λύση"}: x = -b / a = <strong>${root}</strong>`;
+                    // Evaluate at x = 0 and x = 1
+                    let f_0 = math.evaluate(rawExpr, { x: 0 });
+                    let df_0 = d1.evaluate({ x: 0 });
+                    let df_1 = d1.evaluate({ x: 1 });
+                    let ddf_0 = d2.evaluate({ x: 0 });
+                    let ddf_1 = d2.evaluate({ x: 1 });
+
+                    const epsilon = 1e-9;
+                    const isLinear = Math.abs(ddf_0) < epsilon && Math.abs(ddf_1) < epsilon && Math.abs(df_0 - df_1) < epsilon;
+
+                    if (isLinear) {
+                        let b = df_0; // Coefficient of x
+                        let c = f_0;  // Constant term
+                        if (Math.abs(b) > epsilon) {
+                            let root = -c / b;
+                            // Clean up float representation
+                            root = Math.round(root * 1000) / 1000;
+                            let step2Word = currentLang === 'el' ? "Βήμα 2 (Εύρεση συντελεστών)" : "Step 2 (Find coefficients)";
+                            helpDiv.innerHTML += `${step2Word}: <code>a = ${Math.round(b*1000)/1000}, b = ${Math.round(c*1000)/1000}</code> (ax + b = 0)<br>`;
+                            helpDiv.innerHTML += `${t.helpSolution || "Λύση"}: x = -b / a = <strong>${root}</strong>`;
+                        } else {
+                            helpDiv.innerHTML += currentLang === 'el' ? "Η εξίσωση είναι αδύνατη ή αόριστη." : "The equation is inconsistent or has infinite solutions.";
+                        }
+                    } else {
+                        // Check if quadratic
+                        let a_quad = ddf_0 / 2;
+                        let b_quad = df_0;
+                        let c_quad = f_0;
+
+                        if (Math.abs(a_quad) > epsilon) {
+                            let disc = b_quad * b_quad - 4 * a_quad * c_quad;
+                            let step2Word = currentLang === 'el' ? "Βήμα 2 (Συντελεστές)" : "Step 2 (Coefficients)";
+                            helpDiv.innerHTML += `${step2Word}: <code>a = ${Math.round(a_quad*1000)/1000}, b = ${Math.round(b_quad*1000)/1000}, c = ${Math.round(c_quad*1000)/1000}</code> (ax² + bx + c = 0)<br>`;
+                            
+                            if (disc > epsilon) {
+                                let x1 = (-b_quad + Math.sqrt(disc)) / (2 * a_quad);
+                                let x2 = (-b_quad - Math.sqrt(disc)) / (2 * a_quad);
+                                x1 = Math.round(x1 * 1000) / 1000;
+                                x2 = Math.round(x2 * 1000) / 1000;
+                                let roots = [x1, x2].sort((a,b) => a - b);
+                                helpDiv.innerHTML += `Διακρίνουσα Δ = b² - 4ac = ${Math.round(disc*1000)/1000}<br>`;
+                                helpDiv.innerHTML += `${t.helpSolution || "Λύση"}: x₁ = <strong>${roots[0]}</strong>, x₂ = <strong>${roots[1]}</strong>`;
+                            } else if (Math.abs(disc) < epsilon) {
+                                let x_double = -b_quad / (2 * a_quad);
+                                x_double = Math.round(x_double * 1000) / 1000;
+                                helpDiv.innerHTML += `Διακρίνουσα Δ = 0<br>`;
+                                helpDiv.innerHTML += `${t.helpSolution || "Λύση"}: Διπλή ρίζα x = <strong>${x_double}</strong>`;
+                            } else {
+                                helpDiv.innerHTML += `Διακρίνουσα Δ < 0 (Δ = ${Math.round(disc*1000)/1000})<br>`;
+                                helpDiv.innerHTML += currentLang === 'el' ? "Δεν υπάρχουν πραγματικές ρίζες." : "No real roots exist.";
+                            }
+                        } else {
+                            helpDiv.innerHTML += t.helpError || "Δεν ήταν δυνατή η ανάλυση της εξίσωσης.";
+                        }
                     }
                 } catch (err) {
-                    helpDiv.innerHTML += t.helpError || "Η εξίσωση δεν είναι απλή γραμμική ή έχει άλλη μεταβλητή (π.χ. y).";
+                    console.error("Step derivative error:", err);
+                    helpDiv.innerHTML += t.helpError || "Η εξίσωση δεν είναι απλή γραμμική ή δευτεροβάθμια.";
                 }
 
             } else {
