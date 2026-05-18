@@ -1,6 +1,6 @@
 const translations = {
   el: {
-    mainTitle: "Catgebra ", btnLogin: " Σύνδεση με Google",
+    mainTitle: "Catgebra ", btnLogin: " Σύνδεση με Google", btnProfile: "Προφίλ", profileTitle: "Το Προφίλ μου", btnProfileClose: "Κλείσιμο", lblBadges: "Τα Παράσημά μου",
     lblLevel: "Επίπεδο Σπουδών:", lblSelectLevel: "Δυσκολία:", 
     optLevel1: "Επίπεδο 1: Γατάκι (ax + b = c)", optLevel2: "Επίπεδο 2: Γάτος (ax + b = cx + d)", optLevel3: "Επίπεδο 3: Τίγρης (Δευτεροβάθμιες)", optLevel4: "Επίπεδο 4: Λιοντάρι (Κλάσματα & Παρενθέσεις)",
     lblScore: "Σκορ:", lblTime: "Χρόνος:", btnSecret: " Μυστικό!", btnChatToggle: " Chat",
@@ -52,7 +52,7 @@ const translations = {
     tipLevel4: "💡 Tip: Πρόσεξε καλά τις πράξεις με τα κλάσματα και τις παρενθέσεις. Κάνε το βήμα-βήμα στο πρόχειρο!"
   },
   en: {
-    mainTitle: "Catgebra ", btnLogin: " Login with Google",
+    mainTitle: "Catgebra ", btnLogin: " Login with Google", btnProfile: "Profile", profileTitle: "My Profile", btnProfileClose: "Close", lblBadges: "My Badges",
     lblLevel: "Study Level:", lblSelectLevel: "Difficulty:",
     optLevel1: "Level 1: Kitten (ax + b = c)", optLevel2: "Level 2: Cat (ax + b = cx + d)", optLevel3: "Level 3: Tiger (Quadratics)", optLevel4: "Level 4: Lion (Fractions & Parentheses)",
     lblScore: "Score:", lblTime: "Time:", btnSecret: " Secret!", btnChatToggle: " Chat",
@@ -102,7 +102,7 @@ const translations = {
     tipLevel4: "💡 Tip: Be careful with fractions and parentheses. Go step-by-step on the scratchpad!"
   },
   fr: {
-    mainTitle: "Catgebra ", btnLogin: " Se connecter avec Google",
+    mainTitle: "Catgebra ", btnLogin: " Se connecter avec Google", btnProfile: "Profil", profileTitle: "Mon Profil", btnProfileClose: "Fermer", lblBadges: "Mes Badges",
     lblLevel: "Niveau d'étude:", lblSelectLevel: "Difficulté:",
     optLevel1: "Niveau 1: Chaton (ax + b = c)", optLevel2: "Niveau 2: Chat (ax + b = cx + d)", optLevel3: "Niveau 3: Tigre (Second degré)", optLevel4: "Niveau 4 : Lion (Fractions et Parenthèses)",
     lblScore: "Score:", lblTime: "Temps:", btnSecret: " Secret!", btnChatToggle: " Chat",
@@ -152,7 +152,7 @@ const translations = {
     tipLevel4: "💡 Conseil : Faites attention aux fractions et aux parenthèses. Procédez étape par étape !",
   },
   es: {
-    mainTitle: "Catgebra ", btnLogin: " Iniciar sesión con Google",
+    mainTitle: "Catgebra ", btnLogin: " Iniciar sesión con Google", btnProfile: "Perfil", profileTitle: "Mi Perfil", btnProfileClose: "Cerrar", lblBadges: "Mis Insignias",
     lblLevel: "Nivel de estudio:", lblSelectLevel: "Dificultad:",
     optLevel1: "Nivel 1: Gatito (ax + b = c)", optLevel2: "Nivel 2: Gato (ax + b = cx + d)", optLevel3: "Nivel 3: Tigre (Cuadráticas)", optLevel4: "Nivel 4: León (Fracciones y Paréntesis)",
     lblScore: "Puntaje:", lblTime: "Tiempo:", btnSecret: " ¡Secreto!", btnChatToggle: " Chat",
@@ -202,7 +202,7 @@ const translations = {
     tipLevel4: "💡 Consejo: Ten cuidado con las fracciones y los paréntesis. ¡Hazlo paso a paso!"
   },
   tr: {
-    mainTitle: "Catgebra ", btnLogin: " Google ile Giriş",
+    mainTitle: "Catgebra ", btnLogin: " Google ile Giriş", btnProfile: "Profil", profileTitle: "Profilim", btnProfileClose: "Kapat", lblBadges: "Rozetlerim",
     lblLevel: "Eğitim Seviyesi:", lblSelectLevel: "Zorluk:",
     optLevel1: "Seviye 1: Yavru Kedi (ax + b = c)", optLevel2: "Seviye 2: Kedi (ax + b = cx + d)", optLevel3: "Seviye 3: Kaplan (İkinci Dereceden)", optLevel4: "Seviye 4: Aslan (Kesirler ve Parantezler)",
     lblScore: "Puan:", lblTime: "Zaman:", btnSecret: " Sır!", btnChatToggle: " Sohbet",
@@ -252,7 +252,7 @@ const translations = {
     tipLevel4: "💡 İpucu: Kesirli işlemler ve parantezlere dikkat edin. Adım adım ilerleyin!"
   },
   it: {
-    mainTitle: "Catgebra ", btnLogin: " Accedi con Google",
+    mainTitle: "Catgebra ", btnLogin: " Accedi con Google", btnProfile: "Profilo", profileTitle: "Il mio Profilo", btnProfileClose: "Chiudi", lblBadges: "I miei Distintivi",
     lblLevel: "Livello di studio:", lblSelectLevel: "Difficoltà:",
     optLevel1: "Livello 1: Gattino (ax + b = c)", optLevel2: "Livello 2: Gatto (ax + b = cx + d)", optLevel3: "Livello 3: Tigre (Equazioni)", optLevel4: "Livello 4: Leone (Frazioni)",
     lblScore: "Punteggio:", lblTime: "Tempo:", btnSecret: " Segreto!", btnChatToggle: " Chat",
@@ -302,7 +302,7 @@ const translations = {
     tipLevel4: "💡 Suggerimento: Fai attenzione alle frazioni e alle parentesi. Procedi passo dopo passo!"
   },
   ar: {
-    mainTitle: "Catgebra ", btnLogin: " تسجيل الدخول",
+    mainTitle: "Catgebra ", btnLogin: " تسجيل الدخول", btnProfile: "الملف الشخصي", profileTitle: "ملفي الشخصي", btnProfileClose: "إغلاق", lblBadges: "شاراتي",
     lblLevel: "مستوى الدراسة:", lblSelectLevel: "الصعوبة:",
     optLevel1: "المستوى 1: قطة صغيرة (ax + b = c)", optLevel2: "المستوى 2: قطة (ax + b = cx + d)", optLevel3: "المستوى 3: نمر (المعادلات التربيعية)", optLevel4: "المستوى 4: أسد (الكسور والأقواس)",
     lblScore: "النتيجة:", lblTime: "الوقت:", btnSecret: " سر!", btnChatToggle: " دردشة",

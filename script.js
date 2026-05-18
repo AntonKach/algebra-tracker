@@ -178,6 +178,10 @@ function changeLanguage() {
     safeSetText("lbl-time", t.lblTime);
     safeSetText("btn-secret", t.btnSecret);
     safeSetText("btn-chat-toggle", t.btnChatToggle);
+    safeSetText("btn-profile", t.btnProfile);
+    safeSetText("profile-title", t.profileTitle);
+    safeSetText("btn-profile-close", t.btnProfileClose);
+    safeSetText("lbl-badges", t.lblBadges);
     safeSetPlaceholder("answer", t.placeholderAns);
     const kbdBtn = document.getElementById("kbd-toggle-btn");
     if (kbdBtn) kbdBtn.title = t.kbdToggleTitle;
@@ -470,9 +474,10 @@ window.checkContextAnswer = function (category) {
 };
 
 window.generateContextProblem = function (category) {
-    const probEl = document.getElementById(`${category}-problem`);
-    const inputEl = document.getElementById(`${category}-answer`);
-    const feedbackEl = document.getElementById(`${category}-feedback`);
+    const prefix = category === 'geometry' ? 'geo' : category;
+    const probEl = document.getElementById(`${prefix}-problem`);
+    const inputEl = document.getElementById(`${prefix}-answer`);
+    const feedbackEl = document.getElementById(`${prefix}-feedback`);
 
     if (inputEl) inputEl.value = "";
     if (feedbackEl) feedbackEl.innerText = "";
