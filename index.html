@@ -2,93 +2,165 @@
 <html lang="el">
 
 <head>
-<meta charset="UTF-8">
-<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval' https://apis.google.com https://www.gstatic.com https://cdn.jsdelivr.net; connect-src 'self' https://*.googleapis.com https://*.firebaseio.com wss://*.firebaseio.com https://securetoken.googleapis.com https://identitytoolkit.googleapis.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com data:; img-src 'self' data: https:; frame-src 'self' https://*.firebaseapp.com;"><meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="description" content="Catgebra: Η πιο διασκεδαστική εφαρμογή για να μάθεις μαθηματικά και άλγεβρα.">
-<meta name="theme-color" content="#0A84FF">
-<title>Catgebra</title>
-<link rel="manifest" href="manifest.json">
-<link rel="apple-touch-icon" href="icon.svg">
-<link rel="canonical" href="https://www.catgebra.com" />
-<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700&display=swap" rel="stylesheet">
-<script src="https://www.desmos.com/api/v1.8/calculator.js?apiKey=dcb31709b452b1cf9dc26972add0fda6"></script>
-<script src="https://www.desmos.com/api/v1.8/geometry.js?apiKey=dcb31709b452b1cf9dc26972add0fda6"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjs/11.8.0/math.js"></script>
-<script src="https://unpkg.com/tesseract.js@v2.1.0/dist/tesseract.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
-<link rel="stylesheet" href="style.css?v=1.4">
+    <meta charset="UTF-8">
+   <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval' https://apis.google.com https://www.gstatic.com https://cdn.jsdelivr.net https://www.desmos.com; connect-src 'self' https://*.googleapis.com https://*.firebaseio.com wss://*.firebaseio.com https://securetoken.googleapis.com https://identitytoolkit.googleapis.com https://www.desmos.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com data:; img-src 'self' data: https: blob:; frame-src 'self' https://*.firebaseapp.com; worker-src 'self' blob:;">
+   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Catgebra: Η πιο διασκεδαστική εφαρμογή για να μάθεις μαθηματικά και άλγεβρα.">
+    <meta name="theme-color" content="#0A84FF">
+    <title>Catgebra</title>
+    <link rel="manifest" href="manifest.json">
+    <link rel="apple-touch-icon" href="icon.svg">
+    <link rel="canonical" href="https://www.catgebra.com" />
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700&display=swap" rel="stylesheet">
+    <script src="https://www.desmos.com/api/v1.8/calculator.js?apiKey=dcb31709b452b1cf9dc26972add0fda6"></script>
+    <script src="https://www.desmos.com/api/v1.8/geometry.js?apiKey=dcb31709b452b1cf9dc26972add0fda6"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjs/11.8.0/math.js"></script>
+    <script src="https://unpkg.com/tesseract.js@v2.1.0/dist/tesseract.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+    <link rel="stylesheet" href="style.css?v=1.4">
 </head>
 
 <body>
-    <div id="welcome-splash" style="position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background-color: #121212; z-index: 99999; display: flex; flex-direction: column; align-items: center; justify-content: center; color: white;">
-    <h1 style="font-size: 4rem; margin-bottom: 10px;">Catgebra</h1>
-    <p style="font-size: 1.2rem; margin-bottom: 30px; color: #a1a1aa;">Μαθηματικά για την πραγματική ζωή.</p>
-    <button id="btn-welcome-explore" style="background-color: #0A84FF; color: white; padding: 15px 30px; border-radius: 12px; border: none; font-size: 1.2rem; cursor: pointer; font-weight: bold; box-shadow: 0 4px 15px rgba(10, 132, 255, 0.4);">Εξερεύνηση</button>
-</div>
-<!-- Landing Container Overlay (SPA Flow) -->
-<div id="landing-container">
-    
-    <!-- Landing View -->
-    <div id="landing-view">
-        <div class="landing-hero">
-            <h1 class="landing-title">Catgebra: Μαθηματικά για την πραγματική ζωή</h1>
-            <p class="landing-subtitle">Ξέχνα τα ανούσια προβλήματα. Λύσε πραγματικά σενάρια καθημερινότητας με απόλυτη προστασία της ιδιωτικότητάς σου.</p>
-            <button id="btn-explore" onclick="exploreApp()" class="landing-cta-btn">Σύνδεση / Εξερεύνηση</button>
-        </div>
-        
-        <div class="landing-features">
-            <div class="feature-card">
-                <span class="feature-icon">🍳</span>
-                <h3 class="feature-title">Πρακτικά Σενάρια</h3>
-                <p class="feature-desc">Μαγειρική, Κηπουρική, DIY. Λύσε αληθινά προβλήματα που βγάζουν νόημα στην καθημερινότητά σου!</p>
-            </div>
-            <div class="feature-card">
-                <span class="feature-icon">🔒</span>
-                <h3 class="feature-title">Απόλυτη Ιδιωτικότητα</h3>
-                <p class="feature-desc">Προστατευμένο E2EE Chat και τοπική αποθήκευση. Τα δεδομένα σου ανήκουν αποκλειστικά σε σένα.</p>
-            </div>
-            <div class="feature-card">
-                <span class="feature-icon">🧠</span>
-                <h3 class="feature-title">AI Tutor</h3>
-                <p class="feature-desc">Έξυπνη ανάλυση λύσεων βήμα-βήμα και υποστήριξη σε πραγματικό χρόνο για κάθε σου απορία.</p>
-            </div>
-        </div>
+    <div id="welcome-splash"
+        style="position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background-color: #121212; z-index: 99999; display: flex; flex-direction: column; align-items: center; justify-content: center; color: white;">
+        <h1 style="font-size: 4rem; margin-bottom: 10px;">Catgebra</h1>
+        <p style="font-size: 1.2rem; margin-bottom: 30px; color: #a1a1aa;">Μαθηματικά για την πραγματική ζωή.</p>
+        <button id="btn-welcome-explore"
+            style="background-color: #0A84FF; color: white; padding: 15px 30px; border-radius: 12px; border: none; font-size: 1.2rem; cursor: pointer; font-weight: bold; box-shadow: 0 4px 15px rgba(10, 132, 255, 0.4);">Εξερεύνηση</button>
     </div>
-    
-    <!-- Login View (initially hidden) -->
-    <div id="login-view" style="display: none;">
-        <div class="login-card">
-            <h2 class="login-title">Είσοδος στην Catgebra</h2>
-            <p class="login-subtitle">Συνδεθείτε για να συνομιλήσετε με E2EE Chat και να σώσετε την πρόοδό σας στο Cloud!</p>
-            
-            <div class="login-form">
-                <input type="text" id="login-email" placeholder="Email (π.χ. kitty@catgebra.com)" style="max-width: 100%;">
-                <input type="password" id="login-password" placeholder="Κωδικός Πρόσβασης" style="max-width: 100%; background-color: rgba(118, 118, 128, 0.24); border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 12px; padding: 12px 16px; font-size: 1.1em; color: white; width: 100%; margin: 10px auto; outline: none; display: block;">
-                
-                <div style="margin-top: 20px; display: flex; flex-direction: column; gap: 10px;">
-                    <button id="btn-login-submit" onclick="submitLogin()" class="check-btn" style="width: 100%; margin: 0; padding: 14px;">Είσοδος</button>
-                    <button id="btn-signup-submit" onclick="submitSignup()" class="help-btn" style="width: 100%; margin: 0; padding: 14px;">Δημιουργία Λογαριασμού</button>
+    <!-- Landing Container Overlay (SPA Flow) -->
+    <div id="landing-container">
+
+        <!-- Landing View -->
+        <div id="landing-view">
+            <div class="landing-hero">
+                <h1 class="landing-title">Catgebra: Μαθηματικά για την πραγματική ζωή</h1>
+                <p class="landing-subtitle">Ξέχνα τα ανούσια προβλήματα. Λύσε πραγματικά σενάρια καθημερινότητας με
+                    απόλυτη προστασία της ιδιωτικότητάς σου.</p>
+                <button id="btn-explore" onclick="exploreApp()" class="landing-cta-btn">Σύνδεση / Εξερεύνηση</button>
+            </div>
+
+            <div class="landing-features">
+                <div class="feature-card">
+                    <span class="feature-icon">🍳</span>
+                    <h3 class="feature-title">Πρακτικά Σενάρια</h3>
+                    <p class="feature-desc">Μαγειρική, Κηπουρική, DIY. Λύσε αληθινά προβλήματα που βγάζουν νόημα στην
+                        καθημερινότητά σου!</p>
+                </div>
+                <div class="feature-card">
+                    <span class="feature-icon">🔒</span>
+                    <h3 class="feature-title">Απόλυτη Ιδιωτικότητα</h3>
+                    <p class="feature-desc">Προστατευμένο E2EE Chat και τοπική αποθήκευση. Τα δεδομένα σου ανήκουν
+                        αποκλειστικά σε σένα.</p>
+                </div>
+                <div class="feature-card">
+                    <span class="feature-icon">🧠</span>
+                    <h3 class="feature-title">AI Tutor</h3>
+                    <p class="feature-desc">Έξυπνη ανάλυση λύσεων βήμα-βήμα και υποστήριξη σε πραγματικό χρόνο για κάθε
+                        σου απορία.</p>
                 </div>
             </div>
-            
-            <div style="margin: 20px 0; border-top: 1px solid rgba(255,255,255,0.1); padding-top: 20px;">
-                <p style="color: rgba(235, 235, 245, 0.6); font-size: 0.9em; margin-bottom: 12px;">Ή συνδεθείτε άμεσα με το Google Account σας:</p>
-                <button onclick="loginWithGoogle()" style="background: #4285F4; color: white; border: none; padding: 12px 20px; border-radius: 12px; cursor: pointer; font-weight: bold; width: 100%; box-shadow: 0 4px 15px rgba(66, 133, 244, 0.3); transition: 0.2s;">
-                    👤 Σύνδεση με Google
+        </div>
+
+        <!-- Login View (initially hidden) -->
+        <div id="login-view" style="display: none;">
+            <div class="login-card">
+                <h2 class="login-title">Είσοδος στην Catgebra</h2>
+                <p class="login-subtitle">Συνδεθείτε για να συνομιλήσετε με E2EE Chat και να σώσετε την πρόοδό σας στο
+                    Cloud!</p>
+
+                <div class="login-form">
+                    <input type="text" id="login-email" placeholder="Email (π.χ. kitty@catgebra.com)"
+                        style="max-width: 100%;">
+                    <input type="password" id="login-password" placeholder="Κωδικός Πρόσβασης"
+                        style="max-width: 100%; background-color: rgba(118, 118, 128, 0.24); border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 12px; padding: 12px 16px; font-size: 1.1em; color: white; width: 100%; margin: 10px auto; outline: none; display: block;">
+
+                    <div style="margin-top: 20px; display: flex; flex-direction: column; gap: 10px;">
+                        <button id="btn-login-submit" onclick="submitLogin()" class="check-btn"
+                            style="width: 100%; margin: 0; padding: 14px;">Είσοδος</button>
+                        <button id="btn-signup-submit" onclick="submitSignup()" class="help-btn"
+                            style="width: 100%; margin: 0; padding: 14px;">Δημιουργία Λογαριασμού</button>
+                    </div>
+                </div>
+
+                <div style="margin: 20px 0; border-top: 1px solid rgba(255,255,255,0.1); padding-top: 20px;">
+                    <p style="color: rgba(235, 235, 245, 0.6); font-size: 0.9em; margin-bottom: 12px;">Ή συνδεθείτε
+                        άμεσα με το Google Account σας:</p>
+                    <button onclick="loginWithGoogle()"
+                        style="background: #4285F4; color: white; border: none; padding: 12px 20px; border-radius: 12px; cursor: pointer; font-weight: bold; width: 100%; box-shadow: 0 4px 15px rgba(66, 133, 244, 0.3); transition: 0.2s;">
+                        👤 Σύνδεση με Google
+                    </button>
+                </div>
+
+                <button onclick="goBackToLanding()"
+                    style="background: transparent; border: none; color: #0A84FF; cursor: pointer; font-size: 1em; font-weight: 600; text-decoration: underline; margin-top: 10px;">
+                    ← Πίσω στην εξερεύνηση
                 </button>
             </div>
-            
-            <button onclick="goBackToLanding()" style="background: transparent; border: none; color: #0A84FF; cursor: pointer; font-size: 1em; font-weight: 600; text-decoration: underline; margin-top: 10px;">
-                ← Πίσω στην εξερεύνηση
-            </button>
+        </div>
+
+        <!-- Disclaimer Modal (initially hidden) -->
+        <div id="disclaimer-modal"
+            style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); z-index: 100001; justify-content: center; align-items: center;">
+            <div class="legal-content"
+                style="background: rgba(30, 30, 30, 0.85); padding: 30px; border-radius: 24px; max-width: 500px; text-align: left; border: 1px solid rgba(255,255,255,0.1); box-shadow: 0 10px 30px rgba(0,0,0,0.5);">
+                <div style="text-align: right; margin-bottom: 10px;">
+                    <select id="legal-lang-select" onchange="changeLanguageFromModal()"
+                        style="background: #252525; border: 1px solid #bb86fc; padding: 5px; border-radius: 5px; color: white; cursor: pointer;">
+                        <option value="el">Ελληνικά</option>
+                        <option value="en">English</option>
+                        <option value="fr">Français</option>
+                        <option value="es">Español</option>
+                        <option value="it">Italiano</option>
+                        <option value="tr">Türkçe</option>
+                        <option value="ar">العربية</option>
+                    </select>
+                </div>
+                <h2 id="legal-title" style="margin-top: 0; color: #0A84FF;">Όροι Χρήσης & Ασφάλεια</h2>
+                <p id="legal-welcome" style="color: #ccc;">Καλώς ήρθατε στην Catgebra. Πριν ξεκινήσουμε την περιήγηση
+                    στον κόσμο των μαθηματικών, παρακαλούμε διαβάστε τα παρακάτω:</p>
+                <p id="legal-desc-1" style="color: #ccc; font-size: 0.9em; margin-bottom: 15px;"><strong>Εκπαιδευτικός
+                        Σκοπός (As-Is):</strong> Η εφαρμογή παρέχεται "ως έχει", αποκλειστικά ως υποστηρικτικό
+                    εκπαιδευτικό βοήθημα. Δεν φέρουμε ουδεμία ευθύνη για τυχόν σφάλματα στους αλγορίθμους, στα
+                    αποτελέσματα ή για τις επιπτώσεις αυτών σε ακαδημαϊκές βαθμολογίες.</p>
+                <p id="legal-desc-2" style="color: #ccc; font-size: 0.9em; margin-bottom: 20px;"><strong>Ιδιωτικότητα &
+                        Δεδομένα:</strong> Ο σεβασμός στην ιδιωτικότητά σας είναι απόλυτος. Τα δεδομένα προόδου
+                    αποθηκεύονται αυστηρά και μόνο τοπικά στη συσκευή σας. Η επικοινωνία στο E2EE Chat προστατεύεται με
+                    κρυπτογράφηση από άκρο σε άκρο. Δεν έχουμε καμία δυνατότητα πρόσβασης, ανάγνωσης ή αποθήκευσης των
+                    μηνυμάτων σας.</p>
+                <div class="legal-checkbox-container"
+                    style="display: flex; align-items: center; gap: 10px; margin-bottom: 20px;">
+                    <input type="checkbox" id="legal-checkbox" onchange="toggleLegalButton()"
+                        style="width: 20px; height: 20px; cursor: pointer; margin: 0;">
+                    <label for="legal-checkbox" id="legal-checkbox-label"
+                        style="font-weight: bold; cursor: pointer; color: white;">Έχω διαβάσει, κατανοώ και αποδέχομαι
+                        τους Όρους Χρήσης.</label>
+                </div>
+                <button id="btn-agree" disabled onclick="acceptLegalAgreement()"
+                    style="width: 100%; padding: 15px; background: #0A84FF; color: white; font-weight: bold; font-size: 1.1em; border: none; border-radius: 12px; cursor: not-allowed; opacity: 0.5; transition: 0.3s;">Συμφωνώ</button>
+            </div>
         </div>
     </div>
-    
-    <!-- Disclaimer Modal (initially hidden) -->
-    <div id="disclaimer-modal" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); z-index: 100001; justify-content: center; align-items: center;">
-        <div class="legal-content" style="background: rgba(30, 30, 30, 0.85); padding: 30px; border-radius: 24px; max-width: 500px; text-align: left; border: 1px solid rgba(255,255,255,0.1); box-shadow: 0 10px 30px rgba(0,0,0,0.5);">
-            <div style="text-align: right; margin-bottom: 10px;">
-                <select id="legal-lang-select" onchange="changeLanguageFromModal()" style="background: #252525; border: 1px solid #bb86fc; padding: 5px; border-radius: 5px; color: white; cursor: pointer;">
+
+    <div id="main-app" style="display:none;">
+        <div class="container">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
+                <div style="display: flex; gap: 5px;">
+                    <button id="btn-login" onclick="loginWithGoogle()"
+                        style="background: #4285F4; color: white; border: none; padding: 8px 15px; border-radius: 5px; cursor: pointer; font-weight: bold;">
+                        Σύνδεση
+                    </button>
+                    <button id="btn-logout" onclick="logoutFromGoogle()"
+                        style="background: #cf6679; color: black; border: none; padding: 8px 15px; border-radius: 5px; cursor: pointer; font-weight: bold; display: none;">
+                        Έξοδος
+                    </button>
+                    <button id="btn-profile" onclick="toggleProfile()"
+                        style="background: #bb86fc; color: black; border: none; padding: 8px 15px; border-radius: 5px; cursor: pointer; font-weight: bold;">
+                        Προφίλ
+                    </button>
+                </div>
+                <select id="lang-select" onchange="changeLanguage()"
+                    style="background: #252525; border: 1px solid #bb86fc; padding: 5px; border-radius: 5px; color: white; cursor: pointer;">
                     <option value="el">Ελληνικά</option>
                     <option value="en">English</option>
                     <option value="fr">Français</option>
@@ -98,361 +170,381 @@
                     <option value="ar">العربية</option>
                 </select>
             </div>
-            <h2 id="legal-title" style="margin-top: 0; color: #0A84FF;">Όροι Χρήσης & Ασφάλεια</h2>
-            <p id="legal-welcome" style="color: #ccc;">Καλώς ήρθατε στην Catgebra. Πριν ξεκινήσουμε την περιήγηση στον κόσμο των μαθηματικών, παρακαλούμε διαβάστε τα παρακάτω:</p>
-            <p id="legal-desc-1" style="color: #ccc; font-size: 0.9em; margin-bottom: 15px;"><strong>Εκπαιδευτικός Σκοπός (As-Is):</strong> Η εφαρμογή παρέχεται "ως έχει", αποκλειστικά ως υποστηρικτικό εκπαιδευτικό βοήθημα. Δεν φέρουμε ουδεμία ευθύνη για τυχόν σφάλματα στους αλγορίθμους, στα αποτελέσματα ή για τις επιπτώσεις αυτών σε ακαδημαϊκές βαθμολογίες.</p>
-            <p id="legal-desc-2" style="color: #ccc; font-size: 0.9em; margin-bottom: 20px;"><strong>Ιδιωτικότητα & Δεδομένα:</strong> Ο σεβασμός στην ιδιωτικότητά σας είναι απόλυτος. Τα δεδομένα προόδου αποθηκεύονται αυστηρά και μόνο τοπικά στη συσκευή σας. Η επικοινωνία στο E2EE Chat προστατεύεται με κρυπτογράφηση από άκρο σε άκρο. Δεν έχουμε καμία δυνατότητα πρόσβασης, ανάγνωσης ή αποθήκευσης των μηνυμάτων σας.</p>
-            <div class="legal-checkbox-container" style="display: flex; align-items: center; gap: 10px; margin-bottom: 20px;">
-                <input type="checkbox" id="legal-checkbox" onchange="toggleLegalButton()" style="width: 20px; height: 20px; cursor: pointer; margin: 0;">
-                <label for="legal-checkbox" id="legal-checkbox-label" style="font-weight: bold; cursor: pointer; color: white;">Έχω διαβάσει, κατανοώ και αποδέχομαι τους Όρους Χρήσης.</label>
+
+            <img src="cat.jpg" alt="Catgebra Mascot" class="mascot" id="main-avatar">
+            <h1 id="main-title">Catgebra</h1>
+
+            <div class="tabs-container">
+                <button class="tab-btn active" id="tab-algebra" onclick="switchTab('algebra')">Άλγεβρα</button>
+                <button class="tab-btn" id="tab-geometry" onclick="switchTab('geometry')">Γεωμετρία</button>
+                <button class="tab-btn" id="tab-trig" onclick="switchTab('trig')">Τριγωνομετρία</button>
+                <button class="tab-btn" id="tab-topology" onclick="switchTab('topology')">Τοπολογία</button>
             </div>
-            <button id="btn-agree" disabled onclick="acceptLegalAgreement()" style="width: 100%; padding: 15px; background: #0A84FF; color: white; font-weight: bold; font-size: 1.1em; border: none; border-radius: 12px; cursor: not-allowed; opacity: 0.5; transition: 0.3s;">Συμφωνώ</button>
-        </div>
-    </div>
-</div>
 
-<div id="main-app" style="display:none;">
-<div class="container">
-<div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
-<div style="display: flex; gap: 5px;">
-<button id="btn-login" onclick="loginWithGoogle()"
- style="background: #4285F4; color: white; border: none; padding: 8px 15px; border-radius: 5px; cursor: pointer; font-weight: bold;">
- Σύνδεση
-</button>
-<button id="btn-logout" onclick="logoutFromGoogle()"
- style="background: #cf6679; color: black; border: none; padding: 8px 15px; border-radius: 5px; cursor: pointer; font-weight: bold; display: none;">
- Έξοδος
-</button>
-<button id="btn-profile" onclick="toggleProfile()"
- style="background: #bb86fc; color: black; border: none; padding: 8px 15px; border-radius: 5px; cursor: pointer; font-weight: bold;">
- Προφίλ
-</button>
-</div>
-<select id="lang-select" onchange="changeLanguage()"
- style="background: #252525; border: 1px solid #bb86fc; padding: 5px; border-radius: 5px; color: white; cursor: pointer;">
-<option value="el">Ελληνικά</option>
-<option value="en">English</option>
-<option value="fr">Français</option>
-<option value="es">Español</option>
-<option value="it">Italiano</option>
-<option value="tr">Türkçe</option>
-<option value="ar">العربية</option>
-</select>
-</div>
-
-<img src="cat.jpg" alt="Catgebra Mascot" class="mascot" id="main-avatar">
-<h1 id="main-title">Catgebra</h1>
-
-<div class="tabs-container">
-<button class="tab-btn active" id="tab-algebra" onclick="switchTab('algebra')">Άλγεβρα</button>
-<button class="tab-btn" id="tab-geometry" onclick="switchTab('geometry')">Γεωμετρία</button>
-<button class="tab-btn" id="tab-trig" onclick="switchTab('trig')">Τριγωνομετρία</button>
-<button class="tab-btn" id="tab-topology" onclick="switchTab('topology')">Τοπολογία</button>
-</div>
-
-        <div class="main-layout">
-            <div class="left-column">
-                <div id="algebra-section">
-                    <div class="grade-selector">
-                        <label for="grade-select" id="lbl-level">Επίπεδο Σπουδών:</label>
-                        <select id="grade-select" onchange="changeGrade()"></select>
-                    </div>
-
-                    <div class="difficulty-selector" style="margin-top: 10px; margin-bottom: 15px;">
-                        <label for="level-select" id="lbl-select-level" style="font-weight: bold; color: #bb86fc;">Δυσκολία:</label>
-                        <select id="level-select" onchange="loadNextProblem()" style="padding: 5px; border-radius: 5px; background: #252525; color: white; border: 1px solid #03dac6;">
-                            <option value="1" id="opt-level-1">Επίπεδο 1: Γατάκι (ax + b = c)</option>
-                            <option value="2" id="opt-level-2">Επίπεδο 2: Γάτος (ax + b = cx + d)</option>
-                            <option value="3" id="opt-level-3">Επίπεδο 3: Τίγρης (Δευτεροβάθμιες)</option>
-                            <option value="4" id="opt-level-4">Επίπεδο 4: Λιοντάρι (Κλάσματα & Παρενθέσεις)</option>
-                        </select>
-                    </div>
-
-                    <div class="stats">
-                        <p>
-                            <span id="lbl-score">Σκορ:</span> <span id="score" class="highlight-text">0</span> |
-                            <span id="user-rank" style="color: #FFD700; font-weight: bold; margin: 0 10px;">Αρχάριο Γατάκι</span> |
-                            <span id="lbl-time">Χρόνος:</span> <span id="timer" class="highlight-text">00:00</span>
-                        </p>
-                        <button id="btn-secret" onclick="showCatSecret()" class="stats-btn" style="background-color: #FFC107; color: #000; font-weight: bold;">Μυστικό!</button>
-                        <button id="btn-chat-toggle" onclick="toggleChat()" style="background: #03dac6; color: black; font-weight: bold;">Chat</button>
-                    </div>
-
-                    <div class="quiz-box">
-                        <p id="equation" class="equation-text">Φόρτωση...</p>
-
-                        <div class="input-container">
-                            <input type="text" id="answer" placeholder="Απάντηση...">
-                            <button onclick="toggleKeyboard()" class="kbd-toggle" id="kbd-toggle-btn" title="Εμφάνιση Μαθηματικού Πληκτρολογίου">123</button>
+            <div class="main-layout">
+                <div class="left-column">
+                    <div id="algebra-section">
+                        <div class="grade-selector">
+                            <label for="grade-select" id="lbl-level">Επίπεδο Σπουδών:</label>
+                            <select id="grade-select" onchange="changeGrade()"></select>
                         </div>
 
-                        <div class="buttons-group">
-                            <button onclick="checkAnswer()" class="check-btn" id="btn-check">Έλεγχος</button>
-                            <button onclick="analyzeSteps()" class="help-btn" id="btn-mathjs-step">Ανάλυση Βημάτων</button>
-                            <button onclick="showHelp()" class="help-btn" id="btn-help">Βήμα-Βήμα</button>
-                            <button onclick="skipProblem()" class="skip-btn" id="btn-skip">Παράλειψη</button>
+                        <div class="difficulty-selector" style="margin-top: 10px; margin-bottom: 15px;">
+                            <label for="level-select" id="lbl-select-level"
+                                style="font-weight: bold; color: #bb86fc;">Δυσκολία:</label>
+                            <select id="level-select" onchange="loadNextProblem()"
+                                style="padding: 5px; border-radius: 5px; background: #252525; color: white; border: 1px solid #03dac6;">
+                                <option value="1" id="opt-level-1">Επίπεδο 1: Γατάκι (ax + b = c)</option>
+                                <option value="2" id="opt-level-2">Επίπεδο 2: Γάτος (ax + b = cx + d)</option>
+                                <option value="3" id="opt-level-3">Επίπεδο 3: Τίγρης (Δευτεροβάθμιες)</option>
+                                <option value="4" id="opt-level-4">Επίπεδο 4: Λιοντάρι (Κλάσματα & Παρενθέσεις)</option>
+                            </select>
                         </div>
 
-                        <p id="feedback"></p>
-                        <div id="help-steps" class="help-steps hidden"></div>
+                        <div class="stats">
+                            <p>
+                                <span id="lbl-score">Σκορ:</span> <span id="score" class="highlight-text">0</span> |
+                                <span id="user-rank" style="color: #FFD700; font-weight: bold; margin: 0 10px;">Αρχάριο
+                                    Γατάκι</span> |
+                                <span id="lbl-time">Χρόνος:</span> <span id="timer" class="highlight-text">00:00</span>
+                            </p>
+                            <button id="btn-secret" onclick="showCatSecret()" class="stats-btn"
+                                style="background-color: #FFC107; color: #000; font-weight: bold;">Μυστικό!</button>
+                            <button id="btn-chat-toggle" onclick="toggleChat()"
+                                style="background: #03dac6; color: black; font-weight: bold;">Chat</button>
+                        </div>
+
+                        <div class="quiz-box">
+                            <p id="equation" class="equation-text">Φόρτωση...</p>
+
+                            <div class="input-container">
+                                <input type="text" id="answer" placeholder="Απάντηση...">
+                                <button onclick="toggleKeyboard()" class="kbd-toggle" id="kbd-toggle-btn"
+                                    title="Εμφάνιση Μαθηματικού Πληκτρολογίου">123</button>
+                            </div>
+
+                            <div class="buttons-group">
+                                <button onclick="checkAnswer()" class="check-btn" id="btn-check">Έλεγχος</button>
+                                <button onclick="analyzeSteps()" class="help-btn" id="btn-mathjs-step">Ανάλυση
+                                    Βημάτων</button>
+                                <button onclick="showHelp()" class="help-btn" id="btn-help">Βήμα-Βήμα</button>
+                                <button onclick="skipProblem()" class="skip-btn" id="btn-skip">Παράλειψη</button>
+                            </div>
+
+                            <p id="feedback"></p>
+                            <div id="help-steps" class="help-steps hidden"></div>
+                        </div>
+                    </div> <!-- End of algebra-section -->
+
+                    <div id="geometry-section" class="hidden">
+                        <div class="quiz-box" style="text-align: center;">
+                            <div id="desmos-geometry"
+                                style="width: 100%; height: 400px; min-height: 400px; border-radius: 12px; margin-bottom: 15px; background: #252525;">
+                            </div>
+                            <p id="geo-problem" class="equation-text"
+                                style="font-size: 1.2em !important; line-height: 1.5; border-bottom: none; font-weight: normal; margin-top: 15px;">
+                                Φόρτωση...
+                            </p>
+                            <div class="input-container">
+                                <input type="text" id="geo-answer" placeholder="Απάντηση...">
+                                <button onclick="toggleKeyboard()" class="kbd-toggle"
+                                    title="Εμφάνιση Μαθηματικού Πληκτρολογίου">123</button>
+                            </div>
+
+                            <!-- OCR Handwriting Canvas -->
+                            <div class="ocr-container"
+                                style="margin-top: 15px; background: rgba(0,0,0,0.2); padding: 15px; border-radius: 12px;">
+                                <p style="font-size: 0.9em; color: #ebebf5; margin-bottom: 10px;">Γράψε την απάντησή σου
+                                    με το χέρι (AI OCR):</p>
+                                <canvas id="ocr-canvas" width="280" height="120"
+                                    style="background: white; border-radius: 8px; border: 2px solid #555; cursor: crosshair; touch-action: none;"></canvas>
+                                <div style="margin-top: 10px; display: flex; justify-content: center; gap: 10px;">
+                                    <button onclick="clearOcrCanvas()" class="skip-btn"
+                                        style="font-size: 0.9em !important; padding: 6px 12px; margin: 0;">Καθαρισμός</button>
+                                    <button onclick="recognizeHandwriting()" class="check-btn"
+                                        style="font-size: 0.9em !important; padding: 6px 12px; margin: 0;">Αναγνώριση</button>
+                                </div>
+                            </div>
+
+                            <div class="buttons-group" style="margin-top: 15px; justify-content: center;">
+                                <button onclick="checkContextAnswer('geometry')" class="check-btn"
+                                    id="btn-geo-check">Έλεγχος</button>
+                                <button onclick="analyzeGeoSteps()" class="help-btn" id="btn-mathjs-step-geo">Ανάλυση
+                                    Βημάτων</button>
+                                <button onclick="showGeoHelp()" class="help-btn" id="btn-help-geo">Βήμα-Βήμα</button>
+                                <button onclick="generateContextProblem('geometry')" class="skip-btn"
+                                    id="btn-geo-next">Επόμενο</button>
+                            </div>
+                            <div id="geo-help-steps" class="help-steps hidden"></div>
+                            <p id="geo-feedback" style="font-weight: bold; margin-top: 10px;"></p>
+                        </div>
+                    </div> <!-- End geometry section -->
+
+                    <div id="trig-section" class="hidden">
+                        <div class="quiz-box" style="text-align: center;">
+                            <canvas id="trig-canvas" width="400" height="250"
+                                style="background-color: #2C2C2E; border-radius: 16px; margin: 0 auto; display: block;"></canvas>
+                            <p id="trig-problem" class="equation-text"
+                                style="font-size: 1.2em !important; line-height: 1.5; border-bottom: none; font-weight: normal; margin-top: 15px;">
+                                Φόρτωση...
+                            </p>
+                            <div class="input-container">
+                                <input type="text" id="trig-answer" placeholder="Απάντηση...">
+                                <button onclick="toggleKeyboard()" class="kbd-toggle"
+                                    title="Εμφάνιση Μαθηματικού Πληκτρολογίου">123</button>
+                            </div>
+                            <div class="buttons-group" style="margin-top: 15px; justify-content: center;">
+                                <button onclick="checkContextAnswer('trig')" class="check-btn"
+                                    id="btn-trig-check">Έλεγχος</button>
+                                <button onclick="analyzeTrigSteps()" class="help-btn" id="btn-mathjs-step-trig">Ανάλυση
+                                    Βημάτων</button>
+                                <button onclick="showTrigHelp()" class="help-btn" id="btn-help-trig">Βήμα-Βήμα</button>
+                                <button onclick="generateContextProblem('trig')" class="skip-btn"
+                                    id="btn-trig-next">Επόμενο</button>
+                            </div>
+                            <div id="trig-help-steps" class="help-steps hidden"></div>
+                            <p id="trig-feedback" style="font-weight: bold; margin-top: 10px;"></p>
+                        </div>
+                    </div> <!-- End trig section -->
+
+                    <div id="topology-section" class="hidden">
+                        <div class="quiz-box" style="text-align: center;">
+                            <canvas id="topology-canvas" width="400" height="250"
+                                style="background-color: #2C2C2E; border-radius: 16px; margin: 0 auto; display: block;"></canvas>
+                            <p id="topology-problem" class="equation-text"
+                                style="font-size: 1.2em !important; line-height: 1.5; border-bottom: none; font-weight: normal; margin-top: 15px;">
+                                Φόρτωση...
+                            </p>
+                            <div class="input-container">
+                                <input type="text" id="topology-answer" placeholder="Απάντηση...">
+                                <button onclick="toggleKeyboard()" class="kbd-toggle"
+                                    title="Εμφάνιση Μαθηματικού Πληκτρολογίου">123</button>
+                            </div>
+                            <div class="buttons-group" style="margin-top: 15px; justify-content: center;">
+                                <button onclick="checkContextAnswer('topology')" class="check-btn"
+                                    id="btn-topology-check">Έλεγχος</button>
+                                <button onclick="analyzeTopologySteps()" class="help-btn"
+                                    id="btn-mathjs-step-top">Ανάλυση Βημάτων</button>
+                                <button onclick="showTopologyHelp()" class="help-btn"
+                                    id="btn-help-top">Βήμα-Βήμα</button>
+                                <button onclick="generateContextProblem('topology')" class="skip-btn"
+                                    id="btn-topology-next">Επόμενο</button>
+                            </div>
+                            <div id="topology-help-steps" class="help-steps hidden"></div>
+                            <p id="topology-feedback" style="font-weight: bold; margin-top: 10px;"></p>
+                        </div>
+                    </div> <!-- End topology section -->
+
+                    <div id="math-keyboard" class="math-keyboard hidden" style="margin-top: 15px;">
+                        <button onclick="insertSymbol('²')">x²</button>
+                        <button onclick="insertSymbol('³')">x³</button>
+                        <button onclick="insertSymbol('√')">√</button>
+                        <button onclick="insertSymbol('±')">±</button>
+                        <button onclick="insertSymbol('°')">°</button>
+                        <button onclick="insertSymbol('≤')">≤</button>
+                        <button onclick="insertSymbol('≥')">≥</button>
+                        <button onclick="insertSymbol('≠')">≠</button>
+                        <button onclick="insertSymbol('θ')">θ</button>
+                        <button onclick="insertSymbol('Δ')">Δ</button>
+                        <button onclick="insertSymbol('α')">α</button>
+                        <button onclick="insertSymbol('β')">β</button>
+                        <button onclick="insertSymbol('∫')">∫</button>
+                        <button onclick="insertSymbol('π')">π</button>
+                        <button onclick="insertSymbol('∞')">∞</button>
                     </div>
-                </div> <!-- End of algebra-section -->
 
-                <div id="geometry-section" class="hidden">
-                    <div class="quiz-box" style="text-align: center;">
-                        <div id="desmos-geometry" style="width: 100%; height: 400px; min-height: 400px; border-radius: 12px; margin-bottom: 15px; background: #252525;"></div>
-                        <p id="geo-problem" class="equation-text" style="font-size: 1.2em !important; line-height: 1.5; border-bottom: none; font-weight: normal; margin-top: 15px;">
-                            Φόρτωση...
-                        </p>
-                        <div class="input-container">
-                            <input type="text" id="geo-answer" placeholder="Απάντηση...">
-                            <button onclick="toggleKeyboard()" class="kbd-toggle" title="Εμφάνιση Μαθηματικού Πληκτρολογίου">123</button>
-                        </div>
-                        
-                        <!-- OCR Handwriting Canvas -->
-                        <div class="ocr-container" style="margin-top: 15px; background: rgba(0,0,0,0.2); padding: 15px; border-radius: 12px;">
-                            <p style="font-size: 0.9em; color: #ebebf5; margin-bottom: 10px;">Γράψε την απάντησή σου με το χέρι (AI OCR):</p>
-                            <canvas id="ocr-canvas" width="280" height="120" style="background: white; border-radius: 8px; border: 2px solid #555; cursor: crosshair; touch-action: none;"></canvas>
-                            <div style="margin-top: 10px; display: flex; justify-content: center; gap: 10px;">
-                                <button onclick="clearOcrCanvas()" class="skip-btn" style="font-size: 0.9em !important; padding: 6px 12px; margin: 0;">Καθαρισμός</button>
-                                <button onclick="recognizeHandwriting()" class="check-btn" style="font-size: 0.9em !important; padding: 6px 12px; margin: 0;">Αναγνώριση</button>
+                    <button onclick="resetProgress()" class="reset-btn" id="btn-reset"
+                        style="margin-top: 20px;">Μηδενισμός Προόδου</button>
+                </div> <!-- End left-column -->
+
+                <div class="right-column">
+                    <div class="notes-container">
+                        <div style="display: flex; justify-content: space-between; align-items: center;">
+                            <label for="user-notes" id="lbl-notes">Πρόχειρο & Υπολογιστής</label>
+                            <div>
+                                <button onclick="askAI()"
+                                    style="background: none; border: none; color: #03dac6; cursor: pointer; font-size: 14px; font-weight: bold; margin-right: 15px;"
+                                    id="btn-ai">Έλεγχος AI</button>
+                                <button onclick="clearNotes()"
+                                    style="background: none; border: none; color: #cf6679; cursor: pointer; font-size: 12px;"
+                                    id="btn-clear">Καθαρισμός</button>
                             </div>
                         </div>
 
-                        <div class="buttons-group" style="margin-top: 15px; justify-content: center;">
-                            <button onclick="checkContextAnswer('geometry')" class="check-btn" id="btn-geo-check">Έλεγχος</button>
-                            <button onclick="analyzeGeoSteps()" class="help-btn" id="btn-mathjs-step-geo">Ανάλυση Βημάτων</button>
-                            <button onclick="showGeoHelp()" class="help-btn" id="btn-help-geo">Βήμα-Βήμα</button>
-                            <button onclick="generateContextProblem('geometry')" class="skip-btn" id="btn-geo-next">Επόμενο</button>
-                        </div>
-                        <div id="geo-help-steps" class="help-steps hidden"></div>
-                        <p id="geo-feedback" style="font-weight: bold; margin-top: 10px;"></p>
-                    </div>
-                </div> <!-- End geometry section -->
-
-                <div id="trig-section" class="hidden">
-                    <div class="quiz-box" style="text-align: center;">
-                        <canvas id="trig-canvas" width="400" height="250" style="background-color: #2C2C2E; border-radius: 16px; margin: 0 auto; display: block;"></canvas>
-                        <p id="trig-problem" class="equation-text" style="font-size: 1.2em !important; line-height: 1.5; border-bottom: none; font-weight: normal; margin-top: 15px;">
-                            Φόρτωση...
+                        <textarea id="user-notes" spellcheck="true"
+                            placeholder="Γράψε εδώ τις σκέψεις σου..."></textarea>
+                        <p id="ai-response"
+                            style="color: #03dac6; font-size: 14px; font-style: italic; margin-top: 5px; min-height: 20px; text-align: left;">
                         </p>
-                        <div class="input-container">
-                            <input type="text" id="trig-answer" placeholder="Απάντηση...">
-                            <button onclick="toggleKeyboard()" class="kbd-toggle" title="Εμφάνιση Μαθηματικού Πληκτρολογίου">123</button>
-                        </div>
-                        <div class="buttons-group" style="margin-top: 15px; justify-content: center;">
-                            <button onclick="checkContextAnswer('trig')" class="check-btn" id="btn-trig-check">Έλεγχος</button>
-                            <button onclick="analyzeTrigSteps()" class="help-btn" id="btn-mathjs-step-trig">Ανάλυση Βημάτων</button>
-                            <button onclick="showTrigHelp()" class="help-btn" id="btn-help-trig">Βήμα-Βήμα</button>
-                            <button onclick="generateContextProblem('trig')" class="skip-btn" id="btn-trig-next">Επόμενο</button>
-                        </div>
-                        <div id="trig-help-steps" class="help-steps hidden"></div>
-                        <p id="trig-feedback" style="font-weight: bold; margin-top: 10px;"></p>
-                    </div>
-                </div> <!-- End trig section -->
-
-                <div id="topology-section" class="hidden">
-                    <div class="quiz-box" style="text-align: center;">
-                        <canvas id="topology-canvas" width="400" height="250" style="background-color: #2C2C2E; border-radius: 16px; margin: 0 auto; display: block;"></canvas>
-                        <p id="topology-problem" class="equation-text" style="font-size: 1.2em !important; line-height: 1.5; border-bottom: none; font-weight: normal; margin-top: 15px;">
-                            Φόρτωση...
-                        </p>
-                        <div class="input-container">
-                            <input type="text" id="topology-answer" placeholder="Απάντηση...">
-                            <button onclick="toggleKeyboard()" class="kbd-toggle" title="Εμφάνιση Μαθηματικού Πληκτρολογίου">123</button>
-                        </div>
-                        <div class="buttons-group" style="margin-top: 15px; justify-content: center;">
-                            <button onclick="checkContextAnswer('topology')" class="check-btn" id="btn-topology-check">Έλεγχος</button>
-                            <button onclick="analyzeTopologySteps()" class="help-btn" id="btn-mathjs-step-top">Ανάλυση Βημάτων</button>
-                            <button onclick="showTopologyHelp()" class="help-btn" id="btn-help-top">Βήμα-Βήμα</button>
-                            <button onclick="generateContextProblem('topology')" class="skip-btn" id="btn-topology-next">Επόμενο</button>
-                        </div>
-                        <div id="topology-help-steps" class="help-steps hidden"></div>
-                        <p id="topology-feedback" style="font-weight: bold; margin-top: 10px;"></p>
-                    </div>
-                </div> <!-- End topology section -->
-                
-                <div id="math-keyboard" class="math-keyboard hidden" style="margin-top: 15px;">
-                    <button onclick="insertSymbol('²')">x²</button>
-                    <button onclick="insertSymbol('³')">x³</button>
-                    <button onclick="insertSymbol('√')">√</button>
-                    <button onclick="insertSymbol('±')">±</button>
-                    <button onclick="insertSymbol('°')">°</button>
-                    <button onclick="insertSymbol('≤')">≤</button>
-                    <button onclick="insertSymbol('≥')">≥</button>
-                    <button onclick="insertSymbol('≠')">≠</button>
-                    <button onclick="insertSymbol('θ')">θ</button>
-                    <button onclick="insertSymbol('Δ')">Δ</button>
-                    <button onclick="insertSymbol('α')">α</button>
-                    <button onclick="insertSymbol('β')">β</button>
-                    <button onclick="insertSymbol('∫')">∫</button>
-                    <button onclick="insertSymbol('π')">π</button>
-                    <button onclick="insertSymbol('∞')">∞</button>
-                </div>
-
-                <button onclick="resetProgress()" class="reset-btn" id="btn-reset" style="margin-top: 20px;">Μηδενισμός Προόδου</button>
-            </div> <!-- End left-column -->
-
-            <div class="right-column">
-                <div class="notes-container">
-                    <div style="display: flex; justify-content: space-between; align-items: center;">
-                        <label for="user-notes" id="lbl-notes">Πρόχειρο & Υπολογιστής</label>
-                        <div>
-                            <button onclick="askAI()" style="background: none; border: none; color: #03dac6; cursor: pointer; font-size: 14px; font-weight: bold; margin-right: 15px;" id="btn-ai">Έλεγχος AI</button>
-                            <button onclick="clearNotes()" style="background: none; border: none; color: #cf6679; cursor: pointer; font-size: 12px;" id="btn-clear">Καθαρισμός</button>
+                        <div id="scientific-calculator"
+                            style="width: 100%; height: 250px; margin-top: 10px; border-radius: 8px; border: 1px solid #444;">
                         </div>
                     </div>
 
-                    <textarea id="user-notes" spellcheck="true" placeholder="Γράψε εδώ τις σκέψεις σου..."></textarea>
-                    <p id="ai-response" style="color: #03dac6; font-size: 14px; font-style: italic; margin-top: 5px; min-height: 20px; text-align: left;"></p>
-                    <div id="scientific-calculator" style="width: 100%; height: 250px; margin-top: 10px; border-radius: 8px; border: 1px solid #444;"></div>
-                </div>
+                    <div class="quiz-box" style="padding: 24px; margin-top: 15px;"> <!-- Wrapping graph in card -->
+                        <h3 id="lbl-graph" style="color: #bb86fc; text-align: left; margin-top: 0; font-size: 16px;">
+                            Γραφική Παράσταση</h3>
+                        <div id="calculator" class="graph-box"
+                            style="height: 400px; min-height: 400px; width: 100%; margin-top: 5px;"></div>
+                    </div>
 
-                <div class="quiz-box" style="padding: 24px; margin-top: 15px;"> <!-- Wrapping graph in card -->
-                    <h3 id="lbl-graph" style="color: #bb86fc; text-align: left; margin-top: 0; font-size: 16px;">Γραφική Παράσταση</h3>
-                    <div id="calculator" class="graph-box" style="height: 400px; min-height: 400px; width: 100%; margin-top: 5px;"></div>
-                </div>
+                    <div class="about-section">
+                        <h4 id="lbl-resources" style="color: #bb86fc; margin-top: 5px;">Πηγές Μελέτης</h4>
+                        <ul class="resources-list">
+                            <li><a href="https://el.khanacademy.org/math" target="_blank">Khan Academy</a></li>
+                            <li><a href="http://photodentro.edu.gr/" target="_blank">Φωτόδεντρο</a></li>
+                            <li><a href="https://photomath.com/" target="_blank">Photomath</a></li>
+                            <li><a href="https://www.wolframalpha.com/" target="_blank">Wolfram Alpha</a></li>
+                            <li><a href="https://www.geogebra.org/" target="_blank">GeoGebra</a></li>
+                            <li><a href="https://www.desmos.com/" target="_blank">Desmos</a></li>
+                        </ul>
 
-                <div class="about-section">
-                    <h4 id="lbl-resources" style="color: #bb86fc; margin-top: 5px;">Πηγές Μελέτης</h4>
-                    <ul class="resources-list">
-                        <li><a href="https://el.khanacademy.org/math" target="_blank">Khan Academy</a></li>
-                        <li><a href="http://photodentro.edu.gr/" target="_blank">Φωτόδεντρο</a></li>
-                        <li><a href="https://photomath.com/" target="_blank">Photomath</a></li>
-                        <li><a href="https://www.wolframalpha.com/" target="_blank">Wolfram Alpha</a></li>
-                        <li><a href="https://www.geogebra.org/" target="_blank">GeoGebra</a></li>
-                        <li><a href="https://www.desmos.com/" target="_blank">Desmos</a></li>
-                    </ul>
-
-                    <h3 id="lbl-about-title" style="margin-top: 25px;">Σχετικά με την Catgebra</h3>
-                    <p id="lbl-about-text" style="font-size: 0.85em; line-height: 1.4; color: #e0d5c1;">Η Catgebra δημιουργήθηκε για να κάνει την εκμάθηση της Άλγεβρας διασκεδαστική!</p>
-                </div>
-            </div> <!-- End right-column -->
-        </div> <!-- End main-layout -->
-</div>
-</div>
-
-<div id="stats-modal" class="modal hidden">
-<div class="modal-content">
-<h2 id="modal-title">Τα Στατιστικά μου</h2>
-<p><span id="lbl-played">Λυμένες Ασκήσεις:</span><span id="stat-played" class="stat-num">0</span></p>
-<p><span id="lbl-correct">Σωστές Απαντήσεις:</span><span id="stat-correct" class="stat-num">0</span></p>
-<p><span id="lbl-rate">Ποσοστό Επιτυχίας:</span><span id="stat-rate" class="stat-num">0%</span></p>
-<button onclick="toggleStats()" class="skip-btn" id="btn-close" style="margin-top: 20px;">Κλείσιμο</button>
-</div>
-</div>
-
-<div id="chat-modal" class="modal hidden">
-<div class="modal-content" style="max-width: 400px; display: flex; flex-direction: column; max-height: 90vh;">
-<div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
-    <button id="btn-back-chat" onclick="openPrivateList()" style="background: none; border: none; color: #cf6679; cursor: pointer; display: none; font-weight: bold; padding: 0;">← Πίσω</button>
-    <h2 id="chat-title" style="color: #bb86fc; margin: 0; text-align: center; flex: 1;">Γατό-Chat</h2>
-    <svg id="e2ee-lock" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width: 24px; height: 24px; color: #888; transition: color 0.3s ease;" title="E2EE Connection Pending">
-        <rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect>
-        <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
-    </svg>
-</div>
-
-<div id="chat-nav" style="display: flex; gap: 10px; margin-bottom: 15px;">
-    <button id="btn-tab-global" onclick="openGlobalChat()" style="flex: 1; padding: 8px; background: #03dac6; color: black; font-weight: bold; border-radius: 5px; border: none; cursor: pointer;">Global Chat</button>
-    <button id="btn-tab-private" onclick="openPrivateList()" style="flex: 1; padding: 8px; background: #252525; color: white; border: 1px solid #03dac6; border-radius: 5px; font-weight: bold; cursor: pointer;">Private (1on1)</button>
-</div>
-
-<div id="chat-view" style="display: flex; flex-direction: column; flex: 1;">
-    <div id="chat-messages" style="height: 250px; overflow-y: auto; background: #1e1e1e; border: 1px solid #444; border-radius: 8px; padding: 10px; margin-bottom: 15px; text-align: left; font-size: 14px;">
-        <p id="chat-msg-placeholder" style="color: #888; text-align: center;">Συνδέσου με Google για να δεις τα μηνύματα!</p>
+                        <h3 id="lbl-about-title" style="margin-top: 25px;">Σχετικά με την Catgebra</h3>
+                        <p id="lbl-about-text" style="font-size: 0.85em; line-height: 1.4; color: #e0d5c1;">Η Catgebra
+                            δημιουργήθηκε για να κάνει την εκμάθηση της Άλγεβρας διασκεδαστική!</p>
+                    </div>
+                </div> <!-- End right-column -->
+            </div> <!-- End main-layout -->
+        </div>
     </div>
-    <input type="text" id="chat-input" placeholder="Γράψε το μήνυμά σου..." onkeypress="if(event.key === 'Enter') sendCustomMessage()" style="width: 100%; padding: 12px; margin-bottom: 10px; background: rgba(118, 118, 128, 0.24); color: white; border-radius: 12px; border: 1px solid rgba(255, 255, 255, 0.1); outline: none;">
-    <button id="btn-chat-send" onclick="sendCustomMessage()" style="background-color: #03dac6; color: black; font-weight: bold; width: 100%; margin-bottom: 10px; padding: 10px; border-radius: 5px; border: none; cursor: pointer;">Αποστολή</button>
-</div>
 
-<div id="users-list-view" style="display: none; flex-direction: column; flex: 1;">
-    <div id="users-list" style="height: 310px; overflow-y: auto; background: #1e1e1e; border: 1px solid #444; border-radius: 8px; padding: 10px; margin-bottom: 15px; text-align: left;">
-        <p style="color: #888; text-align: center;">Φόρτωση χρηστών...</p>
+    <div id="stats-modal" class="modal hidden">
+        <div class="modal-content">
+            <h2 id="modal-title">Τα Στατιστικά μου</h2>
+            <p><span id="lbl-played">Λυμένες Ασκήσεις:</span><span id="stat-played" class="stat-num">0</span></p>
+            <p><span id="lbl-correct">Σωστές Απαντήσεις:</span><span id="stat-correct" class="stat-num">0</span></p>
+            <p><span id="lbl-rate">Ποσοστό Επιτυχίας:</span><span id="stat-rate" class="stat-num">0%</span></p>
+            <button onclick="toggleStats()" class="skip-btn" id="btn-close" style="margin-top: 20px;">Κλείσιμο</button>
+        </div>
     </div>
-</div>
 
-<button id="btn-chat-close" onclick="toggleChat()" style="width: 100%; padding: 10px; border-radius: 5px; border: none; font-weight: bold; cursor: pointer;">Κλείσιμο</button>
-</div>
-</div>
+    <div id="chat-modal" class="modal hidden">
+        <div class="modal-content" style="max-width: 400px; display: flex; flex-direction: column; max-height: 90vh;">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
+                <button id="btn-back-chat" onclick="openPrivateList()"
+                    style="background: none; border: none; color: #cf6679; cursor: pointer; display: none; font-weight: bold; padding: 0;">←
+                    Πίσω</button>
+                <h2 id="chat-title" style="color: #bb86fc; margin: 0; text-align: center; flex: 1;">Γατό-Chat</h2>
+                <svg id="e2ee-lock" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                    stroke-linecap="round" stroke-linejoin="round"
+                    style="width: 24px; height: 24px; color: #888; transition: color 0.3s ease;"
+                    title="E2EE Connection Pending">
+                    <rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect>
+                    <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
+                </svg>
+            </div>
 
-<div id="secret-modal"
- style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(0,0,0,0.7); z-index: 9999; justify-content: center; align-items: center; backdrop-filter: blur(3px);">
-<div
- style="background-color: #FFFDE7; border: 4px solid #FFC107; border-radius: 20px; text-align: center; padding: 30px; max-width: 85%; width: 400px; box-shadow: 0 10px 25px rgba(0,0,0,0.5);">
-<h2 id="secret-modal-title"
- style="color: #FF9800; margin-top: 0; margin-bottom: 15px; font-family: sans-serif;">Το Μυστικό της
- Μισέλ!</h2>
-<p id="secret-text"
- style="font-size: 18px; margin: 20px 0; color: #333; font-weight: bold; font-family: sans-serif; line-height: 1.5;">
-</p>
-<button id="btn-secret-close" onclick="closeSecret()"
- style="background-color: #FFC107; color: black; font-weight: bold; padding: 12px 25px; border-radius: 10px; border: none; cursor: pointer; font-size: 16px; box-shadow: 0 4px 6px rgba(0,0,0,0.1);">Τέλεια!
-</button>
-</div>
-</div>
+            <div id="chat-nav" style="display: flex; gap: 10px; margin-bottom: 15px;">
+                <button id="btn-tab-global" onclick="openGlobalChat()"
+                    style="flex: 1; padding: 8px; background: #03dac6; color: black; font-weight: bold; border-radius: 5px; border: none; cursor: pointer;">Global
+                    Chat</button>
+                <button id="btn-tab-private" onclick="openPrivateList()"
+                    style="flex: 1; padding: 8px; background: #252525; color: white; border: 1px solid #03dac6; border-radius: 5px; font-weight: bold; cursor: pointer;">Private
+                    (1on1)</button>
+            </div>
 
-<div id="profile-modal" class="modal hidden">
-<div class="modal-content" style="max-width: 450px; text-align: center;">
-<h2 id="profile-title" style="color: #03dac6; margin-top: 0;">Το Προφίλ μου</h2>
+            <div id="chat-view" style="display: flex; flex-direction: column; flex: 1;">
+                <div id="chat-messages"
+                    style="height: 250px; overflow-y: auto; background: #1e1e1e; border: 1px solid #444; border-radius: 8px; padding: 10px; margin-bottom: 15px; text-align: left; font-size: 14px;">
+                    <p id="chat-msg-placeholder" style="color: #888; text-align: center;">Συνδέσου με Google για να δεις
+                        τα μηνύματα!</p>
+                </div>
+                <input type="text" id="chat-input" placeholder="Γράψε το μήνυμά σου..."
+                    onkeypress="if(event.key === 'Enter') sendCustomMessage()"
+                    style="width: 100%; padding: 12px; margin-bottom: 10px; background: rgba(118, 118, 128, 0.24); color: white; border-radius: 12px; border: 1px solid rgba(255, 255, 255, 0.1); outline: none;">
+                <button id="btn-chat-send" onclick="sendCustomMessage()"
+                    style="background-color: #03dac6; color: black; font-weight: bold; width: 100%; margin-bottom: 10px; padding: 10px; border-radius: 5px; border: none; cursor: pointer;">Αποστολή</button>
+            </div>
 
-<div style="position: relative; display: inline-block;">
-<img src="cat.jpg" alt="User Avatar" class="mascot" id="profile-avatar"
- style="width: 100px !important; height: 100px !important; margin: 10px auto; cursor: pointer;"
- onclick="document.getElementById('avatar-upload').click();" title="Αλλαγή Εικόνας">
-<input type="file" id="avatar-upload" accept="image/*" style="display: none;"
- onchange="uploadAvatar(event)">
-<div style="font-size: 0.8em; color: #bb86fc; cursor: pointer; margin-top: -5px; margin-bottom: 10px;"
- onclick="document.getElementById('avatar-upload').click();">Αλλαγή Εικόνας</div>
-</div>
+            <div id="users-list-view" style="display: none; flex-direction: column; flex: 1;">
+                <div id="users-list"
+                    style="height: 310px; overflow-y: auto; background: #1e1e1e; border: 1px solid #444; border-radius: 8px; padding: 10px; margin-bottom: 15px; text-align: left;">
+                    <p style="color: #888; text-align: center;">Φόρτωση χρηστών...</p>
+                </div>
+            </div>
 
-<h3 id="profile-name" style="margin: 5px 0;">Catgebra Player</h3>
-<p id="profile-rank" style="color: #FFD700; font-weight: bold; font-size: 1.2em; margin: 5px 0;">Αρχάριο
- Γατάκι</p>
+            <button id="btn-chat-close" onclick="toggleChat()"
+                style="width: 100%; padding: 10px; border-radius: 5px; border: none; font-weight: bold; cursor: pointer;">Κλείσιμο</button>
+        </div>
+    </div>
 
-<div style="margin: 20px 0;">
-<h4 style="color: #bb86fc; margin-bottom: 10px;">Τα Παράσημά μου</h4>
-<div class="badges-grid">
-<div class="badge-item locked" id="badge-1" title="Ξεκλειδώνει στους 100 πόντους">I</div>
-<div class="badge-item locked" id="badge-2" title="Ξεκλειδώνει στους 300 πόντους">II</div>
-<div class="badge-item locked" id="badge-3" title="Ξεκλειδώνει στους 600 πόντους">III</div>
-<div class="badge-item locked" id="badge-4" title="Ξεκλειδώνει στους 1000 πόντους">IV</div>
-</div>
-</div>
+    <div id="secret-modal"
+        style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(0,0,0,0.7); z-index: 9999; justify-content: center; align-items: center; backdrop-filter: blur(3px);">
+        <div
+            style="background-color: #FFFDE7; border: 4px solid #FFC107; border-radius: 20px; text-align: center; padding: 30px; max-width: 85%; width: 400px; box-shadow: 0 10px 25px rgba(0,0,0,0.5);">
+            <h2 id="secret-modal-title"
+                style="color: #FF9800; margin-top: 0; margin-bottom: 15px; font-family: sans-serif;">Το Μυστικό της
+                Μισέλ!</h2>
+            <p id="secret-text"
+                style="font-size: 18px; margin: 20px 0; color: #333; font-weight: bold; font-family: sans-serif; line-height: 1.5;">
+            </p>
+            <button id="btn-secret-close" onclick="closeSecret()"
+                style="background-color: #FFC107; color: black; font-weight: bold; padding: 12px 25px; border-radius: 10px; border: none; cursor: pointer; font-size: 16px; box-shadow: 0 4px 6px rgba(0,0,0,0.1);">Τέλεια!
+            </button>
+        </div>
+    </div>
 
-<div style="margin: 20px 0; text-align: left;">
-<span style="font-weight: bold;">XP:<span id="profile-xp">0</span>/ 1000</span>
-<div class="progress-bar-container">
-<div class="progress-bar-fill" id="profile-progress" style="width: 0%;"></div>
-</div>
-</div>
+    <div id="profile-modal" class="modal hidden">
+        <div class="modal-content" style="max-width: 450px; text-align: center;">
+            <h2 id="profile-title" style="color: #03dac6; margin-top: 0;">Το Προφίλ μου</h2>
 
-<button id="btn-profile-close" onclick="toggleProfile()"
- style="width: 100%; margin-top: 10px;">Κλείσιμο</button>
-</div>
-</div>
+            <div style="position: relative; display: inline-block;">
+                <img src="cat.jpg" alt="User Avatar" class="mascot" id="profile-avatar"
+                    style="width: 100px !important; height: 100px !important; margin: 10px auto; cursor: pointer;"
+                    onclick="document.getElementById('avatar-upload').click();" title="Αλλαγή Εικόνας">
+                <input type="file" id="avatar-upload" accept="image/*" style="display: none;"
+                    onchange="uploadAvatar(event)">
+                <div style="font-size: 0.8em; color: #bb86fc; cursor: pointer; margin-top: -5px; margin-bottom: 10px;"
+                    onclick="document.getElementById('avatar-upload').click();">Αλλαγή Εικόνας</div>
+            </div>
+
+            <h3 id="profile-name" style="margin: 5px 0;">Catgebra Player</h3>
+            <p id="profile-rank" style="color: #FFD700; font-weight: bold; font-size: 1.2em; margin: 5px 0;">Αρχάριο
+                Γατάκι</p>
+
+            <div style="margin: 20px 0;">
+                <h4 style="color: #bb86fc; margin-bottom: 10px;">Τα Παράσημά μου</h4>
+                <div class="badges-grid">
+                    <div class="badge-item locked" id="badge-1" title="Ξεκλειδώνει στους 100 πόντους">I</div>
+                    <div class="badge-item locked" id="badge-2" title="Ξεκλειδώνει στους 300 πόντους">II</div>
+                    <div class="badge-item locked" id="badge-3" title="Ξεκλειδώνει στους 600 πόντους">III</div>
+                    <div class="badge-item locked" id="badge-4" title="Ξεκλειδώνει στους 1000 πόντους">IV</div>
+                </div>
+            </div>
+
+            <div style="margin: 20px 0; text-align: left;">
+                <span style="font-weight: bold;">XP:<span id="profile-xp">0</span>/ 1000</span>
+                <div class="progress-bar-container">
+                    <div class="progress-bar-fill" id="profile-progress" style="width: 0%;"></div>
+                </div>
+            </div>
+
+            <button id="btn-profile-close" onclick="toggleProfile()"
+                style="width: 100%; margin-top: 10px;">Κλείσιμο</button>
+        </div>
+    </div>
 
 
 
-<script src="translations.js?v=1.8"></script>
-<script src="data.js?v=1.8"></script>
-<script src="secrets.js?v=1.8"></script>
-<script src="crypto-engine.js?v=1.8"></script>
-<script src="script.js?v=1.8"></script>
-<script type="module" src="auth.js?v=1.8"></script>
+    <script src="translations.js?v=1.8"></script>
+    <script src="data.js?v=1.8"></script>
+    <script src="secrets.js?v=1.8"></script>
+    <script src="crypto-engine.js?v=1.8"></script>
+    <script src="script.js?v=1.8"></script>
+    <script type="module" src="auth.js?v=1.8"></script>
 
-<script>
- window.showCatSecret = function () {
- if (typeof window.triggerCatSecret === 'function') {
- window.triggerCatSecret();
- }
- };
+    <script>
+        window.showCatSecret = function () {
+            if (typeof window.triggerCatSecret === 'function') {
+                window.triggerCatSecret();
+            }
+        };
 
- window.closeSecret = function () {
- const modal = document.getElementById("secret-modal");
- if (modal) modal.style.display = "none";
- };
-</script>
+        window.closeSecret = function () {
+            const modal = document.getElementById("secret-modal");
+            if (modal) modal.style.display = "none";
+        };
+    </script>
 </body>
 
 </html>
