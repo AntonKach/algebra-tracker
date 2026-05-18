@@ -239,6 +239,10 @@ function changeLanguage() {
     safeSetText("lbl-about-title", t.lblAboutTitle);
     safeSetText("lbl-about-text", t.lblAboutText);
 
+    safeSetText("ocr-instructions", t.ocrTitle);
+    safeSetText("btn-ocr-clear", t.ocrClear);
+    safeSetText("btn-ocr-recognize", t.ocrRecognize);
+
     safeSetText("legal-title", t.legalTitle);
     safeSetText("legal-welcome", t.legalWelcome);
     safeSetHTML("legal-desc-1", t.legalDesc1);
@@ -1126,13 +1130,15 @@ window.recognizeHandwriting = async function () {
     const btn = document.querySelector('.ocr-container .check-btn');
     if (!ocrCanvas || !btn) return;
 
+    const t = translations[currentLang] || translations["el"];
+
     const originalText = btn.innerText;
-    btn.innerText = "Σκέφτεται...";
+    btn.innerText = t.ocrThinking || "Σκέφτεται...";
     btn.disabled = true;
 
     try {
         if (typeof Tesseract === 'undefined') {
-            alert("Το Tesseract.js OCR δεν έχει φορτώσει!");
+            alert(t.ocrNotLoaded || "Το Tesseract.js OCR δεν έχει φορτώσει!");
             return;
         }
 
@@ -1150,11 +1156,11 @@ window.recognizeHandwriting = async function () {
                 input.value = cleaned;
             }
         } else {
-            alert("Δεν καταφέραμε να αναγνωρίσουμε τι έγραψες! Δοκίμασε να γράψεις πιο καθαρά.");
+            alert(t.ocrNoMatch || "Δεν καταφέραμε να αναγνωρίσουμε τι έγραψες! Δοκίμασε να γράψεις πιο καθαρά.");
         }
     } catch (err) {
         console.error("OCR Error:", err);
-        alert("Σφάλμα κατά την αναγνώριση OCR.");
+        alert(t.ocrError || "Σφάλμα κατά την αναγνώριση OCR.");
     } finally {
         btn.innerText = originalText;
         btn.disabled = false;

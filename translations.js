@@ -49,7 +49,14 @@ const translations = {
     lblUnstoppable: "Είσαι ασταμάτητος! 🚀", lblUnstoppableNext: "Μήπως ήρθε η ώρα να δοκιμάσεις το επόμενο επίπεδο δυσκολίας;",
     tipLevel1: "💡 Tip: Όταν μεταφέρεις έναν αριθμό στην άλλη πλευρά του ίσον, μην ξεχνάς να του αλλάζεις πρόσημο!",
     tipLevel2: "💡 Tip: Μάζεψε πρώτα όλα τα x στη μία πλευρά και όλους τους αριθμούς στην άλλη.",
-    tipLevel4: "💡 Tip: Πρόσεξε καλά τις πράξεις με τα κλάσματα και τις παρενθέσεις. Κάνε το βήμα-βήμα στο πρόχειρο!"
+    tipLevel4: "💡 Tip: Πρόσεξε καλά τις πράξεις με τα κλάσματα και τις παρενθέσεις. Κάνε το βήμα-βήμα στο πρόχειρο!",
+    ocrTitle: "Γράψε την απάντησή σου με το χέρι (AI OCR):",
+    ocrClear: "Καθαρισμός",
+    ocrRecognize: "Αναγνώριση",
+    ocrThinking: "Σκέφτεται...",
+    ocrNotLoaded: "Το Tesseract.js OCR δεν έχει φορτώσει!",
+    ocrNoMatch: "Δεν καταφέραμε να αναγνωρίσουμε τι έγραψες! Δοκίμασε να γράψεις πιο καθαρά.",
+    ocrError: "Σφάλμα κατά την αναγνώριση OCR."
   },
   en: {
     mainTitle: "Catgebra ", btnLogin: " Login with Google", btnProfile: "Profile", profileTitle: "My Profile", btnProfileClose: "Close", lblBadges: "My Badges",
@@ -99,7 +106,14 @@ const translations = {
     lblUnstoppable: "You're unstoppable! 🚀", lblUnstoppableNext: "Time to try the next difficulty level?",
     tipLevel1: "💡 Tip: When moving a number to the other side, change its sign!",
     tipLevel2: "💡 Tip: Gather all 'x' on one side and numbers on the other.",
-    tipLevel4: "💡 Tip: Be careful with fractions and parentheses. Go step-by-step on the scratchpad!"
+    tipLevel4: "💡 Tip: Be careful with fractions and parentheses. Go step-by-step on the scratchpad!",
+    ocrTitle: "Write your answer by hand (AI OCR):",
+    ocrClear: "Clear",
+    ocrRecognize: "Recognize",
+    ocrThinking: "Thinking...",
+    ocrNotLoaded: "Tesseract.js OCR has not loaded!",
+    ocrNoMatch: "We couldn't recognize what you wrote! Try writing more clearly.",
+    ocrError: "Error during OCR recognition."
   },
   fr: {
     mainTitle: "Catgebra ", btnLogin: " Se connecter avec Google", btnProfile: "Profil", profileTitle: "Mon Profil", btnProfileClose: "Fermer", lblBadges: "Mes Badges",
@@ -150,6 +164,13 @@ const translations = {
     tipLevel1: "💡 Conseil : Lorsque vous déplacez un nombre de l'autre côté, changez son signe !",
     tipLevel2: "💡 Conseil : Rassemblez tous les 'x' d'un côté et les nombres de l'autre.",
     tipLevel4: "💡 Conseil : Faites attention aux fractions et aux parenthèses. Procédez étape par étape !",
+    ocrTitle: "Écrivez votre réponse à la main (AI OCR) :",
+    ocrClear: "Effacer",
+    ocrRecognize: "Reconnaître",
+    ocrThinking: "Pensée...",
+    ocrNotLoaded: "Tesseract.js OCR n'a pas été chargé !",
+    ocrNoMatch: "Nous n'avons pas pu reconnaître ce que vous avez écrit ! Essayez d'écrire plus clairement.",
+    ocrError: "Erreur lors de la reconnaissance OCR."
   },
   es: {
     mainTitle: "Catgebra ", btnLogin: " Iniciar sesión con Google", btnProfile: "Perfil", profileTitle: "Mi Perfil", btnProfileClose: "Cerrar", lblBadges: "Mis Insignias",
@@ -199,7 +220,14 @@ const translations = {
     lblUnstoppable: "¡Eres imparable! 🚀", lblUnstoppableNext: "¿Es hora de probar el siguiente nivel de dificultad?",
     tipLevel1: "💡 Consejo: Al pasar un número al otro lado, ¡cambia su signo!",
     tipLevel2: "💡 Consejo: Reúne todas las 'x' en un lado y los números en el otro.",
-    tipLevel4: "💡 Consejo: Ten cuidado con las fracciones y los paréntesis. ¡Hazlo paso a paso!"
+    tipLevel4: "💡 Consejo: Ten cuidado con las fracciones y los paréntesis. ¡Hazlo paso a paso!",
+    ocrTitle: "Escribe tu respuesta a mano (AI OCR):",
+    ocrClear: "Limpiar",
+    ocrRecognize: "Reconocer",
+    ocrThinking: "Pensando...",
+    ocrNotLoaded: "¡Tesseract.js OCR no se ha cargado!",
+    ocrNoMatch: "¡No pudimos reconocer lo que escribiste! Intenta escribir más claramente.",
+    ocrError: "Error durante la reconocimiento OCR."
   },
   tr: {
     mainTitle: "Catgebra ", btnLogin: " Google ile Giriş", btnProfile: "Profil", profileTitle: "Profilim", btnProfileClose: "Kapat", lblBadges: "Rozetlerim",
@@ -249,7 +277,14 @@ const translations = {
     lblUnstoppable: "Durdurulamazsın! 🚀", lblUnstoppableNext: "Bir sonraki zorluk seviyesini deneme zamanı geldi mi?",
     tipLevel1: "💡 İpucu: Bir sayıyı diğer tarafa geçirirken işaretini değiştirmeyi unutmayın!",
     tipLevel2: "💡 İpucu: Önce tüm 'x'leri bir tarafa, sayıları diğer tarafa toplayın.",
-    tipLevel4: "💡 İpucu: Kesirli işlemler ve parantezlere dikkat edin. Adım adım ilerleyin!"
+    tipLevel4: "💡 İpucu: Kesirli işlemler ve parantezlere dikkat edin. Adım adım ilerleyin!",
+    ocrTitle: "Cevabınızı elle yazın (AI OCR):",
+    ocrClear: "Temizle",
+    ocrRecognize: "Tanı",
+    ocrThinking: "Düşünüyor...",
+    ocrNotLoaded: "Tesseract.js OCR yüklenmedi!",
+    ocrNoMatch: "Yazdığınızı tanıyamadık! Daha net yazmayı deneyin.",
+    ocrError: "OCR tanıma sırasında hata oluştu."
   },
   it: {
     mainTitle: "Catgebra ", btnLogin: " Accedi con Google", btnProfile: "Profilo", profileTitle: "Il mio Profilo", btnProfileClose: "Chiudi", lblBadges: "I miei Distintivi",
@@ -299,7 +334,14 @@ const translations = {
     lblUnstoppable: "Sei inarrestabile! 🚀", lblUnstoppableNext: "È ora di provare il prossimo livello di difficoltà?",
     tipLevel1: "💡 Suggerimento: Quando sposti un numero dall'altra parte, cambia il suo segno!",
     tipLevel2: "💡 Suggerimento: Raccogli tutte le 'x' da un lato e i numeri dall'altro.",
-    tipLevel4: "💡 Suggerimento: Fai attenzione alle frazioni e alle parentesi. Procedi passo dopo passo!"
+    tipLevel4: "💡 Suggerimento: Fai attenzione alle frazioni e alle parentesi. Procedi passo dopo passo!",
+    ocrTitle: "Scrivi la tua risposta a mano (AI OCR):",
+    ocrClear: "Cancella",
+    ocrRecognize: "Riconosci",
+    ocrThinking: "Pensando...",
+    ocrNotLoaded: "Tesseract.js OCR non è stato caricato!",
+    ocrNoMatch: "Non siamo riusciti a riconoscere ciò che hai scritto! Prova a scrivere più chiaramente.",
+    ocrError: "Errore durante il riconoscimento OCR."
   },
   ar: {
     mainTitle: "Catgebra ", btnLogin: " تسجيل الدخول", btnProfile: "الملف الشخصي", profileTitle: "ملفي الشخصي", btnProfileClose: "إغلاق", lblBadges: "شاراتي",
@@ -349,7 +391,13 @@ const translations = {
     lblUnstoppable: "أنت لا تتوقف! 🚀", lblUnstoppableNext: "هل حان الوقت لتجربة مستوى الصعوبة التالي؟",
     tipLevel1: "💡 نصيحة: عند نقل رقم إلى الجانب الآخر، لا تنس تغيير إشارته!",
     tipLevel2: "💡 نصيحة: اجمع كل الـ x في جانب واحد والأرقام في الجانب الآخر أولاً.",
-    tipLevel4: "💡 نصيحة: انتبه جيداً للعمليات مع الكسور والأقواس. افعل ذلك خطوة بخطوة!"
-
+    tipLevel4: "💡 نصيحة: انتبه جيداً للعمليات مع الكسور والأقواس. افعل ذلك خطوة بخطوة!",
+    ocrTitle: "اكتب إجابتك بيدك (AI OCR):",
+    ocrClear: "مسح",
+    ocrRecognize: "تعرف",
+    ocrThinking: "يفكر...",
+    ocrNotLoaded: "لم يتم تحميل Tesseract.js OCR!",
+    ocrNoMatch: "لم نتمكن من التعرف على ما كتبته! حاول الكتابة بشكل أكثر وضوحًا.",
+    ocrError: "حدث خطأ أثناء التعرف على النص (OCR)."
   }
 };

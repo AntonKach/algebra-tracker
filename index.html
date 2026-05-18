@@ -3,7 +3,7 @@
 
 <head>
     <meta charset="UTF-8">
-   <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval' https://apis.google.com https://www.gstatic.com https://cdn.jsdelivr.net https://www.desmos.com https://cdnjs.cloudflare.com https://unpkg.com; connect-src 'self' https://*.googleapis.com https://*.firebaseio.com wss://*.firebaseio.com https://securetoken.googleapis.com https://identitytoolkit.googleapis.com https://www.desmos.com https://unpkg.com https://cdnjs.cloudflare.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com data:; img-src 'self' data: https: blob:; frame-src 'self' https://*.firebaseapp.com; worker-src 'self' blob:;">
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval' https://apis.google.com https://www.gstatic.com https://cdn.jsdelivr.net https://www.desmos.com https://cdnjs.cloudflare.com https://unpkg.com; connect-src 'self' https://*.googleapis.com https://*.firebaseio.com wss://*.firebaseio.com https://securetoken.googleapis.com https://identitytoolkit.googleapis.com https://www.desmos.com https://unpkg.com https://cdnjs.cloudflare.com https://tessdata.projectnaptha.com https://*.projectnaptha.com https://cdn.jsdelivr.net https://*.jsdelivr.net; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com data:; img-src 'self' data: https: blob:; frame-src 'self' https://*.firebaseapp.com; worker-src 'self' blob:;">
    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="Catgebra: Η πιο διασκεδαστική εφαρμογή για να μάθεις μαθηματικά και άλγεβρα.">
     <meta name="theme-color" content="#0A84FF">
@@ -254,14 +254,14 @@
                             <!-- OCR Handwriting Canvas -->
                             <div class="ocr-container"
                                 style="margin-top: 15px; background: rgba(0,0,0,0.2); padding: 15px; border-radius: 12px;">
-                                <p style="font-size: 0.9em; color: #ebebf5; margin-bottom: 10px;">Γράψε την απάντησή σου
+                                <p id="ocr-instructions" style="font-size: 0.9em; color: #ebebf5; margin-bottom: 10px;">Γράψε την απάντησή σου
                                     με το χέρι (AI OCR):</p>
                                 <canvas id="ocr-canvas" width="280" height="120"
                                     style="background: white; border-radius: 8px; border: 2px solid #555; cursor: crosshair; touch-action: none;"></canvas>
                                 <div style="margin-top: 10px; display: flex; justify-content: center; gap: 10px;">
-                                    <button onclick="clearOcrCanvas()" class="skip-btn"
+                                    <button id="btn-ocr-clear" onclick="clearOcrCanvas()" class="skip-btn"
                                         style="font-size: 0.9em !important; padding: 6px 12px; margin: 0;">Καθαρισμός</button>
-                                    <button onclick="recognizeHandwriting()" class="check-btn"
+                                    <button id="btn-ocr-recognize" onclick="recognizeHandwriting()" class="check-btn"
                                         style="font-size: 0.9em !important; padding: 6px 12px; margin: 0;">Αναγνώριση</button>
                                 </div>
                             </div>
