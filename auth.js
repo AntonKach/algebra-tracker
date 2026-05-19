@@ -120,7 +120,8 @@ window.loginWithGoogle = async () => {
                 window.resizeAllCalculators();
             }
         }
-        
+        const loginView = document.getElementById("login-view");
+        if (loginView) loginView.style.display = "none";
         const userRef = doc(db, "users", user.uid);
         const docSnap = await getDoc(userRef);
         

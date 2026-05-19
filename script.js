@@ -8,6 +8,8 @@ if ('serviceWorker' in navigator) {
             });
     });
 }
+const soundCorrect = new Audio('correct.mp3');
+const soundFail = new Audio('fail.mp3');
 
 let consecutiveCorrect = 0;
 let consecutiveWrong = 0;
@@ -400,7 +402,10 @@ function checkAnswer() {
         }
 
         if (typeof confetti === 'function') confetti({ particleCount: 150, spread: 80, origin: { y: 0.6 } });
-        try { new Audio('correct.mp3').play().catch(() => { }); } catch (e) { }
+        try {
+            soundCorrect.currentTime = 0;
+            soundCorrect.play().catch(() => { });
+        } catch (e) { }
         setTimeout(loadNextProblem, 2000);
     } else {
         consecutiveWrong++;
@@ -423,7 +428,10 @@ function checkAnswer() {
             safeSetText("feedback", t.catError[Math.floor(Math.random() * t.catError.length)]);
             if (fbEl) fbEl.style.color = ""; // reset color
         }
-        try { new Audio('fail.mp3').play().catch(() => { }); } catch (e) { }
+        try {
+            soundFail.currentTime = 0;
+            soundFail.play().catch(() => { });
+        } catch (e) { }
     }
 
     safeSetText("score", score);
@@ -455,7 +463,7 @@ window.checkContextAnswer = function (category) {
         return;
     }
 
-    if (userAns === expected) {
+    if (Math.abs(userAns - expected) < 0.001) {
         if (fbEl) {
             fbEl.innerText = currentLang === 'el' ? "Σωστά! 🥳" : "Correct! 🥳";
             fbEl.style.color = "#32D74B";
@@ -465,6 +473,10 @@ window.checkContextAnswer = function (category) {
         userStats.played++;
         updateGameData();
         if (typeof confetti === 'function') confetti({ particleCount: 150, spread: 80, origin: { y: 0.6 } });
+        try {
+            soundCorrect.currentTime = 0;
+            soundCorrect.play().catch(() => { });
+        } catch (e) { }
         setTimeout(() => window.generateContextProblem(config.generator), 1500);
     } else {
         if (fbEl) {
@@ -474,6 +486,10 @@ window.checkContextAnswer = function (category) {
         userStats.wrong = (userStats.wrong || 0) + 1;
         userStats.played++;
         updateGameData();
+        try {
+            soundFail.currentTime = 0;
+            soundFail.play().catch(() => { });
+        } catch (e) { }
     }
 };
 
@@ -862,6 +878,16 @@ window.triggerCatSecret = function () {
     }
 };
 
+function sanitizeMathExpression(str) {
+    if (typeof str !== 'string') return "";
+    let cleaned = str.trim();
+    const safeRegex = /^[0-9a-zA-Z\+\-\*\/\=\.\,\(\)\s\^²³\u2070\u2074-\u2079\u221a\u00b7]*$/;
+    if (!safeRegex.test(cleaned)) {
+        throw new Error("Invalid characters in math expression");
+    }
+    return cleaned;
+}
+
 function formatMathString(str) {
     if (!str) return "";
     return str.replace(/\^2/g, '²')
@@ -888,7 +914,7 @@ window.analyzeSteps = function () {
 
     try {
         if (typeof math !== 'undefined') {
-            let equationToSolve = eqText;
+            let equationToSolve = sanitizeMathExpression(eqText);
             equationToSolve = equationToSolve.replace(/ /g, '');
 
             if (equationToSolve.includes('=')) {
@@ -899,11 +925,11 @@ window.analyzeSteps = function () {
                 helpDiv.innerHTML += `${t.helpOriginal || "Αρχική"}: <code>${formatMathString(lhs)} = ${formatMathString(rhs)}</code><br>`;
 
                 let expr = `(${lhs}) - (${rhs})`;
-                let simplifiedExpr = formatMathString(math.simplify(expr).toString());
+                let rawExpr = math.simplify(expr).toString();
+                let simplifiedExpr = formatMathString(rawExpr);
                 helpDiv.innerHTML += `${t.helpStep1 || "Βήμα 1"} (f(x) = 0): <code>${simplifiedExpr} = 0</code><br>`;
 
                 try {
-                    let rawExpr = math.simplify(expr).toString();
                     
                     // Derivatives
                     let d1 = math.derivative(rawExpr, 'x');
@@ -998,8 +1024,9 @@ window.analyzeGeoSteps = function () {
     helpDiv.innerHTML = `<strong style='color: #03dac6;'>${t.helpAnalysis || "Ανάλυση με math.js"}:</strong><br>`;
     if (typeof math !== 'undefined') {
         try {
-            let simplified = formatMathString(math.simplify(currentGeoProblem.formula).toString());
-            helpDiv.innerHTML += `${t.helpAction || "Πράξη"}: <code>${formatMathString(currentGeoProblem.formula)}</code><br>`;
+            let formula = sanitizeMathExpression(currentGeoProblem.formula);
+            let simplified = formatMathString(math.simplify(formula).toString());
+            helpDiv.innerHTML += `${t.helpAction || "Πράξη"}: <code>${formatMathString(formula)}</code><br>`;
             helpDiv.innerHTML += `${t.helpResult || "Αποτέλεσμα"}: <strong>${simplified}</strong>`;
         } catch (e) {
             helpDiv.innerHTML += (t.helpError || "Η πράξη δεν μπορεί να αναλυθεί περαιτέρω από το math.js.");
@@ -1025,7 +1052,7 @@ window.analyzeTrigSteps = function () {
     helpDiv.innerHTML = `<strong style='color: #03dac6;'>${t.helpAnalysis || "Ανάλυση με math.js"}:</strong><br>`;
     if (typeof math !== 'undefined') {
         try {
-            let formula = currentTrigProblem.formula;
+            let formula = sanitizeMathExpression(currentTrigProblem.formula);
             let simplified = formatMathString(math.evaluate(formula).toString());
             helpDiv.innerHTML += `${t.helpAction || "Πράξη"}: <code>${formatMathString(formula)}</code><br>`;
             helpDiv.innerHTML += `${t.helpResult || "Αποτέλεσμα"}: <strong>${simplified}</strong>`;
@@ -1053,8 +1080,9 @@ window.analyzeTopologySteps = function () {
     helpDiv.innerHTML = `<strong style='color: #03dac6;'>${t.helpAnalysis || "Ανάλυση με math.js"}:</strong><br>`;
     if (typeof math !== 'undefined') {
         try {
-            let simplified = formatMathString(math.simplify(currentTopologyProblem.formula).toString());
-            helpDiv.innerHTML += `${t.helpAction || "Πράξη"}: <code>${formatMathString(currentTopologyProblem.formula)}</code><br>`;
+            let formula = sanitizeMathExpression(currentTopologyProblem.formula);
+            let simplified = formatMathString(math.simplify(formula).toString());
+            helpDiv.innerHTML += `${t.helpAction || "Πράξη"}: <code>${formatMathString(formula)}</code><br>`;
             helpDiv.innerHTML += `${t.helpResult || "Αποτέλεσμα"}: <strong>${simplified}</strong>`;
         } catch (e) {
             helpDiv.innerHTML += (t.helpError || "Η πράξη δεν μπορεί να αναλυθεί περαιτέρω από το math.js.");
@@ -1144,7 +1172,7 @@ window.recognizeHandwriting = async function () {
 
         const dataUrl = ocrCanvas.toDataURL('image/png');
 
-        const result = await Tesseract.recognize(dataUrl, 'eng');
+        const result = await Tesseract.recognize(dataUrl, 'eng', { tessedit_char_whitelist: '0123456789+-*/=.,()xy' });
 
         const text = result.data.text.trim();
         if (text) {
@@ -1179,20 +1207,8 @@ document.addEventListener("DOMContentLoaded", () => {
     const btnExplore = document.getElementById("btn-explore");
     if (btnExplore) {
         btnExplore.addEventListener("click", () => {
-            const landingView = document.getElementById("landing-view");
-            if (landingView) landingView.style.display = "none";
-
-            const legalAccepted = localStorage.getItem('catgebra_legal_accepted');
-            if (legalAccepted !== 'true') {
-                const disclaimerModal = document.getElementById("disclaimer-modal");
-                if (disclaimerModal) {
-                    disclaimerModal.style.display = "flex";
-                }
-            } else {
-                const loginView = document.getElementById("login-view");
-                if (loginView) {
-                    loginView.style.display = "flex";
-                }
+            if (typeof window.exploreApp === 'function') {
+                window.exploreApp();
             }
         });
     }
