@@ -105,12 +105,21 @@ window.loginWithGoogle = async () => {
     try {
         const result = await signInWithPopup(auth, provider);
         const user = result.user;
-        
-        const btn = document.getElementById("btn-login");
-        if (btn) btn.innerText = "👤 " + user.displayName;
-        
+        // UI updates are now handled by onAuthStateChanged handler
         window.currentUserId = user.uid;
-        window.currentUserName = user.displayName; 
+        window.currentUserName = user.displayName;
+        // Immediately hide splash and show main app to avoid flash
+        const welcomeSplash = document.getElementById("welcome-splash");
+        if (welcomeSplash) welcomeSplash.style.display = "none";
+        const landingContainer = document.getElementById("landing-container");
+        if (landingContainer) landingContainer.style.display = "none";
+        const mainApp = document.getElementById("main-app");
+        if (mainApp) {
+            mainApp.style.display = "block";
+            if (window.resizeAllCalculators) {
+                window.resizeAllCalculators();
+            }
+        }
         
         const userRef = doc(db, "users", user.uid);
         const docSnap = await getDoc(userRef);
@@ -136,24 +145,7 @@ window.loginWithGoogle = async () => {
 
         if (window.listenToChat) window.listenToChat();
         
-        const btnLogout = document.getElementById("btn-logout");
-        if (btnLogout) btnLogout.style.display = "inline-block";
-
-        const welcomeSplash = document.getElementById("welcome-splash");
-        if (welcomeSplash) {
-            welcomeSplash.style.display = "none";
-        }
-        const landingContainer = document.getElementById("landing-container");
-        if (landingContainer) {
-            landingContainer.style.display = "none";
-        }
-        const mainApp = document.getElementById("main-app");
-        if (mainApp) {
-            mainApp.style.display = "block";
-            if (window.resizeAllCalculators) {
-                window.resizeAllCalculators();
-            }
-        }
+        // UI updates are now handled by onAuthStateChanged handler
 
     } catch (error) {
         console.error("Σφάλμα σύνδεσης:", error);
@@ -503,19 +495,16 @@ window.loginWithEmail = async (email, password) => {
         const user = userCredential.user;
         window.currentUserId = user.uid;
         window.currentUserName = user.displayName || user.email.split('@')[0];
-        
-        const userRef = doc(db, "users", user.uid);
-        const userSnap = await getDoc(userRef);
-        if (!userSnap.exists()) {
-            await setDoc(userRef, {
-                name: window.currentUserName,
-                email: user.email,
-                createdAt: serverTimestamp()
-            });
-        } else {
-            const data = userSnap.data();
-            if(window.updateGameData) {
-                window.updateGameData(data.score || 0, data.stats || { played: 0, correct: 0 });
+        // Immediately hide splash and show main app to avoid flash
+        const welcomeSplash = document.getElementById("welcome-splash");
+        if (welcomeSplash) welcomeSplash.style.display = "none";
+        const landingContainer = document.getElementById("landing-container");
+        if (landingContainer) landingContainer.style.display = "none";
+        const mainApp = document.getElementById("main-app");
+        if (mainApp) {
+            mainApp.style.display = "block";
+            if (window.resizeAllCalculators) {
+                window.resizeAllCalculators();
             }
         }
         
@@ -525,21 +514,7 @@ window.loginWithEmail = async (email, password) => {
         if (window.listenToChat) window.listenToChat();
         
         alert("Επιτυχής σύνδεση! 🐾");
-        const welcomeSplash = document.getElementById("welcome-splash");
-        if (welcomeSplash) {
-            welcomeSplash.style.display = "none";
-        }
-        const landingContainer = document.getElementById("landing-container");
-        if (landingContainer) {
-            landingContainer.style.display = "none";
-        }
-        const mainApp = document.getElementById("main-app");
-        if (mainApp) {
-            mainApp.style.display = "block";
-            if (window.resizeAllCalculators) {
-                window.resizeAllCalculators();
-            }
-        }
+        // UI updates are now handled by onAuthStateChanged handler
     } catch (e) {
         console.error("Login error:", e);
         alert("Σφάλμα σύνδεσης: " + e.message);
@@ -555,6 +530,18 @@ window.signUpWithEmail = async (email, password) => {
         
         window.currentUserId = user.uid;
         window.currentUserName = displayName;
+        // Immediately hide splash and show main app to avoid flash
+        const welcomeSplash = document.getElementById("welcome-splash");
+        if (welcomeSplash) welcomeSplash.style.display = "none";
+        const landingContainer = document.getElementById("landing-container");
+        if (landingContainer) landingContainer.style.display = "none";
+        const mainApp = document.getElementById("main-app");
+        if (mainApp) {
+            mainApp.style.display = "block";
+            if (window.resizeAllCalculators) {
+                window.resizeAllCalculators();
+            }
+        }
         
         const userRef = doc(db, "users", user.uid);
         await setDoc(userRef, {
@@ -569,21 +556,7 @@ window.signUpWithEmail = async (email, password) => {
         if (window.listenToChat) window.listenToChat();
         
         alert("Ο λογαριασμός δημιουργήθηκε επιτυχώς! 🐾");
-        const welcomeSplash = document.getElementById("welcome-splash");
-        if (welcomeSplash) {
-            welcomeSplash.style.display = "none";
-        }
-        const landingContainer = document.getElementById("landing-container");
-        if (landingContainer) {
-            landingContainer.style.display = "none";
-        }
-        const mainApp = document.getElementById("main-app");
-        if (mainApp) {
-            mainApp.style.display = "block";
-            if (window.resizeAllCalculators) {
-                window.resizeAllCalculators();
-            }
-        }
+        // UI updates are now handled by onAuthStateChanged handler
     } catch (e) {
         console.error("Signup error:", e);
         alert("Σφάλμα εγγραφής: " + e.message);
