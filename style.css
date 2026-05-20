@@ -90,7 +90,7 @@ h1 {
 }
 
 /* Πεδία Απάντησης & Μενού */
-input[type="text"], textarea, select {
+input[type="text"], input[type="password"], textarea, select {
     background-color: rgba(118, 118, 128, 0.24) !important; /* iOS style fill */
     border: 1px solid rgba(255, 255, 255, 0.1) !important;
     border-radius: 12px;
@@ -106,7 +106,7 @@ input[type="text"], textarea, select {
     transition: all 0.2s ease;
 }
 
-input[type="text"]:focus, textarea:focus, select:focus {
+input[type="text"]:focus, input[type="password"]:focus, textarea:focus, select:focus {
     border-color: #0A84FF !important;
     background-color: rgba(118, 118, 128, 0.3) !important;
 }
@@ -397,18 +397,13 @@ button:active {
 
 /* --- LANDING CONTAINER (SPA FLOW) --- */
 #landing-container {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100vw;
-    height: 100vh;
-    background-color: #121212;
-    z-index: 99999;
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    overflow: auto;
+    min-height: 100vh;
+    width: 100%;
+    background-color: #121212;
 }
 
 #landing-view {
