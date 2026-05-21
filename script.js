@@ -654,20 +654,29 @@ window.uploadAvatar = function (event) {
 
     const reader = new FileReader();
     reader.onload = function (e) {
-        const base64Image = e.target.result;
+        const img = new Image();
+        img.onload = function() {
+            const canvas = document.createElement('canvas');
+            const MAX_SIZE = 150;
+            canvas.width = MAX_SIZE;
+            canvas.height = MAX_SIZE;
+            const ctx = canvas.getContext('2d');
+            ctx.drawImage(img, 0, 0, MAX_SIZE, MAX_SIZE);
+            
+            const compressedBase64 = canvas.toDataURL('image/jpeg', 0.7);
 
-        try {
-            localStorage.setItem("userAvatar", base64Image);
-        } catch (error) {
-            console.error("Storage limit exceeded", error);
-            alert("Η εικόνα είναι πολύ μεγάλη! Παρακαλώ διάλεξε μικρότερο αρχείο.");
-            return;
-        }
-
-        const mainAvatar = document.getElementById("main-avatar");
-        const profileAvatar = document.getElementById("profile-avatar");
-        if (mainAvatar) mainAvatar.src = base64Image;
-        if (profileAvatar) profileAvatar.src = base64Image;
+            try {
+                localStorage.setItem("userAvatar", compressedBase64);
+                const mainAvatar = document.getElementById("main-avatar");
+                const profileAvatar = document.getElementById("profile-avatar");
+                if (mainAvatar) mainAvatar.src = compressedBase64;
+                if (profileAvatar) profileAvatar.src = compressedBase64;
+            } catch (error) {
+                console.error("Storage error:", error);
+                alert("Σφάλμα αποθήκευσης της εικόνας. Δοκίμασε μικρότερο αρχείο.");
+            }
+        };
+        img.src = e.target.result;
     };
     reader.readAsDataURL(file);
 };
@@ -1172,7 +1181,9 @@ window.recognizeHandwriting = async function () {
 
         const dataUrl = ocrCanvas.toDataURL('image/png');
 
-        const result = await Tesseract.recognize(dataUrl, 'eng', { tessedit_char_whitelist: '0123456789+-*/=.,()xy' });
+        const result = await Tesseract.recognize(dataUrl, 'eng', {
+            tessedit_char_whitelist: '0123456789+-*/=.,()xy'
+        });
 
         const text = result.data.text.trim();
         if (text) {
