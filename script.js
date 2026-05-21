@@ -699,12 +699,43 @@ window.exploreApp = function () {
     }
 };
 
-window.goBackToLanding = function () {
+window.showLoginView = function () {
+    const mainApp = document.getElementById("main-app");
+    if (mainApp) mainApp.style.display = "none";
+
+    const landingContainer = document.getElementById("landing-container");
+    if (landingContainer) landingContainer.style.display = "flex";
+
     const landingView = document.getElementById("landing-view");
+    if (landingView) landingView.style.display = "none";
+
     const loginView = document.getElementById("login-view");
-    if (landingView && loginView) {
-        loginView.style.display = "none";
-        landingView.style.display = "flex";
+    if (loginView) loginView.style.display = "flex";
+};
+
+window.goBackToLanding = function () {
+    const legalAccepted = localStorage.getItem('catgebra_legal_accepted');
+    if (legalAccepted === 'true') {
+        const loginView = document.getElementById("login-view");
+        if (loginView) loginView.style.display = "none";
+
+        const landingContainer = document.getElementById("landing-container");
+        if (landingContainer) landingContainer.style.display = "none";
+
+        const mainApp = document.getElementById("main-app");
+        if (mainApp) {
+            mainApp.style.display = "block";
+            if (window.resizeAllCalculators) {
+                window.resizeAllCalculators();
+            }
+        }
+    } else {
+        const landingView = document.getElementById("landing-view");
+        const loginView = document.getElementById("login-view");
+        if (landingView && loginView) {
+            loginView.style.display = "none";
+            landingView.style.display = "flex";
+        }
     }
 };
 
