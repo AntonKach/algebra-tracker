@@ -514,11 +514,16 @@ window.loginWithEmail = async (email, password) => {
         }
         if (window.listenToChat) window.listenToChat();
         
-        alert("Επιτυχής σύνδεση! 🐾");
-        // UI updates are now handled by onAuthStateChanged handler
+        alert('Επιτυχής σύνδεση!');
     } catch (e) {
         console.error("Login error:", e);
-        alert("Σφάλμα σύνδεσης: " + e.message);
+        if (e.code === 'auth/wrong-password' || e.code === 'auth/invalid-credential') {
+            alert('Λάθος κωδικός πρόσβασης ή email. Δοκιμάστε ξανά!');
+        } else if (e.code === 'auth/user-not-found') {
+            alert('Δεν υπάρχει λογαριασμός με αυτό το email.');
+        } else {
+            alert("Σφάλμα σύνδεσης: " + e.message);
+        }
     }
 };
 
@@ -556,11 +561,14 @@ window.signUpWithEmail = async (email, password) => {
         }
         if (window.listenToChat) window.listenToChat();
         
-        alert("Ο λογαριασμός δημιουργήθηκε επιτυχώς! 🐾");
-        // UI updates are now handled by onAuthStateChanged handler
+        alert('Επιτυχής δημιουργία λογαριασμού!');
     } catch (e) {
         console.error("Signup error:", e);
-        alert("Σφάλμα εγγραφής: " + e.message);
+        if (e.code === 'auth/email-already-in-use') {
+            alert('Το email χρησιμοποιείται ήδη. Κάνε Σύνδεση!');
+        } else {
+            alert("Σφάλμα εγγραφής: " + e.message);
+        }
     }
 };
 
