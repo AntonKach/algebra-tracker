@@ -216,6 +216,23 @@ function changeLanguage() {
     safeSetText("tab-geometry", t.tabGeometry);
     safeSetText("tab-trig", t.tabTrig);
     safeSetText("tab-topology", t.tabTopology);
+    safeSetText("tab-encyclopedia", t.tabEncyclopedia);
+
+    // Μεταφράσεις Εγκυκλοπαίδειας
+    safeSetText("encyclopedia-title", t.encyclopediaTitle);
+    safeSetPlaceholder("encyclopedia-search", t.encSearchPlaceholder);
+    safeSetText("filter-all", t.encFilterAll);
+    safeSetText("filter-algebra", t.encFilterAlgebra);
+    safeSetText("filter-geometry", t.encFilterGeometry);
+    safeSetText("filter-analysis", t.encFilterAnalysis);
+    safeSetText("lbl-enc-cat-explain", t.lblEncCatExplain);
+    safeSetText("btn-enc-see-graph", t.btnEncSeeGraph);
+    safeSetText("btn-enc-try-quiz", t.btnEncTryQuiz);
+    safeSetText("btn-enc-close", t.btnEncClose);
+
+    if (typeof renderEncyclopedia === 'function') {
+        renderEncyclopedia();
+    }
 
     safeSetPlaceholder("geo-answer", t.placeholderAns);
     safeSetPlaceholder("trig-answer", t.placeholderAns);
@@ -806,13 +823,15 @@ window.switchTab = function (tabName) {
         'algebra': document.getElementById("algebra-section"),
         'geometry': document.getElementById("geometry-section"),
         'trig': document.getElementById("trig-section"),
-        'topology': document.getElementById("topology-section")
+        'topology': document.getElementById("topology-section"),
+        'encyclopedia': document.getElementById("encyclopedia-section")
     };
     const tabs = {
         'algebra': document.getElementById("tab-algebra"),
         'geometry': document.getElementById("tab-geometry"),
         'trig': document.getElementById("tab-trig"),
-        'topology': document.getElementById("tab-topology")
+        'topology': document.getElementById("tab-topology"),
+        'encyclopedia': document.getElementById("tab-encyclopedia")
     };
 
     for (let key in sections) {
@@ -831,6 +850,10 @@ window.switchTab = function (tabName) {
     }
     if (tabName === 'trig' && !window.currentTrigAnswer) window.generateContextProblem('trig');
     if (tabName === 'topology' && !window.currentTopologyAnswer) window.generateContextProblem('topology');
+    
+    if (tabName === 'encyclopedia') {
+        renderEncyclopedia();
+    }
 };
 
 async function sendCustomMessage() {
@@ -1269,4 +1292,176 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     }
 });
+
+/* --- ENCYCLOPEDIA LOGIC --- */
+let activeCategoryFilter = "all";
+let activeEncyclopediaEntry = null;
+
+window.renderEncyclopedia = function() {
+    const grid = document.getElementById("encyclopedia-grid");
+    if (!grid) return;
+
+    const searchInput = document.getElementById("encyclopedia-search");
+    const query = searchInput ? searchInput.value.toLowerCase().trim() : "";
+
+    grid.innerHTML = "";
+
+    if (typeof encyclopediaEntries === 'undefined') {
+        grid.innerHTML = "<p>Loading data...</p>";
+        return;
+    }
+
+    const filtered = encyclopediaEntries.filter(entry => {
+        // Category filter
+        if (activeCategoryFilter !== "all" && entry.category !== activeCategoryFilter) {
+            return false;
+        }
+        // Search query
+        if (query) {
+            const titleText = (entry.title[currentLang] || entry.title["en"] || "").toLowerCase();
+            const formulaText = (entry.formula || "").toLowerCase();
+            const defText = (entry.definition[currentLang] || entry.definition["en"] || "").toLowerCase();
+            return titleText.includes(query) || formulaText.includes(query) || defText.includes(query);
+        }
+        return true;
+    });
+
+    if (filtered.length === 0) {
+        let noResults = "Δεν βρέθηκαν αποτελέσματα! 😿";
+        if (currentLang === 'en') noResults = "No results found! 😿";
+        if (currentLang === 'fr') noResults = "Aucun résultat trouvé ! 😿";
+        if (currentLang === 'es') noResults = "Sin resultados! 😿";
+        if (currentLang === 'it') noResults = "Nessun risultato! 😿";
+        if (currentLang === 'tr') noResults = "Sonuç bulunamadı! 😿";
+        if (currentLang === 'ar') noResults = "لم يتم العثور على نتائج! 😿";
+        grid.innerHTML = `<p style="grid-column: 1/-1; text-align: center; color: #cf6679; font-weight: bold; margin-top: 20px;">${noResults}</p>`;
+        return;
+    }
+
+    filtered.forEach(entry => {
+        const title = entry.title[currentLang] || entry.title["en"];
+        const formula = entry.formula;
+        let catName = entry.category;
+        const t = translations[currentLang] || translations["el"];
+        if (entry.category === 'algebra') catName = t.encFilterAlgebra;
+        else if (entry.category === 'geometry') catName = t.encFilterGeometry;
+        else if (entry.category === 'analysis') catName = t.encFilterAnalysis;
+
+        const card = document.createElement("div");
+        card.className = "encyclopedia-card";
+        card.onclick = () => showEncyclopediaEntry(entry.id);
+        card.innerHTML = `
+            <div class="card-category">${catName}</div>
+            <h3>${title}</h3>
+            <div class="card-formula">${formula}</div>
+        `;
+        grid.appendChild(card);
+    });
+};
+
+window.filterCategory = function(cat) {
+    activeCategoryFilter = cat;
+    
+    // Update active filter button state
+    const buttons = document.querySelectorAll(".category-filters .filter-btn");
+    buttons.forEach(btn => {
+        if (btn.id === `filter-${cat}`) {
+            btn.classList.add("active");
+            btn.style.borderColor = "#03dac6";
+        } else {
+            btn.classList.remove("active");
+            btn.style.borderColor = "";
+        }
+    });
+
+    renderEncyclopedia();
+};
+
+window.searchEncyclopedia = function() {
+    renderEncyclopedia();
+};
+
+window.showEncyclopediaEntry = function(id) {
+    if (typeof encyclopediaEntries === 'undefined') return;
+    const entry = encyclopediaEntries.find(e => e.id === id);
+    if (!entry) return;
+
+    activeEncyclopediaEntry = entry;
+
+    const overlay = document.getElementById("entry-details-overlay");
+    const titleEl = document.getElementById("entry-detail-title");
+    const catEl = document.getElementById("entry-detail-category");
+    const formulaEl = document.getElementById("entry-detail-formula");
+    const defEl = document.getElementById("entry-detail-definition");
+    const adviceEl = document.getElementById("entry-detail-advice");
+
+    const t = translations[currentLang] || translations["el"];
+    let catName = entry.category;
+    if (entry.category === 'algebra') catName = t.encFilterAlgebra;
+    else if (entry.category === 'geometry') catName = t.encFilterGeometry;
+    else if (entry.category === 'analysis') catName = t.encFilterAnalysis;
+
+    if (titleEl) titleEl.innerText = entry.title[currentLang] || entry.title["en"];
+    if (catEl) catEl.innerText = catName;
+    if (formulaEl) formulaEl.innerText = entry.formula;
+    if (defEl) defEl.innerText = entry.definition[currentLang] || entry.definition["en"];
+    if (adviceEl) adviceEl.innerText = entry.catAdvice[currentLang] || entry.catAdvice["en"];
+
+    if (overlay) overlay.classList.remove("hidden");
+};
+
+window.closeEncyclopediaEntry = function() {
+    const overlay = document.getElementById("entry-details-overlay");
+    if (overlay) overlay.classList.add("hidden");
+    activeEncyclopediaEntry = null;
+};
+
+window.plotEncyclopediaGraph = function() {
+    if (!activeEncyclopediaEntry) return;
+    const latex = activeEncyclopediaEntry.latex;
+    if (!latex || !calculator) return;
+
+    // Load in calculator
+    calculator.setBlank();
+    calculator.setExpression({ id: 'graph', latex: latex, color: '#bb86fc' });
+
+    // Close entry details modal
+    closeEncyclopediaEntry();
+
+    // Scroll to the calculator with smooth animation
+    const calcEl = document.getElementById("calculator");
+    if (calcEl) {
+        calcEl.scrollIntoView({ behavior: "smooth", block: "center" });
+        // Briefly glow the calculator border to draw the user's attention!
+        calcEl.style.boxShadow = "0 0 25px rgba(187, 134, 252, 0.8)";
+        setTimeout(() => {
+            calcEl.style.boxShadow = "";
+        }, 1500);
+    }
+};
+
+window.tryEncyclopediaPractice = function() {
+    if (!activeEncyclopediaEntry) return;
+    const grade = activeEncyclopediaEntry.grade;
+    
+    // Close the modal
+    closeEncyclopediaEntry();
+
+    // Switch to algebra (Math) tab
+    switchTab('algebra');
+
+    // Select the correct grade in the dropdown
+    const gradeSelect = document.getElementById("grade-select");
+    if (gradeSelect) {
+        gradeSelect.value = grade;
+        // Trigger manual change event
+        changeGrade();
+    }
+
+    // Scroll to the quiz box
+    const quizEl = document.querySelector(".quiz-box");
+    if (quizEl) {
+        quizEl.scrollIntoView({ behavior: "smooth", block: "center" });
+    }
+};
 

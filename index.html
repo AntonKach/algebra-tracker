@@ -172,6 +172,7 @@
                 <button class="tab-btn" id="tab-geometry" onclick="switchTab('geometry')">Γεωμετρία</button>
                 <button class="tab-btn" id="tab-trig" onclick="switchTab('trig')">Τριγωνομετρία</button>
                 <button class="tab-btn" id="tab-topology" onclick="switchTab('topology')">Τοπολογία</button>
+                <button class="tab-btn" id="tab-encyclopedia" onclick="switchTab('encyclopedia')">Εγκυκλοπαίδεια</button>
             </div>
 
             <div class="main-layout">
@@ -396,8 +397,56 @@
                         <p id="lbl-about-text" style="font-size: 0.85em; line-height: 1.4; color: #e0d5c1;">Η Catgebra
                             δημιουργήθηκε για να κάνει την εκμάθηση της Άλγεβρας διασκεδαστική!</p>
                     </div>
-                </div> <!-- End right-column -->
             </div> <!-- End main-layout -->
+            
+            <!-- Encyclopedia Section -->
+            <div id="encyclopedia-section" class="hidden">
+                <h2 id="encyclopedia-title" style="color: #bb86fc; text-shadow: 0 0 10px rgba(187, 134, 252, 0.4); text-align: center; margin-top: 20px;">Μαθηματική Εγκυκλοπαίδεια 📚🐈</h2>
+                
+                <div class="search-bar-container">
+                    <input type="text" id="encyclopedia-search" oninput="searchEncyclopedia()" placeholder="Αναζήτηση όρων..." style="max-width: 100%; width: 100%; border-color: #bb86fc !important; box-shadow: 0 0 10px rgba(187, 134, 252, 0.15);">
+                </div>
+                
+                <div class="category-filters" style="margin-top: 15px; margin-bottom: 15px; display: flex; justify-content: center; gap: 8px; flex-wrap: wrap;">
+                    <button class="filter-btn active" id="filter-all" onclick="filterCategory('all')" style="border-color: #03dac6 !important;">Όλα</button>
+                    <button class="filter-btn" id="filter-algebra" onclick="filterCategory('algebra')">Άλγεβρα</button>
+                    <button class="filter-btn" id="filter-geometry" onclick="filterCategory('geometry')">Γεωμετρία</button>
+                    <button class="filter-btn" id="filter-analysis" onclick="filterCategory('analysis')">Ανάλυση</button>
+                </div>
+                
+                <div id="encyclopedia-grid" class="encyclopedia-grid">
+                    <!-- Dynamic cards will load here -->
+                </div>
+
+                <!-- Details Overlay Modal inside Encyclopedia -->
+                <div id="entry-details-overlay" class="modal hidden" onclick="closeEncyclopediaEntry()">
+                    <div class="modal-content entry-details-content" style="max-width: 500px; width: 90%; margin: 20px auto; display: flex; flex-direction: column;" onclick="event.stopPropagation()">
+                        <h2 id="entry-detail-title" style="color: #03dac6; margin-top: 0; text-shadow: 0 0 8px rgba(3, 218, 198, 0.3); text-align: center;">Τίτλος Λήμματος</h2>
+                        <div id="entry-detail-category" style="font-size: 0.9em; color: #bb86fc; margin-top: -10px; margin-bottom: 15px; font-weight: bold; text-transform: uppercase; text-align: center;">Κατηγορία</div>
+                        
+                        <div class="formula-box" style="background: rgba(0,0,0,0.3); border: 1px solid rgba(255,255,255,0.1); border-radius: 8px; padding: 12px; margin-bottom: 15px; text-align: center;">
+                            <code id="entry-detail-formula" style="font-size: 1.4em; color: #fcebc7; font-weight: bold; font-family: 'Courier New', Courier, monospace;">ax + b = 0</code>
+                        </div>
+                        
+                        <p id="entry-detail-definition" style="text-align: left; line-height: 1.5; font-size: 1em; color: #e0d5c1; margin-bottom: 20px;">
+                            Εδώ θα εμφανίζεται ο αναλυτικός ορισμός του μαθηματικού όρου.
+                        </p>
+                        
+                        <div style="background: rgba(187, 134, 252, 0.1); border: 2px dashed #bb86fc; border-radius: 12px; padding: 12px; text-align: left; margin-bottom: 20px;">
+                            <h4 style="color: #ffb74d; margin: 0 0 5px 0;" id="lbl-enc-cat-explain">🐾 Η συμβουλή της Μισέλ</h4>
+                            <p id="entry-detail-advice" style="margin: 0; font-size: 0.95em; line-height: 1.4; color: #fcebc7; font-style: italic;">
+                                "Συμβουλή γάτας..."
+                            </p>
+                        </div>
+                        
+                        <div class="buttons-group" style="display: flex; flex-direction: column; gap: 8px; width: 100%;">
+                            <button id="btn-enc-see-graph" onclick="plotEncyclopediaGraph()" class="check-btn" style="background-color: #03dac6 !important; width: 100%; margin: 0;">Σχεδίαση στο Γράφημα 📈</button>
+                            <button id="btn-enc-try-quiz" onclick="tryEncyclopediaPractice()" class="help-btn" style="background-color: #bb86fc !important; color: black !important; width: 100%; margin: 0;">Λύσε μια άσκηση! 🧮</button>
+                            <button onclick="closeEncyclopediaEntry()" class="skip-btn" id="btn-enc-close" style="width: 100%; margin: 0; padding: 10px; border-radius: 5px;">Κλείσιμο</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 
@@ -521,6 +570,7 @@
 
     <script src="translations.js?v=1.8"></script>
     <script src="data.js?v=1.8"></script>
+    <script src="encyclopediaData.js?v=1.8"></script>
     <script src="secrets.js?v=1.8"></script>
     <script src="crypto-engine.js?v=1.8"></script>
     <script src="script.js?v=1.8"></script>
