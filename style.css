@@ -712,4 +712,49 @@ button:active {
     }
 }
 
+/* --- STATS BADGES (v1.2 UI Enhancement) --- */
+.stat-badge {
+    background: rgba(0, 0, 0, 0.2);
+    padding: 8px 14px;
+    border-radius: 12px;
+    font-size: 1.1em;
+    border: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.rank-badge {
+    background: rgba(255, 215, 0, 0.1);
+    border: 1px solid rgba(255, 215, 0, 0.3);
+}
+
+/* --- STREAMLINED INPUT FIELDS --- */
+.input-container {
+    position: relative;
+    max-width: 250px;
+    margin: 15px auto;
+}
+
+.input-container input {
+    margin: 0 !important;
+    max-width: 100% !important;
+    padding-right: 50px !important;
+}
+
+.kbd-toggle {
+    position: absolute !important;
+    right: 5px;
+    top: 50%;
+    transform: translateY(-50%) !important;
+    margin: 0 !important;
+    padding: 6px 10px !important;
+    border-radius: 8px !important;
+    font-size: 0.9em !important;
+    background: transparent !important;
+    color: #bb86fc !important;
+    border: 1px solid transparent !important;
+}
+
+.kbd-toggle:hover {
+    background: rgba(187, 134, 252, 0.1) !important;
+}
+
 

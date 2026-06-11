@@ -17,7 +17,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjs/11.8.0/math.js"></script>
     <script src="https://unpkg.com/tesseract.js@v2.1.0/dist/tesseract.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
-    <link rel="stylesheet" href="style.css?v=1.4">
+    <link rel="stylesheet" href="style.css?v=1.2">
 </head>
 
 <body>
@@ -195,17 +195,20 @@
                             </select>
                         </div>
 
-                        <div class="stats">
-                            <p>
-                                <span id="lbl-score">Σκορ:</span> <span id="score" class="highlight-text">0</span> |
-                                <span id="user-rank" style="color: #FFD700; font-weight: bold; margin: 0 10px;">Αρχάριο
-                                    Γατάκι</span> |
-                                <span id="lbl-time">Χρόνος:</span> <span id="timer" class="highlight-text">00:00</span>
-                            </p>
+                        <div class="stats" style="display: flex; gap: 10px; align-items: center; justify-content: center; flex-wrap: wrap; padding: 15px;">
+                            <div class="stat-badge">
+                                <span id="lbl-score">Σκορ:</span> <strong id="score" class="highlight-text">0</strong>
+                            </div>
+                            <div class="stat-badge rank-badge">
+                                <strong id="user-rank" style="color: #FFD700;">Αρχάριο Γατάκι</strong>
+                            </div>
+                            <div class="stat-badge">
+                                <span id="lbl-time">Χρόνος:</span> <strong id="timer" class="highlight-text">00:00</strong>
+                            </div>
                             <button id="btn-secret" onclick="showCatSecret()" class="stats-btn"
-                                style="background-color: #FFC107; color: #000; font-weight: bold;">Μυστικό!</button>
+                                style="background-color: #FFC107; color: #000; font-weight: bold; margin: 0;">Μυστικό!</button>
                             <button id="btn-chat-toggle" onclick="toggleChat()"
-                                style="background: #03dac6; color: black; font-weight: bold;">Chat</button>
+                                style="background: #03dac6; color: black; font-weight: bold; margin: 0;">Chat</button>
                         </div>
 
                         <div class="quiz-box">
@@ -568,13 +571,13 @@
 
 
 
-    <script src="translations.js?v=1.8"></script>
-    <script src="data.js?v=1.8"></script>
-    <script src="encyclopediaData.js?v=1.8"></script>
-    <script src="secrets.js?v=1.8"></script>
-    <script src="crypto-engine.js?v=1.8"></script>
-    <script src="script.js?v=1.8"></script>
-    <script type="module" src="auth.js?v=1.8"></script>
+    <script src="translations.js?v=1.2"></script>
+    <script src="data.js?v=1.2"></script>
+    <script src="encyclopediaData.js?v=1.2"></script>
+    <script src="secrets.js?v=1.2"></script>
+    <script src="crypto-engine.js?v=1.2"></script>
+    <script src="script.js?v=1.2"></script>
+    <script type="module" src="auth.js?v=1.2"></script>
 
     <script>
         window.showCatSecret = function () {

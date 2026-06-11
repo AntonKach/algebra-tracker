@@ -923,7 +923,11 @@ async function askAI() {
     const langName = langMap[currentLang] || "Greek";
     
     // Κρυφή οδηγία προς το AI για να απαντάει στη σωστή γλώσσα
-    const aiPrompt = `You are a helpful and friendly math tutor. You MUST respond strictly in ${langName} language. Answer the following user query: ${notes}`;
+    const aiPrompt = `You are a helpful, encouraging, and highly precise math tutor named Catgebra. 
+You MUST respond strictly in ${langName} language. 
+If the user's query is not related to math or is gibberish, kindly redirect them to ask a math question.
+Provide clear, step-by-step explanations and encourage the student.
+User query: ${notes}`;
 
     try {
         const response = await fetch('/api/tutor', { 
