@@ -883,7 +883,7 @@ async function sendCustomMessage() {
         const response = await fetch('/api/tutor', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ text: prompt })
+            body: JSON.stringify({ text: prompt, type: 'moderate' })
         });
 
         const data = await response.json();
@@ -933,7 +933,7 @@ User query: ${notes}`;
         const response = await fetch('/api/tutor', { 
             method: 'POST', 
             headers: { 'Content-Type': 'application/json' }, 
-            body: JSON.stringify({ text: aiPrompt }) 
+            body: JSON.stringify({ text: aiPrompt, type: 'tutor' }) 
         });
         const data = await response.json();
         safeSetText("ai-response", data.reply);

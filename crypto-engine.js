@@ -83,6 +83,86 @@ const CryptoEngine = {
             bytes[i] = binary_string.charCodeAt(i);
         }
         return bytes.buffer;
+    },
+
+    /**
+     * Δημιουργία τυχαίου AES-GCM κλειδιού (256-bit).
+     */
+    generateSymmetricKey: async function() {
+        return await window.crypto.subtle.generateKey(
+            {
+                name: "AES-GCM",
+                length: 256
+            },
+            true,
+            ["encrypt", "decrypt"]
+        );
+    },
+
+    /**
+     * Κρυπτογράφηση κειμένου με AES-GCM.
+     * @returns {Promise<{ciphertext: string, iv: string}>}
+     */
+    encryptWithSymmetricKey: async function(message, aesKey) {
+        const encoder = new TextEncoder();
+        const encodedMessage = encoder.encode(message);
+        const iv = window.crypto.getRandomValues(new Uint8Array(12));
+
+        const ciphertext = await window.crypto.subtle.encrypt(
+            {
+                name: "AES-GCM",
+                iv: iv
+            },
+            aesKey,
+            encodedMessage
+        );
+
+        return {
+            ciphertext: this.arrayBufferToBase64(ciphertext),
+            iv: this.arrayBufferToBase64(iv)
+        };
+    },
+
+    /**
+     * Αποκρυπτογράφηση κειμένου με AES-GCM.
+     */
+    decryptWithSymmetricKey: async function(ciphertextBase64, ivBase64, aesKey) {
+        const ciphertext = this.base64ToArrayBuffer(ciphertextBase64);
+        const iv = this.base64ToArrayBuffer(ivBase64);
+
+        const decrypted = await window.crypto.subtle.decrypt(
+            {
+                name: "AES-GCM",
+                iv: iv
+            },
+            aesKey,
+            ciphertext
+        );
+
+        const decoder = new TextDecoder();
+        return decoder.decode(decrypted);
+    },
+
+    /**
+     * Εξαγωγή AES κλειδιού σε Base64.
+     */
+    exportSymmetricKey: async function(aesKey) {
+        const exported = await window.crypto.subtle.exportKey("raw", aesKey);
+        return this.arrayBufferToBase64(exported);
+    },
+
+    /**
+     * Εισαγωγή AES κλειδιού από Base64.
+     */
+    importSymmetricKey: async function(keyBase64) {
+        const rawKey = this.base64ToArrayBuffer(keyBase64);
+        return await window.crypto.subtle.importKey(
+            "raw",
+            rawKey,
+            { name: "AES-GCM" },
+            true,
+            ["encrypt", "decrypt"]
+        );
     }
 };
 

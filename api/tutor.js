@@ -4,9 +4,16 @@ module.exports = async function handler(req, res) {
     }
 
     const userNotes = req.body.text;
+    const type = req.body.type || 'tutor';
 
     if (!userNotes) {
         return res.status(400).json({ reply: 'Δεν έγραψες κάτι για να διαβάσω! 🐾' });
+    }
+
+    let systemContent = 'You are Catgebra, a smart, friendly, and funny math tutor cat. You MUST respond ONLY in English. Be extremely brief (1-2 sentences maximum). Your goal is to give a small helpful hint to the student (e.g., "try isolating the x"), but NEVER give the final answer. Meow occasionally!';
+
+    if (type === 'moderate') {
+        systemContent = 'You are a moderation assistant. Analyze the user message. If it contains offensive language, insults, hate speech, inappropriate words for children, or dangerous content, you MUST reply ONLY with the word "ΝΑΙ". If it is completely safe and appropriate, reply ONLY with the word "ΟΧΙ". Do not include any punctuation, quotes, or other text.';
     }
 
     try {
@@ -21,7 +28,7 @@ module.exports = async function handler(req, res) {
                 messages: [
                     { 
                         role: 'system', 
-content: 'You are Catgebra, a smart, friendly, and funny math tutor cat. You MUST respond ONLY in English. Be extremely brief (1-2 sentences maximum). Your goal is to give a small helpful hint to the student (e.g., "try isolating the x"), but NEVER give the final answer. Meow occasionally!' 
+                        content: systemContent 
                     },
                     { 
                         role: 'user', 

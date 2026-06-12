@@ -45,7 +45,6 @@ onAuthStateChanged(auth, async (user) => {
         } else {
             await setDoc(userRef, {
                 name: user.displayName || user.email.split('@')[0],
-                email: user.email,
                 createdAt: serverTimestamp()
             });
         }
@@ -134,7 +133,6 @@ window.loginWithGoogle = async () => {
         } else {
             await setDoc(userRef, {
                 name: user.displayName,
-                email: user.email,
                 createdAt: serverTimestamp()
             });
             alert("Καλώς ήρθες, " + user.displayName + "! Έγινε δημιουργία προφίλ. 🐾");
@@ -252,14 +250,42 @@ window.loadUsersList = async function() {
             if (doc.id === window.currentUserId) return;
             found = true;
             const data = doc.data();
-            const escapedNameForJs = (data.name || 'Άγνωστος').replace(/\\/g, '\\\\').replace(/'/g, "\\'");
-            const sanitizedName = sanitizeInput(data.name || 'Άγνωστος');
-            listEl.innerHTML += `<div onclick="window.openPrivateChat('${doc.id}', '${escapedNameForJs}')" style="padding:10px; border-bottom:1px solid #444; cursor:pointer; display:flex; align-items:center; gap:10px;">
-                <div style="background:#03dac6; color:black; width:30px; height:30px; border-radius:50%; display:flex; justify-content:center; align-items:center; font-weight:bold;">${(sanitizedName).charAt(0).toUpperCase()}</div>
-                <div>
-                    <div style="color:white; font-weight:bold;">${sanitizedName}</div>
-                </div>
-            </div>`;
+            const name = data.name || 'Άγνωστος';
+
+            const userDiv = document.createElement('div');
+            userDiv.style.padding = '10px';
+            userDiv.style.borderBottom = '1px solid #444';
+            userDiv.style.cursor = 'pointer';
+            userDiv.style.display = 'flex';
+            userDiv.style.alignItems = 'center';
+            userDiv.style.gap = '10px';
+
+            userDiv.addEventListener('click', () => {
+                window.openPrivateChat(doc.id, name);
+            });
+
+            const avatarDiv = document.createElement('div');
+            avatarDiv.style.background = '#03dac6';
+            avatarDiv.style.color = 'black';
+            avatarDiv.style.width = '30px';
+            avatarDiv.style.height = '30px';
+            avatarDiv.style.borderRadius = '50%';
+            avatarDiv.style.display = 'flex';
+            avatarDiv.style.justifyContent = 'center';
+            avatarDiv.style.alignItems = 'center';
+            avatarDiv.style.fontWeight = 'bold';
+            avatarDiv.textContent = name.charAt(0).toUpperCase();
+
+            const textContainer = document.createElement('div');
+            const nameDiv = document.createElement('div');
+            nameDiv.style.color = 'white';
+            nameDiv.style.fontWeight = 'bold';
+            nameDiv.textContent = name;
+
+            textContainer.appendChild(nameDiv);
+            userDiv.appendChild(avatarDiv);
+            userDiv.appendChild(textContainer);
+            listEl.appendChild(userDiv);
         });
         
         if (!found) {
@@ -311,8 +337,23 @@ window.listenToChat = function() {
             let displayText = "(Μη αναγνώσιμο μήνυμα - Δεν υπάρχει E2EE κλειδί)";
             let isEncrypted = false;
             
-            // Decrypt if it's an encrypted message
-            if (data.encryptedTexts && window.myPrivateKey && window.currentUserId) {
+            // Decrypt if it's a new hybrid encrypted message
+            if (data.encryptedKeys && window.myPrivateKey && window.currentUserId) {
+                const myEncryptedKeyBase64 = data.encryptedKeys[window.currentUserId];
+                if (myEncryptedKeyBase64 && data.ciphertext && data.iv) {
+                    try {
+                        const encryptedKeyBuffer = window.CryptoEngine.base64ToArrayBuffer(myEncryptedKeyBase64);
+                        const aesKeyB64Decrypted = await window.CryptoEngine.decryptMessage(encryptedKeyBuffer, window.myPrivateKey);
+                        const aesKey = await window.CryptoEngine.importSymmetricKey(aesKeyB64Decrypted);
+                        displayText = await window.CryptoEngine.decryptWithSymmetricKey(data.ciphertext, data.iv, aesKey);
+                        isEncrypted = true;
+                    } catch (e) {
+                        console.error("Failed to decrypt hybrid message", e);
+                        displayText = "(Σφάλμα αποκρυπτογράφησης)";
+                    }
+                }
+            } else if (data.encryptedTexts && window.myPrivateKey && window.currentUserId) {
+                // Backwards compatibility for old RSA-only messages
                 const myEncryptedBase64 = data.encryptedTexts[window.currentUserId];
                 if (myEncryptedBase64) {
                     try {
@@ -320,7 +361,7 @@ window.listenToChat = function() {
                         displayText = await window.CryptoEngine.decryptMessage(encryptedBuffer, window.myPrivateKey);
                         isEncrypted = true;
                     } catch (e) {
-                        console.error("Failed to decrypt message", e);
+                        console.error("Failed to decrypt old message", e);
                         displayText = "(Σφάλμα αποκρυπτογράφησης)";
                     }
                 }
@@ -351,15 +392,20 @@ window.sendChatMessage = async function(text) {
     }
 
     try {
-        const encryptedTexts = {};
+        const encryptedKeys = {};
 
-        // Always encrypt for ourselves first to guarantee we can read our own message
+        // 1. Generate symmetric AES-GCM key and encrypt payload
+        const aesKey = await window.CryptoEngine.generateSymmetricKey();
+        const encryptedResult = await window.CryptoEngine.encryptWithSymmetricKey(text, aesKey);
+        const aesKeyB64 = await window.CryptoEngine.exportSymmetricKey(aesKey);
+
+        // 2. Encrypt the symmetric key for self first to guarantee we can read our own message
         if (window.myPublicKey) {
             try {
-                const myEncryptedBuffer = await window.CryptoEngine.encryptMessage(text, window.myPublicKey);
-                encryptedTexts[window.currentUserId] = window.CryptoEngine.arrayBufferToBase64(myEncryptedBuffer);
+                const myEncryptedBuffer = await window.CryptoEngine.encryptMessage(aesKeyB64, window.myPublicKey);
+                encryptedKeys[window.currentUserId] = window.CryptoEngine.arrayBufferToBase64(myEncryptedBuffer);
             } catch (e) {
-                console.error("Failed to encrypt for self:", e);
+                console.error("Failed to encrypt AES key for self:", e);
             }
         }
 
@@ -378,16 +424,18 @@ window.sendChatMessage = async function(text) {
                             ["encrypt"]
                         );
                         
-                        const encryptedBuffer = await window.CryptoEngine.encryptMessage(text, recipientPubKey);
-                        encryptedTexts[window.activeChatUserId] = window.CryptoEngine.arrayBufferToBase64(encryptedBuffer);
+                        const encryptedBuffer = await window.CryptoEngine.encryptMessage(aesKeyB64, recipientPubKey);
+                        encryptedKeys[window.activeChatUserId] = window.CryptoEngine.arrayBufferToBase64(encryptedBuffer);
                     } catch (e) {
-                        console.error("Failed to encrypt for user:", window.activeChatUserId, e);
+                        console.error("Failed to encrypt AES key for user:", window.activeChatUserId, e);
                     }
                 }
             }
 
             await addDoc(collection(db, "private_messages"), {
-                encryptedTexts: encryptedTexts,
+                ciphertext: encryptedResult.ciphertext,
+                iv: encryptedResult.iv,
+                encryptedKeys: encryptedKeys,
                 user: window.currentUserName,
                 senderId: window.currentUserId,
                 participants: [window.currentUserId, window.activeChatUserId],
@@ -399,7 +447,7 @@ window.sendChatMessage = async function(text) {
             const usersSnap = await getDocs(collection(db, "users"));
 
             for (const userDoc of usersSnap.docs) {
-                if (userDoc.id === window.currentUserId) continue; // Ήδη το κάναμε
+                if (userDoc.id === window.currentUserId) continue; // Already encrypted for self
                 
                 const userData = userDoc.data();
                 if (userData.publicKey) {
@@ -413,26 +461,28 @@ window.sendChatMessage = async function(text) {
                             ["encrypt"]
                         );
                         
-                        // Encrypt the message
-                        const encryptedBuffer = await window.CryptoEngine.encryptMessage(text, recipientPubKey);
+                        // Encrypt the symmetric AES key
+                        const encryptedBuffer = await window.CryptoEngine.encryptMessage(aesKeyB64, recipientPubKey);
                         
-                        // Convert to Base64
-                        encryptedTexts[userDoc.id] = window.CryptoEngine.arrayBufferToBase64(encryptedBuffer);
+                        // Store the Base64 symmetric key
+                        encryptedKeys[userDoc.id] = window.CryptoEngine.arrayBufferToBase64(encryptedBuffer);
                     } catch (e) {
-                        console.error("Failed to encrypt for user:", userDoc.id, e);
+                        console.error("Failed to encrypt AES key for user:", userDoc.id, e);
                     }
                 }
             }
 
             await addDoc(collection(db, "messages"), {
-                encryptedTexts: encryptedTexts,
+                ciphertext: encryptedResult.ciphertext,
+                iv: encryptedResult.iv,
+                encryptedKeys: encryptedKeys,
                 user: window.currentUserName,
                 senderId: window.currentUserId,
                 createdAt: serverTimestamp()
             });
         }
     } catch (error) {
-        console.error("Error sending message:", error);
+        console.error("Error sending hybrid message:", error);
         alert("Σφάλμα κατά την αποστολή του μηνύματος.");
     }
 };
@@ -546,7 +596,6 @@ window.signUpWithEmail = async (email, password) => {
         const userRef = doc(db, "users", user.uid);
         await setDoc(userRef, {
             name: displayName,
-            email: user.email,
             createdAt: serverTimestamp()
         });
         

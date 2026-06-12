@@ -1,9 +1,17 @@
-const CACHE_NAME = 'catgebra-v5';
+const CACHE_NAME = 'catgebra-v6';
 const urlsToCache = [
   './',
   './index.html',
   './style.css',
   './script.js',
+  './translations.js',
+  './data.js',
+  './secrets.js',
+  './crypto-engine.js',
+  './auth.js',
+  './cat.jpg',
+  './correct.mp3',
+  './fail.mp3',
   './manifest.json',
   './icon.svg'
 ];
