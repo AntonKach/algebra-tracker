@@ -2,14 +2,25 @@ import { initializeApp } from "https://www.gstatic.com/firebasejs/10.11.0/fireba
 import { getAuth, signInWithPopup, GoogleAuthProvider, onAuthStateChanged, signOut, signInWithEmailAndPassword, createUserWithEmailAndPassword, updateProfile } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-auth.js";
 import { getFirestore, doc, setDoc, getDoc, collection, addDoc, query, orderBy, limit, onSnapshot, serverTimestamp, getDocs, where, or } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-firestore.js";
 
+// Firebase configuration loaded from environment variables
+// See .env.example for required variables
 const firebaseConfig = {
-  apiKey: "AIzaSyCovxsWgdbcq2xcvtEMcg281DshyVRQl7A",
-  authDomain: "catgebra.firebaseapp.com",
-  projectId: "catgebra",
-  storageBucket: "catgebra.firebasestorage.app",
-  messagingSenderId: "921114748837",
-  appId: "1:921114748837:web:69c05ee6c4e5616d2aaa4c"
+  apiKey: import.meta.env.VITE_FIREBASE_API_KEY,
+  authDomain: import.meta.env.VITE_FIREBASE_AUTH_DOMAIN,
+  projectId: import.meta.env.VITE_FIREBASE_PROJECT_ID,
+  storageBucket: import.meta.env.VITE_FIREBASE_STORAGE_BUCKET,
+  messagingSenderId: import.meta.env.VITE_FIREBASE_MESSAGING_SENDER_ID,
+  appId: import.meta.env.VITE_FIREBASE_APP_ID
 };
+
+// Validate that all required Firebase config variables are present
+const requiredVars = ['apiKey', 'authDomain', 'projectId', 'storageBucket', 'messagingSenderId', 'appId'];
+const missingVars = requiredVars.filter(key => !firebaseConfig[key]);
+
+if (missingVars.length > 0) {
+  console.error('Missing Firebase environment variables:', missingVars);
+  console.error('Please copy .env.example to .env.local and fill in the Firebase credentials');
+}
 
 const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
@@ -614,4 +625,3 @@ window.signUpWithEmail = async (email, password) => {
         }
     }
 };
-
