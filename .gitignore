@@ -6,4 +6,7 @@ node_modules/
 .vscode/
 *.log
 .firebase/
+dist/
+dist
+
 

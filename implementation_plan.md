@@ -1,61 +1,70 @@
-# Redesign Algebra Tracker Web App
+# Secure Algebra Tracker App & Configure Environment Variables
 
-## Goal
-Transform the existing `index.html` and associated assets into a modern, visually stunning, responsive web application for the Algebra Tracker. The redesign will focus on premium aesthetics, dark mode, smooth micro‑animations, and an intuitive user experience.
+This plan outlines the steps to rotate the compromised Firebase API key, configure local environment variables, and resolve the runtime support for environment variables in the frontend.
 
 ## User Review Required
-- **Design direction**: Confirm the preferred color palette (e.g., deep dark theme with accent teal) and font choices (Google Font: Inter). If you have any brand colors or imagery you want to keep, let us know.
-- **Feature scope**: Should we retain all existing functionality (login, problem generation, OCR, chat, etc.)? If any features can be dropped or simplified, advise.
+
+> [!WARNING]
+> The current changes on `security-fix/remove-exposed-credentials` use `import.meta.env` (Vite syntax) to load Firebase configuration. Since the app is currently a static HTML page without a bundler, **this syntax will fail at runtime in the browser** unless we set up a build process or a backend API.
+
+Please choose one of the following approaches to support environment variables:
+
+### Option A: Set Up Vite (Recommended)
+Add a modern, lightweight build tool (Vite) to compile and build the app.
+- **Pros**: Matches standard Vite setup, supports `import.meta.env` out of the box, prepares project for future optimizations/bundling.
+- **Cons**: Adds a build step (`npm run build`) and requires deploying the build folder (e.g. `dist/`) instead of the root directory.
+
+### Option B: Backend Configuration API
+Create a new serverless function `/api/config.js` (Vercel-compatible) to serve the configuration at runtime.
+- **Pros**: Simple, does not require a bundler/build tool or changes to the hosting folder layout.
+- **Cons**: Requires a network fetch on startup before initializing Firebase, which slightly delays load.
+
+---
 
 ## Open Questions
+
 > [!IMPORTANT]
-> - Do you want a single‑page app with dynamic routing (e.g., using vanilla JS history API) or keep the current SPA style?
-> - Should we incorporate any additional UI components such as a floating action button for help or a persistent dark‑mode toggle?
-> - Are there any performance constraints (e.g., target load time < 2 s on mobile)?
+> 1. Which option do you prefer: **Option A (Vite Setup)** or **Option B (Backend API)**?
+> 2. Have you already rotated the Firebase API key in the Firebase Console? If yes, please provide the new API key so we can update `.env.local`. If not, we will set up `.env.local` with placeholders.
+
+---
 
 ## Proposed Changes
+
+### Configuration
+#### [NEW] [.env.local](file:///Users/antonioskachrimanis/algebra-tracker/.env.local)
+- Create local environment file containing the Firebase configurations (based on `.env.example`).
+
 ---
-### Design System (new files)
-- **[NEW] style.css** – Central stylesheet defining CSS variables for colors, typography, layout grid, glass‑morphism cards, and animations.
-- **[NEW] fonts.html** – Tiny HTML fragment to load Google Fonts (Inter, Roboto) with `font-display: swap`.
 
-### Index HTML
-- **[MODIFY] index.html** – Clean up the `<head>` to include the new stylesheet and font link, remove redundant meta tags, and add a `<meta name="theme-color">` matching the dark mode.
-- Re‑structure the body using semantic sections (`<header>`, `<main>`, `<nav>`, `<section>`) and CSS Grid for a two‑column layout on desktop, stacking on mobile.
-- Replace inline styles with class‑based styling.
-- Add `data-theme="dark"` attribute to enable CSS theme switching.
-- Introduce a visible dark‑mode toggle button.
-- Update all button elements to use consistent component classes (`.btn-primary`, `.btn-secondary`).
-- Refactor the welcome splash into a modal component with fade‑in animation.
-- Ensure all images (e.g., `cat.jpg`) are loaded via `<picture>` element for responsive resolutions.
-- Add ARIA labels and proper button semantics for accessibility.
+### Option A: Vite Build System (If Selected)
 
-### JavaScript Enhancements (existing script.js)
-- **[MODIFY] script.js** – Refactor to modular functions, replace repeated DOM queries with cached references.
-- Introduce a small utility module for theme handling (`theme.js`).
-- Add subtle micro‑animations using CSS transitions triggered from JS (e.g., button press ripple effect).
-- Ensure the language selector updates text via the existing `translations.js` but with smoother UI feedback.
+#### [NEW] [package.json](file:///Users/antonioskachrimanis/algebra-tracker/package.json)
+- Initialize project and add `vite` dev dependency.
+- Define scripts: `"dev": "vite"`, `"build": "vite build"`, `"preview": "vite preview"`.
 
-### Additional UI Components
-- **[NEW] modal.js** – Generic modal handling (open/close, focus trap).
-- **[NEW] toast.js** – Toast notifications for success/error messages.
+#### [NEW] [vite.config.js](file:///Users/antonioskachrimanis/algebra-tracker/vite.config.js)
+- Configure Vite for static site hosting.
 
-### SEO & Accessibility
-- Add a single `<h1>` per page (`<h1 class="app-title">Algebra Tracker</h1>`).
-- Include meta description and Open Graph tags.
-- Ensure all interactive elements have unique IDs and `role` attributes where appropriate.
-- Implement `prefers-reduced-motion` media query fallback.
+#### [MODIFY] [firebase.json](file:///Users/antonioskachrimanis/algebra-tracker/firebase.json)
+- Update public directory from `.` to `dist` so Firebase Hosting serves the compiled bundle.
+
+---
+
+### Option B: Backend API (If Selected)
+
+#### [NEW] [config.js](file:///Users/antonioskachrimanis/algebra-tracker/api/config.js)
+- Create a Vercel-compatible serverless endpoint that returns the Firebase environment variables securely at runtime.
+
+#### [MODIFY] [auth.js](file:///Users/antonioskachrimanis/algebra-tracker/auth.js)
+- Refactor Firebase initialization to dynamically fetch the configuration from `/api/config` before initializing the app.
+
+---
 
 ## Verification Plan
-### Automated Tests
-- Run `npm run dev` after installing a simple dev server (e.g., `live-server`). Verify that the page loads without console errors.
-- Use Lighthouse (via Chrome) to check Performance, Accessibility, Best Practices, and SEO scores (target > 90).
 
-### Manual Verification
-- Open the page on mobile and desktop to confirm responsive layout.
-- Test dark‑mode toggle and ensure colors adjust correctly.
-- Verify all existing functionality (login, problem generation, OCR, chat) still works.
-- Check that the language selector updates UI text instantly.
-
----
-*This plan outlines a comprehensive redesign while preserving the core functionality of the Algebra Tracker. Please review and approve or suggest adjustments.*
+### Automated/Manual Tests
+- Copy `.env.example` to `.env.local` and configure variables.
+- Run local server (depending on selected option) and verify no console errors regarding undefined `import.meta` or missing credentials.
+- Test Firebase Authentication (Google Sign-In, Email login) and ensure they connect successfully.
+- Verify security rule guidelines match `/SECURITY.md`.
