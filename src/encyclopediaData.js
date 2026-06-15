@@ -238,3 +238,5 @@ const encyclopediaEntries = [
         }
     }
 ];
+
+window.encyclopediaEntries = encyclopediaEntries;

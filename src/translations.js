@@ -478,3 +478,5 @@ const translations = {
     ocrError: "حدث خطأ أثناء التعرف على النص (OCR)."
   }
 };
+
+window.translations = translations;

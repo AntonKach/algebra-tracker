@@ -1469,3 +1469,22 @@ window.tryEncyclopediaPractice = function() {
     }
 };
 
+
+window.startTimer = startTimer;
+window.populateGradeSelect = populateGradeSelect;
+window.changeLanguage = changeLanguage;
+window.changeGrade = changeGrade;
+window.loadNextProblem = loadNextProblem;
+window.checkAnswer = checkAnswer;
+window.updateStatsUI = updateStatsUI;
+window.updateRank = updateRank;
+window.showHelp = showHelp;
+window.clearNotes = clearNotes;
+window.skipProblem = skipProblem;
+window.resetProgress = resetProgress;
+window.insertSymbol = insertSymbol;
+window.toggleKeyboard = toggleKeyboard;
+
+// Ensure variables that might be used globally are available
+window.getScore = () => score;
+window.getUserStats = () => userStats;

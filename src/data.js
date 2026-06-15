@@ -83,3 +83,5 @@ const educationData = {
         ] 
     }
 };
+
+window.educationData = educationData;
