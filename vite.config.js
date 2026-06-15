@@ -3,6 +3,7 @@ import { defineConfig } from 'vite';
 export default defineConfig({
   // Our static files are served from the public directory
   publicDir: 'public',
+  base: './',
   build: {
     // Write build output to dist/
     outDir: 'dist',
