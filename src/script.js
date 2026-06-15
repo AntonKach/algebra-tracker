@@ -11,11 +11,8 @@ if ('serviceWorker' in navigator) {
 const soundCorrect = new Audio('correct.mp3');
 const soundFail = new Audio('fail.mp3');
 
-let consecutiveCorrect = 0;
-let consecutiveWrong = 0;
-let score = 0, currentProblem = {}, timerInterval, seconds = 0, calculator, sciCalculator;
+let currentProblem = {}, timerInterval, seconds = 0, calculator, sciCalculator;
 let currentLang = "el";
-let userStats = JSON.parse(localStorage.getItem("mathUserStats")) || { played: 0, correct: 0, wrong: 0 };
 let lastFocusedInput = "answer";
 let currentGeoAnswer = 0;
 let currentGeoProblem = { formula: "", steps: [] };
@@ -48,36 +45,10 @@ function safeSetText(id, text) { const el = document.getElementById(id); if (el)
 function safeSetHTML(id, html) { const el = document.getElementById(id); if (el) el.innerHTML = html; }
 function safeSetPlaceholder(id, text) { const el = document.getElementById(id); if (el) el.placeholder = text; }
 
-window.updateGameData = function (cloudScore, cloudStats) {
-    if (cloudScore !== undefined) score = cloudScore;
-    if (cloudStats !== undefined) userStats = cloudStats;
-
-    safeSetText("score", score);
-    updateRank();
-    if (typeof updateStatsUI === "function") updateStatsUI();
-
-    localStorage.setItem("mathUserStats", JSON.stringify(userStats));
-    localStorage.setItem("mathScore", score);
-
-    if (window.saveToCloud) window.saveToCloud(score, userStats);
-};
-
 
 window.onload = function () {
     try {
-        const savedStats = localStorage.getItem("mathUserStats");
-        if (savedStats) userStats = JSON.parse(savedStats);
 
-        const savedScore = localStorage.getItem("mathScore");
-        if (savedScore && !isNaN(parseInt(savedScore))) score = parseInt(savedScore);
-
-        const savedAvatar = localStorage.getItem("userAvatar");
-        if (savedAvatar) {
-            const mainAvatar = document.getElementById("main-avatar");
-            const profileAvatar = document.getElementById("profile-avatar");
-            if (mainAvatar) mainAvatar.src = savedAvatar;
-            if (profileAvatar) profileAvatar.src = savedAvatar;
-        }
 
         const sciEl = document.getElementById('scientific-calculator');
         if (sciEl && typeof Desmos !== 'undefined' && typeof Desmos.ScientificCalculator === 'function') {
@@ -114,9 +85,6 @@ window.onload = function () {
         };
 
         initOcrCanvas();
-
-        safeSetText("score", score);
-        updateRank();
 
         const ansEl = document.getElementById("answer");
         if (ansEl) ansEl.addEventListener("focus", () => lastFocusedInput = "answer");
@@ -397,26 +365,14 @@ function checkAnswer() {
         expected = expected.split(',').sort((a, b) => parseFloat(a) - parseFloat(b)).join(',');
     }
 
-    userStats.played++;
     const t = translations[currentLang] || translations["el"];
     const isEl = currentLang === "el";
 
     if (userAns === expected) {
-        userStats.correct++;
-        score += 20;
-        consecutiveCorrect++;
-        consecutiveWrong = 0;
 
         let fbEl = document.getElementById("feedback");
-        if (consecutiveCorrect === 3) {
-            if (fbEl) {
-                fbEl.innerHTML = isEl ? `Είσαι ασταμάτητος! 🚀 Μήπως ήρθε η ώρα να δοκιμάσεις το επόμενο επίπεδο δυσκολίας;` : `You're unstoppable! 🚀 Time to try the next difficulty level?`;
-                fbEl.style.color = "#0A84FF"; // iOS Blue
-            }
-        } else {
-            safeSetText("feedback", t.catSuccess[Math.floor(Math.random() * t.catSuccess.length)]);
-            if (fbEl) fbEl.style.color = ""; // reset color
-        }
+        safeSetText("feedback", t.catSuccess[Math.floor(Math.random() * t.catSuccess.length)]);
+        if (fbEl) fbEl.style.color = ""; // reset color
 
         if (typeof confetti === 'function') confetti({ particleCount: 150, spread: 80, origin: { y: 0.6 } });
         try {
@@ -425,11 +381,8 @@ function checkAnswer() {
         } catch (e) { }
         setTimeout(loadNextProblem, 2000);
     } else {
-        consecutiveWrong++;
-        consecutiveCorrect = 0;
-
         let fbEl = document.getElementById("feedback");
-        if (consecutiveWrong >= 2) {
+        if (true) {
             const levelSelect = document.getElementById("level-select");
             const level = levelSelect ? parseInt(levelSelect.value) : 1;
             let tipMsg = "";
@@ -450,9 +403,6 @@ function checkAnswer() {
             soundFail.play().catch(() => { });
         } catch (e) { }
     }
-
-    safeSetText("score", score);
-    updateGameData();
 }
 
 window.checkContextAnswer = function (category) {
@@ -485,10 +435,6 @@ window.checkContextAnswer = function (category) {
             fbEl.innerText = currentLang === 'el' ? "Σωστά! 🥳" : "Correct! 🥳";
             fbEl.style.color = "#32D74B";
         }
-        score += (category === 'topology' ? 20 : 15);
-        userStats.correct++;
-        userStats.played++;
-        updateGameData();
         if (typeof confetti === 'function') confetti({ particleCount: 150, spread: 80, origin: { y: 0.6 } });
         try {
             soundCorrect.currentTime = 0;
@@ -500,9 +446,6 @@ window.checkContextAnswer = function (category) {
             fbEl.innerText = currentLang === 'el' ? "Ουπς! Λάθος. Ξαναδοκίμασε." : "Oops! Wrong. Try again.";
             fbEl.style.color = "#FF453A";
         }
-        userStats.wrong = (userStats.wrong || 0) + 1;
-        userStats.played++;
-        updateGameData();
         try {
             soundFail.currentTime = 0;
             soundFail.play().catch(() => { });
@@ -597,227 +540,8 @@ window.generateContextProblem = function (category) {
     }
 };
 
-// Removed duplicate trig/topology checkers and generators
-
-function updateStatsUI() {
-    safeSetText("stats-played", userStats.played);
-    safeSetText("stats-correct", userStats.correct);
-    let rate = userStats.played > 0 ? Math.round((userStats.correct / userStats.played) * 100) : 0;
-    safeSetText("stats-rate", rate + "%");
-}
-
-function updateRank() {
-    const t = translations[currentLang] || translations["el"];
-    let title = t.rank1;
-    if (score >= 600) title = t.rank4;
-    else if (score >= 300) title = t.rank3;
-    else if (score >= 100) title = t.rank2;
-    safeSetText("user-rank", title);
-
-    // Ενημέρωση του Profile Modal
-    safeSetText("profile-rank", title);
-    safeSetText("profile-xp", score);
-
-    // Ενημέρωση των Badges
-    const b1 = document.getElementById("badge-1");
-    if (b1) {
-        if (score >= 100) { b1.classList.remove("locked"); b1.title = "Ξεκλείδωτο: 100+ Πόντοι!"; } else { b1.classList.add("locked"); }
-    }
-    const b2 = document.getElementById("badge-2");
-    if (b2) {
-        if (score >= 300) { b2.classList.remove("locked"); b2.title = "Ξεκλείδωτο: 300+ Πόντοι!"; } else { b2.classList.add("locked"); }
-    }
-    const b3 = document.getElementById("badge-3");
-    if (b3) {
-        if (score >= 600) { b3.classList.remove("locked"); b3.title = "Ξεκλείδωτο: 600+ Πόντοι!"; } else { b3.classList.add("locked"); }
-    }
-    const b4 = document.getElementById("badge-4");
-    if (b4) {
-        if (score >= 1000) { b4.classList.remove("locked"); b4.title = "Ξεκλείδωτο: 1000+ Πόντοι!"; } else { b4.classList.add("locked"); }
-    }
-
-    // Υπολογισμός Progress Bar (έστω max 1000 XP)
-    let progressEl = document.getElementById("profile-progress");
-    if (progressEl) {
-        let percent = Math.min((score / 1000) * 100, 100);
-        progressEl.style.width = percent + "%";
-    }
-}
-
-function showHelp() {
-    const hb = document.getElementById("help-steps");
-    if (hb) {
-        hb.innerHTML = currentProblem.steps.map(s => "• " + s).join("<br>");
-        hb.classList.remove("hidden");
-    }
-}
-
-function clearNotes() {
-    safeSetValue("user-notes", "");
-    safeSetText("ai-response", "");
-}
-window.toggleStats = function () { updateStatsUI(); const sm = document.getElementById("stats-modal"); if (sm) sm.classList.toggle("hidden"); };
-function skipProblem() { loadNextProblem(); }
-function resetProgress() { localStorage.clear(); location.reload(); }
+window.toggleKeyboard = function () { const mk = document.getElementById("math-keyboard"); if (mk) mk.classList.toggle("hidden"); };
 function insertSymbol(sym) { const input = document.getElementById(lastFocusedInput); if (input) { input.value += sym; input.focus(); } }
-function toggleKeyboard() { const mk = document.getElementById("math-keyboard"); if (mk) mk.classList.toggle("hidden"); }
-
-window.toggleChat = function () { const cm = document.getElementById("chat-modal"); if (cm) cm.classList.toggle("hidden"); };
-window.toggleProfile = function () { const pm = document.getElementById("profile-modal"); if (pm) pm.classList.toggle("hidden"); };
-
-window.uploadAvatar = function (event) {
-    const file = event.target.files[0];
-    if (!file) return;
-
-    const reader = new FileReader();
-    reader.onload = function (e) {
-        const img = new Image();
-        img.onload = function() {
-            const canvas = document.createElement('canvas');
-            const MAX_SIZE = 150;
-            canvas.width = MAX_SIZE;
-            canvas.height = MAX_SIZE;
-            const ctx = canvas.getContext('2d');
-            ctx.drawImage(img, 0, 0, MAX_SIZE, MAX_SIZE);
-            
-            const compressedBase64 = canvas.toDataURL('image/jpeg', 0.7);
-
-            try {
-                localStorage.setItem("userAvatar", compressedBase64);
-                const mainAvatar = document.getElementById("main-avatar");
-                const profileAvatar = document.getElementById("profile-avatar");
-                if (mainAvatar) mainAvatar.src = compressedBase64;
-                if (profileAvatar) profileAvatar.src = compressedBase64;
-            } catch (error) {
-                console.error("Storage error:", error);
-                alert("Σφάλμα αποθήκευσης της εικόνας. Δοκίμασε μικρότερο αρχείο.");
-            }
-        };
-        img.src = e.target.result;
-    };
-    reader.readAsDataURL(file);
-};
-
-window.exploreApp = function () {
-    const landingView = document.getElementById("landing-view");
-    if (landingView) landingView.style.display = "none";
-
-    const legalAccepted = localStorage.getItem('catgebra_legal_accepted');
-    if (legalAccepted !== 'true') {
-        const disclaimerModal = document.getElementById("disclaimer-modal");
-        if (disclaimerModal) {
-            disclaimerModal.style.display = "flex";
-        }
-    } else {
-        const loginView = document.getElementById("login-view");
-        if (loginView) {
-            loginView.style.display = "flex";
-        }
-    }
-};
-
-window.showLoginView = function () {
-    const mainApp = document.getElementById("main-app");
-    if (mainApp) mainApp.style.display = "none";
-
-    const landingContainer = document.getElementById("landing-container");
-    if (landingContainer) landingContainer.style.display = "flex";
-
-    const landingView = document.getElementById("landing-view");
-    if (landingView) landingView.style.display = "none";
-
-    const loginView = document.getElementById("login-view");
-    if (loginView) loginView.style.display = "flex";
-};
-
-window.goBackToLanding = function () {
-    const legalAccepted = localStorage.getItem('catgebra_legal_accepted');
-    if (legalAccepted === 'true') {
-        const loginView = document.getElementById("login-view");
-        if (loginView) loginView.style.display = "none";
-
-        const landingContainer = document.getElementById("landing-container");
-        if (landingContainer) landingContainer.style.display = "none";
-
-        const mainApp = document.getElementById("main-app");
-        if (mainApp) {
-            mainApp.style.display = "block";
-            if (window.resizeAllCalculators) {
-                window.resizeAllCalculators();
-            }
-        }
-    } else {
-        const landingView = document.getElementById("landing-view");
-        const loginView = document.getElementById("login-view");
-        if (landingView && loginView) {
-            loginView.style.display = "none";
-            landingView.style.display = "flex";
-        }
-    }
-};
-
-window.submitLogin = function () {
-    const emailInput = document.getElementById("login-email");
-    const passwordInput = document.getElementById("login-password");
-    if (!emailInput || !passwordInput) return;
-
-    const email = emailInput.value.trim();
-    const pass = passwordInput.value;
-    if (!email || !pass) {
-        alert("Παρακαλώ συμπληρώστε όλα τα πεδία! 🐾");
-        return;
-    }
-    if (window.loginWithEmail) {
-        window.loginWithEmail(email, pass);
-    }
-};
-
-window.submitSignup = function () {
-    const emailInput = document.getElementById("login-email");
-    const passwordInput = document.getElementById("login-password");
-    if (!emailInput || !passwordInput) return;
-
-    const email = emailInput.value.trim();
-    const pass = passwordInput.value;
-    if (!email || !pass) {
-        alert("Παρακαλώ συμπληρώστε όλα τα πεδία! 🐾");
-        return;
-    }
-    if (window.signUpWithEmail) {
-        window.signUpWithEmail(email, pass);
-    }
-};
-
-window.toggleLegalButton = function () {
-    const cb = document.getElementById('legal-checkbox');
-    const btn = document.getElementById('btn-agree');
-    if (cb && btn) {
-        btn.disabled = !cb.checked;
-        btn.style.opacity = cb.checked ? "1" : "0.5";
-        btn.style.cursor = cb.checked ? "pointer" : "not-allowed";
-    }
-};
-
-window.acceptLegalAgreement = function () {
-    localStorage.setItem('catgebra_legal_accepted', 'true');
-    const modal = document.getElementById('disclaimer-modal');
-    if (modal) modal.style.display = 'none';
-
-    const welcomeSplash = document.getElementById("welcome-splash");
-    if (welcomeSplash) welcomeSplash.style.display = 'none';
-
-    const landingContainer = document.getElementById("landing-container");
-    if (landingContainer) landingContainer.style.display = 'none';
-
-    const mainApp = document.getElementById("main-app");
-    if (mainApp) {
-        mainApp.style.display = 'block';
-        if (window.resizeAllCalculators) {
-            window.resizeAllCalculators();
-        }
-    }
-};
-
 window.switchTab = function (tabName) {
     const sections = {
         'algebra': document.getElementById("algebra-section"),
@@ -856,56 +580,7 @@ window.switchTab = function (tabName) {
     }
 };
 
-async function sendCustomMessage() {
-    const inputEl = document.getElementById("chat-input");
-    const btn = document.getElementById("btn-chat-send");
-    if (!inputEl || !btn) return;
 
-    const text = inputEl.value.trim();
-    if (!text) return;
-
-    if (!window.sendChatMessage) {
-        let msg = "Περίμενε να φορτώσει η σύνδεση! 🐾";
-        if (currentLang === 'en') msg = "Please wait for the connection! 🐾";
-        if (currentLang === 'fr') msg = "Veuillez patienter pour la connexion! 🐾";
-        if (currentLang === 'tr') msg = "Lütfen bağlantıyı bekleyin! 🐾";
-        alert(msg);
-        return;
-    }
-
-    const originalBtnText = btn.innerText;
-    btn.innerText = "Έλεγχος AI...";
-    btn.disabled = true;
-    inputEl.disabled = true;
-
-    try {
-        const prompt = `Αξιολόγησε αυστηρά αν το παρακάτω μήνυμα είναι υβριστικό, προσβλητικό, επικίνδυνο ή ακατάλληλο για παιδιά. Απάντησε ΜΟΝΟ με τη λέξη "ΝΑΙ" (αν είναι ακατάλληλο) ή "ΟΧΙ" (αν είναι ασφαλές): "${text}"`;
-        const response = await fetch('/api/tutor', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ text: prompt, type: 'moderate' })
-        });
-
-        const data = await response.json();
-        const aiReply = data.reply ? data.reply.trim().toUpperCase() : "";
-
-        // Checking if the reply contains "ΝΑΙ"
-        if (aiReply.includes("ΝΑΙ")) {
-            alert("Το μήνυμά σου κρίθηκε ακατάλληλο από το AI Moderator και δεν στάλθηκε. Παρακαλούμε κράτησε το chat καθαρό! 🐾");
-        } else {
-            await window.sendChatMessage(text);
-            inputEl.value = ""; // Clear input only if sent successfully
-        }
-    } catch (error) {
-        console.error("Σφάλμα AI Moderation:", error);
-        alert("Αποτυχία σύνδεσης με τον AI Moderator. Προσπάθησε ξανά.");
-    } finally {
-        btn.innerText = originalBtnText;
-        btn.disabled = false;
-        inputEl.disabled = false;
-        inputEl.focus();
-    }
-}
 
 async function askAI() {
     const notesEl = document.getElementById("user-notes");
@@ -1476,15 +1151,8 @@ window.changeLanguage = changeLanguage;
 window.changeGrade = changeGrade;
 window.loadNextProblem = loadNextProblem;
 window.checkAnswer = checkAnswer;
-window.updateStatsUI = updateStatsUI;
-window.updateRank = updateRank;
 window.showHelp = showHelp;
 window.clearNotes = clearNotes;
-window.skipProblem = skipProblem;
-window.resetProgress = resetProgress;
 window.insertSymbol = insertSymbol;
 window.toggleKeyboard = toggleKeyboard;
-
-// Ensure variables that might be used globally are available
-window.getScore = () => score;
-window.getUserStats = () => userStats;
+window.skipProblem = function() { loadNextProblem(); };
