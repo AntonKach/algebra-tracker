@@ -1155,3 +1155,4 @@ window.clearNotes = clearNotes;
 window.insertSymbol = insertSymbol;
 window.toggleKeyboard = toggleKeyboard;
 window.skipProblem = function() { loadNextProblem(); };
+window.askAI = askAI;
