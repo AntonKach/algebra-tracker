@@ -160,8 +160,6 @@ function changeLanguage() {
     safeSetText("btn-mathjs-step", t.btnMathjsStep);
     safeSetText("btn-skip", t.btnSkip);
     safeSetText("lbl-notes", t.lblNotes);
-    safeSetText("btn-clear", t.btnClear);
-    safeSetPlaceholder("user-notes", t.placeholderNotes);
     safeSetText("lbl-graph", t.lblGraph);
     safeSetText("btn-reset", t.btnReset);
     safeSetText("btn-stats", t.btnStats);
@@ -1117,7 +1115,7 @@ window.changeGrade = changeGrade;
 window.loadNextProblem = loadNextProblem;
 window.checkAnswer = checkAnswer;
 window.showHelp = showHelp;
-window.clearNotes = clearNotes;
+
 window.insertSymbol = insertSymbol;
 window.toggleKeyboard = toggleKeyboard;
 window.skipProblem = function() { loadNextProblem(); };
