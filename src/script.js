@@ -581,41 +581,7 @@ window.switchTab = function (tabName) {
 
 
 
-async function askAI() {
-    const notesEl = document.getElementById("user-notes");
-    if (!notesEl) return;
-    const notes = notesEl.value.trim();
 
-    if (!notes) { 
-        safeSetText("ai-response", currentLang === 'el' ? "Γράψε πρώτα κάτι στο πρόχειρο! 🐾" : "Write something in the scratchpad first! 🐾"); 
-        return; 
-    }
-    
-    safeSetText("ai-response", currentLang === 'el' ? "Η Catgebra σκέφτεται... 💭" : "Catgebra is thinking... 💭");
-
-    const langMap = { "el": "Greek", "en": "English", "fr": "French", "es": "Spanish", "it": "Italian", "tr": "Turkish", "ar": "Arabic" };
-    const langName = langMap[currentLang] || "Greek";
-    
-    // Κρυφή οδηγία προς το AI για να απαντάει στη σωστή γλώσσα
-    const aiPrompt = `You are a helpful, encouraging, and highly precise math tutor named Catgebra. 
-You MUST respond strictly in ${langName} language. 
-If the user's query is not related to math or is gibberish, kindly redirect them to ask a math question.
-Provide clear, step-by-step explanations and encourage the student.
-User query: ${notes}`;
-
-    try {
-        const response = await fetch('/api/tutor', { 
-            method: 'POST', 
-            headers: { 'Content-Type': 'application/json' }, 
-            body: JSON.stringify({ text: aiPrompt, type: 'tutor' }) 
-        });
-        const data = await response.json();
-        safeSetText("ai-response", data.reply);
-    } catch (error) {
-        console.error("Σφάλμα AI:", error);
-        safeSetText("ai-response", currentLang === 'el' ? "Ουπς! Υπήρξε ένα μικρό πρόβλημα σύνδεσης. 😿" : "Oops! Connection problem. 😿");
-    }
-}
 
 window.triggerCatSecret = function () {
     const secretsList = (window.michelleSecrets && window.michelleSecrets[currentLang]) ? window.michelleSecrets[currentLang] : window.michelleSecrets["el"];
@@ -1155,4 +1121,4 @@ window.clearNotes = clearNotes;
 window.insertSymbol = insertSymbol;
 window.toggleKeyboard = toggleKeyboard;
 window.skipProblem = function() { loadNextProblem(); };
-window.askAI = askAI;
+
