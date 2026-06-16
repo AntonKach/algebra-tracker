@@ -256,7 +256,6 @@ function changeLanguage() {
 
 
 
-    updateRank();
     populateGradeSelect();
     loadNextProblem();
     if (typeof window.generateContextProblem === 'function') {
