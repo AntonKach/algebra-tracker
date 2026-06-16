@@ -526,6 +526,10 @@ const encyclopediaEntries = [
     }
 ];
 
+if (typeof window !== 'undefined') {
+    window.encyclopediaEntries = encyclopediaEntries;
+}
+
 if (typeof module !== 'undefined' && module.exports) {
     module.exports = encyclopediaEntries;
 }
