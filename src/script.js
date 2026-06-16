@@ -1049,6 +1049,17 @@ window.showEncyclopediaEntry = function(id) {
     if (defEl) defEl.innerText = entry.definition[currentLang] || entry.definition["en"];
     if (adviceEl) adviceEl.innerText = entry.catAdvice[currentLang] || entry.catAdvice["en"];
 
+    const sourceEl = document.getElementById("entry-detail-source");
+    if (sourceEl) {
+        if (entry.source) {
+            sourceEl.href = entry.source;
+            sourceEl.style.display = "block";
+        } else {
+            sourceEl.style.display = "none";
+            sourceEl.href = "#";
+        }
+    }
+
     if (overlay) overlay.classList.remove("hidden");
 };
 

@@ -14,23 +14,24 @@ const encyclopediaEntries = [
         formula: "ax + b = 0",
         latex: "y = 2x - 4",
         grade: "gym_a",
+        source: "https://el.wikipedia.org/wiki/Γραμμική_εξίσωση",
         definition: {
             el: "Μια πρωτοβάθμια εξίσωση (ή γραμμική εξίσωση) περιγράφει μια σχέση όπου η άγνωστη μεταβλητή x έχει δύναμη 1. Η γραφική της παράσταση είναι μια ευθεία γραμμή. Η λύση της εξίσωσης ax + b = 0 δίνεται από τον τύπο x = -b/a (όταν το a δεν είναι μηδέν).",
-            en: "A linear equation describes a relationship where the unknown variable x has a power of 1. Its graphical representation is a straight line. The solution to the equation ax + b = 0 is given by the formula x = -b/a (provided a is not zero).",
-            fr: "Une équation linéaire décrit une relation où la variable inconnue x est à la puissance 1. Sa représentation graphique est une ligne droite. La solution de l'équation ax + b = 0 est donnée par la formule x = -b/a (pourvu que a ne soit pas nul).",
-            es: "Una ecuación lineal describe una relación donde la variable desconocida x tiene una potencia de 1. Su representación gráfica es una línea recta. La solución a la ecuación ax + b = 0 viene dada por la fórmula x = -b/a (siempre que a no sea cero).",
-            it: "Un'equazione lineare descrive una relazione in cui la variabile incognita x ha potenza pari a 1. La sua rappresentazione grafica è una linea retta. La soluzione dell'equazione ax + b = 0 è data dalla formula x = -b/a (purché a non sia zero).",
-            tr: "Birinci dereceden (veya doğrusal) bir denklem, bilinmeyen değişken x'in 1. kuvvete sahip olduğu bir ilişkiyi tanımlar. Grafiksel gösterimi düz bir doğrudur. ax + b = 0 denkleminin çözümü x = -b/a formülü ile verilir (a sıfır olmamak kaydıyla).",
-            ar: "تصف المعادلة الخطية العلاقة حيث يكون للمتغير المجهول x القوة 1. تمثيلها البياني هو خط مستقيم. حل المعادلة ax + b = 0 يعطى بالصيغة x = -b/a (بشرط ألا يكون a صفرًا)."
+            en: "A linear equation describes a relationship where the unknown variable x has a power of 1. Its graphical representation is a straight line.",
+            fr: "Une équation linéaire décrit une relation où la variable inconnue x est à la puissance 1.",
+            es: "Una ecuación lineal describe una relación donde la variable desconocida x tiene una potencia de 1.",
+            it: "Un'equazione lineare descrive una relazione in cui la variabile incognita x ha potenza pari a 1.",
+            tr: "Birinci dereceden (veya doğrusal) bir denklem, bilinmeyen değişken x'in 1. kuvvete sahip olduğu bir ilişkiyi tanımlar.",
+            ar: "تصف المعادلة الخطية العلاقة حيث يكون للمتغير المجهول x القوة 1."
         },
         catAdvice: {
             el: "Φέρε όλα τα x από τη μια πλευρά και τους αριθμούς από την άλλη! Και μην ξεχνάς να αλλάζεις πρόσημο (+ σε -) όταν αλλάζεις πλευρά! Νιάου! 🐾",
-            en: "Keep all the x's on one side and the numbers on the other! And don't forget to change the sign (+ to -) when crossing the equals sign! Meow! 🐾",
-            fr: "Garde tous les x d'un côté et les nombres de l'autre ! Et n'oublie pas de changer le signe (+ en -) en traversant le signe égal ! Miaou ! 🐾",
-            es: "¡Mantén todas las x de un lado και los números del otro! ¡Y no olvides cambiar el signo (+ a -) al cruzar el signo igual! ¡Miau! 🐾",
-            it: "Tieni tutte le x da un lato e i numeri dall'altro! E non dimenticare di cambiare segno (+ in -) quando attraversi il segno uguale! Miao! 🐾",
-            tr: "Tüm x'leri bir tarafta, sayıları diğer tarafta topla! Eşittir işaretinin diğer tarafına geçerken işareti (+ ise -) değiştirmeyi unutma! Miyav! 🐾",
-            ar: "ضع كل مجاهيل x في جانب والأرقام في الجانب الآخر! ولا تنس تغيير الإشارة (+ إلى -) عند عبور علامة اليساوي! ميام! 🐾"
+            en: "Keep all the x's on one side and the numbers on the other! And don't forget to change the sign (+ to -) when crossing the equals sign! 🐾",
+            fr: "Garde tous les x d'un côté et les nombres de l'autre ! 🐾",
+            es: "¡Mantén todas las x de un lado y los números del otro! 🐾",
+            it: "Tieni tutte le x da un lato e i numeri dall'altro! 🐾",
+            tr: "Tüm x'leri bir tarafta, sayıları diğer tarafta topla! 🐾",
+            ar: "ضع كل مجاهيل x في جانب والأرقام في الجانب الآخر! 🐾"
         }
     },
     {
@@ -48,23 +49,94 @@ const encyclopediaEntries = [
         formula: "ax² + bx + c = 0",
         latex: "y = x^2 - 4x + 3",
         grade: "gym_g",
+        source: "https://el.wikipedia.org/wiki/Δευτεροβάθμια_εξίσωση",
         definition: {
-            el: "Μια δευτεροβάθμια εξίσωση περιέχει τη μεταβλητή x υψωμένη στο τετράγωνο. Η γραφική της παράσταση είναι μια καμπύλη που ονομάζεται παραβολή. Για να τη λύσουμε, υπολογίζουμε τη Διακρίνουσα Δ = b² - 4ac. Οι λύσεις δίνονται από τον τύπο x = (-b ± √Δ) / 2a.",
-            en: "A quadratic equation contains the variable x raised to the power of 2. Its graphical representation is a curve called a parabola. To solve it, we compute the Discriminant Δ = b² - 4ac. The solutions are given by the formula x = (-b ± √Δ) / 2a.",
-            fr: "Une équation du second degré contient la variable x élevée au carré. Sa représentation graphique est une courbe appelée parabole. Pour la résoudre, on calcule le Discriminant Δ = b² - 4ac. Les solutions sont données par la formule x = (-b ± √Δ) / 2a.",
-            es: "Una ecuación cuadrática contiene la variable x elevada a la potencia de 2. Su representación gráfica es una curva llamada parábola. Para resolverla, calculamos el Discriminante Δ = b² - 4ac. Las soluciones se obtienen mediante la fórmula x = (-b ± √Δ) / 2a.",
-            it: "Un'equazione di secondo grado contiene la variabile x elevata al quadrato. La sua rappresentazione grafica è una curva chiamata parabola. Per risolverla, calcoliamo il Discriminante Δ = b² - 4ac. Le soluzioni sono date dalla formula x = (-b ± √Δ) / 2a.",
-            tr: "İkinci dereceden bir denklem, 2. kuvvete yükseltilmiş x değişkenini içerir. Grafiksel gösterimi parabol adı verilen bir eğridir. Çözmek için Diskriminantı Δ = b² - 4ac hesaplarız. Çözümler x = (-b ± √Δ) / 2a formülü ile verilir.",
-            ar: "تحتوي المعادلة التربيعية على المتغير x مرفوعًا للقوة 2. تمثيلها البياني هو منحنى يسمى القطع المكافئ. لحلها، نحسب المميز Δ = b² - 4ac. وتكون الحلول بالصيغة x = (-b ± √Δ) / 2a."
+            el: "Η δευτεροβάθμια εξίσωση είναι μια πολυωνυμική εξίσωση βαθμού 2. Η γραφική της παράσταση στο καρτεσιανό επίπεδο είναι μια παραβολή. Η επίλυσή της γίνεται συχνά με τη χρήση της διακρίνουσας (Δ = b² - 4ac).",
+            en: "A quadratic equation is a second-order polynomial equation in a single variable x. Its graph is a parabola.",
+            fr: "Une équation du second degré est une équation polynomiale de degré 2. Son graphe est une parabole.",
+            es: "Una ecuación cuadrática es una ecuación polinómica de segundo grado. Su gráfica es una parábola.",
+            it: "Un'equazione di secondo grado è un'equazione polinomiale di grado 2. Il suo grafico è una parabola.",
+            tr: "İkinci dereceden bir denklem, 2. dereceden bir polinom denklemidir. Grafiği bir paraboldür.",
+            ar: "المعادلة التربيعية هي معادلة متعددة الحدود من الدرجة الثانية. رسمها البياني هو قطع مكافئ."
         },
         catAdvice: {
-            el: "Η διακρίνουσα Δ είναι το κλειδί! Αν Δ > 0 έχεις δύο λύσεις, αν Δ = 0 μία, κι αν Δ < 0 καμία πραγματική λύση (μόνο φανταστικά ποντίκια!). 😼",
-            en: "The discriminant Δ is key! If Δ > 0 you have two real roots, if Δ = 0 one root, and if Δ < 0 no real roots (only imaginary mice!). 😼",
-            fr: "Le discriminant Δ est la clé ! Si Δ > 0 tu as deux solutions, si Δ = 0 une, et si Δ < 0 aucune solution réelle (que des souris imaginaires !). 😼",
-            es: "¡El discriminante Δ es clave! Si Δ > 0 tienes dos raíces reales, si Δ = 0 una raíz, y si Δ < 0 no hay raíces reales (¡solo ratones imaginarios!). 😼",
-            it: "Il discriminante Δ è fondamentale! Se Δ > 0 hai due soluzioni, se Δ = 0 una, e se Δ < 0 nessuna soluzione reale (solo topi immaginari!). 😼",
-            tr: "Diskriminant Δ anahtardır! Δ > 0 ise iki gerçek kök, Δ = 0 ise tek kök, Δ < 0 ise gerçek kök yoktur (sadece hayali fareler!). 😼",
-            ar: "المميز Δ هو المفتاح! إذا كان Δ > 0 فلديك حلان حقيقيان، وإذا كان Δ = 0 فلديك حل واحد، وإذا كان Δ < 0 فلا توجد حلول حقيقية (فقط فئران خيالية!). 😼"
+            el: "Υπολόγισε πρώτα τη διακρίνουσα Δ! Αν είναι θετική έχεις δύο λύσεις, αν είναι μηδέν μία, και αν είναι αρνητική καμία πραγματική λύση! 🐈",
+            en: "Calculate the discriminant Δ first! Positive means two solutions, zero means one, and negative means no real solutions! 🐈",
+            fr: "Calcule d'abord le discriminant Δ ! 🐈",
+            es: "¡Calcula primero el discriminante Δ! 🐈",
+            it: "Calcola prima il discriminante Δ! 🐈",
+            tr: "Önce diskriminantı (Δ) hesapla! 🐈",
+            ar: "احسب المميز Δ أولاً! 🐈"
+        }
+    },
+    {
+        id: "systems_of_equations",
+        category: "algebra",
+        title: {
+            el: "Συστήματα Γραμμικών Εξισώσεων",
+            en: "Systems of Linear Equations",
+            fr: "Systèmes d'équations",
+            es: "Sistemas de ecuaciones",
+            it: "Sistemi di equazioni",
+            tr: "Denklem Sistemleri",
+            ar: "أنظمة المعادلات"
+        },
+        formula: "ax+by=c, dx+ey=f",
+        latex: "x+y=5; x-y=1",
+        grade: "lyc_a",
+        source: "https://el.wikipedia.org/wiki/Σύστημα_γραμμικών_εξισώσεων",
+        definition: {
+            el: "Ένα σύστημα γραμμικών εξισώσεων αποτελείται από δύο ή περισσότερες γραμμικές εξισώσεις. Η λύση του είναι το σημείο τομής των ευθειών.",
+            en: "A system of linear equations consists of two or more linear equations. The solution is the intersection point of the lines.",
+            fr: "Un système d'équations linéaires se compose de deux ou plusieurs équations.",
+            es: "Un sistema de ecuaciones lineales consta de dos o más ecuaciones.",
+            it: "Un sistema di equazioni lineari è costituito da due o più equazioni.",
+            tr: "Doğrusal bir denklem sistemi, iki veya daha fazla doğrusal denklemden oluşur.",
+            ar: "يتكون نظام المعادلات الخطية من معادلتين خطيتين أو أكثر."
+        },
+        catAdvice: {
+            el: "Λύσε τη μία εξίσωση ως προς x και βάλε το αποτέλεσμα στην άλλη (μέθοδος αντικατάστασης)! 🐾",
+            en: "Solve one equation for x and plug it into the other! 🐾",
+            fr: "Résous une équation pour x et remplace-la dans l'autre ! 🐾",
+            es: "¡Resuelve una ecuación para x y reemplázala en la otra! 🐾",
+            it: "Risolvi un'equazione per x e sostituiscila nell'altra! 🐾",
+            tr: "Bir denklemi x için çöz ve diğerine yerleştir! 🐾",
+            ar: "حل معادلة واحدة لـ x وضعها في الأخرى! 🐾"
+        }
+    },
+    {
+        id: "polynomials",
+        category: "algebra",
+        title: {
+            el: "Πολυώνυμα",
+            en: "Polynomials",
+            fr: "Polynômes",
+            es: "Polinomios",
+            it: "Polinomi",
+            tr: "Polinomlar",
+            ar: "كثيرات الحدود"
+        },
+        formula: "P(x) = a_n x^n + ... + a_0",
+        latex: "y = x^3 - 2x^2 + x - 5",
+        grade: "lyc_a",
+        source: "https://el.wikipedia.org/wiki/Πολυώνυμο",
+        definition: {
+            el: "Πολυώνυμο είναι μια αλγεβρική παράσταση που αποτελείται από μεταβλητές και συντελεστές, με πράξεις πρόσθεσης, αφαίρεσης, πολλαπλασιασμού και μη-αρνητικές ακέραιες δυνάμεις μεταβλητών.",
+            en: "A polynomial is an expression consisting of variables and coefficients.",
+            fr: "Un polynôme est une expression constituée de variables et de coefficients.",
+            es: "Un polinomio es una expresión constituida por variables y coeficientes.",
+            it: "Un polinomio è un'espressione costituita da variabili e coefficienti.",
+            tr: "Polinom, değişkenler ve katsayılardan oluşan bir cebirsel ifadedir.",
+            ar: "كثيرة الحدود هي تعبير يتكون من متغيرات ومعاملات."
+        },
+        catAdvice: {
+            el: "Πρόσεχε τις δυνάμεις! Μπορείς να προσθέσεις μόνο τους όρους που έχουν το ίδιο x στην ίδια δύναμη! 🐈",
+            en: "Watch the exponents! You can only add terms with the same power! 🐈",
+            fr: "Fais attention aux exposants ! 🐈",
+            es: "¡Cuidado con los exponentes! 🐈",
+            it: "Fai attenzione agli esponenti! 🐈",
+            tr: "Üslere dikkat et! 🐈",
+            ar: "انتبه للأسس! 🐈"
         }
     },
     {
@@ -77,67 +149,209 @@ const encyclopediaEntries = [
             es: "Teorema de Pitágoras",
             it: "Teorema di Pitagora",
             tr: "Pisagor Teoremi",
-            ar: "نظرية فيثاغورس"
+            ar: "مبرهنة فيثاغورس"
         },
         formula: "a² + b² = c²",
         latex: "x^2 + y^2 = 25",
         grade: "gym_b",
+        source: "https://el.wikipedia.org/wiki/Πυθαγόρειο_θεώρημα",
         definition: {
-            el: "Ένα από τα πιο διάσημα θεωρήματα της Γεωμετρίας. Σε κάθε ορθογώνιο τρίγωνο, το άθροισμα των τετραγώνων των δύο κάθετων πλευρών (a και b) ισούται με το τετράγωνο της υποτείνουσας (c, η μεγαλύτερη πλευρά απέναντι από την ορθή γωνία).",
-            en: "One of the most famous theorems in Geometry. In any right-angled triangle, the sum of the squares of the lengths of the two shorter sides (a and b) is equal to the square of the length of the hypotenuse (c, the longest side opposite the right angle).",
-            fr: "L'un des théorèmes les plus célèbres de la géométrie. Dans un triangle rectangle, la somme des carrés des longueurs des deux côtés de l'angle droit (a et b) est égale au carré de la longueur de l'hypoténuse (c, le côté le plus long opposé à l'angle droit).",
-            es: "Uno de los teoremas más famosos de la Geometría. En cualquier triángulo rectángulo, la suma των cuadrados de las longitudes de los dos lados más cortos (a y b) es igual al cuadrado de la longitud de la hipotenusa (c, el lado más largo opuesto al ángulo recto).",
-            it: "Uno dei teoremi più famosi della Geometria. In ogni triangolo rettangolo, la somma dei quadrati delle lunghezze dei due lati più corti (a e b) è uguale al quadrato della lunghezza dell'ipotenusa (c, il lato più lungo opposto all'angolo retto).",
-            tr: "Geometrinin en ünlü teoremlerinden biri. Herhangi bir dik üçgende, iki dik kenarın (a ve b) uzunluklarının karelerinin toplamı, hipotenüsün (c, dik açının karşısındaki en uzun kenar) uzunluğunun karesine eşittir.",
-            ar: "من أشهر النظريات في الهندسة. في أي مثلث قائم الزاوية، مجموع مربعي طولي الضلعين الأقصر (a و b) يساوي مربع طول الوتر (c، الضلع الأطول المقابل للزاوية القائمة)."
+            el: "Σε κάθε ορθογώνιο τρίγωνο, το τετράγωνο της υποτείνουσας ισούται με το άθροισμα των τετραγώνων των δύο κάθετων πλευρών.",
+            en: "In a right-angled triangle, the square of the hypotenuse is equal to the sum of the squares of the other two sides.",
+            fr: "Dans un triangle rectangle, le carré de l'hypoténuse est égal à la somme des carrés des deux autres côtés.",
+            es: "En un triángulo rectángulo, el cuadrado de la hipotenusa es igual a la suma de los cuadrados de los otros dos lados.",
+            it: "In un triangolo rettangolo, il quadrato dell'ipotenusa è uguale alla somma dei quadrati degli altri due lati.",
+            tr: "Bir dik üçgende, hipotenüsün karesi diğer iki kenarın kareleri toplamına eşittir.",
+            ar: "في المثلث القائم الزاوية، مربع الوتر يساوي مجموع مربعي الضلعين الآخرين."
         },
         catAdvice: {
-            el: "Χρησιμοποίησέ το για να βρεις την απόσταση! Στο γράφημα, η εξίσωση x² + y² = 25 περιγράφει έναν τέλειο κύκλο με ακτίνα 5 (αφού 3² + 4² = 5²)! 📐🐾",
-            en: "Use it to find distances! On the graph, the equation x² + y² = 25 describes a perfect circle with radius 5 (since 3² + 4² = 5²)! 📐🐾",
-            fr: "Utilise-le pour trouver des distances ! Sur le graphe, l'équation x² + y² = 25 décrit un cercle parfait de rayon 5 (car 3² + 4² = 5²) ! 📐🐾",
-            es: "¡Úsalo para encontrar distancias! En el gráfico, la ecuación x² + y² = 25 describe un círculo perfecto con radio 5 (¡ya que 3² + 4² = 5²)! 📐🐾",
-            it: "Usalo per trovare le distanze! Sul grafico, l'equazione x² + y² = 25 descrive un cerchio perfetto con raggio 5 (poiché 3² + 4² = 5²)! 📐🐾",
-            tr: "Mesafe bulmak için kullan! Grafikte x² + y² = 25 denklemi, yarıçapı 5 olan mükemmel bir çemberi tanımlar (çünkü 3² + 4² = 5²)! 📐🐾",
-            ar: "استخدمها للعثور على المسافات! على الرسم البياني، تصف المعادلة x² + y² = 25 دائرة مثالية بنصف قطر 5 (بما أن 3² + 4² = 5²)! 📐🐾"
+            el: "Η υποτείνουσα (το c) είναι πάντα η μεγαλύτερη πλευρά και βρίσκεται απέναντι από την ορθή γωνία! 🐾",
+            en: "The hypotenuse is always the longest side, opposite the right angle! 🐾",
+            fr: "L'hypoténuse est le côté le plus long ! 🐾",
+            es: "¡La hipotenusa es el lado más largo! 🐾",
+            it: "L'ipotenusa è il lato più lungo! 🐾",
+            tr: "Hipotenüs her zaman en uzun kenardır! 🐾",
+            ar: "الوتر هو دائمًا أطول ضلع! 🐾"
         }
     },
     {
-        id: "trigonometry",
+        id: "circle_area",
         category: "geometry",
         title: {
-            el: "Τριγωνομετρία & Ημίτονο",
-            en: "Trigonometry & Sine",
-            fr: "Trigonométrie & Sinus",
-            es: "Trigonometría y Seno",
-            it: "Trigonometria e Seno",
-            tr: "Trigonometri & Sinüs",
-            ar: "علم المثلثات والجيب"
+            el: "Εμβαδόν & Περίμετρος Κύκλου",
+            en: "Circle Area & Perimeter",
+            fr: "Cercle",
+            es: "Círculo",
+            it: "Cerchio",
+            tr: "Daire",
+            ar: "دائرة"
         },
-        formula: "sin²(θ) + cos²(θ) = 1",
-        latex: "y = \\sin(x)",
-        grade: "lyc_b",
+        formula: "A = πr², C = 2πr",
+        latex: "x^2 + y^2 = 9",
+        grade: "gym_a",
+        source: "https://el.wikipedia.org/wiki/Κύκλος",
         definition: {
-            el: "Η τριγωνομετρία μελετά τις σχέσεις μεταξύ των γωνιών και των πλευρών των τριγώνων. Οι βασικές συναρτήσεις είναι το Ημίτονο (sin), το Συνημίτονο (cos) και η Εφαπτομένη (tan). Ορίζονται εύκολα στον Τριγωνομετρικό Κύκλο που έχει ακτίνα 1.",
-            en: "Trigonometry studies the relationships between the angles and sides of triangles. The fundamental functions are Sine (sin), Cosine (cos), and Tangent (tan). They are easily defined on the Unit Circle, which has a radius of 1.",
-            fr: "La trigonométrie étudie les relations entre les angles et les côtés des triangles. Les fonctions fondamentales sont le Sinus (sin), le Cosinus (cos) et la Tangente (tan). Elles se définissent facilement sur le cercle trigonométrique de rayon 1.",
-            es: "La trigonometría estudia las relaciones entre los ángulos y los lados de los triángulos. Las funciones fundamentales son el Seno (sin), el Coseno (cos) y la Tangente (tan). Se definen fácilmente en el Círculo Unitario, que tiene un radio de 1.",
-            it: "La trigonometria studia le relazioni tra gli angoli e i lati dei triangoli. Le funzioni fondamentali sono il Seno (sin), il Coseno (cos) e la Tangente (tan). Sono facilmente definite sul Cerchio Unitario, che ha un raggio pari a 1.",
-            tr: "Trigonometri, üçgenlerin açıları ve kenarları arasındaki ilişkileri inceler. Temel fonksiyonlar Sinüs (sin), Kosinüs (cos) ve Tanjanttır (tan). Yarıçapı 1 olan Birim Çember üzerinde kolayca tanımlanırlar.",
-            ar: "يدرس علم المثلثات العلاقات بين زوايا المثلثات وأضلاعها. الدوال الأساسية هي الجيب (sin)، جيب التمام (cos)، والظل (tan). يتم تعريفها بسهولة على دائرة الوحدة، التي يبلغ نصف قطرها 1."
+            el: "Το εμβαδόν ενός κύκλου είναι A = π·r² και το μήκος της περιφέρειάς του C = 2·π·r, όπου r είναι η ακτίνα.",
+            en: "The area of a circle is A = πr² and its circumference is C = 2πr.",
+            fr: "L'aire d'un cercle est A = πr².",
+            es: "El área de un círculo es A = πr².",
+            it: "L'area di un cerchio è A = πr².",
+            tr: "Bir dairenin alanı A = πr²'dir.",
+            ar: "مساحة الدائرة هي A = πr²."
         },
         catAdvice: {
-            el: "Ημίτονο στο y, συνημίτονο στο x! Οι τιμές τους κυμαίνονται πάντα μεταξύ -1 και 1, σαν μια γάτα που κάνει πέρα-δώθε στο δωμάτιο! 🐈🌊",
-            en: "Sine is on the y-axis, cosine is on the x-axis! Their values always wave between -1 and 1, like a cat pacing back and forth in a room! 🐈🌊",
-            fr: "Sinus sur l'axe y, cosinus sur l'axe x ! Leurs valeurs oscillent toujours entre -1 et 1, comme un chat qui fait des allers-retours dans la pièce ! 🐈🌊",
-            es: "¡El Seno está en el eje y, el Coseno en el eje x! ¡Sus valores siempre fluctúan entre -1 y 1, como un gato que va de un lado a otro en la habitación! 🐈🌊",
-            it: "Il seno è sull'asse y, il coseno sull'asse x! I loro valori oscillano sempre tra -1 e 1, come un gatto che cammina avanti e indietro in una stanza! 🐈🌊",
-            tr: "y ekseninde Sinüs, x ekseninde Kosinüs! Değerleri her zaman -1 ile 1 arasında salınır, tıpkı odada bir ileri bir geri yürüyen bir kedi gibi! 🐈🌊",
-            ar: "الجيب على محور y، وجيب التمام على محور x! تتقلب قيمها دائمًا بين -1 و 1، مثل قطة تمشي ذهابًا وإيابًا في الغرفة! 🐈🌊"
+            el: "Το π είναι περίπου 3.14159! Μην το μπερδεύεις με την πίτα που τρώμε! 🥧🐈",
+            en: "Pi is approximately 3.14159! Don't confuse it with pie! 🥧🐈",
+            fr: "Pi est environ 3.14159 ! 🥧🐈",
+            es: "¡Pi es aproximadamente 3.14159! 🥧🐈",
+            it: "Pi è circa 3.14159! 🥧🐈",
+            tr: "Pi yaklaşık 3.14159'dur! 🥧🐈",
+            ar: "باي هو تقريباً 3.14159! 🥧🐈"
+        }
+    },
+    {
+        id: "trigonometric_identities",
+        category: "geometry",
+        title: {
+            el: "Βασική Τριγωνομετρική Ταυτότητα",
+            en: "Trig Identity",
+            fr: "Identité Trigonométrique",
+            es: "Identidad Trigonométrica",
+            it: "Identità Trigonometrica",
+            tr: "Trigonometrik Özdeşlik",
+            ar: "المتطابقة المثلثية"
+        },
+        formula: "sin²(θ) + cos²(θ) = 1",
+        latex: "(\\sin(x))^2 + (\\cos(x))^2 = 1",
+        grade: "lyc_a",
+        source: "https://el.wikipedia.org/wiki/Τριγωνομετρικές_ταυτότητες",
+        definition: {
+            el: "Το άθροισμα των τετραγώνων του ημιτόνου και του συνημιτόνου οποιασδήποτε γωνίας ισούται πάντα με 1. Προκύπτει από το Πυθαγόρειο θεώρημα.",
+            en: "The sum of the squares of sine and cosine is always 1.",
+            fr: "La somme des carrés du sinus et du cosinus est 1.",
+            es: "La suma de los cuadrados del seno y el coseno es 1.",
+            it: "La somma dei quadrati del seno e del coseno è 1.",
+            tr: "Sinüs ve kosinüsün kareleri toplamı her zaman 1'dir.",
+            ar: "مجموع مربعي الجيب وجيب التمام يساوي دائمًا 1."
+        },
+        catAdvice: {
+            el: "Μάθε αυτόν τον τύπο σαν το όνομά σου, θα σε σώσει πολλές φορές! 😻",
+            en: "Memorize this formula well, it will save you! 😻",
+            fr: "Mémorise bien cette formule ! 😻",
+            es: "¡Memoriza bien esta fórmula! 😻",
+            it: "Memorizza bene questa formula! 😻",
+            tr: "Bu formülü iyi ezberle! 😻",
+            ar: "احفظ هذه الصيغة جيداً! 😻"
+        }
+    },
+    {
+        id: "thales_theorem",
+        category: "geometry",
+        title: {
+            el: "Θεώρημα του Θαλή",
+            en: "Thales's Theorem",
+            fr: "Théorème de Thalès",
+            es: "Teorema de Tales",
+            it: "Teorema di Talete",
+            tr: "Tales Teoremi",
+            ar: "مبرهنة طاليس"
+        },
+        formula: "A/B = C/D",
+        latex: "y = 0.5x",
+        grade: "gym_g",
+        source: "https://el.wikipedia.org/wiki/Θεώρημα_του_Θαλή",
+        definition: {
+            el: "Αν παράλληλες ευθείες τέμνουν δύο άλλες ευθείες, τότε τα τμήματα που ορίζονται στη μία είναι ανάλογα προς τα αντίστοιχα τμήματα που ορίζονται στην άλλη.",
+            en: "If parallel lines intersect two distinct lines, then they cut off proportional segments.",
+            fr: "Si des droites parallèles coupent deux autres droites, les segments sont proportionnels.",
+            es: "Si rectas paralelas cortan a dos rectas, los segmentos son proporcionales.",
+            it: "Un fascio di rette parallele tagliato da due trasversali determina segmenti proporzionali.",
+            tr: "Paralel doğrular iki kesen doğruyu kestiğinde, oluşturdukları parçalar orantılıdır.",
+            ar: "إذا تقاطعت خطوط متوازية مع خطين آخرين، فإن القطع المحددة متناسبة."
+        },
+        catAdvice: {
+            el: "Σκέψου τις αναλογίες σαν κλάσματα που είναι ίσα μεταξύ τους! 🐾",
+            en: "Think of proportions as equal fractions! 🐾",
+            fr: "Pense aux proportions comme des fractions égales ! 🐾",
+            es: "¡Piensa en proporciones como fracciones iguales! 🐾",
+            it: "Pensa alle proporzioni come frazioni uguali! 🐾",
+            tr: "Oranları eşit kesirler olarak düşün! 🐾",
+            ar: "فكر في النسب ككسور متساوية! 🐾"
+        }
+    },
+    {
+        id: "derivative",
+        category: "analysis",
+        title: {
+            el: "Παράγωγος",
+            en: "Derivative",
+            fr: "Dérivée",
+            es: "Derivada",
+            it: "Derivata",
+            tr: "Türev",
+            ar: "مشتقة"
+        },
+        formula: "f'(x) = lim(h->0) [f(x+h) - f(x)] / h",
+        latex: "y = 2x",
+        grade: "lyc_a",
+        source: "https://el.wikipedia.org/wiki/Παράγωγος",
+        definition: {
+            el: "Η παράγωγος εκφράζει τον ρυθμό μεταβολής μιας συνάρτησης σε ένα σημείο (την κλίση της εφαπτομένης).",
+            en: "The derivative measures the sensitivity to change of the function value.",
+            fr: "La dérivée exprime le taux de variation d'une fonction.",
+            es: "La derivada expresa la tasa de cambio de una función.",
+            it: "La derivata esprime il tasso di variazione di una funzione.",
+            tr: "Türev, fonksiyonun değişim oranını ifade eder.",
+            ar: "تعبر المشتقة عن معدل تغير الدالة."
+        },
+        catAdvice: {
+            el: "Η παράγωγος σου δείχνει πόσο γρήγορα αλλάζει κάτι, όπως όταν τρέχω να πιάσω το ποντίκι! 🐈💨",
+            en: "The derivative tells you how fast something changes! 🐈💨",
+            fr: "La dérivée indique la vitesse de changement ! 🐈💨",
+            es: "¡La derivada te dice qué tan rápido cambia algo! 🐈💨",
+            it: "La derivata ti dice quanto velocemente cambia qualcosa! 🐈💨",
+            tr: "Türev bir şeyin ne kadar hızlı değiştiğini gösterir! 🐈💨",
+            ar: "تخبرك المشتقة بمدى سرعة التغير! 🐈💨"
+        }
+    },
+    {
+        id: "integrals",
+        category: "analysis",
+        title: {
+            el: "Ολοκλήρωμα",
+            en: "Integral",
+            fr: "Intégrale",
+            es: "Integral",
+            it: "Integrale",
+            tr: "İntegral",
+            ar: "تكامل"
+        },
+        formula: "∫ f(x) dx = F(x) + C",
+        latex: "\\int_{0}^{x} t dt",
+        grade: "lyc_a",
+        source: "https://el.wikipedia.org/wiki/Ολοκλήρωμα",
+        definition: {
+            el: "Το ορισμένο ολοκλήρωμα εκφράζει γεωμετρικά το εμβαδόν της περιοχής κάτω από τη γραφική παράσταση μιας συνάρτησης.",
+            en: "The definite integral represents the area under the curve of a function.",
+            fr: "L'intégrale représente l'aire sous la courbe.",
+            es: "La integral representa el área bajo la curva.",
+            it: "L'integrale rappresenta l'area sotto la curva.",
+            tr: "İntegral, eğrinin altındaki alanı temsil eder.",
+            ar: "يمثل التكامل المساحة تحت المنحنى."
+        },
+        catAdvice: {
+            el: "Μην ξεχνάς ποτέ τη σταθερά C στο αόριστο ολοκλήρωμα! 😺",
+            en: "Never forget the constant C in an indefinite integral! 😺",
+            fr: "N'oublie jamais la constante C ! 😺",
+            es: "¡Nunca olvides la constante C! 😺",
+            it: "Non dimenticare mai la costante C! 😺",
+            tr: "Belirsiz integralde C sabitini unutma! 😺",
+            ar: "لا تنس أبدًا الثابت C! 😺"
         }
     },
     {
         id: "logarithms",
-        category: "analysis",
+        category: "algebra",
         title: {
             el: "Λογάριθμοι",
             en: "Logarithms",
@@ -147,96 +361,171 @@ const encyclopediaEntries = [
             tr: "Logaritmalar",
             ar: "اللوغاريتمات"
         },
-        formula: "log_b(x) = y <=> b^y = x",
-        latex: "y = \\ln(x)",
-        grade: "lyc_b",
+        formula: "log_b(x) = y ⇔ b^y = x",
+        latex: "y = \\log_2(x)",
+        grade: "lyc_a",
+        source: "https://el.wikipedia.org/wiki/Λογάριθμος",
         definition: {
-            el: "Ο λογάριθμος είναι η αντίστροφη πράξη της ύψωσης σε δύναμη. Μας λέει σε ποιον εκθέτη πρέπει να υψώσουμε μια βάση b για να πάρουμε τον αριθμό x. Ο φυσικός λογάριθμος ln(x) έχει ως βάση τον μαγικό αριθμό του Euler e (≈ 2.718).",
-            en: "A logarithm is the inverse operation of exponentiation. It tells us to what exponent we must raise a base b to obtain the number x. The natural logarithm ln(x) uses Euler's magic number e (≈ 2.718) as its base.",
-            fr: "Un logarithme est l'opération inverse de l'exponentiation. Il nous indique à quel exposant élever une base b pour obtenir le nombre x. Le logarithme naturel ln(x) utilise le nombre magique d'Euler e (≈ 2,718) comme base.",
-            es: "Un logaritmo es la operación inversa de la exponenciación. Nos indica a qué exponente debemos elevar una base b para obtener el número x. El logaritmo natural ln(x) utiliza como base el número mágico de Euler e (≈ 2.718).",
-            it: "Il logaritmo è l'operazione inversa dell'elevamento a potenza. Ci dice a quale esponente dobbiamo elevare una base b per ottenere il numero x. Il logaritmo naturale ln(x) ha come base il numero magico di Eulero e (≈ 2.718).",
-            tr: "Logaritma, üs alma işleminin tersidir. Bize, x sayısını elde etmek için bir b tabanını hangi üsse yükseltmemiz gerektiğini söyler. Doğal logaritma ln(x), taban olarak Euler'in sihirli sayısı e'yi (≈ 2.718) kullanır.",
-            ar: "اللوغاريتم هو العملية العكسية للرفع إلى أس. يخبرنا بالأس الذي يجب أن نرفع إليه الأساس b للحصول على الرقم x. اللوغاريتم الطبيعي ln(x) أساسه عدد Euler السحري e (≈ 2.718)."
+            el: "Ο λογάριθμος του x με βάση το b είναι ο εκθέτης y στον οποίο πρέπει να υψωθεί το b για να πάρουμε x.",
+            en: "The logarithm of x to base b is the exponent to which b must be raised to produce x.",
+            fr: "Le logarithme est l'exposant auquel il faut élever la base.",
+            es: "El logaritmo es el exponente al que hay que elevar la base.",
+            it: "Il logaritmo è l'esponente a cui deve essere elevata la base.",
+            tr: "Logaritma, tabanın yükseltilmesi gereken üstür.",
+            ar: "اللوغاريتم هو الأس الذي يجب رفع الأساس إليه."
         },
         catAdvice: {
-            el: "Θυμήσου: δεν μπορείς να πάρεις λογάριθμο μηδενικού ή αρνητικού αριθμού! Το x πρέπει να είναι πάντα αυστηρά θετικό (x > 0), όπως η αγάπη μου για τις κονσέρβες! 🐾🥫",
-            en: "Remember: you can't take the logarithm of zero or a negative number! The value x must always be strictly positive (x > 0), just like my love for cat food! 🐾🥫",
-            fr: "Rappelle-toi : tu ne peux pas prendre le logarithme de zéro ou d'un nombre négatif ! La valeur x doit toujours être strictement positive (x > 0), tout comme mon amour pour le pâté ! 🐾🥫",
-            es: "¡Recuerda: no puedes tomar el logaritmo de cero ni de un número negativo! El valor x debe ser siempre estrictamente positivo (x > 0), ¡al igual que mi amor por la comida para gatos! 🐾🥫",
-            it: "Ricorda: non puoi calcolare il logaritmo di zero o di un numero negativo! Il valore x deve essere sempre strettamente positivo (x > 0), proprio come il mio amore per le scatolette! 🐾🥫",
-            tr: "Unutma: sıfırın veya negatif bir sayının logaritmasını alamazsın! x değeri, tıpkı konserve mamaya olan aşkım gibi, her zaman kesinlikle pozitif (x > 0) olmalıdır! 🐾🥫",
-            ar: "تذكر: لا يمكنك أخذ لوغاريتم الصفر أو رقم سالب! يجب أن يكون المتغير x موجبًا تمامًا دائمًا (x > 0)، تمامًا مثل حبي لطعام القطط المعلب! 🐾🥫"
+            el: "Σκέψου: «Σε ποια δύναμη πρέπει να υψώσω τη βάση για να βρω το x;» 🐱",
+            en: "Think: 'To what power must I raise the base?' 🐱",
+            fr: "Pense : 'À quelle puissance dois-je élever la base ?' 🐱",
+            es: "Piensa: '¿A qué potencia debo elevar la base?' 🐱",
+            it: "Pensa: 'A quale potenza devo elevare la base?' 🐱",
+            tr: "Düşün: 'Tabanı hangi kuvvete yükseltmeliyim?' 🐱",
+            ar: "فكر: 'إلى أي قوة يجب أن أرفع الأساس؟' 🐱"
         }
     },
     {
-        id: "limits",
-        category: "analysis",
+        id: "inequalities",
+        category: "algebra",
         title: {
-            el: "Όρια",
-            en: "Limits",
-            fr: "Limites",
-            es: "Límites",
-            it: "Limiti",
-            tr: "Limitler",
-            ar: "النهايات"
+            el: "Ανισότητες",
+            en: "Inequalities",
+            fr: "Inégalités",
+            es: "Desigualdades",
+            it: "Disuguaglianze",
+            tr: "Eşitsizlikler",
+            ar: "المتباينات"
         },
-        formula: "log_b(x) = y <=> b^y = x", // fallback, limits use typical expressions
-        latex: "y = 1/x",
-        grade: "lyc_g",
+        formula: "ax + b > 0",
+        latex: "y > 2x - 1",
+        grade: "gym_g",
+        source: "https://el.wikipedia.org/wiki/Ανισότητα",
         definition: {
-            el: "Το όριο περιγράφει τη συμπεριφορά μιας συνάρτησης καθώς η μεταβλητή x πλησιάζει πολύ κοντά σε μια τιμή (ή στο άπειρο). Είναι η θεμελιώδης έννοια πάνω στην οποία χτίστηκε ολόκληρος ο Απειροστικός Λογισμός.",
-            en: "A limit describes the behavior of a function as the input variable x approaches a specific value (or infinity). It is the fundamental concept upon which all of Calculus is built.",
-            fr: "La limite décrit le comportement d'une fonction lorsque la variable d'entrée x se rapproche d'une valeur spécifique (ou de l'infini). C'est le concept fondamental sur lequel repose tout le Calcul infinitésimal.",
-            es: "Un límite describe el comportamiento de una función a medida que la variable de entrada x se acerca a un valor específico (o al infinito). Es el concepto fundamental sobre el cual se construye todo el Cálculo.",
-            it: "Il limite descrive il comportamento di una funzione quando la variabile di input x si avvicina a un valore specifico (o all'infinito). È il concetto fondamentale su cui si basa tutta l'Analisi Matematica.",
-            tr: "Limit, girdi değişkeni x belirli bir değere (veya sonsuza) yaklaşırken bir fonksiyonun davranışını tanımlar. Tüm Analizin (Calculus) üzerine inşa edildiği temel kavramdır.",
-            ar: "تصف النهاية سلوك دالة عندما يقترب متغير الإدخال x من قيمة معينة (أو إلى ما لا نهاية). إنه المفهوم الأساسي الذي بني عليه كل التفاضل والتكامل."
+            el: "Η ανισότητα συγκρίνει δύο παραστάσεις χρησιμοποιώντας σύμβολα όπως > ή <. Προσοχή όταν διαιρείς με αρνητικό αριθμό!",
+            en: "An inequality compares two values using > or <.",
+            fr: "Une inégalité compare deux valeurs.",
+            es: "Una desigualdad compara dos valores.",
+            it: "Una disuguaglianza confronta due valori.",
+            tr: "Bir eşitsizlik iki değeri karşılaştırır.",
+            ar: "تقارن المتباينة بين قيمتين."
         },
         catAdvice: {
-            el: "Όταν το x τείνει στο άπειρο, το 1/x τείνει στο 0! Πλησιάζει όλο και πιο κοντά, αλλά δεν το ακουμπάει ποτέ... σαν να κυνηγάω την κόκκινη κουκκίδα του λέιζερ! 🔴🐈",
-            en: "As x approaches infinity, 1/x approaches 0! It gets closer and closer, but never quite touches... just like me chasing the red laser dot! 🔴🐈",
-            fr: "Quand x tend vers l'infini, 1/x tend vers 0 ! Il se rapproche de plus en plus, sans jamais y toucher... tout comme moi poursuivant le point laser rouge ! 🔴🐈",
-            es: "¡Cuando x tiende al infinito, 1/x tiende a 0! Se acerca cada vez más, pero nunca llega a tocar... ¡al igual que yo persiguiendo el punto láser rojo! 🔴🐈",
-            it: "Quando x tende all'infinito, 1/x tende a 0! Si avvicina sempre di più, ma non lo tocca mai... proprio come me che inseguo il puntino del laser rosso! 🔴🐈",
-            tr: "x sonsuza yaklaşırken, 1/x sıfıra yaklaşır! Gittikçe yaklaşır ama asla tam olarak değmez... tıpkı kırmızı lazer noktasını kovalamam gibi! 🔴🐈",
-            ar: "عندما يقترب x من المالانهاية، يقترب 1/x من الصفر! يقترب أكثر فأكثر ولكنه لا يلمسه أبدًا... تمامًا مثل مطاردتي لنقطة الليزر الحمراء! 🔴🐈"
+            el: "Όταν πολλαπλασιάζεις ή διαιρείς με ΑΡΝΗΤΙΚΟ αριθμό, αλλάζεις τη φορά της ανισότητας! 🐈🆘",
+            en: "When multiplying by a NEGATIVE number, flip the sign! 🐈🆘",
+            fr: "Inverse le signe si tu multiplies par un négatif ! 🐈🆘",
+            es: "¡Invierte el signo al multiplicar por negativo! 🐈🆘",
+            it: "Inverti il segno se moltiplichi per un negativo! 🐈🆘",
+            tr: "Negatif sayıyla çarparken işareti ters çevir! 🐈🆘",
+            ar: "اقلب الإشارة عند الضرب بسالب! 🐈🆘"
         }
     },
     {
-        id: "derivatives",
-        category: "analysis",
+        id: "absolute_value",
+        category: "algebra",
         title: {
-            el: "Παράγωγοι",
-            en: "Derivatives",
-            fr: "Dérivées",
-            es: "Derivadas",
-            it: "Derivate",
-            tr: "Türevler",
-            ar: "المشتقات"
+            el: "Απόλυτη Τιμή",
+            en: "Absolute Value",
+            fr: "Valeur Absolue",
+            es: "Valor Absoluto",
+            it: "Valore Assoluto",
+            tr: "Mutlak Değer",
+            ar: "القيمة المطلقة"
         },
-        formula: "f'(x) = dy/dx",
-        latex: "y = x^2",
-        grade: "lyc_g",
+        formula: "|x| = x (x≥0) ή -x (x<0)",
+        latex: "y = \\left|x\\right|",
+        grade: "gym_a",
+        source: "https://el.wikipedia.org/wiki/Απόλυτη_τιμή",
         definition: {
-            el: "Η παράγωγος μιας συνάρτησης μετρά τον στιγμιαίο ρυθμό μεταβολής της. Γεωμετρικά, η παράγωγος f'(x₀) σε ένα σημείο x₀ ισούται με την κλίση (εφαπτομένη) της γραφικής παράστασης της συνάρτησης σε αυτό το σημείο.",
-            en: "The derivative of a function measures its instantaneous rate of change. Geometrically, the derivative f'(x₀) at a point x₀ is equal to the slope of the tangent line to the function's graph at that point.",
-            fr: "La dérivée d'une fonction mesure son taux de variation instantané. Géométriquement, la dérivée f'(x₀) en un point x₀ est égale à la pente de la droite tangente au graphe de la fonction en ce point.",
-            es: "La derivada de una función mide su tasa instantánea de cambio. Geométricamente, la derivada f'(x₀) en un punto x₀ es igual a la pendiente de la línea tangente al gráfico de la función en ese punto.",
-            it: "La derivata di una funzione misura il suo tasso di variazione istantaneo. Geometricamente, la derivata f'(x₀) in un punto x₀ è uguale alla pendenza della retta tangente al grafico della funzione in quel punto.",
-            tr: "Bir fonksiyonun türevi, onun anlık değişim oranını ölçer. Geometrik olarak, bir x₀ noktasındaki f'(x₀) türevi, fonksiyonun o noktadaki grafiğine teğet olan doğrunun eğimine eşittir.",
-            ar: "تقيس مشتقة دالة معدل تغيرها اللحظي. هندسياً، المشتقة f'(x₀) عند نقطة x₀ تساوي ميل خط المماس للمنحنى البياني للدالة عند تلك النقطة."
+            el: "Η απόλυτη τιμή είναι η απόσταση ενός αριθμού από το μηδέν. Είναι πάντα θετικός αριθμός (ή μηδέν).",
+            en: "Absolute value is the distance of a number from zero.",
+            fr: "La valeur absolue est la distance par rapport à zéro.",
+            es: "El valor absoluto es la distancia desde cero.",
+            it: "Il valore assoluto è la distanza da zero.",
+            tr: "Mutlak değer, sıfıra olan uzaklıktır.",
+            ar: "القيمة المطلقة هي المسافة من الصفر."
         },
         catAdvice: {
-            el: "Αν τρέχω με σταθερή ταχύτητα, η παράγωγος της απόστασής μου ως προς τον χρόνο είναι η ταχύτητά μου! Αν επιταχύνω για να πιάσω ένα ποντίκι, έχουμε δεύτερη παράγωγο! 🐆💨",
-            en: "If I run at a constant speed, the derivative of my distance with respect to time is my velocity! If I accelerate to catch a mouse, that's a second derivative! 🐆💨",
-            fr: "Si je cours à vitesse constante, la dérivée de ma distance par rapport au temps est ma vitesse ! Si j'accélère pour attraper une souris, c'est une dérivée seconde ! 🐆💨",
-            es: "¡Si corro a velocidad constante, la derivada de mi distancia con respecto al tiempo es mi velocidad! Si acelero para atrapar un ratón, ¡es la segunda derivada! 🐆💨",
-            it: "Se corro a velocità costante, la derivata dello spazio rispetto al tempo è la mia velocità! Se accelero per prendere un topo, abbiamo la derivata seconda! 🐆💨",
-            tr: "Sabit bir hızla koşarsam, mesafemin zamana göre türevi hızımdır! Bir fareyi yakalamak için hızlanırsam, bu ikinci türevdir! 🐆💨",
-            ar: "إذا ركضت بسرعة ثابتة، فإن مشتقة المسافة بالنسبة للزمن هي سرعتي! وإذا تسارعت لالتقاط فأر، فهذا يعني المشتقة الثانية! 🐆💨"
+            el: "Η απόλυτη τιμή κάνει όλους τους αριθμούς θετικούς! Σαν το χαμόγελο της γάτας! 😺",
+            en: "Absolute value makes all numbers positive! 😺",
+            fr: "Rend tous les nombres positifs ! 😺",
+            es: "¡Hace todos los números positivos! 😺",
+            it: "Rende tutti i numeri positivi! 😺",
+            tr: "Tüm sayıları pozitif yapar! 😺",
+            ar: "يجعل جميع الأرقام موجبة! 😺"
+        }
+    },
+    {
+        id: "law_of_sines",
+        category: "geometry",
+        title: {
+            el: "Νόμος των Ημιτόνων",
+            en: "Law of Sines",
+            fr: "Loi des Sinus",
+            es: "Ley de los Senos",
+            it: "Teorema dei Seni",
+            tr: "Sinüs Teoremi",
+            ar: "قانون الجيوب"
+        },
+        formula: "a/sin(A) = b/sin(B) = c/sin(C)",
+        latex: "y = \\sin(x)",
+        grade: "lyc_a",
+        source: "https://el.wikipedia.org/wiki/Νόμος_των_ημιτόνων",
+        definition: {
+            el: "Σε κάθε τρίγωνο, ο λόγος κάθε πλευράς προς το ημίτονο της απέναντι γωνίας είναι σταθερός.",
+            en: "The ratio of a side to the sine of its opposite angle is constant.",
+            fr: "Le rapport d'un côté au sinus de son angle opposé est constant.",
+            es: "La razón de un lado al seno de su ángulo opuesto es constante.",
+            it: "Il rapporto tra un lato e il seno dell'angolo opposto è costante.",
+            tr: "Bir kenarın karşı açısının sinüsüne oranı sabittir.",
+            ar: "نسبة الضلع إلى جيب الزاوية المقابلة ثابتة."
+        },
+        catAdvice: {
+            el: "Χρησιμοποίησέ τον όταν ξέρεις δύο γωνίες και μία πλευρά! 🐾",
+            en: "Use it when you know two angles and one side! 🐾",
+            fr: "Utilise-le avec deux angles et un côté ! 🐾",
+            es: "¡Úsalo con dos ángulos y un lado! 🐾",
+            it: "Usalo con due angoli e un lato! 🐾",
+            tr: "İki açı ve bir kenar bildiğinde kullan! 🐾",
+            ar: "استخدمه عندما تعرف زاويتين وضلعًا! 🐾"
+        }
+    },
+    {
+        id: "law_of_cosines",
+        category: "geometry",
+        title: {
+            el: "Νόμος των Συνημιτόνων",
+            en: "Law of Cosines",
+            fr: "Loi des Cosinus",
+            es: "Ley de los Cosenos",
+            it: "Teorema del Coseno",
+            tr: "Kosinüs Teoremi",
+            ar: "قانون جيب التمام"
+        },
+        formula: "c² = a² + b² - 2ab·cos(C)",
+        latex: "y = \\cos(x)",
+        grade: "lyc_a",
+        source: "https://el.wikipedia.org/wiki/Νόμος_των_συνημιτόνων",
+        definition: {
+            el: "Ο νόμος των συνημιτόνων συνδέει τα μήκη των πλευρών με το συνημίτονο μίας γωνίας (Γενικευμένο Πυθαγόρειο).",
+            en: "Relates the lengths of the sides of a triangle to the cosine of one angle.",
+            fr: "Relie les longueurs des côtés au cosinus d'un angle.",
+            es: "Relacioniona las longitudes con el coseno de un ángulo.",
+            it: "Collega le lunghezze al coseno di un angolo.",
+            tr: "Kenar uzunluklarını bir açının kosinüsü ile ilişkilendirir.",
+            ar: "يربط الأطوال بجيب تمام الزاوية."
+        },
+        catAdvice: {
+            el: "Είναι το Πυθαγόρειο θεώρημα, αλλά με μια έξτρα «ουρίτσα» για τα μη-ορθογώνια τρίγωνα! 🐈",
+            en: "Pythagorean theorem with an extra 'tail' for non-right triangles! 🐈",
+            fr: "Théorème de Pythagore pour triangles non rectangles ! 🐈",
+            es: "¡Pitagoras para triángulos no rectángulos! 🐈",
+            it: "Pitagora per triangoli non rettangoli! 🐈",
+            tr: "Dik olmayan üçgenler için Pisagor! 🐈",
+            ar: "فيثاغورس للمثلثات غير القائمة! 🐈"
         }
     }
 ];
 
-window.encyclopediaEntries = encyclopediaEntries;
+if (typeof module !== 'undefined' && module.exports) {
+    module.exports = encyclopediaEntries;
+}
